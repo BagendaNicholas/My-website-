@@ -1,5 +1,4 @@
 
-![My Image](https://i.postimg.cc/GhzDptd9/Screenshot-20250619-144801-File-Manager.jpg)
+![My Image](https://i.postimg.cc/W3kM7rgd/20250518-101215.jpg)
 # My-website-
 *"A simple website that shares truth, healing, and hope. Includes videos, audio messages, and downloadable resources for spiritual growth."*
-![BagendaNicholas](https://eu.docworkspace.com/d/sIACzp8ecApLs08IG?sa=601.1123)

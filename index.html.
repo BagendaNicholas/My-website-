@@ -13,3 +13,9 @@
 </body>
 </html>
 ```
+```html
+<div style="background-color: #fff8c4; padding: 10px; border: 1px solid #ffd700; margin-bottom: 20px;">
+  📢 <strong>Notice:</strong> 
+  <a href="https://eu.docworkspace.com/d/sILCzp8ecAq2ItMAG?sa=601.1123" target="_blank">Click here to view the document</a>
+</div>
+```

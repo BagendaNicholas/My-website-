@@ -6,3 +6,7 @@
 📄 *Important Document:*  
 [Click here to view the document](https://eu.docworkspace.com/d/sILCzp8ecAq2ItMAG?sa=601.1123)
 `
+html
+<div style="background:#fff8c4; padding:20px; border:1px solid #ffd700; text-align:center;">
+  📢 <strong>Notice:</strong>
+  <a href="https://eu.docworkspace.com/d/sILCzp8ecAq2ItMAG?sa=601.1123"

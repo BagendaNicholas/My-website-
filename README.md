@@ -5,4 +5,4 @@
 
 📄 *Important Document:*  
 [Click here to view the document](https://eu.docworkspace.com/d/sILCzp8ecAq2ItMAG?sa=601.1123)
-📥 [Download the WPS AI Guide](./assets/GettingOutof-WPSOffice.pdf)
+📥 [Download Getting out of-WPS Office](./assets/GettingOutof-WPSOffice.pdf)

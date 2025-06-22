@@ -83,9 +83,6 @@ Proper understanding is the first step to breaking the cycle of misdiagnosis. Id
 ![My Image](https://i.postimg.cc/vZFVHNjh/IMG-202506173-093203366.jpg)
 📄 *Important Document:*  
 [Click here to view the document](https://eu.docworkspace.com/d/sILCzp8ecAq2ItMAG?sa=601.1123)
-*Important Document:*
-[Click here](https://github.com/BagendaNicholas/My-website-/blob/main/The%20Hidden%20Tr.pdf)
-
 Getting Out of Babylon: Understanding Suffering and the Power of God
 Introduction:
 We live in a world full of distractions, confusion, and pain. The temptation to stay connected to the world’s systems—often symbolized as "Babylon"—pulls us away from the true peace God offers. But getting out of Babylon means more than just leaving a physical place; it involves breaking free from the world's destructive influences, lies, and suffering. 

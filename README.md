@@ -2,6 +2,7 @@
 ![My Image](https://i.postimg.cc/W3kM7rgd/20250518-101215.jpg)
 # My-website-
 *"A simple website that shares truth, healing, and hope. Includes videos, audio messages, and downloadable resources for spiritual growth."*
+![My Image](https://i.postimg.cc/8kYvx5mq/IMG-202506173-093129305.png)
 *TABLE OF CONTENTS*
 1. *Introduction 鈥 The Mystery of Chronic Hand Dermatitis*  
 2. *Understanding Chronic Hand Dermatitis (CHD)*  

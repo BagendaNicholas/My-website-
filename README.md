@@ -28,6 +28,10 @@
 
 ---
 馃摌 *Chapter 1: The Mystery of Chronic Hand Dermatitis*
+![My Image](https://i.postimg.cc/6q8vyJtj/IMG-202506173-093138566.png)
+!My Image](https://i.postimg.cc/cH93x4yt/IMG-202506173-093144449.png)
+![My Image](https://i.postimg.cc/5yDFz7tx/IMG-202506173-093147583.png)
+![My Image](https://i.postimg.cc/4NhcGg8n/IMG-202506173-093156433.jpg)
 Chronic Hand Dermatitis (CHD) is one of the most persistent and misdiagnosed skin conditions worldwide. It often appears as redness, scaling, itching, and painful cracks on the hands. For many, this condition lingers for months or even years, despite various treatments. The journey of sufferers is often marked by confusion, frustration, and repeated misdiagnosis鈥攅specially when the underlying cause is not what it seems.
 
 馃攳 Why is it a Mystery?

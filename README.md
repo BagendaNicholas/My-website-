@@ -1,3 +1,7 @@
+
+![My Image](https://i.postimg.cc/W3kM7rgd/20250518-101215.jpg)
+# My-website-
+*"A simple website that shares truth, healing, and hope. Includes videos, audio messages, and downloadable resources for spiritual growth."*
  *Title:* *“God’s Presence in the Darkness”*
 
 *Key Scripture:* Exodus 20:21 – “The people remained at a distance, while Moses approached the thick darkness where God was.”
@@ -34,9 +38,6 @@ We often associate God with light, clarity, and joy. However, Scripture reveals 
 
 God's presence isn't limited to moments of clarity and joy. He is equally present in our darkest hours, offering guidance, comfort, and transformation. Let us not fear the darkness but embrace it as an opportunity to draw closer to Him. 🙏*🎥 Watch the Video
 [Download or Play Video](https://github.com/BagendaNicholas/My-website-/raw/main/3ac6be059a96164fcbdd811e531d5c01.mp4)
-![My Image](https://i.postimg.cc/W3kM7rgd/20250518-101215.jpg)
-# My-website-
-*"A simple website that shares truth, healing, and hope. Includes videos, audio messages, and downloadable resources for spiritual growth."*
 ![My Image](https://i.postimg.cc/8kYvx5mq/IMG-202506173-093129305.png)
 *TABLE OF CONTENTS*
 1. *Introduction 鈥 The Mystery of Chronic Hand Dermatitis*  

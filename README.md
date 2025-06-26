@@ -1,5 +1,38 @@
+ *Title:* *“God’s Presence in the Darkness”*
 
-[Download Or Read](https://github.com/BagendaNicholas/My-website-/blob/main/The%20Hidden%20Truth.docx)🎥 Watch the Video
+*Key Scripture:* Exodus 20:21 – “The people remained at a distance, while Moses approached the thick darkness where God was.”
+
+---
+
+*Introduction:*
+
+We often associate God with light, clarity, and joy. However, Scripture reveals that God also dwells in darkness. In Exodus 20:21, Moses approaches the thick darkness where God was. This challenges our understanding and invites us to explore God's presence in the midst of uncertainty and trials.
+
+---
+
+*Main Points:*
+
+1. *God Meets Us in the Darkness:*
+   - Throughout the Bible, God reveals Himself in dark moments:
+     - To Abraham in a dark vision (Genesis 15).
+     - To Jacob during a night of wrestling (Genesis 32).
+     - To the Israelites in a cloud of darkness on Mount Sinai (Exodus 20:21).
+   - These instances show that darkness is not the absence of God but a setting for divine encounters.
+
+2. *Darkness as a Place of Transformation:*
+   - In the darkness, our distractions fade, and we become more attuned to God's voice.
+   - Challenges and uncertainties can lead to spiritual growth and deeper faith.
+   - Embracing these moments allows God to work profoundly in our lives.
+
+3. *Faith Beyond Sight:*
+- Walking through darkness requires trust in God's character and promises.
+   - 2 Corinthians 5:7 reminds us, “For we walk by faith, not by sight.”
+   - Even when we can't see the path ahead, we can trust that God is guiding us.
+
+
+*Conclusion:*
+
+God's presence isn't limited to moments of clarity and joy. He is equally present in our darkest hours, offering guidance, comfort, and transformation. Let us not fear the darkness but embrace it as an opportunity to draw closer to Him. 🙏*🎥 Watch the Video
 [Download or Play Video](https://github.com/BagendaNicholas/My-website-/raw/main/3ac6be059a96164fcbdd811e531d5c01.mp4)
 ![My Image](https://i.postimg.cc/W3kM7rgd/20250518-101215.jpg)
 # My-website-

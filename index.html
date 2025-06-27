@@ -34,3 +34,24 @@
        <button type="submit">Search</button>
      </form>
 <a href="https://github.com/BagendaNicholas/My-website-/blob/main/README.md" target="_blank">View My README</a>
+
+<form id="contact-form">
+  <input type="text" name="from_name" placeholder="Your Name" required />
+  <input type="email" name="from_email" placeholder="Your Email" required />
+  <textarea name="message" placeholder="Your Message" required></textarea>
+  <button type="submit">Send</button>
+</form>
+emailjs.init('7rDjOLguEcDWzn3X2');
+
+document.getElementById('contact-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+  
+  emailjs.sendForm('service_8q8dc7h', 'template_t76v6a4, this)
+    .then(() => {
+      alert('Message sent successfully!');
+      this.reset();
+    }, (error) => {
+      alert('Failed to send message. Please try again.');
+      console.error(error);
+    });
+});

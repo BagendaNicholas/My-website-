@@ -1,4 +1,93 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>My Website</title>
+<style>
+  body {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  body.loaded {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  nav, section {
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+  }
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+  <nav>
+    <div class="logo">MySite</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section id="home" class="fade-in">
+    <h1>Welcome to My Website</h1>
+    <p>Start here!</p>
+  </section>
+
+  <section id="about" class="fade-in">
+    <h2>About Me</h2>
+    <p>This is my story and skills...</p>
+  </section>
+<section id="projects" class="fade-in">
+    <h2>Projects</h2>
+    <p>Check out my work.</p>
+  </section>
+
+  <section id="contact" class="fade-in">
+    <h2>Contact</h2>
+    <p>Get in touch with me!</p>
+  </section>
+
+  <script>
+    // Page load animation
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+    });
+
+    // Scroll fade-in animation
+    const faders = document.querySelectorAll('.fade-in');
+
+    const appearOptions = {
+      threshold: 0.1
+    };
+
+    const appearOnScroll = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      });
+    }, appearOptions);
+
+    faders.forEach(fader => {
+      appearOnScroll.observe(fader);
+    });
+  </script>
+</body>
+</html>
 
 <button id="openModal">Click me for a surprise!</button>
 

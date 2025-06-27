@@ -46,15 +46,6 @@ emailjs.init('7rDjOLguEcDWzn3X2');
 document.getElementById('contact-form').addEventListener('submit', function(event) {
   event.preventDefault();
   
-  emailjs.sendForm('service_8q8dc7h', 'template_t76v6a4, this)
-    .then(() => {
-      alert('Message sent successfully!');
-      this.reset();
-    }, (error) => {
-      alert('Failed to send message. Please try again.');
-      console.error(error);
-    });
-});
 <script>
   emailjs.init('7rDjOLguEcDWzn3X2');
   document.getElementById('contact-form').addEventListener('submit', function(event) {

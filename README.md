@@ -40,7 +40,7 @@ We often associate God with light, clarity, and joy. However, Scripture reveals 
 *Conclusion:*
 
 God's presence isn't limited to moments of clarity and joy. He is equally present in our darkest hours, offering guidance, comfort, and transformation. Let us not fear the darkness but embrace it as an opportunity to draw closer to Him. 🙏*
-![My Audio](https://github.com/BagendaNicholas/My-website-/blob/main/1000015645.mp3)
+
 ![My Image](https://i.postimg.cc/8kYvx5mq/IMG-202506173-093129305.png)
 *TABLE OF CONTENTS*
 1. *Introduction 鈥 The Mystery of Chronic Hand Dermatitis*  

@@ -165,14 +165,6 @@
         alert('Failed to send message. Please try again.');
         console.error(error);
       });
-  });
-</script>
-<button id="openModal">Click me for a surprise!</button>
-
-<div id="myModal" class="modal" style="display:none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
-  <div class="modal-content" style="background-color: #fefefe; margin: auto; padding: 20px; border: 1px solid #888; width: 80%;">
-    <span id="closeModal" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
-    <p>
 <button id="openModal">Click me for a surprise!</button>
 
 <div id="myModal" class="modal">
@@ -181,3 +173,40 @@
     <p>🎉 Hey there! Just wanted to remind you you're special, your dreams are valid, and you're capable of amazing things. Keep going! 💪🌟</p>
   </div>
 </div>
+  
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  animation: fadeIn 0.5s;
+}
+.modal-content {
+  background: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  animation: zoomIn 0.4s;
+}
+#closeModal {
+  float: right;
+  font-size: 24px;
+  cursor: pointer;
+}
+@keyframes zoomIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+<script>
+  const modal = document.getElementById('myModal');
+  const openBtn = document.getElementById('openModal');
+  const closeBtn = document.getElementById('closeModal');  });

@@ -1,3 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Firebase Email Link Sign-in</title>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js"></script>
+</head>
+<body>
+  <h1>Sign In with Email Link</h1>
+  <input type="email" id="email" placeholder="Enter your email" />
+  <button id="sendLinkBtn">Send Sign-In Link</button>
+
+  <script>
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
+      authDomain: "my-website-357cb.firebaseapp.com",
+      projectId: "my-website-357cb",
+      storageBucket: "my-website-357cb.firebasestorage.app",
+      messagingSenderId: "759627961944",
+      appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d",
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Action code settings for the sign-in link
+    const actionCodeSettings = {
+      url: window.location.href, // URL user will be redirected to after clicking the email link
+      handleCodeInApp: true,
+    };
+ // Send sign-in link on button click
+    document.getElementById('sendLinkBtn').addEventListener('click', () => {
+      const email = document.getElementById('email').value;
+      if (!email) {
+        alert('Please enter your email');
+        return;
+      }
+
+      auth.sendSignInLinkToEmail(email, actionCodeSettings)
+        .then(() => {
+          alert('Sign-in link sent! Check your email.');
+          // Save email locally for sign-in completion
+          window.localStorage.setItem('emailForSignIn', email);
+        })
+        .catch(error => {
+          alert('Error sending email: ' + error.message);
+        });
+    });
+
+    // Complete sign-in if coming back with email link
+    if (auth.isSignInWithEmailLink(window.location.href)) {
+      let email = window.localStorage.getItem('emailForSignIn');
+      if (!email) {
+        email = window.prompt('Please provide your email for confirmation');
+      }
+      auth.signInWithEmailLink(email, window.location.href)
+        .then(result => {
+          alert('Successfully signed in as ' + result.user.email);
+          window.localStorage.removeItem('emailForSignIn');
+        })
+        .catch(error => {
+          alert('Error signing in: ' + error.message);
+        });
+    }
+  </script>
+</body>
+</html>
 <!-- Surprise Button and Modal -->
 <button id="openModal">Click me for a surprise!</button>
 

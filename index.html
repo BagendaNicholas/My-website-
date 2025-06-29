@@ -1,18 +1,65 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Firebase Email Link Sign-in</title>
-  <!-- Firebase SDKs -->
+  <title>My Website with Firebase Sign-In</title>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #f9f9f9;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    input[type="email"] {
+      width: 100%;
+      padding: 10px;
+      margin: 12px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #message {
+      margin-top: 15px;
+      text-align: center;
+      font-weight: 600;
+    }
+    #message.success {
+      color: green;
+    }
+    #message.error {
+ color: red;
+    }
+  </style>
 </head>
 <body>
-  <h1>Sign In with Email Link</h1>
+  <h2>Sign In with Email Link</h2>
   <input type="email" id="email" placeholder="Enter your email" />
   <button id="sendLinkBtn">Send Sign-In Link</button>
+  <div id="message"></div>
 
   <script>
-    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
       authDomain: "my-website-357cb.firebaseapp.com",
@@ -22,35 +69,39 @@
       appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d",
     };
 
-    // Initialize Firebase
     const app = firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    // Action code settings for the sign-in link
     const actionCodeSettings = {
-      url: window.location.href, // URL user will be redirected to after clicking the email link
+      url: window.location.href,
       handleCodeInApp: true,
     };
- // Send sign-in link on button click
+
+    const messageDiv = document.getElementById('message');
+
+    function showMessage(text, type) {
+      messageDiv.textContent = text;
+      messageDiv.className = type; // 'success' or 'error'
+    }
+
     document.getElementById('sendLinkBtn').addEventListener('click', () => {
-      const email = document.getElementById('email').value;
+      const email = document.getElementById('email').value.trim();
       if (!email) {
-        alert('Please enter your email');
+        showMessage('Please enter your email.', 'error');
         return;
       }
-
-      auth.sendSignInLinkToEmail(email, actionCodeSettings)
+      showMessage('Sending sign-in link...', '');
+ auth.sendSignInLinkToEmail(email, actionCodeSettings)
         .then(() => {
-          alert('Sign-in link sent! Check your email.');
-          // Save email locally for sign-in completion
+          showMessage('Sign-in link sent! Check your email.', 'success');
           window.localStorage.setItem('emailForSignIn', email);
         })
         .catch(error => {
-          alert('Error sending email: ' + error.message);
+          showMessage('Error sending email: ' + error.message, 'error');
         });
     });
 
-    // Complete sign-in if coming back with email link
+    // Handle sign-in when coming back with email link
     if (auth.isSignInWithEmailLink(window.location.href)) {
       let email = window.localStorage.getItem('emailForSignIn');
       if (!email) {
@@ -58,11 +109,11 @@
       }
       auth.signInWithEmailLink(email, window.location.href)
         .then(result => {
-          alert('Successfully signed in as ' + result.user.email);
+          showMessage('Successfully signed in as ' + result.user.email, 'success');
           window.localStorage.removeItem('emailForSignIn');
         })
         .catch(error => {
-          alert('Error signing in: ' + error.message);
+          showMessage('Error signing in: ' + error.message, 'error');
         });
     }
   </script>

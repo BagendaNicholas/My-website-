@@ -251,4 +251,43 @@ window.onclick = e => {
   const openBtn = document.getElementById('openModal');
   const closeBtn = document.getElementById('closeModal');  });
 
-
+<!DOCTYPE html>
+<html>
+<head>
+  <title>README in HTML</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    #readme-content {
+      max-width: 700px;
+      margin: 2em auto;
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+    }
+    #readme-content h1, #readme-content h2 {
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 0.3em;
+    }
+    #readme-content pre {
+      background: #f4f4f4;
+      padding: 1em;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <div id="readme-content"></div>
+  <script>
+    fetch('README.md')
+      .then(response => {
+        if (!response.ok) throw new Error('README.md not found');
+        return response.text();
+      })
+      .then(text => {
+        document.getElementById('readme-content').innerHTML = marked.parse(text);
+      })
+      .catch(err => {
+        document.getElementById('readme-content').innerHTML = '<p>Could not load README.md.</p>';
+      });
+  </script>
+</body>
+</html>

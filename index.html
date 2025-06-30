@@ -1,32 +1,30 @@
-<!-- Floating Sitemap Button -->
-<button id="sitemap-float-btn" title="View Sitemap">
-  🗂️ Sitemap
-</button>
-<style>
-#sitemap-float-btn {
-  position: fixed;
-  bottom: 32px;
-  right: 32px;
-  z-index: 999;
-  background: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 50px;
-  padding: 14px 22px;
-  font-size: 1.1em;
-  box-shadow: 0 2px 10px rgba(0,0,0,.18);
-  cursor: pointer;
-  transition: background 0.3s;
-}
-#sitemap-float-btn:hover {
-  background: #0056b3;
-}
-</style>
 <script>
-document.getElementById('sitemap-float-btn').onclick = function() {
-  window.open('https://bagendanicholas.github.io/My-website-/sitemap.xml', '_blank');
-};
+  // Open modal
+  document.getElementById('search-float-btn').onclick = function() {
+    document.getElementById('search-modal').style.display = 'block';
+    document.getElementById('site-search-input').focus();
+  };
+  // Close modal
+  document.getElementById('close-search-modal').onclick = function() {
+    document.getElementById('search-modal').style.display = 'none';
+  };
+  // Close modal on outside click
+  window.onclick = function(event) {
+    if (event.target == document.getElementById('search-modal')) {
+      document.getElementById('search-modal').style.display = 'none';
+    }
+  };
+  // Search form submit
+  document.getElementById('site-search-form').onsubmit = function(e) {
+    e.preventDefault();
+    var q = document.getElementById('site-search-input').value.trim();
+    if(q) {
+      window.open('https://www.google.com/search?q=site:bagendanicholas.github.io/My-website- ' + encodeURIComponent(q), '_blank');
+      document.getElementById('search-modal').style.display = 'none';
+    }
+  };
 </script>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

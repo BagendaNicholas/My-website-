@@ -1,82 +1,93 @@
 [
   {
-    "title": "Home",
+    "title": "Welcome Message",
     "url": "#home",
-    "content": "Welcome to my world — a space where code meets creativity, and dreams find their voice. Every section here tells part of my journey."
+    "content": "Welcome to my world — a space where code meets creativity, and dreams find their voice."
   },
   {
-    "title": "About Me",
+    "title": "About: Who I Am",
     "url": "#about",
-    "content": "I’m Nicholas Bagenda, a Ugandan self-taught web developer and digital dreamer. I don’t just build websites—I build stories. I believe in using tech with heart, and turning simple ideas into something that can inspire, uplift, and create purpose. Whether through a project, a message, or even a smile—my goal is to leave a mark that matters. I don’t chase success—I create value, and success follows quietly."
+    "content": "I’m Nicholas Bagenda, a Ugandan self-taught web developer and digital dreamer."
   },
   {
-    "title": "Projects",
-    "url": "#projects",
-    "content": "Personal Website (websites.co.in), Healing With Truth (simdif.com), GitHub Pages Website. Explore my web development and digital storytelling projects."
+    "title": "About: What I Do",
+    "url": "#about",
+    "content": "I don’t just build websites—I build stories."
   },
   {
-    "title": "Personal Website Project",
+    "title": "About: My Philosophy",
+    "url": "#about",
+    "content": "I believe in using tech with heart, and turning simple ideas into something that can inspire, uplift, and create purpose."
+  },
+  {
+    "title": "About: My Goal",
+    "url": "#about",
+    "content": "Whether through a project, a message, or even a smile—my goal is to leave a mark that matters."
+  },
+  {
+    "title": "About: My Approach",
+    "url": "#about",
+    "content": "I don’t chase success—I create value, and success follows quietly."
+  },
+  {
+    "title": "Project: Personal Website",
     "url": "https://bagendanicholas.websites.co.in/",
-    "content": "A personal website built using websites.co.in. Showcases my portfolio, biography and contact information."
+    "content": "Showcases my portfolio, biography and contact information."
   },
   {
-    "title": "Healing With Truth Project",
+    "title": "Project: Healing With Truth",
     "url": "https://healingwithtruth.simdif.com/",
-    "content": "A spiritual and healing resource website built on simdif.com. Shares truth, healing, hope, videos, and audio messages."
+    "content": "Shares truth, healing, hope, videos, and audio messages."
   },
   {
-    "title": "GitHub Pages Website",
+    "title": "Project: GitHub Pages Website",
     "url": "https://bagendanicholas.github.io/My-website-/",
-    "content": "My GitHub Pages site. Features web development, faith, healing, and downloadables."
+    "content": "Features web development, faith, healing, and downloadables."
   },
   {
-    "title": "Contact",
+    "title": "Contact Info",
     "url": "#contact",
-    "content": "Call or WhatsApp: +256 742 367 077 / +256 766 435 379. Contact form available. Send a message directly from the site."
+    "content": "Call or WhatsApp: +256 742 367 077 / +256 766 435 379"
   },
   {
-    "title": "God’s Presence in the Darkness",
+    "title": "Chronic Hand Dermatitis: Introduction",
     "url": "#about",
-    "content": "Key Scripture: Exodus 20:21 – 'The people remained at a distance, while Moses approached the thick darkness where God was.' God meets us in darkness, offers transformation, and calls us to walk by faith not sight."
+    "content": "Chronic Hand Dermatitis (CHD) is one of the most persistent and misdiagnosed skin conditions worldwide."
   },
   {
-    "title": "Mystery of Chronic Hand Dermatitis",
+    "title": "Chronic Hand Dermatitis: Symptoms",
     "url": "#about",
-    "content": "Chronic Hand Dermatitis (CHD) is one of the most persistent and misdiagnosed skin conditions worldwide. The hidden culprit may be fungal infections. Accurate diagnosis is key to healing."
+    "content": "It often appears as redness, scaling, itching, and painful cracks on the hands."
   },
   {
-    "title": "Understanding Chronic Hand Dermatitis",
+    "title": "Chronic Hand Dermatitis: The Mystery",
     "url": "#about",
-    "content": "CHD is a persistent skin condition affecting millions. Types include irritant contact dermatitis, allergic contact dermatitis, atopic hand dermatitis, and hyperkeratotic hand dermatitis."
+    "content": "CHD shares visual and symptomatic similarities with many other skin conditions such as eczema, psoriasis, or allergic reactions, making diagnosis challenging."
   },
   {
-    "title": "The Overlooked Culprit – Fungal Infections",
+    "title": "Chronic Hand Dermatitis: Fungal Infections",
     "url": "#about",
-    "content": "Up to 38% of hand dermatitis cases are actually fungal infections. Misuse of corticosteroids can worsen the problem. Clinical perspective stresses the importance of proper testing."
+    "content": "Studies have shown that in up to 38% of cases, what appears to be dermatitis is actually a fungal infection."
   },
   {
-    "title": "Getting Out of Babylon: Understanding Suffering",
+    "title": "Chronic Hand Dermatitis: Misuse of Corticosteroids",
     "url": "#about",
-    "content": "A Christian perspective on why we suffer, where suffering comes from, and spiritual growth through suffering. Key verses: Romans 5:12, Galatians 6:7, 1 John 2:16, James 1:2-4."
+    "content": "Unfortunately, the misuse of corticosteroids (intended for eczema) can worsen fungal problems."
   },
   {
-    "title": "Important Document: CHD and Suffering",
-    "url": "https://eu.docworkspace.com/d/sILCzp8ecAq2ItMAG?sa=601.1123",
-    "content": "Document discussing CHD, suffering, healing and a spiritual journey. Click to view online."
-  },
-  {
-    "title": "Download: Getting Out of Babylon (WPS Office PDF)",
-    "url": "https://github.com/BagendaNicholas/My-website-/blob/main/Getting%20Out%20of-WPS%20Office.pdf",
-    "content": "Downloadable PDF resource on spiritual healing and the journey out of Babylon."
-  },
-  {
-    "title": "Table of Contents – Chronic Hand Dermatitis",
+    "title": "Chronic Hand Dermatitis: Clinical Perspective",
     "url": "#about",
-    "content": "1. Introduction – The Mystery of Chronic Hand Dermatitis 2. Understanding Chronic Hand Dermatitis (CHD) 3. The Overlooked Culprit: Fungal Infections 4. Key Differences Between Eczema and Fungal Infections 5. Misdiagnosis: The Consequences of Incorrect Treatment 6. Scientific Research and Case Studies 7. Real-Life Stories and Testimonials 8. Diagnosis: Identifying the Real Cause 9. Treatment Approaches: A Shift in Medical Perspective 10. Prevention and Patient Education 11. The Future of Dermatology: What Needs to Change? 12. Psychological Impact of Chronic Hand Dermatitis 13. Future Research and Emerging Treatments 14. The Role of Diet in Skin Health 15. Conclusion and Call to Action 16. References and Further Reading 17. Faith, Healing, and Skin Health: A Biblical Perspective 18. The Importance of Patience in the Healing Process 19. Community Awareness and Support Systems 20. Embracing God Healing Touch: A Final Word on Faith and Skin Health 21. A Message to the Reader — Walking in Wisdom and Wellness"
+    "content": "Dermatologists emphasize that accurate diagnosis is key. Without proper fungal cultures, KOH tests, or skin biopsies, it's nearly impossible to distinguish CHD from other mimicking conditions."
   },
   {
-    "title": "Faith, Healing, and Skin Health: A Biblical Perspective",
+    "title": "Chronic Hand Dermatitis: Call for Awareness",
     "url": "#about",
-    "content": "Exploring the connection between faith, healing, patience, and skin health. The importance of patience and community support during the healing process."
+    "content": "Understanding the true nature of CHD is the first step toward healing."
+  },
+  {
+    "title": "Table of Contents: The Role of Diet in Skin Health",
+    "url": "#about",
+    "content": "The Role of Diet in Skin Health"
   }
+  // ...continue for every unique statement, list item, heading, and key paragraph in your site...
 ]

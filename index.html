@@ -1,106 +1,108 @@
-<!-- Surprise Button and Modal -->
-<button id="openModal">Click me for a surprise!</button>
-
-<div id="myModal" class="modal">
-  <div class="modal-content">
-    <span id="closeModal">&times;</span>
-    <p>🎉 Hey there! Just wanted to remind you you're special, your dreams are valid, and you're capable of amazing things. Keep going! 💪🌟</p>
-  </div>
-</div>
-
-<!-- Style -->
-<style>
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-  animation: fadeIn 0.5s;
-}
-
-.modal-content {
-  background: #fff;
-  margin: 15% auto;
-  padding: 20px;
-  border-radius: 10px;
-  width: 80%;
-  animation: zoomIn 0.4s;
-}
-
-#closeModal {
-  float: right;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-@keyframes zoomIn {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-</style><!-- Script -->
-<script>
-const modal = document.getElementById('myModal');
-const openBtn = document.getElementById('openModal');
-const closeBtn = document.getElementById('closeModal');
-
-openBtn.onclick = () => modal.style.display = 'block';
-closeBtn.onclick = () => modal.style.display = 'none';
-window.onclick = e => {
-  if (e.target === modal) modal.style.display = 'none';
-};
-  </script>
-<script>
-  const modal = document.getElementById('myModal');
-  const openBtn = document.getElementById('openModal');
-  const closeBtn = document.getElementById('closeModal');
-
-  openBtn.onclick = () => modal.style.display = 'block';
-  closeBtn.onclick = () => modal.style.display = 'none';
-  window.onclick = (event) => {
-    if(event.target == modal) modal.style.display = 'none';
-  }
-</script>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>My Website</title>
-<style>
-  body {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 1.6s ease, transform 1.6s ease;
-  }
-  body.loaded {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  nav, section {
-    padding: 20px;
-    max-width: 800px;
-    margin: auto;
-  }
-  .fade-in {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="google-site-verification" content="JRfkf7fFUto9n3WD-9h_Wuc0dC9Yh-YtWDsg-UiJrs8" />
+  <title>My Website</title>
+  <style>
+    body {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1.6s ease, transform 1.6s ease;
+    }
+    body.loaded {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    nav, section {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      animation: fadeIn 0.5s;
+    }
+    .modal-content {
+      background: #fff;
+      margin: 15% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      animation: zoomIn 0.4s;
+    }
+    #closeModal {
+      float: right;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    @keyframes zoomIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    /* Contact Form styling */
+    #contact-form {
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 16px;
+      background: #f8f8f8;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    #contact-form label {
+      font-weight: bold;
+    }
+    #contact-form input, #contact-form textarea {
+      width: 100%;
+      margin-bottom: 12px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    #contact-form button {
+      padding: 10px 18px;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    #contact-form button:hover {
+      background: #0056b3;
+    }
+  </style>
 </head>
 <body>
+  <!-- Surprise Button and Modal -->
+  <button id="openModal">Click me for a surprise!</button>
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal">&times;</span>
+      <p>🎉 Hey there! Just wanted to remind you you're special, your dreams are valid, and you're capable of amazing things. Keep going! 💪🌟</p>
+    </div>
+  </div>
+
   <nav>
     <div class="logo">MySite</div>
     <ul class="nav-links">
@@ -113,41 +115,84 @@ window.onclick = e => {
 
   <section id="home" class="fade-in">
     <h1>Welcome to My Website</h1>
-    <p>Great! Here’s an updated version with a meaningful tone and a personal quote:
- 
-*"Welcome to my world 🌍—a space where code meets creativity, and dreams find their voice. Every section here tells part of my journey. Feel free to explore, connect, and maybe find a bit of yourself in it too".!</p>
+    <p>
+      <em>
+        "Welcome to my world 🌍—a space where code meets creativity, and dreams find their voice. Every section here tells part of my journey. Feel free to explore, connect, and maybe find a bit of yourself in it too."
+      </em>
+    </p>
   </section>
 
   <section id="about" class="fade-in">
     <h2>About Me</h2>
-    <p>Great! Here’s an updated version with a meaningful tone and a personal quote:
-  
-*"Welcome to my world 🌍—a space where code meets creativity, and dreams find their voice. Every section here tells part of my journey. Feel free to explore, connect, and maybe find a bit of yourself in it too."*
-
-*"I’m Nicholas Bagenda, a Ugandan self-taught web developer and digital dreamer. I don’t just build websites—I build stories. I believe in using tech with heart, and turning simple ideas into something that can inspire, uplift, and create purpose. Whether through a project, a message, or even a smile—my goal is to leave a mark that matters."*
-
-
-*“I don’t chase success—I create value, and success follows quietly.”*....</p>
+    <p>
+      <em>
+        "I’m Nicholas Bagenda, a Ugandan self-taught web developer and digital dreamer. I don’t just build websites—I build stories. I believe in using tech with heart, and turning simple ideas into something that can inspire, uplift, and create purpose. Whether through a project, a message, or even a smile—my goal is to leave a mark that matters."
+      </em>
+      <br><br>
+      <em>
+        “I don’t chase success—I create value, and success follows quietly.”
+      </em>
+    </p>
   </section>
-<section id="projects" class="fade-in">
-  
-<h2 class="fade-section">Projects</h2>
-<ul class="fade-section">
-  <li><a href="https://bagendanicholas.websites.co.in/" target="_blank">Personal Website (websites.co.in)</a></li>
-  <li><a href="https://healingwithtruth.simdif.com/" target="_blank">Healing With Truth (simdif.com)</a></li>
-  <li><a href="https://bagendanicholas.github.io/My-website-/" target="_blank">GitHub Pages Website</a></li>
-</ul>.</p>
+
+  <section id="projects" class="fade-in">
+    <h2>Projects</h2>
+    <ul>
+      <li><a href="https://bagendanicholas.websites.co.in/" target="_blank">Personal Website (websites.co.in)</a></li>
+      <li><a href="https://healingwithtruth.simdif.com/" target="_blank">Healing With Truth (simdif.com)</a></li>
+      <li><a href="https://bagendanicholas.github.io/My-website-/" target="_blank">GitHub Pages Website</a></li>
+    </ul>
   </section>
 
   <section id="contact" class="fade-in">
-    
-<h2 class="fade-section">Contact</h2>
-<p class="fade-section">📞 Call or WhatsApp: <br>
-<a href="tel:+256742367077">+256 742 367 077</a> / 
-<a href="tel:+256766435379">+256 766 435 379</a></p>
-!</p>
+    <h2>Contact</h2>
+    <p>📞 Call or WhatsApp: <br>
+      <a href="tel:+256742367077">+256 742 367 077</a> / 
+      <a href="tel:+256766435379">+256 766 435 379</a>
+    </p>
+
+    <!-- Contact Form -->
+    <form id="contact-form">
+      <label>Your Name</label><br>
+      <input type="text" name="from_name" required><br><br>
+      <label>Your Email</label><br>
+      <input type="email" name="reply_to" required><br><br>
+      <label>Your Message</label><br>
+      <textarea name="message" required></textarea><br><br>
+      <button type="submit">Send</button>
+    </form>
   </section>
 
+  <!-- EmailJS Script -->
+  <script src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
+  <script>
+    emailjs.init('7rDjOLguEcDWzn3X2');
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      emailjs.sendForm('service_8q8dc7h', 'template_t76v6a4', this)
+        .then(() => {
+          alert('Message sent successfully!');
+          this.reset();
+        }, (error) => {
+          alert('Failed to send message. Please try again.');
+          console.error(error);
+        });
+    });
+  </script>
+
+  <!-- Modal Script -->
+  <script>
+    const modal = document.getElementById('myModal');
+    const openBtn = document.getElementById('openModal');
+    const closeBtn = document.getElementById('closeModal');
+    openBtn.onclick = () => modal.style.display = 'block';
+    closeBtn.onclick = () => modal.style.display = 'none';
+    window.onclick = e => {
+      if (e.target === modal) modal.style.display = 'none';
+    };
+  </script>
+
+  <!-- Page load and scroll animation -->
   <script>
     // Page load animation
     window.addEventListener('load', () => {
@@ -156,11 +201,7 @@ window.onclick = e => {
 
     // Scroll fade-in animation
     const faders = document.querySelectorAll('.fade-in');
-
-    const appearOptions = {
-      threshold: 0.1
-    };
-
+    const appearOptions = { threshold: 0.1 };
     const appearOnScroll = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
@@ -172,122 +213,6 @@ window.onclick = e => {
     faders.forEach(fader => {
       appearOnScroll.observe(fader);
     });
-  </script>
-</body>
-</html>
-
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="google-site-verification" content="JRfkf7fFUto9n3WD-9h_Wuc0dC9Yh-YtWDsg-UiJrs8" />
-  <title>Your Site Title</title>
-  <!-- other meta or link tags -->
-</head>
-
-
-<!-- Contact Form -->
-<form id="contact-form">
-  <label>Your Name</label><br>
-  <input type="text" name="from_name" required><br><br>
-
-  <label>Your Email</label><br>
-  <input type="email" name="reply_to" required><br><br>
-
-  <label>Your Message</label><br>
-  <textarea name="message" required></textarea><br><br>
-
-  <button type="submit">Send</button>
-</form>
-
-<!-- EmailJS Script -->
-<script src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
-<script>
-  emailjs.init('7rDjOLguEcDWzn3X2'); // Your Public Key
-
-  document.getElementById('contact-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    emailjs.sendForm('service_8q8dc7h', 'template_t76v6a4', this)
-      .then(() => {
-        alert('Message sent successfully!');
-        this.reset();
-      }, (error) => {
-        alert('Failed to send message. Please try again.');
-        console.error(error);
-      });
-
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-  animation: fadeIn 0.5s;
-}
-.modal-content {
-  background: #fff;
-  margin: 15% auto;
-  padding: 20px;
-  border-radius: 10px;
-  width: 80%;
-  animation: zoomIn 0.4s;
-}
-#closeModal {
-  float: right;
-  font-size: 24px;
-  cursor: pointer;
-}
-@keyframes zoomIn {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-<script>
-  const modal = document.getElementById('myModal');
-  const openBtn = document.getElementById('openModal');
-  const closeBtn = document.getElementById('closeModal');  });
-
-<!DOCTYPE html>
-<html>
-<head>
-  <title>README in HTML</title>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <style>
-    #readme-content {
-      max-width: 700px;
-      margin: 2em auto;
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-    }
-    #readme-content h1, #readme-content h2 {
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 0.3em;
-    }
-    #readme-content pre {
-      background: #f4f4f4;
-      padding: 1em;
-      overflow-x: auto;
-    }
-  </style>
-</head>
-<body>
-  <div id="readme-content"></div>
-  <script>
-    fetch('README.md')
-      .then(response => {
-        if (!response.ok) throw new Error('README.md not found');
-        return response.text();
-      })
-      .then(text => {
-        document.getElementById('readme-content').innerHTML = marked.parse(text);
-      })
-      .catch(err => {
-        document.getElementById('readme-content').innerHTML = '<p>Could not load README.md.</p>';
-      });
   </script>
 </body>
 </html>

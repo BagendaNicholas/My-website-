@@ -1,6 +1,9 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="google-site-verification" content="JRfkf7fFUto9n3WD-9h_Wuc0dC9Yh-YtWDsg-UiJrs8" />
   <title>Nicholas Bagenda – Web Developer, Healing & Faith Resources</title>
   <meta name="description" content="Explore Nicholas Bagenda’s journey in web development, healing, and faith. Discover projects, articles, and resources to inspire and uplift. Contact for collaboration or consultation." />
   <meta name="keywords" content="Nicholas Bagenda, web developer, Uganda, healing, faith, chronic hand dermatitis, digital storytelling, projects, skin health" />
@@ -34,96 +37,10 @@
     ]
   }
   </script>
-</head>
-<!-- Floating Search Button (Top Right) -->
-<button id="search-float-btn" title="Search Site">🔍 Search</button>
-<!-- Search Modal -->
-<div id="search-modal" style="display:none; position:fixed; top:0; right:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:1000;">
-  <div style="background:#fff; margin:10% auto 0 auto; padding:28px 20px 20px 20px; border-radius:10px; max-width:350px; min-height:200px; box-shadow:0 4px 18px rgba(0,0,0,0.18); position:relative;">
-    <button id="close-search-modal" style="position:absolute; top:10px; right:12px; font-size:20px; border:none; background:none; cursor:pointer;">&times;</button>
-    <form id="site-search-form" style="display:flex; flex-direction:column; gap:10px;">
-      <label for="site-search-input" style="font-weight:bold;">Search this site:</label>
-      <input id="site-search-input" type="text" placeholder="Type your query..." style="padding:10px; border-radius:5px; border:1px solid #ccc;">
-      <button type="submit" style="padding:10px 0; border-radius:5px; background:#007bff; color:#fff; border:none; font-size:1em; cursor:pointer;">Search</button>
-    </form>
-    <div id="search-results" style="margin-top:14px;"></div>
-  </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/lunr/lunr.min.js"></script>
-<script>
-let lunrIndex, siteData = [];
-fetch('search_index.json')
-  .then(r => r.json())
-  .then(data => {
-    siteData = data;
-    lunrIndex = lunr(function () {
-      this.ref('url');
-      this.field('title');
-      this.field('content');
-      siteData.forEach(function (doc) { this.add(doc); }, this);
-    });
-  });
 
-document.getElementById('search-float-btn').onclick = function() {
-  document.getElementById('search-modal').style.display = 'block';
-  document.getElementById('site-search-input').focus();
-};
-document.getElementById('close-search-modal').onclick = function() {
-  document.getElementById('search-modal').style.display = 'none';
-};
-window.addEventListener('click', function(event) {
-  if (event.target == document.getElementById('search-modal')) {
-    document.getElementById('search-modal').style.display = 'none';
-  }
-});
-document.getElementById('site-search-form').onsubmit = function(e) {
-  e.preventDefault();
-  var q = document.getElementById('site-search-input').value.trim();
-  var resultsDiv = document.getElementById('search-results');
-  resultsDiv.innerHTML = '';
-  if (q && lunrIndex) {
-    var results = lunrIndex.search(q);
-    if (results.length === 0) {
-      resultsDiv.innerHTML = '<p>No results found.</p>';
-    } else {
-      results.forEach(function (res) {
-        var doc = siteData.find(d => d.url === res.ref);
-        resultsDiv.innerHTML += `<div style="margin-bottom:10px;"><a href="${doc.url}" style="font-weight:bold;">${doc.title}</a><br><span style="font-size:.97em;">${doc.content.slice(0,100)}...</span></div>`;
-      });
-    }
-  }
-};
-</script>
-<style>
-#search-float-btn {
-  position: fixed;
-  top: 32px;
-  right: 32px;
-  z-index: 999;
-  background: #28a745;
-  color: #fff;
-  border: none;
-  border-radius: 50px;
-  padding: 14px 22px;
-  font-size: 1.1em;
-  box-shadow: 0 2px 10px rgba(0,0,0,.18);
-  cursor: pointer;
-  transition: background 0.3s;
-}
-#search-float-btn:hover {
-  background: #1e7e34;
-}
-</style>
+  <!-- Lunr.js -->
+  <script src="https://cdn.jsdelivr.net/npm/lunr/lunr.min.js"></script>
 
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="google-site-verification" content="JRfkf7fFUto9n3WD-9h_Wuc0dC9Yh-YtWDsg-UiJrs8" />
-  <title>My Website</title>
   <style>
     body {
       opacity: 0;
@@ -210,9 +127,43 @@ document.getElementById('site-search-form').onsubmit = function(e) {
     #contact-form button:hover {
       background: #0056b3;
     }
+    /* Floating Search Button */
+    #search-float-btn {
+      position: fixed;
+      top: 32px;
+      right: 32px;
+      z-index: 999;
+      background: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 22px;
+      font-size: 1.1em;
+      box-shadow: 0 2px 10px rgba(0,0,0,.18);
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #search-float-btn:hover {
+      background: #1e7e34;
+    }
   </style>
 </head>
 <body>
+  <!-- Floating Search Button (Top Right) -->
+  <button id="search-float-btn" title="Search Site">🔍 Search</button>
+  <!-- Search Modal -->
+  <div id="search-modal" style="display:none; position:fixed; top:0; right:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:1000;">
+    <div style="background:#fff; margin:10% auto 0 auto; padding:28px 20px 20px 20px; border-radius:10px; max-width:350px; min-height:200px; box-shadow:0 4px 18px rgba(0,0,0,0.18); position:relative;">
+      <button id="close-search-modal" style="position:absolute; top:10px; right:12px; font-size:20px; border:none; background:none; cursor:pointer;">&times;</button>
+      <form id="site-search-form" style="display:flex; flex-direction:column; gap:10px;">
+        <label for="site-search-input" style="font-weight:bold;">Search this site:</label>
+        <input id="site-search-input" type="text" placeholder="Type your query..." style="padding:10px; border-radius:5px; border:1px solid #ccc;">
+        <button type="submit" style="padding:10px 0; border-radius:5px; background:#007bff; color:#fff; border:none; font-size:1em; cursor:pointer;">Search</button>
+      </form>
+      <div id="search-results" style="margin-top:14px;"></div>
+    </div>
+  </div>
+
   <!-- Surprise Button and Modal -->
   <button id="openModal">Click me for a surprise!</button>
   <div id="myModal" class="modal">
@@ -508,6 +459,52 @@ document.getElementById('site-search-form').onsubmit = function(e) {
           console.error(error);
         });
     });
+  </script>
+
+  <!-- Search Modal Script -->
+  <script>
+    let lunrIndex, siteData = [];
+    fetch('search_index.json')
+      .then(r => r.json())
+      .then(data => {
+        siteData = data;
+        lunrIndex = lunr(function () {
+          this.ref('url');
+          this.field('title');
+          this.field('content');
+          siteData.forEach(function (doc) { this.add(doc); }, this);
+        });
+      });
+
+    document.getElementById('search-float-btn').onclick = function() {
+      document.getElementById('search-modal').style.display = 'block';
+      document.getElementById('site-search-input').focus();
+    };
+    document.getElementById('close-search-modal').onclick = function() {
+      document.getElementById('search-modal').style.display = 'none';
+    };
+    window.addEventListener('click', function(event) {
+      if (event.target == document.getElementById('search-modal')) {
+        document.getElementById('search-modal').style.display = 'none';
+      }
+    });
+    document.getElementById('site-search-form').onsubmit = function(e) {
+      e.preventDefault();
+      var q = document.getElementById('site-search-input').value.trim();
+      var resultsDiv = document.getElementById('search-results');
+      resultsDiv.innerHTML = '';
+      if (q && lunrIndex) {
+        var results = lunrIndex.search(q);
+        if (results.length === 0) {
+          resultsDiv.innerHTML = '<p>No results found.</p>';
+        } else {
+          results.forEach(function (res) {
+            var doc = siteData.find(d => d.url === res.ref);
+            resultsDiv.innerHTML += `<div style="margin-bottom:10px;"><a href="${doc.url}" style="font-weight:bold;">${doc.title}</a><br><span style="font-size:.97em;">${doc.content.slice(0,100)}...</span></div>`;
+          });
+        }
+      }
+    };
   </script>
 
   <!-- Modal Script -->

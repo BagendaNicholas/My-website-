@@ -65,6 +65,15 @@
       opacity: 1;
       transform: translateY(0);
     }
+    /* Content container to make your content readable */
+    .content-container {
+      background: rgba(255,255,255,0.85); /* semi-transparent white */
+      border-radius: 18px;
+      box-shadow: 0 2px 18px rgba(0,0,0,0.08);
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 30px;
+    }
     nav, section {
       padding: 20px;
       max-width: 800px;
@@ -163,40 +172,42 @@
   </style>
 </head>
 <body>
-  <!-- Floating Search Button (Top Right) -->
-  <button id="search-float-btn" title="Search Site">🔍 Search</button>
-  <!-- Search Modal -->
-  <div id="search-modal" style="display:none; position:fixed; top:0; right:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:1000;">
-    <div style="background:#fff; margin:10% auto 0 auto; padding:28px 20px 20px 20px; border-radius:10px; max-width:350px; min-height:200px; box-shadow:0 4px 18px rgba(0,0,0,0.18); position:relative;">
-      <button id="close-search-modal" style="position:absolute; top:10px; right:12px; font-size:20px; border:none; background:none; cursor:pointer;">&times;</button>
-      <form id="site-search-form" style="display:flex; flex-direction:column; gap:10px;">
-        <label for="site-search-input" style="font-weight:bold;">Search this site:</label>
-        <input id="site-search-input" type="text" placeholder="Type your query..." style="padding:10px; border-radius:5px; border:1px solid #ccc;">
-        <button type="submit" style="padding:10px 0; border-radius:5px; background:#007bff; color:#fff; border:none; font-size:1em; cursor:pointer;">Search</button>
-      </form>
-      <div id="search-results" style="margin-top:14px;"></div>
+  <div class="content-container">
+    <!-- Floating Search Button (Top Right) -->
+    <button id="search-float-btn" title="Search Site">🔍 Search</button>
+    <!-- Search Modal -->
+    <div id="search-modal" style="display:none; position:fixed; top:0; right:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:1000;">
+      <div style="background:#fff; margin:10% auto 0 auto; padding:28px 20px 20px 20px; border-radius:10px; max-width:350px; min-height:200px; box-shadow:0 4px 18px rgba(0,0,0,0.18); position:relative;">
+        <button id="close-search-modal" style="position:absolute; top:10px; right:12px; font-size:20px; border:none; background:none; cursor:pointer;">&times;</button>
+        <form id="site-search-form" style="display:flex; flex-direction:column; gap:10px;">
+          <label for="site-search-input" style="font-weight:bold;">Search this site:</label>
+          <input id="site-search-input" type="text" placeholder="Type your query..." style="padding:10px; border-radius:5px; border:1px solid #ccc;">
+          <button type="submit" style="padding:10px 0; border-radius:5px; background:#007bff; color:#fff; border:none; font-size:1em; cursor:pointer;">Search</button>
+        </form>
+        <div id="search-results" style="margin-top:14px;"></div>
+      </div>
     </div>
-  </div>
 
-  <!-- Surprise Button and Modal -->
-  <button id="openModal">Click me for a surprise!</button>
-  <div id="myModal" class="modal">
-    <div class="modal-content">
-      <span id="closeModal">&times;</span>
-      <p>🎉 Hey there! Just wanted to remind you you're special, your dreams are valid, and you're capable of amazing things. Keep going! 💪🌟</p>
+    <!-- Surprise Button and Modal -->
+    <button id="openModal">Click me for a surprise!</button>
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span id="closeModal">&times;</span>
+        <p>🎉 Hey there! Just wanted to remind you you're special, your dreams are valid, and you're capable of amazing things. Keep going! 💪🌟</p>
+      </div>
     </div>
+
+    <nav>
+      <div class="logo">MySite</div>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- ...rest of your content remains unchanged... -->
   </div>
-
-  <nav>
-    <div class="logo">MySite</div>
-    <ul class="nav-links">
-      <li><a href="#home">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-
-  <!-- ...rest of your content remains unchanged... -->
 </body>
 </html>

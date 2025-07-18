@@ -3,41 +3,135 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="google-site-verification" content="JRfkf7fFUto9n3WD-9h_Wuc0dC9Yh-YtWDsg-UiJrs8" />
-  <title>Nicholas Bagenda – Web Developer, Healing & Faith Resources</title>
-  <meta name="description" content="Explore Nicholas Bagenda’s journey in web development, healing, and faith. Discover projects, articles, and resources to inspire and uplift. Contact for collaboration or consultation." />
-  <meta name="keywords" content="Nicholas Bagenda, web developer, Uganda, healing, faith, chronic hand dermatitis, digital storytelling, projects, skin health" />
-  <meta name="author" content="Nicholas Bagenda" />
+  <title>Welcome – Nicholas Bagenda</title>
   <link rel="icon" href="/favicon.ico" />
-  <link rel="canonical" href="https://bagendanicholas.github.io/My-website-/" />
+  <style>
+    body {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1.6s ease, transform 1.6s ease;
+    }
+    body.loaded {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    nav, section {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+    .home-btn {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 100;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      font-size: 2em;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.11);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .home-btn:hover {
+      background: #0056b3;
+    }
+    @media (max-width: 900px) {
+      .home-btn { bottom: 16px; right: 16px; }
+    }
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 2em 0;
+    }
+    .toc-list li {
+      margin: 1em 0;
+      font-size: 1.15em;
+    }
+    .toc-list a {
+      color: #007bff;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .toc-list a:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">MySite</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="page2.html#about">About</a></li>
+      <li><a href="page2.html#projects">Projects</a></li>
+      <li><a href="page2.html#contact">Contact</a></li>
+      <li><a href="page2.html#god-presence">God’s Presence in Darkness</a></li>
+      <li><a href="page2.html#toc">Table of Contents</a></li>
+      <li><a href="page2.html#chapter1">Chapter 1: The Mystery of Chronic Hand Dermatitis</a></li>
+      <li><a href="page2.html#chapter2">Chapter 2: Understanding CHD</a></li>
+      <li><a href="page2.html#chapter3">Chapter 3: The Overlooked Culprit – Fungal Infections</a></li>
+      <li><a href="page2.html#getting-out-babylon">Getting Out of Babylon</a></li>
+    </ul>
+  </nav>
 
-  <!-- Open Graph/Facebook -->
-  <meta property="og:title" content="Nicholas Bagenda – Web Developer, Healing & Faith Resources" />
-  <meta property="og:description" content="Explore Nicholas Bagenda’s journey in web development, healing, and faith. Discover projects, articles, and resources to inspire and uplift." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://bagendanicholas.github.io/My-website-/" />
-  <meta property="og:image" content="https://i.postimg.cc/W3kM7rgd/20250518-101215.jpg" />
+  <!-- YouTube Shorts video centered -->
+  <div style="display: flex; justify-content: center; margin: 32px 0;">
+    <iframe width="320" height="570"
+      src="https://www.youtube.com/embed/7jEnqmA5Qqw"
+      title="YouTube Shorts Video"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen></iframe>
+  </div>
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Nicholas Bagenda – Web Developer, Healing & Faith Resources" />
-  <meta name="twitter:description" content="Explore Nicholas Bagenda’s journey in web development, healing, and faith. Discover projects, articles, and resources to inspire and uplift." />
-  <meta name="twitter:image" content="https://i.postimg.cc/W3kM7rgd/20250518-101215.jpg" />
+  <section id="home">
+    <h1>Welcome to My Website</h1>
+    <p>
+      <em>
+        "Welcome to my world 🌍—a space where code meets creativity, and dreams find their voice. Every section here tells part of my journey. Feel free to explore, connect, and maybe find a bit of yourself in it too."
+      </em>
+    </p>
+    <h2>Jump to a Section</h2>
+    <ul class="toc-list">
+      <li><a href="page2.html#about">About</a></li>
+      <li><a href="page2.html#projects">Projects</a></li>
+      <li><a href="page2.html#contact">Contact</a></li>
+      <li><a href="page2.html#god-presence">God’s Presence in the Darkness</a></li>
+      <li><a href="page2.html#toc">Table of Contents</a></li>
+      <li><a href="page2.html#chapter1">Chapter 1: The Mystery of Chronic Hand Dermatitis</a></li>
+      <li><a href="page2.html#chapter2">Chapter 2: Understanding Chronic Hand Dermatitis (CHD)</a></li>
+      <li><a href="page2.html#chapter3">Chapter 3: The Overlooked Culprit – Fungal Infections</a></li>
+      <li><a href="page2.html#getting-out-babylon">Getting Out of Babylon: Understanding Suffering and the Power of God</a></li>
+    </ul>
+  </section>
 
-  <!-- Schema.org Person -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Nicholas Bagenda",
-    "jobTitle": "Web Developer",
-    "url": "https://bagendanicholas.github.io/My-website-/",
-    "sameAs": [
-      "https://github.com/BagendaNicholas"
-    ]
-  }
+  <!-- Home Button -->
+  <button class="home-btn" onclick="window.location.href='index.html'" title="Go to Home" aria-label="Go to Home">
+    🏠
+  </button>
+
+  <script>
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+    });
   </script>
-
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About, Projects, Contact – Nicholas Bagenda</title>
+  <link rel="icon" href="/favicon.ico" />
   <style>
     body {
       opacity: 0;
@@ -61,6 +155,31 @@
     .fade-in.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+    .home-btn {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 100;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      font-size: 2em;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.11);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .home-btn:hover {
+      background: #0056b3;
+    }
+    @media (max-width: 900px) {
+      .home-btn { bottom: 16px; right: 16px; }
     }
     /* Modal Styles */
     .modal {
@@ -93,7 +212,6 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
-    /* Contact Form styling */
     #contact-form {
       max-width: 400px;
       margin: 20px auto;
@@ -124,32 +242,6 @@
     #contact-form button:hover {
       background: #0056b3;
     }
-    /* Home Button */
-    .home-btn {
-      position: fixed;
-      bottom: 32px;
-      right: 32px;
-      z-index: 100;
-      background: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      width: 56px;
-      height: 56px;
-      font-size: 2em;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.11);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.2s;
-    }
-    .home-btn:hover {
-      background: #0056b3;
-    }
-    @media (max-width: 900px) {
-      .home-btn { bottom: 16px; right: 16px; }
-    }
   </style>
 </head>
 <body>
@@ -165,36 +257,23 @@
   <nav>
     <div class="logo">MySite</div>
     <ul class="nav-links">
-      <li><a href="#home">Home</a></li>
+      <li><a href="index.html">Home</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
+      <li><a href="#god-presence">God’s Presence in Darkness</a></li>
+      <li><a href="#toc">Table of Contents</a></li>
+      <li><a href="#chapter1">Chapter 1: The Mystery of Chronic Hand Dermatitis</a></li>
+      <li><a href="#chapter2">Chapter 2: Understanding CHD</a></li>
+      <li><a href="#chapter3">Chapter 3: The Overlooked Culprit – Fungal Infections</a></li>
+      <li><a href="#getting-out-babylon">Getting Out of Babylon</a></li>
     </ul>
   </nav>
 
-  <!-- YouTube Shorts video nicely placed below navigation, centered -->
-  <div style="display: flex; justify-content: center; margin: 32px 0;">
-    <iframe width="320" height="570"
-      src="https://www.youtube.com/embed/7jEnqmA5Qqw"
-      title="YouTube Shorts Video"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen></iframe>
-  </div>
-
-  <!-- Home Button (appears on every page) -->
-  <button class="home-btn" onclick="window.location.hash='#home'" title="Go to Home" aria-label="Go to Home">
+  <!-- Home Button -->
+  <button class="home-btn" onclick="window.location.href='index.html'" title="Go to Home" aria-label="Go to Home">
     🏠
   </button>
-
-  <section id="home" class="fade-in">
-    <h1>Welcome to My Website</h1>
-    <p>
-      <em>
-        "Welcome to my world 🌍—a space where code meets creativity, and dreams find their voice. Every section here tells part of my journey. Feel free to explore, connect, and maybe find a bit of yourself in it too."
-      </em>
-    </p>
-  </section>
 
   <section id="about" class="fade-in">
     <h2>About Me</h2>
@@ -233,7 +312,7 @@
         "A simple website that shares truth, healing, and hope. Includes videos, audio messages, and downloadable resources for spiritual growth."
       </blockquote>
 
-      <h2 style="color: #2c3e50;">“God’s Presence in the Darkness”</h2>
+      <h2 id="god-presence" style="color: #2c3e50;">God’s Presence in the Darkness</h2>
       <p><strong>Key Scripture:</strong> Exodus 20:21 – “The people remained at a distance, while Moses approached the thick darkness where God was.”</p>
       <hr>
 
@@ -282,35 +361,19 @@
       
       <img src="https://i.postimg.cc/8kYvx5mq/IMG-202506173-093129305.png" alt="My Image" style="max-width:100%;height:auto;display:block;margin:1em 0;">
 
+      <section id="toc"></section>
       <div class="toc" style="background:#f8f9fa;border-left:4px solid #ccc;padding:1em;margin:1.5em 0;">
         <strong>TABLE OF CONTENTS</strong>
         <ol>
-          <li>Introduction – The Mystery of Chronic Hand Dermatitis</li>
-          <li>Understanding Chronic Hand Dermatitis (CHD)</li>
-          <li>The Overlooked Culprit: Fungal Infections</li>
-          <li>Key Differences Between Eczema and Fungal Infections</li>
-          <li>Misdiagnosis: The Consequences of Incorrect Treatment</li>
-          <li>Scientific Research and Case Studies</li>
-          <li>Real-Life Stories and Testimonials</li>
-          <li>Diagnosis: Identifying the Real Cause</li>
-          <li>Treatment Approaches: A Shift in Medical Perspective</li>
-          <li>Prevention and Patient Education</li>
-          <li>The Future of Dermatology: What Needs to Change?</li>
-          <li>Psychological Impact of Chronic Hand Dermatitis</li>
-          <li>Future Research and Emerging Treatments</li>
-          <li>The Role of Diet in Skin Health</li>
-          <li>Conclusion and Call to Action</li>
-          <li>References and Further Reading</li>
-          <li>Faith, Healing, and Skin Health: A Biblical Perspective</li>
-          <li>The Importance of Patience in the Healing Process</li>
-          <li>Community Awareness and Support Systems</li>
-          <li>Embracing God Healing Touch: A Final Word on Faith and Skin Health</li>
-          <li>A Message to the Reader — Walking in Wisdom and Wellness</li>
+          <li><a href="#chapter1">Introduction – The Mystery of Chronic Hand Dermatitis</a></li>
+          <li><a href="#chapter2">Understanding Chronic Hand Dermatitis (CHD)</a></li>
+          <li><a href="#chapter3">The Overlooked Culprit: Fungal Infections</a></li>
+          <li><a href="#getting-out-babylon">Getting Out of Babylon: Understanding Suffering and the Power of God</a></li>
         </ol>
       </div>
 
       <hr>
-
+      <section id="chapter1"></section>
       <div class="chapter-title emoji" style="font-size:1.3em;font-weight:bold;margin-top:2em;">🩺 Chapter 1: The Mystery of Chronic Hand Dermatitis</div>
       <img class="chapter-img" src="https://i.postimg.cc/6q8vyJtj/IMG-202506173-093138566.png" alt="Chapter 1 Image" style="margin:1em auto;display:block;">
       <img class="chapter-img" src="https://i.postimg.cc/cH93x4yt/IMG-202506173-093144449.png" alt="Chapter 1 Image" style="margin:1em auto;display:block;">
@@ -348,7 +411,7 @@
       </p>
 
       <hr>
-
+      <section id="chapter2"></section>
       <div class="chapter-title emoji" style="font-size:1.3em;font-weight:bold;margin-top:2em;">🩺 Chapter 2: Understanding Chronic Hand Dermatitis (CHD)</div>
       <img class="chapter-img" src="https://i.postimg.cc/4NhcGg8n/IMG-202506173-093156433.jpg" alt="Chapter 2 Image" style="margin:1em auto;display:block;">
 
@@ -386,7 +449,7 @@
         Proper understanding is the first step to breaking the cycle of misdiagnosis. Identifying the exact cause, avoiding triggers, and <strong>personalized treatment plans</strong> are key to managing CHD effectively.
       </p>
       <hr>
-
+      <section id="chapter3"></section>
       <div class="chapter-title emoji" style="font-size:1.3em;font-weight:bold;margin-top:2em;">🩺 Chapter 3: The Overlooked Culprit – Fungal Infections</div>
       <img class="chapter-img" src="https://i.postimg.cc/vZFVHNjh/IMG-202506173-093203366.jpg" alt="Chapter 3 Image" style="margin:1em auto;display:block;">
 
@@ -396,6 +459,7 @@
       </p>
 
       <h3 style="color: #2c3e50;">Getting Out of Babylon: Understanding Suffering and the Power of God</h3>
+      <section id="getting-out-babylon"></section>
       <h4>Introduction:</h4>
       <p>
         We live in a world full of distractions, confusion, and pain. The temptation to stay connected to the world’s systems—often symbolized as "Babylon"—pulls us away from the true peace God offers. Let’s look at why we suffer, where suffering comes from, and who is in charge of all suffering, to help us understand our journey out of Babylon and how to find true healing and peace in Christ.
@@ -446,7 +510,6 @@
     </form>
   </section>
 
-  <!-- EmailJS Script -->
   <script src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
   <script>
     emailjs.init('7rDjOLguEcDWzn3X2');
@@ -462,8 +525,6 @@
         });
     });
   </script>
-
-  <!-- Modal Script -->
   <script>
     const modal = document.getElementById('myModal');
     const openBtn = document.getElementById('openModal');
@@ -474,15 +535,11 @@
       if (e.target === modal) modal.style.display = 'none';
     };
   </script>
-
-  <!-- Page load and scroll animation -->
   <script>
-    // Page load animation
     window.addEventListener('load', () => {
       document.body.classList.add('loaded');
     });
 
-    // Scroll fade-in animation
     const faders = document.querySelectorAll('.fade-in');
     const appearOptions = { threshold: 0.1 };
     const appearOnScroll = new IntersectionObserver((entries, observer) => {
@@ -498,4 +555,4 @@
     });
   </script>
 </body>
-  </html>
+        </html>

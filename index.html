@@ -8,40 +8,73 @@
   <style>
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f7f9fb;
+      background: #181d2f;
       margin: 0;
       padding: 0;
-      color: #222;
+      color: #fff;
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 1s, transform 1s;
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
     body.loaded {
       opacity: 1;
       transform: translateY(0);
     }
+    .stars-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .star {
+      position: absolute;
+      font-size: 1.5em;
+      color: #ffd700;
+      opacity: 0.7;
+      animation: starPop 2.5s infinite;
+    }
+    @keyframes starPop {
+      0% { opacity: 0; transform: scale(0.5);}
+      20% { opacity: 1; transform: scale(1.2);}
+      40% { opacity: 1; transform: scale(1);}
+      80% { opacity: 0.5; transform: scale(0.9);}
+      100% { opacity: 0; transform: scale(0.5);}
+    }
+
     header {
       text-align: center;
-      padding: 40px 20px 20px 20px;
+      padding: 50px 20px 20px 20px;
+      position: relative;
+      z-index: 1;
     }
     .profile-pic {
       width: 130px;
       height: 130px;
       object-fit: cover;
       border-radius: 50%;
-      border: 4px solid #007bff;
-      box-shadow: 0 2px 14px rgba(0,0,0,0.08);
+      border: 4px solid #ffd700;
+      box-shadow: 0 2px 18px rgba(255,215,0,0.18);
       margin-bottom: 18px;
+      background: #181d2f;
     }
     h1 {
       font-size: 2em;
       margin: 0 0 10px;
+      color: #ffd700;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 8px #222, 0 0px 8px #ffd70044;
     }
     h2 {
       margin-top: 2.5em;
       font-size: 1.4em;
-      color: #007bff;
+      color: #ffd700;
       letter-spacing: 1px;
+      text-shadow: 0 2px 6px #222, 0 1px 7px #ffd70033;
     }
     .projects {
       display: flex;
@@ -49,34 +82,41 @@
       gap: 24px;
       justify-content: center;
       margin: 30px 0 40px 0;
+      z-index: 1;
+      position: relative;
     }
     .project-card {
-      background: #fff;
+      background: #23294a;
       border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      box-shadow: 0 2px 10px rgba(255,215,0,0.09);
       padding: 26px 20px;
       min-width: 220px;
       max-width: 320px;
       text-align: center;
-      transition: box-shadow 0.2s;
+      transition: box-shadow 0.2s, transform 0.2s;
       flex: 1 1 220px;
       position: relative;
+      color: #fff;
+      border: 2px solid #ffd70022;
     }
     .project-card:hover {
-      box-shadow: 0 4px 22px rgba(0,123,255,0.14);
+      box-shadow: 0 6px 22px rgba(255,215,0,0.14);
+      transform: translateY(-5px) scale(1.03);
+      border-color: #ffd70066;
     }
     .project-card a {
-      color: #007bff;
+      color: #ffd700;
       text-decoration: none;
       font-weight: 600;
       font-size: 1.1em;
       display: block;
       margin-bottom: 6px;
+      text-shadow: 0 1px 4px #181d2f;
     }
     .project-card p {
       font-size: 1em;
       margin: 0;
-      color: #444;
+      color: #e9e9e9;
     }
 
     .toc-list {
@@ -84,10 +124,12 @@
       padding: 0;
       max-width: 500px;
       margin: 40px auto 20px auto;
-      background: #fff;
+      background: #23294a;
       border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      border-left: 5px solid #007bff;
+      box-shadow: 0 2px 8px rgba(255,215,0,0.07);
+      border-left: 5px solid #ffd700;
+      position: relative;
+      z-index: 1;
     }
     .toc-list li {
       margin: 1.25em 0;
@@ -95,89 +137,102 @@
       padding-left: 20px;
     }
     .toc-list a {
-      color: #007bff;
+      color: #ffd700;
       text-decoration: none;
       transition: color 0.2s;
+      font-weight: 500;
     }
     .toc-list a:hover {
-      color: #0056b3;
+      color: #fffbe7;
       text-decoration: underline;
     }
     .contact-box {
       max-width: 500px;
       margin: 0 auto 36px auto;
-      background: #fff;
+      background: #23294a;
       border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      border-left: 5px solid #007bff;
+      box-shadow: 0 2px 8px rgba(255,215,0,0.07);
+      border-left: 5px solid #ffd700;
       padding: 24px 18px;
       font-size: 1.08em;
+      color: #fff;
+      z-index: 1;
+      position: relative;
     }
     .contact-box a {
-      color: #007bff;
+      color: #ffd700;
       text-decoration: none;
     }
     .contact-box a:hover {
       text-decoration: underline;
-      color: #0056b3;
+      color: #fffbe7;
     }
     .form-section {
       max-width: 500px;
       margin: 0 auto 36px auto;
-      background: #fff;
+      background: #23294a;
       border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      border-left: 5px solid #007bff;
+      box-shadow: 0 2px 8px rgba(255,215,0,0.07);
+      border-left: 5px solid #ffd700;
       padding: 24px 18px;
+      color: #fff;
+      z-index: 1;
+      position: relative;
     }
     #contact-form label {
       display: block;
       font-weight: bold;
       margin-top: 10px;
       margin-bottom: 4px;
+      color: #ffd700;
     }
     #contact-form input,
     #contact-form textarea {
       width: 100%;
       margin-bottom: 10px;
       padding: 8px;
-      border: 1px solid #ccc;
+      border: 1px solid #ffd70044;
       border-radius: 4px;
       font-family: inherit;
       font-size: 1em;
       box-sizing: border-box;
+      background: #181d2f;
+      color: #fff;
     }
     #contact-form button {
       padding: 10px 18px;
-      background: #007bff;
-      color: #fff;
+      background: #ffd700;
+      color: #23294a;
       border: none;
       border-radius: 4px;
       cursor: pointer;
       font-size: 1em;
       margin-top: 8px;
-      transition: background 0.2s;
+      font-weight: bold;
+      transition: background 0.2s, color 0.2s;
     }
     #contact-form button:hover {
-      background: #0056b3;
+      background: #fffbe7;
+      color: #181d2f;
     }
     .nav-btn {
       position: fixed;
       bottom: 28px;
       right: 28px;
-      background: #007bff;
-      color: white;
+      background: #ffd700;
+      color: #23294a;
       font-size: 1.9em;
       border-radius: 50%;
       padding: 0.6em 0.7em;
       border: none;
       cursor: pointer;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+      box-shadow: 0 4px 14px rgba(255,215,0,0.10);
       z-index: 100;
-      transition: background 0.2s;
+      transition: background 0.2s, color 0.2s;
     }
     .nav-btn:hover {
-      background: #0056b3;
+      background: #fffbe7;
+      color: #181d2f;
     }
     @media (max-width: 700px) {
       .projects { flex-direction: column; gap: 16px; }
@@ -191,12 +246,14 @@
   <script src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
 </head>
 <body>
+  <div class="stars-bg" id="stars-bg"></div>
+
   <header>
     <img src="https://i.postimg.cc/W3kM7rgd/20250518-101215.jpg" alt="Nicholas Bagenda" class="profile-pic" />
     <h1>Nicholas Bagenda</h1>
     <p>
       Ugandan web developer, digital dreamer, and storyteller. <br>
-      <em>“I don’t chase success—I create value, and success follows quietly.”</em>
+      <em style="color:#ffd700b5;">“I don’t chase success—I create value, and success follows quietly.”</em>
     </p>
   </header>
 
@@ -248,10 +305,11 @@
     <li><a href="page2.html#chapter2">Chapter 2: Understanding CHD</a></li>
     <li><a href="page2.html#chapter3">Chapter 3: The Overlooked Culprit – Fungal Infections</a></li>
     <li><a href="page2.html#getting-out-babylon">Getting Out of Babylon</a></li>
+    <li><a href="page2.html#video">YouTube Short</a></li>
   </ul>
 
   <!-- Button to go to page 2 -->
-  <button class="nav-btn" onclick="window.location.href='page2.html'" title="Go to details" aria-label="Go to details">➡️</button>
+  <button class="nav-btn" onclick="window.location.href='page2.html#video'" title="Go to details" aria-label="Go to details">➡️</button>
 
   <script>
     window.addEventListener('load', () => {
@@ -271,6 +329,35 @@
           console.error(error);
         });
     });
+
+    // Star animation generator
+    function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+    function createStars(num) {
+      const starsBg = document.getElementById('stars-bg');
+      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+      const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+      starsBg.innerHTML = '';
+      for (let i = 0; i < num; i++) {
+        const star = document.createElement('span');
+        star.className = 'star';
+        star.textContent = '🌟';
+        const x = randomInt(2, vw - 32);
+        const y = randomInt(10, vh - 32);
+        const delay = Math.random() * 2;
+        const duration = 1.5 + Math.random() * 2;
+        star.style.left = `${x}px`;
+        star.style.top = `${y}px`;
+        star.style.animationDelay = `${delay}s`;
+        star.style.animationDuration = `${duration}s`;
+        star.style.fontSize = `${randomInt(18,38)}px`;
+        starsBg.appendChild(star);
+      }
+    }
+    function redrawStars() {
+      createStars(window.innerWidth < 700 ? 15 : 26);
+    }
+    window.addEventListener('resize', redrawStars);
+    window.addEventListener('DOMContentLoaded', redrawStars);
   </script>
 </body>
-      </html>
+  </html>

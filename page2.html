@@ -329,6 +329,41 @@
       <h4>📥 <a href="https://github.com/BagendaNicholas/My-website-/blob/main/Getting%20Out%20of-WPS%20Office.pdf">Download Getting out of-WPS Office</a></h4>
     </section>
 
+  </div>
+    <!-- Floating "Back to Contents" Button -->
+<style>
+  #back-to-toc-btn {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    background: #2c3e50;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 0.65em 1.3em;
+    font-size: 1.05em;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.1);
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    opacity: 0.93;
+  }
+  #back-to-toc-btn:hover {
+    background: #34495e;
+    box-shadow: 0 4px 16px rgba(44,62,80,0.18);
+    opacity: 1;
+  }
+  #back-to-toc-btn .icon {
+    margin-right: 0.5em;
+    font-size: 1.2em;
+  }
+</style>
+<button id="back-btn" onclick="document.getElementById('toc').scrollIntoView({behavior: 'smooth'});">
+  <span class="icon">⬆️</span> Back to Contents
+</button>
+     <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Chapter 1 Illustration" style="display:block;margin:1.2em auto 1.7em auto;max-width:90%;border-radius:12px;box-shadow:0 2px 12px #e0c3fc55;">
     <section id="video" class="video-section">
       <h2>YouTube Short</h2>
       <iframe width="320" height="570"

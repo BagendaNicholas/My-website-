@@ -3,465 +3,278 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nicholas Bagenda – Home & Projects</title>
+  <title>Nicholas Bagenda – Home</title>
   <link rel="icon" href="/favicon.ico" />
-  
-  <!-- AdSense Code -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2816278854816808"
-     crossorigin="anonymous"></script>
-
+  <!-- Google Fonts for a modern look -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
   <style>
     html, body {
+      margin: 0;
+      padding: 0;
       height: 100%;
-      margin: 0;
-      padding: 0;
       box-sizing: border-box;
-    }
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #181d2f;
-      margin: 0;
-      padding: 0;
+      font-family: 'Open Sans', Arial, sans-serif;
+      background: linear-gradient(120deg, #23294a 0%, #181d2f 100%);
       color: #fff;
       min-height: 100vh;
-      overflow-x: hidden;
+    }
+    body {
       opacity: 0;
+      filter: blur(12px) brightness(0.85);
       transition: opacity 1.2s cubic-bezier(.77,0,.18,1), filter 1.8s cubic-bezier(.77,0,.18,1);
-      filter: blur(16px) brightness(0.7);
-      position: relative;
     }
     body.loaded {
       opacity: 1;
       filter: blur(0) brightness(1);
       transition: opacity 1.7s cubic-bezier(.23,1,.32,1), filter 2.2s cubic-bezier(.23,1,.32,1);
     }
-    .gradient-bg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      z-index: 0;
-      pointer-events: none;
-      background: radial-gradient(circle at 60% 20%, #ffd70033 0%, #181d2f 50%),
-                  linear-gradient(120deg, #ffd70022 0%, #23294a 100%);
-      opacity: 0.55;
-    }
-    .stars-bg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
-    }
-    .star {
-      position: absolute;
-      font-size: 1.5em;
-      color: #ffd700;
-      opacity: 0.7;
-      animation: starPop 2.5s infinite;
-    }
-    @keyframes starPop {
-      0% { opacity: 0; transform: scale(0.5);}
-      20% { opacity: 1; transform: scale(1.2);}
-      40% { opacity: 1; transform: scale(1);}
-      70% { opacity: 0.7; transform: scale(0.9);}
-      100% { opacity: 0; transform: scale(0.5);}
-    }
-
+    /* Navigation */
     nav {
-      width: 100%;
+      background: #181d2f;
+      box-shadow: 0 2px 18px #0003;
       padding: 18px 0;
       text-align: center;
-      background: #23294a;
-      box-shadow: 0 2px 10px #0001;
-      margin-bottom: 22px;
-      z-index: 2;
-      position: relative;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 2px solid #ffd70022;
+    }
+    nav .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.55em;
+      letter-spacing: 1.5px;
+      color: #ffd700;
+      font-weight: 700;
+      margin-right: 40px;
+      vertical-align: middle;
+      text-shadow: 0 2px 10px #ffd70044;
     }
     nav a {
       color: #ffd700;
       text-decoration: none;
-      font-weight: bold;
-      font-size: 1.1em;
-      margin: 0 16px;
-      transition: color 0.2s;
-    }
-    nav a:hover {
-      color: #fffbe7;
-      text-decoration: underline;
-    }
-
-    header {
-      text-align: center;
-      padding: 50px 20px 20px 20px;
+      font-weight: 600;
+      font-size: 1.08em;
+      margin: 0 13px;
+      transition: color 0.22s cubic-bezier(.77,0,.18,1);
+      letter-spacing: .5px;
       position: relative;
-      z-index: 1;
-      animation: headerDrop 1.2s cubic-bezier(.77,0,.18,1);
     }
-    @keyframes headerDrop {
-      0% { opacity: 0; transform: translateY(-40px) scale(0.9);}
-      70% { opacity: 1; transform: translateY(10px) scale(1.05);}
-      100% { opacity: 1; transform: translateY(0) scale(1);}
+    nav a:hover, nav a.active {
+      color: #fffbe7;
+      text-shadow: 0 1px 6px #ffd70099;
+    }
+    /* Hero */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 370px;
+      padding: 60px 20px 25px 20px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
     }
     .profile-pic {
-      width: 130px;
-      height: 130px;
+      width: 145px;
+      height: 145px;
       object-fit: cover;
       border-radius: 50%;
       border: 4px solid #ffd700;
-      box-shadow: 0 2px 18px rgba(255,215,0,0.18);
-      margin-bottom: 18px;
+      box-shadow: 0 2px 22px #ffd70055;
+      margin-bottom: 16px;
       background: #181d2f;
-      transition: box-shadow 0.7s cubic-bezier(.77,0,.18,1);
+      transition: box-shadow 0.6s cubic-bezier(.77,0,.18,1);
     }
     .profile-pic:hover {
-      box-shadow: 0 8px 38px 0 #ffd700b3;
-      filter: brightness(1.07) drop-shadow(0 0 6px #ffd70088);
-      transition: box-shadow 0.27s cubic-bezier(.77,0,.18,1);
+      box-shadow: 0 8px 38px 0 #ffd700e3;
+      filter: brightness(1.05) drop-shadow(0 0 8px #ffd700);
     }
-    h1 {
-      font-size: 2em;
-      margin: 0 0 10px;
+    .hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.25em;
+      margin: 0 0 8px;
       color: #ffd700;
       letter-spacing: 2px;
-      text-shadow: 0 2px 8px #222, 0 0px 8px #ffd70044;
-      animation: textFadeIn 1.7s cubic-bezier(.77,0,.18,1) 0.5s backwards;
+      text-shadow: 0 2px 10px #222, 0 1px 9px #ffd70044;
+      font-weight: 700;
     }
-    @keyframes textFadeIn {
-      0% { opacity: 0; letter-spacing: 0; }
-      100% { opacity: 1; letter-spacing: 2px;}
+    .hero p {
+      font-size: 1.18em;
+      color: #fff;
+      max-width: 440px;
+      margin: 0 auto 12px;
+      text-shadow: 0 2px 8px #222;
+      line-height: 1.5;
     }
-    h2 {
-      margin-top: 2.5em;
-      font-size: 1.4em;
-      color: #ffd700;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 6px #222, 0 1px 7px #ffd70033;
+    .hero em {
+      color: #ffd700cc;
+      font-size: 1.05em;
+      font-style: italic;
+      display: block;
+      margin-top: 7px;
+      letter-spacing: .2px;
     }
-    .projects {
+    /* Quick Nav Cards */
+    .quick-links {
       display: flex;
       flex-wrap: wrap;
-      gap: 24px;
+      gap: 30px;
       justify-content: center;
-      margin: 30px 0 40px 0;
+      margin: 35px 0 50px 0;
       z-index: 1;
       position: relative;
-      animation: fadeUp 1.2s cubic-bezier(.77,0,.18,1);
     }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(50px) scale(0.95);}
-      to { opacity: 1; transform: translateY(0) scale(1);}
-    }
-    .project-card {
-      background: #23294a;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(255,215,0,0.09);
-      padding: 26px 20px;
-      min-width: 220px;
-      max-width: 320px;
+    .quick-card {
+      background: linear-gradient(120deg, #23294a 70%, #ffd70022 100%);
+      border-radius: 13px;
+      box-shadow: 0 2px 14px #ffd70019;
+      padding: 32px 30px 26px 30px;
+      min-width: 180px;
+      max-width: 245px;
       text-align: center;
-      transition: box-shadow 0.2s, transform 0.2s;
-      flex: 1 1 220px;
-      position: relative;
+      transition: box-shadow 0.17s, transform 0.2s;
       color: #fff;
-      border: 2px solid #ffd70022;
-      animation: projectPop 1.1s cubic-bezier(.77,0,.18,1);
+      border: 2px solid #ffd70018;
+      font-weight: 600;
+      font-size: 1.15em;
+      position: relative;
+      cursor: pointer;
+      outline: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      animation: cardShow 1.1s cubic-bezier(.77,0,.18,1);
     }
-    @keyframes projectPop {
+    @keyframes cardShow {
       0% { opacity: 0; transform: scale(0.7);}
-      50% { opacity: 0.8; transform: scale(1.1);}
+      60% { opacity: .8; transform: scale(1.08);}
       100% { opacity: 1; transform: scale(1);}
     }
-    .project-card:hover {
-      box-shadow: 0 6px 22px rgba(255,215,0,0.14);
-      transform: translateY(-5px) scale(1.03);
-      border-color: #ffd70066;
-    }
-    .project-card a {
+    .quick-card:hover {
+      box-shadow: 0 6px 28px #ffd70099;
+      transform: translateY(-6px) scale(1.03);
+      border-color: #ffd70088;
       color: #ffd700;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1.1em;
-      display: block;
-      margin-bottom: 6px;
-      text-shadow: 0 1px 4px #181d2f;
-      transition: color 0.3s cubic-bezier(.77,0,.18,1);
+      background: linear-gradient(120deg, #2b3156 60%, #ffd70046 100%);
     }
-    .project-card a:hover {
-      color: #fffbe7;
+    .quick-card .icon {
+      font-size: 2.1em;
+      margin-bottom: 5px;
+      color: #ffd700;
+      filter: drop-shadow(0 0 5px #ffd70044);
+      transition: color 0.3s;
     }
-    .project-card p {
-      font-size: 1em;
-      margin: 0;
-      color: #e9e9e9;
-    }
-
-    .toc-list {
-      list-style: none;
-      padding: 0;
-      max-width: 500px;
-      margin: 40px auto 20px auto;
+    /* Contact Section */
+    .contact-info {
       background: #23294a;
       border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(255,215,0,0.07);
+      padding: 19px 22px;
+      margin: 30px auto 32px auto;
+      box-shadow: 0 2px 8px #ffd70022;
       border-left: 5px solid #ffd700;
-      position: relative;
-      z-index: 1;
-      animation: fadeUp 1.3s cubic-bezier(.77,0,.18,1) 0.2s backwards;
-    }
-    .toc-list li {
-      margin: 1.25em 0;
-      font-size: 1.08em;
-      padding-left: 20px;
-      transition: background 0.2s cubic-bezier(.77,0,.18,1);
-      border-radius: 8px;
-    }
-    .toc-list a {
-      color: #ffd700;
-      text-decoration: none;
-      transition: color 0.2s cubic-bezier(.77,0,.18,1);
-      font-weight: 500;
-    }
-    .toc-list a:hover {
-      color: #fffbe7;
-      text-decoration: underline;
-    }
-    .contact-box {
-      max-width: 500px;
-      margin: 0 auto 36px auto;
-      background: #23294a;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(255,215,0,0.07);
-      border-left: 5px solid #ffd700;
-      padding: 24px 18px;
-      font-size: 1.08em;
+      max-width: 470px;
+      font-size: 1.13em;
       color: #fff;
-      z-index: 1;
       position: relative;
-      animation: fadeUp 1.2s cubic-bezier(.77,0,.18,1) 0.3s backwards;
-    }
-    .contact-box a {
-      color: #ffd700;
-      text-decoration: none;
-      transition: color 0.2s cubic-bezier(.77,0,.18,1);
-    }
-    .contact-box a:hover {
-      text-decoration: underline;
-      color: #fffbe7;
-    }
-    .form-section {
-      max-width: 500px;
-      margin: 0 auto 36px auto;
-      background: #23294a;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(255,215,0,0.07);
-      border-left: 5px solid #ffd700;
-      padding: 24px 18px;
-      color: #fff;
-      z-index: 1;
-      position: relative;
+      z-index: 2;
       animation: fadeUp 1.2s cubic-bezier(.77,0,.18,1) 0.4s backwards;
     }
-    #contact-form label {
-      display: block;
-      font-weight: bold;
-      margin-top: 10px;
-      margin-bottom: 4px;
+    .contact-info a {
       color: #ffd700;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
     }
-    #contact-form input,
-    #contact-form textarea {
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 8px;
-      border: 1px solid #ffd70044;
-      border-radius: 4px;
-      font-family: inherit;
+    .contact-info a:hover {
+      color: #fffbe7;
+      text-decoration: underline;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(44px) scale(.93);}
+      to { opacity: 1; transform: translateY(0) scale(1);}
+    }
+    /* Footer */
+    footer {
+      background: #23294a;
+      color: #ffd700bb;
+      text-align: center;
+      padding: 22px 7px 15px;
       font-size: 1em;
-      box-sizing: border-box;
-      background: #181d2f;
-      color: #fff;
-      transition: box-shadow 0.2s cubic-bezier(.77,0,.18,1);
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 1px;
+      box-shadow: 0 -2px 12px #ffd70011;
+      margin-top: 40px;
     }
-    #contact-form input:focus,
-    #contact-form textarea:focus {
-      outline: none;
-      box-shadow: 0 0 8px #ffd70066;
+    /* Responsive */
+    @media (max-width: 850px) {
+      .quick-links { gap: 13px;}
+      .quick-card { min-width: 120px; max-width: 98vw; padding: 20px 5vw;}
+      .contact-info { margin: 22px 3vw 24px 3vw;}
     }
-    #contact-form button {
-      padding: 10px 18px;
-      background: #ffd700;
-      color: #23294a;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 1em;
-      margin-top: 8px;
-      font-weight: bold;
-      transition: background 0.2s, color 0.2s;
-    }
-    #contact-form button:hover {
-      background: #fffbe7;
-      color: #181d2f;
-    }
-    .nav-btn {
-      position: fixed;
-      bottom: 28px;
-      right: 28px;
-      background: #ffd700;
-      color: #23294a;
-      font-size: 1.9em;
-      border-radius: 50%;
-      padding: 0.6em 0.7em;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 4px 14px rgba(255,215,0,0.10);
-      z-index: 100;
-      transition: background 0.2s, color 0.2s, transform 0.18s cubic-bezier(.77,0,.18,1);
-      animation: btnPulse 1.5s infinite alternate cubic-bezier(.77,0,.18,1);
-    }
-    @keyframes btnPulse {
-      0% { transform: scale(1);}
-      100% { transform: scale(1.08);}
-    }
-    .nav-btn:hover {
-      background: #fffbe7;
-      color: #181d2f;
-      transform: scale(1.15);
-    }
-    @media (max-width: 700px) {
-      .projects { flex-direction: column; gap: 16px; }
-      .project-card { max-width: 95vw; }
-      .toc-list { margin: 30px 7vw 20px 7vw; }
-      .contact-box, .form-section { margin: 0 7vw 30px 7vw;}
-      .nav-btn { bottom: 13px; right: 13px;}
+    @media (max-width: 600px) {
+      .hero { min-height: 140px; padding: 35px 4vw 10px 4vw;}
+      nav .logo { margin-right: 10px;}
     }
   </style>
-  <!-- EmailJS CDN for contact form -->
-  <script src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
 </head>
 <body>
-  <div class="gradient-bg"></div>
-  <div class="stars-bg" id="stars-bg"></div>
-
   <nav>
-    <a href="#home">Home</a> |
-    <a href="#projects">Projects</a> |
+    <span class="logo">Nicholas Bagenda</span>
+    <a href="index.html" class="active">Home</a>
+    <a href="index2.html">Documents & Books</a>
+    <a href="index3.html">Audio & Video</a>
+    <a href="index4.html">Inspiration</a>
     <a href="#contact">Contact</a>
   </nav>
 
-  <header id="home">
-    <img src="https://i.postimg.cc/W3kM7rgd/20250518-101215.jpg" alt="Nicholas Bagenda" class="profile-pic" />
+  <section class="hero">
+    <img src="https://i.postimg.cc/W3kM7rgd/20250518-101215.jpg" class="profile-pic" alt="Nicholas Bagenda" />
     <h1>Nicholas Bagenda</h1>
     <p>
-      Ugandan web developer, digital dreamer, and storyteller. <br>
-      <em style="color:#ffd700b5;">“I don’t chase success—I create value, and success follows quietly.”</em>
+      Ugandan web developer, digital dreamer, and storyteller.<br>
+      <em>“I don’t chase success—I create value, and success follows quietly.”</em>
     </p>
-  </header>
+  </section>
 
-  <section class="contact-box" id="contact">
-    <h2>Contact</h2>
-    📞 Call or WhatsApp: <br>
+  <div class="quick-links">
+    <a href="index2.html" class="quick-card" title="Documents & Books">
+      <span class="icon">📚</span>
+      Documents & Books
+      <span style="font-size:0.9em;font-weight:400;color:#ffd70099;">PDFs, guides, & more</span>
+    </a>
+    <a href="index3.html" class="quick-card" title="Audio & Video">
+      <span class="icon">🎧</span>
+      Audio & Video
+      <span style="font-size:0.9em;font-weight:400;color:#ffd70099;">Listen & Watch</span>
+    </a>
+    <a href="index4.html" class="quick-card" title="Inspiration">
+      <span class="icon">✨</span>
+      Inspiration
+      <span style="font-size:0.9em;font-weight:400;color:#ffd70099;">Faith & Motivation</span>
+    </a>
+  </div>
+
+  <section class="contact-info" id="contact">
+    <strong>Contact</strong><br>
+    📞 Call or WhatsApp: 
     <a href="tel:+256742367077">+256 742 367 077</a> / 
     <a href="tel:+256766435379">+256 766 435 379</a>
     <br>
-    <span>Email: </span>
+    ✉️ Email: 
     <a href="mailto:bagendanicholas@gmail.com">bagendanicholas@gmail.com</a>
   </section>
 
-  <section class="form-section">
-    <h2>Send me a message</h2>
-    <form id="contact-form">
-      <label>Your Name</label>
-      <input type="text" name="from_name" required>
-      <label>Your Email</label>
-      <input type="email" name="reply_to" required>
-      <label>Your Message</label>
-      <textarea name="message" required></textarea>
-      <button type="submit">Send</button>
-    </form>
-  </section>
-
-  <h2 id="projects">Projects</h2>
-  <section class="projects">
-    <div class="project-card">
-      <a href="https://bagendanicholas.websites.co.in/" target="_blank">Personal Website</a>
-      <p>My portfolio and personal space for sharing ideas and updates.</p>
-    </div>
-    <div class="project-card">
-      <a href="https://healingwithtruth.simdif.com/" target="_blank">Healing With Truth</a>
-      <p>Resources and inspiration for spiritual and emotional healing.</p>
-    </div>
-    <div class="project-card">
-      <a href="https://bagendanicholas.github.io/My-website-/" target="_blank">GitHub Pages Website</a>
-      <p>This website – built with GitHub Pages and HTML/CSS.</p>
-    </div>
-  </section>
-
-  <h2>Table of Contents</h2>
-  <ul class="toc-list">
-    <li><a href="page2.html#about">About Me</a></li>
-    <li><a href="page2.html#contact">Contact</a></li>
-    <li><a href="page2.html#god-presence">God’s Presence in Darkness</a></li>
-    <li><a href="page2.html#chapter1">Chapter 1: The Mystery of Chronic Hand Dermatitis</a></li>
-    <li><a href="page2.html#chapter2">Chapter 2: Understanding CHD</a></li>
-    <li><a href="page2.html#chapter3">Chapter 3: The Overlooked Culprit – Fungal Infections</a></li>
-    <li><a href="page2.html#getting-out-babylon">Getting Out of Babylon</a></li>
-    <li><a href="page2.html#video">YouTube Short</a></li>
-  </ul>
-
-  <!-- Button to go to page 2 -->
-  <button class="nav-btn" onclick="window.location.href='page2.html#video'" title="Go to details" aria-label="Go to details">➡️</button>
+  <footer>
+    &copy; 2025 Nicholas Bagenda. All rights reserved.<br>
+    <span style="font-size:0.98em;color:#ffd70077;">A simple website that shares truth, healing, and hope.</span>
+  </footer>
 
   <script>
     window.addEventListener('load', () => {
       document.body.classList.add('loaded');
     });
-
-    // EmailJS form handler
-    emailjs.init('7rDjOLguEcDWzn3X2');
-    document.getElementById('contact-form').addEventListener('submit', function(event) {
-      event.preventDefault();
-      emailjs.sendForm('service_8q8dc7h', 'template_t76v6a4', this)
-        .then(() => {
-          alert('Message sent successfully!');
-          this.reset();
-        }, (error) => {
-          alert('Failed to send message. Please try again.');
-          console.error(error);
-        });
-    });
-
-    // Star animation generator
-    function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
-    function createStars(num) {
-      const starsBg = document.getElementById('stars-bg');
-      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-      const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
-      starsBg.innerHTML = '';
-      for (let i = 0; i < num; i++) {
-        const star = document.createElement('span');
-        star.className = 'star';
-        star.textContent = '🌟';
-        const x = randomInt(2, vw - 32);
-        const y = randomInt(10, vh - 32);
-        const delay = Math.random() * 2;
-        const duration = 1.5 + Math.random() * 2;
-        star.style.left = `${x}px`;
-        star.style.top = `${y}px`;
-        star.style.animationDelay = `${delay}s`;
-        star.style.animationDuration = `${duration}s`;
-        star.style.fontSize = `${randomInt(18,38)}px`;
-        starsBg.appendChild(star);
-      }
-    }
-    function redrawStars() {
-      createStars(window.innerWidth < 700 ? 15 : 26);
-    }
-    window.addEventListener('resize', redrawStars);
-    window.addEventListener('DOMContentLoaded', redrawStars);
   </script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2816278854816808"
-     crossorigin="anonymous"></script>
 </body>
 </html>

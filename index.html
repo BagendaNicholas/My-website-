@@ -53,14 +53,17 @@
       padding: 7px 0;
     }
     .shining-name {
-      background: linear-gradient(92deg, #ffd700 20%, #f7e9a5 40%, #ffd700 60%, #f7e9a5 80%, #ffd700 100%);
+      background: linear-gradient(92deg, #41ff41 30%, #04e004 60%, #41ff41 90%);
       background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: shineText 3.6s linear infinite alternate;
       position: relative;
       padding: 0 13px;
-      filter: drop-shadow(0 0 8px #ffd700cc);
+      filter: drop-shadow(0 0 8px #41ff41cc);
+      font-weight: 900;
+      /* fallback for non-webkit browsers */
+      color: #29d829;
     }
     @keyframes shineText {
       0% { background-position: 0% 50%; }
@@ -524,4 +527,4 @@
     });
   </script>
 </body>
-      </html>
+</html>

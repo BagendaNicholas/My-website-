@@ -404,7 +404,7 @@
       <span class="shining-name">✨️💛💖 Nicholas Bagenda ✨️💛💖</span>
       <span class="shining-name">✨️💛💖 Nicholas Bagenda ✨️💛💖</span>
       <span class="shining-name">✨️💛💖 Nicholas Bagenda ✨️💛💖</span>
-      <!-- repeat for seamless marquee -->
+     
     </div>
   </div>
 
@@ -431,25 +431,8 @@
       </em>
     </p>
   </section>
-  <!-- ... keep everything above this ... -->
-
-  <section class="hero">
-    <img src="https://i.postimg.cc/W3kM7rgd/20250518-101215.jpg" class="profile-pic" alt="Nicholas Bagenda" />
-    <h1>
-      <span class="sparkle">✨️</span> Nicholas Bagenda <span class="sparkle">💛</span> <span class="sparkle">💖</span>
-    </h1>
-    <p>
-      Ugandan web developer, digital dreamer, and storyteller.<br>
-      <em>
-        <span class="sparkle">✨️</span>
-        “I don’t chase success—I create value, and success follows quietly.”
-        <span class="sparkle">💛</span>
-      </em>
-    </p>
-  </section>
-
-  <!-- About Me Section (matching style) -->
-  <section id="about-me" class="about-me-section">
+ 
+    <section id="about-me" class="about-me-section-dark">
     <h2>
       <span class="sparkle">💚</span> About Me <span class="sparkle">💚</span>
     </h2>
@@ -465,6 +448,58 @@
     </p>
   </section>
 
+
+<style>
+   .about-me-section-dark {
+    max-width: 650px;
+    margin: 0 auto 40px auto;
+    background: linear-gradient(120deg, #23294a 70%, #181d2f 100%);
+    color: #d6ffd6;
+    border-radius: 15px;
+    box-shadow: 0 2px 16px #ffd70022;
+    padding: 32px 24px;
+    text-align: center;
+    animation: fadeUp 1.2s cubic-bezier(.77,0,.18,1) 0.33s backwards;
+    border: 2px solid #28c92844;
+    position: relative;
+    z-index: 2;
+  }
+  .about-me-section-dark h2 {
+    color: #41ff41;
+    letter-spacing: 1px;
+    margin-top: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2em;
+    font-weight: 700;
+    text-shadow: 0 2px 8px #41ff4188, 0 1px 8px #23294a;
+  }
+  .about-me-section-dark p {
+    font-size: 1.16em;
+    line-height: 1.7;
+    margin: 0.7em 0;
+    color: #eaffea;
+  }
+  .about-me-section-dark em {
+    font-size: 1.09em;
+    color: #82ffb3;
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 5px #27382b88;
+  }
+  .about-me-section-dark .sparkle {
+    font-size: 1.2em;
+    vertical-align: middle;
+    animation: sparklePulse 2.2s infinite alternate;
+    margin: 0 2px;
+    filter: drop-shadow(0 0 8px #41ff41cc);
+  }
+  @media (max-width: 700px) {
+    .about-me-section-dark {
+      padding: 22px 6vw;
+    }
+  }
+</style>
   
   <style>
     .about-me-section {

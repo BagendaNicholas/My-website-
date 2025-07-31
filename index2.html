@@ -69,7 +69,7 @@
       100% { filter: drop-shadow(0 0 26px #ffd700cc);}
     }
     .container {
-      max-width: 800px;
+      max-width: 880px;
       margin: 0 auto 70px auto;
       padding: 38px 15px 50px 15px;
       background: linear-gradient(120deg, #23294a 70%, #181d2f 100%);
@@ -88,7 +88,6 @@
       font-family: 'Montserrat', sans-serif;
       letter-spacing: 1px;
       font-weight: 700;
-      margin-top: 2.2em;
     }
     h1 {
       margin-bottom: 0.3em;
@@ -98,91 +97,67 @@
       text-shadow: 0 2px 8px #ffd70033;
     }
     h2 {
-      font-size: 1.35em;
-      margin-bottom: 0.8em;
-      margin-top: 2.2em;
+      font-size: 1.32em;
+      margin: 2em 0 1.1em 0;
       color: #41ff41;
       text-shadow: 0 2px 8px #41ff4199;
     }
     h3 {
-      font-size: 1.15em;
+      font-size: 1.16em;
       margin-bottom: 0.5em;
       color: #ffd700;
     }
-    .toc {
+    .book-toc-card {
       background: #222944;
       border-left: 5px solid #ffd700cc;
       border-radius: 10px;
-      padding: 1.3em 1.3em 1em 1.3em;
-      margin: 2.4em 0 2.4em 0;
+      padding: 1.5em 1.3em 1.4em 1.3em;
+      margin: 2.2em 0 2.2em 0;
       box-shadow: 0 2px 8px #ffd70018;
+      transition: box-shadow 0.2s;
+      margin-bottom: 38px;
     }
-    .toc strong {
+    .book-toc-card:hover {
+      box-shadow: 0 4px 18px #ffd70044;
+    }
+    .book-title {
       color: #ffd700;
-      font-size: 1.15em;
-      letter-spacing: 1px;
+      font-size: 1.22em;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: bold;
+      margin-bottom: 0.7em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    .toc ol {
-      margin: 1em 0 0 1.2em;
+    .book-title .book-emoji {
+      font-size: 1.25em;
+      margin-right: 2px;
+    }
+    .book-desc {
+      color: #eaffea;
+      font-size: 1.07em;
+      margin: 0.7em 0 1.2em 0;
+    }
+    .book-toc-list {
+      margin: 0.9em 0 0 1.2em;
       color: #eaffea;
       padding-left: 0;
+      font-size: 1.06em;
     }
-    .toc li a {
+    .book-toc-list li {
+      margin-bottom: 0.3em;
+      line-height: 1.7;
+    }
+    .book-toc-list a {
       color: #41ff41;
       text-decoration: none;
       font-weight: 500;
       transition: color 0.18s;
     }
-    .toc li a:hover {
+    .book-toc-list a:hover {
       color: #ffd700;
       text-decoration: underline;
-    }
-    .doc-card {
-      background: #23294a;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px #ffd70014;
-      padding: 22px 20px 18px 20px;
-      margin-bottom: 30px;
-      color: #eaffea;
-      border-left: 4px solid #41ff41bb;
-      transition: box-shadow 0.2s, border-color 0.2s;
-      animation: fadeUp 1.1s cubic-bezier(.77,0,.18,1);
-    }
-    .doc-card:hover {
-      box-shadow: 0 6px 22px #ffd70014;
-      border-color: #ffd700;
-    }
-    .doc-card h3 {
-      margin-top: 0;
-      color: #ffd700;
-    }
-    .doc-card p {
-      margin: 0.7em 0 0.6em 0;
-      color: #eaffea;
-      font-size: 1.06em;
-    }
-    .doc-card .doc-link {
-      color: #41ff41;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1.05em;
-      transition: color 0.2s;
-      word-break: break-all;
-    }
-    .doc-card .doc-link:hover {
-      color: #ffd700;
-      text-decoration: underline;
-    }
-    .doc-card .doc-icon {
-      font-size: 1.4em;
-      vertical-align: middle;
-      margin-right: 7px;
-      filter: drop-shadow(0 0 5px #41ff41cc);
-      animation: sparklePulse 2.2s infinite alternate;
-    }
-    @keyframes sparklePulse {
-      0% { filter: drop-shadow(0 0 0px #41ff41aa);}
-      100% { filter: drop-shadow(0 0 10px #ffd700bb);}
     }
     /* Floating Buttons */
     .fab {
@@ -234,79 +209,102 @@
     <a href="index4.html">Inspiration</a>
   </nav>
   <div class="container">
-    <h1>Documents & Books <span class="doc-icon">📚</span></h1>
-    <div class="toc" id="toc">
-      <strong>TABLE OF CONTENTS</strong>
-      <ol>
-        <li><a href="#spiritual-growth">Spiritual Growth & Inspiration</a></li>
-        <li><a href="#healing-truths">Healing & Medical Truths</a></li>
-        <li><a href="#downloads">Downloads & Resources</a></li>
+    <h1>Documents & Books <span style="font-size:1.1em;">📚</span></h1>
+    
+    <!-- Book 1 TOC -->
+    <div class="book-toc-card">
+      <div class="book-title"><span class="book-emoji">📘</span> Breaking the Chains: A Biblical Journey to Freedom from Addiction and Harmful Habits</div>
+      <div class="book-desc">
+        <strong>Subtitle:</strong> Finding Healing, Hope, and Victory Through God’s Word<br>
+        <strong>Author:</strong> Bagenda Nicholas &mdash; <a href="mailto:nicholasbagenda@gmail.com" style="color:#ffd700;">nicholasbagenda@gmail.com</a><br>
+        <strong>Phone:</strong> +256742367077
+      </div>
+      <ol class="book-toc-list">
+        <li><a href="notice_chains1.html">1. Introduction: Understanding the Chains of Addiction</a></li>
+        <li><a href="notice_chains2.html">2. Addiction Defined: Spiritual, Physical, and Emotional Bondage</a></li>
+        <li><a href="notice_chains3.html">3. The Root Causes: Sin, Trauma, and Idolatry</a></li>
+        <li><a href="notice_chains4.html">4. The First Sip, the First Smoke — Where It Begins</a></li>
+        <li><a href="notice_chains5.html">5. The Power of Peer Pressure and Social Influence</a></li>
+        <li><a href="notice_chains6.html">6. The Deceptive Appeal of Pleasure and Escape</a></li>
+        <li><a href="notice_chains7.html">7. The Addicted Mind: How the Brain Gets Rewired</a></li>
+        <li><a href="notice_chains8.html">8. The Lies We Believe About Alcohol, Drugs, and Tobacco</a></li>
+        <!-- Add more chapters as needed, keep same pattern -->
+        <li><a href="notice_chains41.html">41. Final Warning: Choose Life, Not Bondage (Deut. 30:19)</a></li>
+        <li><a href="notice_chains42.html">42. Conclusion: From Chains to Christ – A New Beginning</a></li>
       </ol>
     </div>
-    <section id="spiritual-growth">
-      <h2>Spiritual Growth & Inspiration</h2>
-      <div class="doc-card">
-        <span class="doc-icon">✨️</span>
-        <h3>God’s Presence in the Darkness</h3>
-        <p>
-          Explore how God meets us in our darkest moments, offering hope, comfort, and transformation. Includes key scriptures and real-life encouragement.
-        </p>
-        <a class="doc-link" href="index.html#god-presence">Read online</a>
+    
+    <!-- Book 2 TOC -->
+    <div class="book-toc-card">
+      <div class="book-title"><span class="book-emoji">📝</span> Getting Out of Babylon: Understanding Suffering and the Power of God</div>
+      <div class="book-desc">
+        <strong>Author:</strong> Bagenda Nicholas <br>
+        <strong>Contact:</strong> <a href="mailto:nicholasbagenda@gmail.com" style="color:#ffd700;">nicholasbagenda@gmail.com</a> | +256742367077
       </div>
-      <div class="doc-card">
-        <span class="doc-icon">💡</span>
-        <h3>Getting Out of Babylon: Understanding Suffering and the Power of God</h3>
-        <p>
-          Discover the biblical perspective on suffering, Babylon's influence, and the path to true peace and healing in Christ.
-        </p>
-        <a class="doc-link" href="index.html#getting-out-babylon">Read online</a> |
-        <a class="doc-link" href="https://github.com/BagendaNicholas/My-website-/blob/main/Getting%20Out%20of-WPS%20Office.pdf" target="_blank">Download PDF</a>
+      <ol class="book-toc-list">
+        <li><a href="notice_babylon1.html">1. Introduction</a></li>
+        <li><a href="notice_babylon2.html">2. Why Do We Suffer?</a></li>
+        <li><a href="notice_babylon3.html">3. Where Does Suffering Come From?</a></li>
+        <li><a href="notice_babylon4.html">4. Who is in Charge of All Suffering?</a></li>
+        <li><a href="notice_babylon5.html">5. Conclusion: Breaking Free from Babylon’s Suffering</a></li>
+        <li><a href="notice_babylon6.html">6. Come Out of Babylon – A Call to Action</a></li>
+      </ol>
+    </div>
+    
+    <!-- Book 3 TOC -->
+    <div class="book-toc-card">
+      <div class="book-title"><span class="book-emoji">📖</span> Am The Creator: A Divine Reflection on Creation, Prophecy, and the Human Journey</div>
+      <div class="book-desc">
+        <strong>Author:</strong> Bagenda Nicholas (as the Voice of the Creator)<br>
+        <strong>Email:</strong> <a href="mailto:nicholasbagenda@gmail.com" style="color:#ffd700;">nicholasbagenda@gmail.com</a> | <strong>Phone:</strong> +256742367077
       </div>
-    </section>
-    <section id="healing-truths">
-      <h2>Healing & Medical Truths</h2>
-      <div class="doc-card">
-        <span class="doc-icon">🩺</span>
-        <h3>The Mystery of Chronic Hand Dermatitis</h3>
-        <p>
-          Learn about CHD, its common misdiagnoses, and the power of proper diagnosis for real healing. Includes images and practical advice.
-        </p>
-        <a class="doc-link" href="index.html#chapter1">Read Chapter 1</a>
+      <ol class="book-toc-list">
+        <li><a href="notice_creator1.html">1. In the Beginning, I Spoke – The birth of existence</a></li>
+        <li><a href="notice_creator2.html">2. The Canvas Was Empty – Emptiness before form; watchers arrive</a></li>
+        <li><a href="notice_creator3.html">3. I Made You In My Image – The gift of identity and will</a></li>
+        <li><a href="notice_creator4.html">4. They Chose the Fire – The fall, disobedience, and freedom</a></li>
+        <!-- ...continue for all chapters up to 20, matching your book structure -->
+        <li><a href="notice_creator20.html">20. Am The Creator, So Are You – Humanity called to rise again, divinely</a></li>
+      </ol>
+    </div>
+    
+    <!-- Book 4 TOC -->
+    <div class="book-toc-card">
+      <div class="book-title"><span class="book-emoji">🩺</span> The Hidden Truth: Fungal Infections and Chronic Hand Dermatitis</div>
+      <div class="book-desc">
+        <strong>Subtitle:</strong> A Comprehensive Guide to Understanding, Preventing, and Managing Skin Conditions<br>
+        <strong>Author:</strong> Bagenda Nicholas<br>
+        <strong>Email:</strong> <a href="mailto:nicholasbagenda@gmail.com" style="color:#ffd700;">nicholasbagenda@gmail.com</a> | <strong>Phone:</strong> +256742367077
       </div>
-      <div class="doc-card">
-        <span class="doc-icon">🩺</span>
-        <h3>Understanding Chronic Hand Dermatitis</h3>
-        <p>
-          Understand the causes, symptoms, and management of CHD. Break the cycle of misdiagnosis and discover hope for healing.
-        </p>
-        <a class="doc-link" href="index.html#chapter2">Read Chapter 2</a>
-      </div>
-      <div class="doc-card">
-        <span class="doc-icon">🩺</span>
-        <h3>The Overlooked Culprit – Fungal Infections</h3>
-        <p>
-          Uncover the role of fungal infections in skin health and why they often go undetected in chronic cases.
-        </p>
-        <a class="doc-link" href="index.html#chapter3">Read Chapter 3</a>
-        <span style="margin:0 5px;">|</span>
-        <a class="doc-link" href="https://eu.docworkspace.com/d/sILCzp8ecAq2ItMAG?sa=601.1123" target="_blank">View PDF</a>
-      </div>
-    </section>
-    <section id="downloads">
-      <h2>Downloads & Resources</h2>
-      <div class="doc-card">
-        <span class="doc-icon">📄</span>
-        <h3>All-in-One Resource PDF</h3>
-        <p>
-          Download the complete collection of my writings, studies, and inspirational materials for offline reading and sharing.
-        </p>
-        <a class="doc-link" href="https://github.com/BagendaNicholas/My-website-/tree/main" target="_blank">Go to Downloads Folder</a>
-      </div>
-    </section>
+      <ol class="book-toc-list">
+        <li><a href="notice_skin1.html">1. Introduction – The Mystery of Chronic Hand Dermatitis</a></li>
+        <li><a href="notice_skin2.html">2. Understanding Chronic Hand Dermatitis (CHD)</a></li>
+        <li><a href="notice_skin3.html">3. The Overlooked Culprit: Fungal Infections</a></li>
+        <li><a href="notice_skin4.html">4. Key Differences Between Eczema and Fungal Infections</a></li>
+        <li><a href="notice_skin5.html">5. Misdiagnosis: The Consequences of Incorrect Treatment</a></li>
+        <li><a href="notice_skin6.html">6. Scientific Research and Case Studies</a></li>
+        <li><a href="notice_skin7.html">7. Real-Life Stories and Testimonials</a></li>
+        <li><a href="notice_skin8.html">8. Diagnosis: Identifying the Real Cause</a></li>
+        <li><a href="notice_skin9.html">9. Treatment Approaches: A Shift in Medical Perspective</a></li>
+        <li><a href="notice_skin10.html">10. Prevention and Patient Education</a></li>
+        <li><a href="notice_skin11.html">11. The Future of Dermatology: What Needs to Change?</a></li>
+        <li><a href="notice_skin12.html">12. Psychological Impact of Chronic Hand Dermatitis</a></li>
+        <li><a href="notice_skin13.html">13. Future Research and Emerging Treatments</a></li>
+        <li><a href="notice_skin14.html">14. The Role of Diet in Skin Health</a></li>
+        <li><a href="notice_skin15.html">15. Conclusion and Call to Action</a></li>
+        <li><a href="notice_skin16.html">16. References and Further Reading</a></li>
+        <li><a href="notice_skin17.html">17. Faith, Healing, and Skin Health: A Biblical Perspective</a></li>
+        <li><a href="notice_skin18.html">18. The Importance of Patience in the Healing Process</a></li>
+        <li><a href="notice_skin19.html">19. Community Awareness and Support Systems</a></li>
+        <li><a href="notice_skin20.html">20. Embracing God Healing Touch: A Final Word on Faith and Skin Health</a></li>
+        <li><a href="notice_skin21.html">21. A Message to the Reader — Walking in Wisdom and Wellness</a></li>
+      </ol>
+    </div>
+    
   </div>
   <!-- Floating Action Buttons -->
   <button class="fab fab-home" onclick="window.location.href='index.html'" title="Back Home" aria-label="Back Home">🏠</button>
-  <button class="fab fab-toc" onclick="document.getElementById('toc').scrollIntoView({behavior:'smooth'})" title="Back to Contents" aria-label="Back to Contents">📑</button>
+  <button class="fab fab-toc" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to Top" aria-label="Back to Top">📑</button>
   <button class="fab fab-next" onclick="window.location.href='index3.html'" title="Next Page" aria-label="Next Page">➡️</button>
   <script>
     window.addEventListener('load', () => {

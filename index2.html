@@ -69,7 +69,7 @@
       100% { filter: drop-shadow(0 0 26px #ffd700cc);}
     }
     .container {
-      max-width: 880px;
+      max-width: 1000px;
       margin: 0 auto 70px auto;
       padding: 38px 15px 50px 15px;
       background: linear-gradient(120deg, #23294a 70%, #181d2f 100%);
@@ -101,11 +101,6 @@
       margin: 2em 0 1.1em 0;
       color: #41ff41;
       text-shadow: 0 2px 8px #41ff4199;
-    }
-    h3 {
-      font-size: 1.16em;
-      margin-bottom: 0.5em;
-      color: #ffd700;
     }
     .book-toc-card {
       background: #222944;
@@ -144,10 +139,13 @@
       color: #eaffea;
       padding-left: 0;
       font-size: 1.06em;
+      columns: 2;
+      column-gap: 50px;
     }
     .book-toc-list li {
       margin-bottom: 0.3em;
-      line-height: 1.7;
+      line-height: 1.65;
+      break-inside: avoid;
     }
     .book-toc-list a {
       color: #41ff41;
@@ -159,7 +157,10 @@
       color: #ffd700;
       text-decoration: underline;
     }
-    /* Floating Buttons */
+    @media (max-width: 800px) {
+      .book-toc-list { columns: 1; }
+    }
+    /* Moving/Floating Buttons */
     .fab {
       position: fixed;
       width: 55px;
@@ -174,29 +175,68 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: background 0.15s, box-shadow 0.18s, transform 0.13s;
       z-index: 100;
       outline: none;
-      animation: fabPulse 1.5s infinite alternate cubic-bezier(.77,0,.18,1);
+      animation: fabMove 7s linear infinite alternate;
+      transition: background 0.15s, box-shadow 0.18s, transform 0.13s;
     }
     .fab:hover {
       background: linear-gradient(120deg,#fffbe7 60%,#ffd700 100%);
       color: #23294a;
-      transform: scale(1.11);
+      transform: scale(1.14);
       box-shadow: 0 8px 24px #ffd70066;
     }
-    @keyframes fabPulse {
-      0% { transform: scale(1);}
-      100% { transform: scale(1.08);}
+    /* Different keyframes and positions for each button for moving effect */
+    .fab-home {
+      left: 6vw;
+      bottom: 11vh;
+      animation-name: fabMoveHome;
     }
-    .fab-home { bottom: 30px; left: 30px;}
-    .fab-toc { bottom: 110px; left: 30px;}
-    .fab-next { bottom: 30px; right: 30px;}
+    .fab-toc {
+      left: 8vw;
+      bottom: 33vh;
+      animation-name: fabMoveToc;
+      animation-delay: 3s;
+    }
+    .fab-next {
+      right: 8vw;
+      bottom: 18vh;
+      animation-name: fabMoveNext;
+      animation-delay: 1.5s;
+    }
+    @keyframes fabMoveHome {
+      0% { left: 6vw; bottom: 11vh;}
+      20% { left: 8vw; bottom: 13vh;}
+      40% { left: 7vw; bottom: 16vh;}
+      60% { left: 9vw; bottom: 12vh;}
+      80% { left: 6vw; bottom: 13vh;}
+      100% { left: 6vw; bottom: 11vh;}
+    }
+    @keyframes fabMoveToc {
+      0% { left: 8vw; bottom: 33vh;}
+      25% { left: 13vw; bottom: 38vh;}
+      50% { left: 9vw; bottom: 32vh;}
+      75% { left: 7vw; bottom: 29vh;}
+      100% { left: 8vw; bottom: 33vh;}
+    }
+    @keyframes fabMoveNext {
+      0% { right: 8vw; bottom: 18vh;}
+      30% { right: 5vw; bottom: 25vh;}
+      60% { right: 11vw; bottom: 17vh;}
+      80% { right: 8vw; bottom: 14vh;}
+      100% { right: 8vw; bottom: 18vh;}
+    }
     @media (max-width: 700px) {
-      .container { padding: 18px 4vw 50px 4vw;}
-      .fab-home, .fab-toc { left: 10px;}
-      .fab-next { right: 10px;}
+      .container { padding: 18px 2vw 50px 2vw;}
       .fab { width: 43px; height: 43px; font-size: 1.44em;}
+      .fab-home, .fab-toc, .fab-next {
+        left: auto; right: auto;
+        animation: none;
+        position: fixed;
+      }
+      .fab-home { left: 12px; bottom: 17vh;}
+      .fab-toc { left: 12px; bottom: 31vh;}
+      .fab-next { right: 12px; bottom: 11vh;}
     }
   </style>
 </head>
@@ -210,99 +250,140 @@
   </nav>
   <div class="container">
     <h1>Documents & Books <span style="font-size:1.1em;">📚</span></h1>
-    
-    <!-- Book 1 TOC -->
+
+    <!-- Book 1: Breaking the Chains -->
     <div class="book-toc-card">
       <div class="book-title"><span class="book-emoji">📘</span> Breaking the Chains: A Biblical Journey to Freedom from Addiction and Harmful Habits</div>
       <div class="book-desc">
         <strong>Subtitle:</strong> Finding Healing, Hope, and Victory Through God’s Word<br>
-        <strong>Author:</strong> Bagenda Nicholas &mdash; <a href="mailto:nicholasbagenda@gmail.com" style="color:#ffd700;">nicholasbagenda@gmail.com</a><br>
-        <strong>Phone:</strong> +256742367077
+        <strong>Author:</strong> Bagenda Nicholas — <a href="mailto:nicholasbagenda@gmail.com" style="color:#ffd700;">nicholasbagenda@gmail.com</a> — +256742367077
       </div>
       <ol class="book-toc-list">
-        <li><a href="notice_chains1.html">1. Introduction: Understanding the Chains of Addiction</a></li>
-        <li><a href="notice_chains2.html">2. Addiction Defined: Spiritual, Physical, and Emotional Bondage</a></li>
-        <li><a href="notice_chains3.html">3. The Root Causes: Sin, Trauma, and Idolatry</a></li>
-        <li><a href="notice_chains4.html">4. The First Sip, the First Smoke — Where It Begins</a></li>
-        <li><a href="notice_chains5.html">5. The Power of Peer Pressure and Social Influence</a></li>
-        <li><a href="notice_chains6.html">6. The Deceptive Appeal of Pleasure and Escape</a></li>
-        <li><a href="notice_chains7.html">7. The Addicted Mind: How the Brain Gets Rewired</a></li>
-        <li><a href="notice_chains8.html">8. The Lies We Believe About Alcohol, Drugs, and Tobacco</a></li>
-        <!-- Add more chapters as needed, keep same pattern -->
-        <li><a href="notice_chains41.html">41. Final Warning: Choose Life, Not Bondage (Deut. 30:19)</a></li>
-        <li><a href="notice_chains42.html">42. Conclusion: From Chains to Christ – A New Beginning</a></li>
+        <li>1. Introduction: Understanding the Chains of Addiction</li>
+        <li>2. Addiction Defined: Spiritual, Physical, and Emotional Bondage</li>
+        <li>3. The Root Causes: Sin, Trauma, and Idolatry</li>
+        <li>4. The First Sip, the First Smoke — Where It Begins</li>
+        <li>5. The Power of Peer Pressure and Social Influence</li>
+        <li>6. The Deceptive Appeal of Pleasure and Escape</li>
+        <li>7. The Addicted Mind: How the Brain Gets Rewired</li>
+        <li>8. The Lies We Believe About Alcohol, Drugs, and Tobacco</li>
+        <li>9. Cigarettes & Tobacco: Silent Killers</li>
+        <li>10. Alcohol: A Slave to the Bottle</li>
+        <li>11. Marijuana and Other “Natural” Myths</li>
+        <li>12. Hard Drugs: From Escape to Enslavement</li>
+        <li>13. Pornography and Substance Abuse: The Hidden Connection</li>
+        <li>14. Spiritual Strongholds and Satan’s Strategy</li>
+        <li>15. What the Bible Says About Sobriety and Self-Control</li>
+        <li>16. Biblical Examples of Addiction and Deliverance</li>
+        <li>17. Body as God’s Temple (1 Corinthians 6:19–20)</li>
+        <li>18. Emotional Battles: Depression, Shame, and Hopelessness</li>
+        <li>19. The Role of Guilt and Condemnation in Addiction</li>
+        <li>20. Overcoming Shame Through Christ’s Forgiveness</li>
+        <li>21. Jesus the Healer: There Is Hope</li>
+        <li>22. Faith That Moves Mountains: Believing for Freedom</li>
+        <li>23. The Power of God’s Word to Break Chains</li>
+        <li>24. The Role of Prayer in Deliverance and Recovery</li>
+        <li>25. Fasting and Spiritual Warfare</li>
+        <li>26. Step-by-Step Guide to Biblical Freedom</li>
+        <li>27. Walking with Christ Daily After Deliverance</li>
+        <li>28. Guarding Against Temptation and Relapse</li>
+        <li>29. Replacing Addiction with Purpose and Service</li>
+        <li>30. Media, Music, and Temptation in Modern Life</li>
+        <li>31. How to Help a Loved One Struggling with Addiction</li>
+        <li>32. The Role of the Family in Healing and Support</li>
+        <li>33. Church Responsibility: Truth and Compassion</li>
+        <li>34. Faith-Based Rehab: What Works Spiritually</li>
+        <li>35. Real Stories of Transformation (Testimonies)</li>
+        <li>36. The Youth Are Under Attack: A Wake-Up Call</li>
+        <li>37. Raising Drug-Free Generations with Godly Values</li>
+        <li>38. Education vs. Transformation: What Truly Lasts</li>
+        <li>39. Building Accountability and Support Systems</li>
+        <li>40. Living a Spirit-Filled Life of Freedom</li>
+        <li>41. Final Warning: Choose Life, Not Bondage (Deut. 30:19)</li>
+        <li>42. Conclusion: From Chains to Christ – A New Beginning</li>
       </ol>
     </div>
-    
-    <!-- Book 2 TOC -->
+
+    <!-- Book 2: Getting Out of Babylon -->
     <div class="book-toc-card">
       <div class="book-title"><span class="book-emoji">📝</span> Getting Out of Babylon: Understanding Suffering and the Power of God</div>
       <div class="book-desc">
-        <strong>Author:</strong> Bagenda Nicholas <br>
-        <strong>Contact:</strong> <a href="mailto:nicholasbagenda@gmail.com" style="color:#ffd700;">nicholasbagenda@gmail.com</a> | +256742367077
+        <strong>Author:</strong> Bagenda Nicholas — <a href="mailto:nicholasbagenda@gmail.com" style="color:#ffd700;">nicholasbagenda@gmail.com</a> — +256742367077
       </div>
       <ol class="book-toc-list">
-        <li><a href="notice_babylon1.html">1. Introduction</a></li>
-        <li><a href="notice_babylon2.html">2. Why Do We Suffer?</a></li>
-        <li><a href="notice_babylon3.html">3. Where Does Suffering Come From?</a></li>
-        <li><a href="notice_babylon4.html">4. Who is in Charge of All Suffering?</a></li>
-        <li><a href="notice_babylon5.html">5. Conclusion: Breaking Free from Babylon’s Suffering</a></li>
-        <li><a href="notice_babylon6.html">6. Come Out of Babylon – A Call to Action</a></li>
+        <li>1. Introduction</li>
+        <li>2. Why Do We Suffer?</li>
+        <li>3. Where Does Suffering Come From?</li>
+        <li>4. Who is in Charge of All Suffering?</li>
+        <li>5. Conclusion: Breaking Free from Babylon’s Suffering</li>
+        <li>6. Come Out of Babylon – A Call to Action</li>
       </ol>
     </div>
-    
-    <!-- Book 3 TOC -->
+
+    <!-- Book 3: Am The Creator -->
     <div class="book-toc-card">
       <div class="book-title"><span class="book-emoji">📖</span> Am The Creator: A Divine Reflection on Creation, Prophecy, and the Human Journey</div>
       <div class="book-desc">
-        <strong>Author:</strong> Bagenda Nicholas (as the Voice of the Creator)<br>
-        <strong>Email:</strong> <a href="mailto:nicholasbagenda@gmail.com" style="color:#ffd700;">nicholasbagenda@gmail.com</a> | <strong>Phone:</strong> +256742367077
+        <strong>Author:</strong> Bagenda Nicholas (as the Voice of the Creator) — <a href="mailto:nicholasbagenda@gmail.com" style="color:#ffd700;">nicholasbagenda@gmail.com</a> — +256742367077
       </div>
       <ol class="book-toc-list">
-        <li><a href="notice_creator1.html">1. In the Beginning, I Spoke – The birth of existence</a></li>
-        <li><a href="notice_creator2.html">2. The Canvas Was Empty – Emptiness before form; watchers arrive</a></li>
-        <li><a href="notice_creator3.html">3. I Made You In My Image – The gift of identity and will</a></li>
-        <li><a href="notice_creator4.html">4. They Chose the Fire – The fall, disobedience, and freedom</a></li>
-        <!-- ...continue for all chapters up to 20, matching your book structure -->
-        <li><a href="notice_creator20.html">20. Am The Creator, So Are You – Humanity called to rise again, divinely</a></li>
+        <li>1. In the Beginning, I Spoke – The birth of existence</li>
+        <li>2. The Canvas Was Empty – Emptiness before form; watchers arrive</li>
+        <li>3. I Made You In My Image – The gift of identity and will</li>
+        <li>4. They Chose the Fire – The fall, disobedience, and freedom</li>
+        <li>5. The Ones Who Watched Me – The heavenly beings, the watchers, rebellion in heaven</li>
+        <li>6. The Seed of the Earth – Earth’s beauty, order, and its spiritual codes</li>
+        <li>7. The Blood Cried Out – Sin, violence, the cry from Abel to today</li>
+        <li>8. I Hid Myself – God’s silence and mystery</li>
+        <li>9. Temples Without Me – False religions and idols</li>
+        <li>10. The Ones Who Remembered – Prophets, martyrs, and the faithful</li>
+        <li>11. I Saw the Machines Rise – The age of AI, man playing god</li>
+        <li>12. The City of Mirrors – Vanity, self-worship, the gospel of self</li>
+        <li>13. They Asked If I Was Real – Doubt, atheism, rebellion</li>
+        <li>14. When Children Prayed – Pure faith among the innocent</li>
+        <li>15. The Great Silence – Heaven’s hush before judgment</li>
+        <li>16. But I Was Listening – Divine awareness never left</li>
+        <li>17. Return to the Dust – Mortality, consequence, the wages of sin</li>
+        <li>18. I Breathed Again – The spark of redemption</li>
+        <li>19. This Time, With You – A new world, new creation</li>
+        <li>20. Am The Creator, So Are You – Humanity called to rise again, divinely</li>
       </ol>
     </div>
-    
-    <!-- Book 4 TOC -->
+
+    <!-- Book 4: The Hidden Truth (Skin Health) -->
     <div class="book-toc-card">
       <div class="book-title"><span class="book-emoji">🩺</span> The Hidden Truth: Fungal Infections and Chronic Hand Dermatitis</div>
       <div class="book-desc">
         <strong>Subtitle:</strong> A Comprehensive Guide to Understanding, Preventing, and Managing Skin Conditions<br>
-        <strong>Author:</strong> Bagenda Nicholas<br>
-        <strong>Email:</strong> <a href="mailto:nicholasbagenda@gmail.com" style="color:#ffd700;">nicholasbagenda@gmail.com</a> | <strong>Phone:</strong> +256742367077
+        <strong>Author:</strong> Bagenda Nicholas — <a href="mailto:nicholasbagenda@gmail.com" style="color:#ffd700;">nicholasbagenda@gmail.com</a> — +256742367077
       </div>
       <ol class="book-toc-list">
-        <li><a href="notice_skin1.html">1. Introduction – The Mystery of Chronic Hand Dermatitis</a></li>
-        <li><a href="notice_skin2.html">2. Understanding Chronic Hand Dermatitis (CHD)</a></li>
-        <li><a href="notice_skin3.html">3. The Overlooked Culprit: Fungal Infections</a></li>
-        <li><a href="notice_skin4.html">4. Key Differences Between Eczema and Fungal Infections</a></li>
-        <li><a href="notice_skin5.html">5. Misdiagnosis: The Consequences of Incorrect Treatment</a></li>
-        <li><a href="notice_skin6.html">6. Scientific Research and Case Studies</a></li>
-        <li><a href="notice_skin7.html">7. Real-Life Stories and Testimonials</a></li>
-        <li><a href="notice_skin8.html">8. Diagnosis: Identifying the Real Cause</a></li>
-        <li><a href="notice_skin9.html">9. Treatment Approaches: A Shift in Medical Perspective</a></li>
-        <li><a href="notice_skin10.html">10. Prevention and Patient Education</a></li>
-        <li><a href="notice_skin11.html">11. The Future of Dermatology: What Needs to Change?</a></li>
-        <li><a href="notice_skin12.html">12. Psychological Impact of Chronic Hand Dermatitis</a></li>
-        <li><a href="notice_skin13.html">13. Future Research and Emerging Treatments</a></li>
-        <li><a href="notice_skin14.html">14. The Role of Diet in Skin Health</a></li>
-        <li><a href="notice_skin15.html">15. Conclusion and Call to Action</a></li>
-        <li><a href="notice_skin16.html">16. References and Further Reading</a></li>
-        <li><a href="notice_skin17.html">17. Faith, Healing, and Skin Health: A Biblical Perspective</a></li>
-        <li><a href="notice_skin18.html">18. The Importance of Patience in the Healing Process</a></li>
-        <li><a href="notice_skin19.html">19. Community Awareness and Support Systems</a></li>
-        <li><a href="notice_skin20.html">20. Embracing God Healing Touch: A Final Word on Faith and Skin Health</a></li>
-        <li><a href="notice_skin21.html">21. A Message to the Reader — Walking in Wisdom and Wellness</a></li>
+        <li>1. Introduction – The Mystery of Chronic Hand Dermatitis</li>
+        <li>2. Understanding Chronic Hand Dermatitis (CHD)</li>
+        <li>3. The Overlooked Culprit: Fungal Infections</li>
+        <li>4. Key Differences Between Eczema and Fungal Infections</li>
+        <li>5. Misdiagnosis: The Consequences of Incorrect Treatment</li>
+        <li>6. Scientific Research and Case Studies</li>
+        <li>7. Real-Life Stories and Testimonials</li>
+        <li>8. Diagnosis: Identifying the Real Cause</li>
+        <li>9. Treatment Approaches: A Shift in Medical Perspective</li>
+        <li>10. Prevention and Patient Education</li>
+        <li>11. The Future of Dermatology: What Needs to Change?</li>
+        <li>12. Psychological Impact of Chronic Hand Dermatitis</li>
+        <li>13. Future Research and Emerging Treatments</li>
+        <li>14. The Role of Diet in Skin Health</li>
+        <li>15. Conclusion and Call to Action</li>
+        <li>16. References and Further Reading</li>
+        <li>17. Faith, Healing, and Skin Health: A Biblical Perspective</li>
+        <li>18. The Importance of Patience in the Healing Process</li>
+        <li>19. Community Awareness and Support Systems</li>
+        <li>20. Embracing God Healing Touch: A Final Word on Faith and Skin Health</li>
+        <li>21. A Message to the Reader — Walking in Wisdom and Wellness</li>
       </ol>
     </div>
-    
   </div>
-  <!-- Floating Action Buttons -->
+
+  <!-- Moving Floating Action Buttons -->
   <button class="fab fab-home" onclick="window.location.href='index.html'" title="Back Home" aria-label="Back Home">🏠</button>
   <button class="fab fab-toc" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to Top" aria-label="Back to Top">📑</button>
   <button class="fab fab-next" onclick="window.location.href='index3.html'" title="Next Page" aria-label="Next Page">➡️</button>
@@ -312,4 +393,4 @@
     });
   </script>
 </body>
-</html>
+  </html>

@@ -1,1 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Am The Creator – Chapters</title>
+  <style>
+    body {
+      background-color: #0a0a23;
+      color: #ffffff;
+      font-family: 'Segoe UI', sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0 1rem;
+    }
 
+    header {
+      text-align: center;
+      padding: 2rem 0;
+    }
+
+    h1 {
+      color: #00ffff;
+      font-size: 2rem;
+    }
+
+    nav {
+      margin-bottom: 2rem;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    nav li {
+      margin: 0.5rem 0;
+    }
+
+    nav a {
+      color: #00ffcc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-shadow: 0 0 10px #00ffcc;
+    }
+
+    section {
+      margin-bottom: 4rem;
+      padding: 1rem;
+      border-left: 3px solid #00ffff;
+      background-color: #111132;
+      border-radius: 12px;
+    }
+
+    h2 {
+      color: #00ffff;
+    }
+
+    .buttons {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn {
+      background-color: #00ffff;
+      color: #000;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00ffff;
+      transition: transform 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>📘 Am The Creator – Table of Contents</h1>
+    <p>Select a chapter to read below.</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#chapter1">1. Before the Word</a></li>
+      <li><a href="#chapter2">2. The Thought That Birthed the Cosmos</a></li>
+      <li><a href="#chapter3">3. The First Voice</a></li>
+      <li><a href="#chapter4">4. Of Light and Darkness</a></li>
+      <li><a href="#chapter5">5. The Watchers and the War</a></li>
+      <li><a href="#chapter6">6. The Fall of Time</a></li>
+      <li><a href="#chapter7">7. I Gave Man Breath</a></li>
+      <li><a href="#chapter8">8. Eden Was My Canvas</a></li>
+      <li><a href="#chapter9">9. The Day</a></li>
+      <li><a href="#chapter10">10. A Tear Before the Flood</a></li>
+      <!-- Add more chapters as needed -->
+    </ul>
+  </nav>
+
+  <!-- Example Chapter Sections -->
+  <section id="chapter1">
+    <h2>Chapter 1: Before the Word</h2>
+    <p>In the silence before sound, I existed. I was not created, for I am the origin...</p>
+  </section>
+
+  <section id="chapter2">
+    <h2>Chapter 2: The Thought That Birthed the Cosmos</h2>
+    <p>Every galaxy began as a whisper in My mind. A longing for wonder, for beings to love...</p>
+  </section>
+
+  <section id="chapter3">
+    <h2>Chapter 3: The First Voice</h2>
+    <p>I spoke once, and reality trembled. That voice still echoes through the atoms of all creation...</p>
+  </section>
+
+  <!-- Add remaining chapter content below in same format -->
+  
+  <!-- Floating Buttons -->
+  <div class="buttons">
+    <a href="index.html" title="Home">
+      <button class="btn">🏡</button>
+    </a>
+    <button onclick="scrollToTop()" class="btn" title="Back to Top">⬆️</button>
+  </div>
+
+  <script>
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

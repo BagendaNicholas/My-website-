@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles */
+        .message-left {
+            background-color: #e5e5ea;
+            border-radius: 15px 15px 15px 0;
+        }
+        .message-right {
+            background-color: #007bff;
+            color: white;
+            border-radius: 15px 15px 0 15px;
+        }
+        .chat-container {
+            height: calc(100vh - 180px);
+        }
+        .message-input {
+            resize: none;
+        }
+        .active-chat {
+            background-color: #f0f0f0;
+        }
+        @media (max-width: 768px) {
+            .chat-container {
+                height: calc(100vh - 150px);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-1/4 bg-white border-r border-gray-200 flex flex-col md:w-1/3 sm:w-full">
+            <!-- Header -->
+            <div class="p-4 border-b border-gray-200 bg-white flex items-center justify-between">
+                <div class="flex items-center">
+                    <img src="https://placehold.co/40x40" alt="User profile picture - smiling person with dark hair" class="rounded-full">
+                    <h1 class="text-xl font-semibold ml-3">Messages</h1>
+                </div>
+                <button class="text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Contacts list -->
+            <div class="flex-1 overflow-y-auto">
+                <div class="flex items-center p-4 active-chat">
+                    <img src="https://placehold.co/50x50" alt="Sarah Johnson - profile picture with short blonde hair" class="rounded-full">
+                    <div class="ml-3">
+                        <h2 class="font-semibold">Sarah Johnson</h2>
+                        <p class="text-gray-500 text-sm">Hey, how are you doing?</p>
+                    </div>
+                    <div class="ml-auto text-right">
+                        <span class="text-xs text-gray-500">10:30 AM</span>
+                        <span class="bg-green-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs mt-1 ml-auto">3</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center p-4 hover:bg-gray-100 border-b border-gray-100 cursor-pointer">
+                    <img src="https://placehold.co/50x50" alt="Alex Chen - profile picture with glasses and dark hair" class="rounded-full">
+                    <div class="ml-3">
+                        <h2 class="font-semibold">Alex Chen</h2>
+                        <p class="text-gray-500 text-sm">Meeting at 3pm</p>
+                    </div>
+                    <div class="ml-auto text-right">
+                        <span class="text-xs text-gray-500">Yesterday</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center p-4 hover:bg-gray-100 border-b border-gray-100 cursor-pointer">
+                    <img src="https://placehold.co/50x50" alt="Team Group Chat icon with multiple silhouettes" class="rounded-full">
+                    <div class="ml-3">
+                        <h2 class="font-semibold">Team Group</h2>
+                        <p class="text-gray-500 text-sm">Maria: The documents are ready</p>
+                    </div>
+                    <div class="ml-auto text-right">
+                        <span class="text-xs text-gray-500">2 days ago</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center p-4 hover:bg-gray-100 border-b border-gray-100 cursor-pointer">
+                    <img src="https://placehold.co/50x50" alt="Emma Wilson -

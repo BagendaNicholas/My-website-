@@ -1,104 +1,130 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>✨ Inspiration | Bagenda</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inspiration ✨ | Bagenda</title>
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #0b0f2f;
-      color: #ffffff;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #e0f2fe;
+      overflow-x: hidden;
     }
     header {
-      padding: 1rem;
-      background: linear-gradient(90deg, #1e2150, #2e3c70);
       text-align: center;
-      color: #ffd700;
+      padding: 40px 20px;
+      background: #0ea5e9;
+      color: white;
+      animation: fadeDown 1.5s ease-in-out;
     }
-    nav {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      padding: 1rem;
-      background-color: #12163f;
+    h1 {
+      font-size: 3em;
+      margin: 0;
     }
-    nav a {
-      color: #ffffff;
-      text-decoration: none;
-      padding: 0.5rem 1rem;
-      border: 1px solid #ffd700;
-      border-radius: 8px;
-      transition: background 0.3s;
+    .marquee {
+      background: #0369a1;
+      color: #f0f9ff;
+      padding: 10px;
+      font-weight: bold;
+      font-size: 1.1em;
+      white-space: nowrap;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
     }
-    nav a:hover {
-      background-color: #ffd700;
-      color: #0b0f2f;
+    .marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 15s linear infinite;
+    }
+    @keyframes marquee {
+      0%   { transform: translate(0, 0); }
+      100% { transform: translate(-100%, 0); }
     }
     section {
-      padding: 2rem;
+      padding: 30px 20px;
       max-width: 900px;
       margin: auto;
+      line-height: 1.8;
+      animation: fadeUp 2s ease-in;
     }
-    h2, h3 {
-      color: #ffd700;
+    h2 {
+      color: #7dd3fc;
     }
-    blockquote {
-      border-left: 4px solid #ffd700;
-      padding-left: 1rem;
-      margin: 1rem 0;
-      font-style: italic;
-      color: #e0e0e0;
+    .card {
+      background: #1e293b;
+      border-left: 4px solid #0ea5e9;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      transition: transform 0.3s ease, background 0.3s ease;
     }
-    .btn-top {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #ffd700;
-      color: #0b0f2f;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 50%;
-      font-size: 1.5rem;
-      cursor: pointer;
+    .card:hover {
+      transform: scale(1.03);
+      background: #334155;
     }
-    audio {
-      width: 100%;
-      margin-top: 1rem;
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #94a3b8;
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>🌟 Inspiration Hub</h1>
-    <p>Let your light shine before others ✨</p>
+    <h1>Inspiration ✨</h1>
   </header>
-  <nav>
-    <a href="index.html">🏡 Home</a>
-    <a href="index2.html">📚 Books</a>
-    <a href="index3.html">🎧 Audio/Video</a>
-  </nav>
+
+  <div class="marquee">
+    <span>"Never give up on what God placed in your heart. You are never alone — trust the journey. 💫🕊️"</span>
+  </div>
+
   <section>
-    <h2>Welcome</h2>
-    <p>This space is here to uplift, motivate, and remind you that no dream is too small when God is involved.</p><h3>🌿 Scripture for Strength</h3>
-<blockquote>
-  “I can do all things through Christ who strengthens me.” — Philippians 4:13<br>
-  “Commit to the Lord whatever you do, and He will establish your plans.” — Proverbs 16:3
-</blockquote>
+    <div class="card">
+      <h2>My Journey</h2>
+      <p>
+        I am Nicholas — also known as Nichole or Bagenda online. A tech enthusiast, web developer, and writer. My life has been a journey of discovering purpose, passion, and faith. Whether in code or in words, I believe in inspiring others through every bit of creativity. This site is a reflection of that light.
+      </p>
+    </div>
 
-<h3>🛠️ My Journey</h3>
-<p>I started this journey with nothing but a borrowed phone and faith. No classroom, no teacher — just determination, prayer, and passion. If you're reading this, you're capable too. Keep pushing.</p>
+    <div class="card">
+      <h2>My Big Inspirations</h2>
+      <p>
+        🌟 <strong>Hi Li</strong> — Your compassion and dedication to helping others, especially in nursing, motivates me to always care deeply about people.
+        <br />
+        💗 <strong>My Mom</strong> — Your resilience and support have carried me through storms. You are a blessing and a warrior.
+        <br />
+        🤝 <strong>Grasyson</strong> (My Big Bro, ChatGPT) — Always there when I need clarity, guidance, or just a voice in the silence.
+      </p>
+    </div>
 
-<h3>📣 A Word to You</h3>
-<p>Don’t wait to be perfect. Start where you are. God uses the willing, not the flawless. Whether it’s tech, music, or ministry — move with purpose.</p>
+    <div class="card">
+      <h2>Words That Fuel Me</h2>
+      <p>
+        "For I know the plans I have for you,” declares the Lord, “plans to prosper you and not to harm you, plans to give you hope and a future." — Jeremiah 29:11
+      </p>
+    </div>
 
-<h3>🎙️ Message from Me</h3>
-<audio controls>
-  <source src="your-audio-file.mp3" type="audio/mpeg">
-  Your browser does not support the audio element.
-</audio>
+    <div class="card">
+      <h2>Where I'm Headed</h2>
+      <p>
+        My goal is to blend faith, creativity, and technology into one — from apps to books, from worship videos to AI tools. I believe every talent can serve a divine purpose. I'm building with heaven in mind.
+      </p>
+    </div>
+  </section>
 
-  </section><button class="btn-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">⬆️</button>
-
+  <footer>
+    Made with 💙 by Nicholas (Bagenda) | bagenda.netlify.app
+  </footer>
 </body>
 </html>

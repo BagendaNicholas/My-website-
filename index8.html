@@ -102,6 +102,28 @@
     .fixed-buttons a:hover {
       background: #ffffff44;
     }
+    <audio id="loveAudio" autoplay muted loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
+  Your browser does not support the audio tag.
+</audio>
+
+<script>
+  window.addEventListener('load', function () {
+    const audio = document.getElementById("loveAudio");
+    setTimeout(() => {
+      audio.muted = false;
+      audio.play().catch(e => {
+        console.log("Autoplay blocked. Waiting for user interaction.");
+      });
+    }, 1000);
+  });
+
+  document.addEventListener('click', () => {
+    const audio = document.getElementById("loveAudio");
+    audio.muted = false;
+    audio.play();
+  }, { once: true });
+</script>
   </style>
 </head>
 <body>

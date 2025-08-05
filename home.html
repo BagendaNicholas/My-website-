@@ -7,7 +7,7 @@
     
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
         // Your web app's Firebase configuration
         const firebaseConfig = {
@@ -23,16 +23,24 @@
 
         onAuthStateChanged(auth, (user) => {
             if (!user) {
-                // User is not logged in, redirect to the sign-in page.
+                // User is not signed in, redirect them to the sign-in page.
                 window.location.href = "index.html"; 
             }
+        });
+
+        document.getElementById('signout-button').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                console.log("User signed out successfully.");
+            }).catch((error) => {
+                console.error("Sign out error:", error);
+            });
         });
     </script>
 
     <link rel="icon" href="/favicon.ico" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* All your CSS styles */
+        /* All your CSS styles from your previous code */
         html, body {
             margin: 0;
             padding: 0;
@@ -115,7 +123,7 @@
             margin-right: 40px;
             vertical-align: middle;
             text-shadow: 0 2px 10px #ffd70044;
-            animation: shimmer 2s infinite alternate;
+            animation: shimmer 2.2s infinite alternate;
         }
         nav a {
             color: #ffd700;

@@ -3,16 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Free Space – Index</title>
+  <title>Nichole Needs Hi Li 💖</title>
   <style>
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       font-family: 'Georgia', serif;
+      background: radial-gradient(circle at center, #000015, #000);
+      color: white;
       line-height: 1.6;
-      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-      color: #f8f8f8;
-      padding: 20px;
       scroll-behavior: smooth;
+      padding-bottom: 100px;
     }
 
     header {
@@ -21,20 +26,16 @@
       position: sticky;
       top: 0;
       z-index: 100;
-    }
-
-    header > div:first-child {
       text-align: center;
-      color: #ffffff;
       font-size: 1.5rem;
       font-weight: bold;
-      margin-bottom: 0.5rem;
     }
 
     nav {
       display: flex;
       justify-content: center;
       gap: 2rem;
+      margin: 10px 0;
     }
 
     nav a {
@@ -46,95 +47,6 @@
     nav a.active {
       font-weight: bold;
       border-bottom: 2px solid #00ffcc;
-    }
-
-    section {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
-      margin-bottom: 40px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    }
-
-    h1, h2 {
-      color: #ffffff;
-    }
-
-    a {
-      color: #76c7c0;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    ul {
-      list-style-type: none;
-      padding-left: 0;
-    }
-
-    li {
-      margin-bottom: 8px;
-    }
-
-    .fixed-buttons {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .fixed-buttons a {
-      background: #ffffff22;
-      color: white;
-      padding: 10px 15px;
-      border-radius: 6px;
-      font-weight: bold;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-      text-align: center;
-    }
-
-    .fixed-buttons a:hover {
-      background: #ffffff44;
-    }
-     <a href="index.html" class="button-link">Go to Home</a>
-
-  </style>
-</head>
-<body>
-  <div class="nav-buttons">
-    <a href="#top">🔝 Top</a>
-    <a href="index.html">
-    <button>🏡Home</button>
-</a>
-</div>
-
-</body>
-  
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Nichole Needs Hi Li 💖</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      overflow: hidden;
-      font-family: 'Segoe UI', sans-serif;
-      background: radial-gradient(circle at center, #000015, #000);
-      color: white;
     }
 
     .galaxy {
@@ -263,7 +175,7 @@
     }
 
     button {
-      position: absolute;
+      position: fixed;
       bottom: 30px;
       right: 30px;
       padding: 10px 20px;
@@ -287,60 +199,90 @@
       left: 10px;
       z-index: 10;
     }
+
+    .fixed-buttons {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 5;
+    }
+
+    .fixed-buttons a {
+      background: #ffffff22;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 6px;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .fixed-buttons a:hover {
+      background: #ffffff44;
+    }
   </style>
 </head>
 <body>
 
+  <header>
+    Nichole's Space Galaxy 💫
+    <nav>
+      <a href="#top" class="active">🔝 Top</a>
+      <a href="index.html">🏡 Home</a>
+    </nav>
+  </header>
+
   <div class="galaxy"></div>
   <div class="stars"></div>
 
-  <!-- Floating Messages -->
   <div class="message" style="top: 20vh; animation-delay: 0s;">I need you Hi Li 💖</div>
   <div class="message" style="top: 40vh; animation-delay: 5s;">You are my galaxy 🌌</div>
   <div class="message" style="top: 60vh; animation-delay: 10s;">My heart orbits yours 💫</div>
 
-  <!-- Orbiting Heart -->
   <div class="orbit-heart">💗</div>
-
-  <!-- Spaceship -->
   <div class="spaceship">🚀 <span>Nichole’s Ship</span></div>
 
-  <!-- Central Love Message -->
   <div class="center-message">
     From Nichole to Hi Li 💕<br>
     In this galaxy and the next... <br>
     I will always be with you 🌌
   </div>
 
- <audio id="loveAudio" autoplay muted loop>
-  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
-  Your browser does not support the audio tag.
-</audio>
+  <audio id="loveAudio" autoplay muted loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
+    Your browser does not support the audio tag.
+  </audio>
 
-<script>
-  window.addEventListener('load', function () {
-    const audio = document.getElementById("loveAudio");
-    setTimeout(() => {
-      audio.muted = false;
-      audio.play().catch(e => {
-        console.log("Autoplay blocked. Waiting for user interaction.");
-      });
-    }, 1000);
-  });
-
-  document.addEventListener('click', () => {
-    const audio = document.getElementById("loveAudio");
-    audio.muted = false;
-    audio.play();
-  }, { once: true });
-</script>
-  
-  <!-- Button -->
   <button onclick="alert('💌 A cosmic love message has been sent to Hi Li!')">
     Click to Send Love 💌
   </button>
 
+  <div class="fixed-buttons">
+    <a href="index.html">🏡 Home</a>
+    <a href="#top">🔝 Top</a>
+  </div>
+
   <script>
+    window.addEventListener('load', function () {
+      const audio = document.getElementById("loveAudio");
+      setTimeout(() => {
+        audio.muted = false;
+        audio.play().catch(e => {
+          console.log("Autoplay blocked. Waiting for user interaction.");
+        });
+      }, 1000);
+    });
+
+    document.addEventListener('click', () => {
+      const audio = document.getElementById("loveAudio");
+      audio.muted = false;
+      audio.play();
+    }, { once: true });
+
     const starsContainer = document.querySelector('.stars');
     for (let i = 0; i < 200; i++) {
       const star = document.createElement('div');
@@ -353,5 +295,4 @@
   </script>
 
 </body>
-  </html>
-
+</html>

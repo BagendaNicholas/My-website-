@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Am The Creator – Index</title>
- <meta charset="UTF-8">
-  <title>High-Speed Motorcycle Animation</title>
-
-    <style>
+  <style>
     body {
       margin: 0;
       font-family: 'Georgia', serif;
@@ -128,6 +125,27 @@
       100% { left: 110%; top: 15vh; }
     }
 
+    .motorcycle {
+      position: absolute;
+      top: 70%;
+      left: 50%;
+      font-size: 80px;
+      transform: translate(-50%, -50%);
+      animation: spin 1s linear infinite, move 3s linear infinite;
+      z-index: 5;
+    }
+
+    @keyframes spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    @keyframes move {
+      0% { left: -10%; }
+      50% { left: 110%; }
+      100% { left: -10%; }
+    }
+
     .fixed-buttons {
       position: fixed;
       bottom: 20px;
@@ -174,38 +192,14 @@
     .index9-btn button:hover {
       background-color: #1affd5;
     }
-    <style>
-    body {
-      background-color: #0a0a0a;
-      overflow: hidden;
-      margin: 0;
-    }
-
-    .motorcycle {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      font-size: 80px;
-      transform: translate(-50%, -50%);
-      animation: spin 1s linear infinite, move 3s linear infinite;
-    }
-
-    @keyframes spin {
-      0% { transform: translate(-50%, -50%) rotate(0deg); }
-      100% { transform: translate(-50%, -50%) rotate(360deg); }
-    }
-
-    @keyframes move {
-      0% { left: 0%; }
-      50% { left: 100%; }
-      100% { left: 0%; }
-    }
   </style>
 </head>
 <body>
 
+  <!-- Motorcycle Animation -->
+  <div class="motorcycle">🏍️💨</div>
 
-<div class="motorcycle">🏍️💨</div>
+  <!-- Nature Scene -->
   <div class="scene">
     <div class="cloud" style="animation-delay: 0s;"></div>
     <div class="cloud" style="top: 20vh; animation-delay: 10s;"></div>
@@ -223,6 +217,7 @@
     <div class="bird" style="left: -200px; animation-delay: 15s;">🦅</div>
   </div>
 
+  <!-- Navigation Buttons -->
   <div class="fixed-buttons">
     <a href="#top">🔝 Top</a>
     <a href="index.html">🏡 Home</a>
@@ -234,6 +229,7 @@
     </a>
   </div>
 
+  <!-- Background Music -->
   <audio id="loveAudio" autoplay muted loop>
     <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
     Your browser does not support the audio tag.
@@ -256,6 +252,5 @@
       audio.play();
     }, { once: true });
   </script>
-
 </body>
 </html>

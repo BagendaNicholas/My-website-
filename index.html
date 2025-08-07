@@ -2,164 +2,124 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nicholas Bagenda – Login</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <title>Welcome to Nicholas' Universe</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to bottom, #010a1b, #000000);
+      background: linear-gradient(to bottom right, #0f172a, #1e293b);
       color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    .container {
-      background-color: #0d1b2a;
-      padding: 2rem;
-      border-radius: 20px;
-      box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
-      text-align: center;
+    #unlockAnimation {
+      display: none;
+      animation: fadeIn 2s forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .shine-text {
+      text-shadow: 0 0 8px #ffffff, 0 0 12px #00f7ff;
+    }
+    .smoke {
+      background: url('https://i.postimg.cc/G3Ypp7b1/smoke.gif') no-repeat center;
+      background-size: cover;
       width: 100%;
-      max-width: 400px;
-    }
-    input {
-      width: 90%;
-      padding: 12px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 10px;
-    }
-    label {
-      display: block;
-      text-align: left;
-      margin: 5px 0 2px 20px;
-    }
-    .remember-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 10px;
-      font-size: 14px;
-    }
-    button {
-      padding: 12px 20px;
-      background: #00ffff;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.3s;
-    }
-    button:hover {
-      background: #00cccc;
-    }
-    .loader {
-      display: none;
-      border: 8px solid #f3f3f3;
-      border-top: 8px solid #00ffff;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      animation: spin 1s linear infinite;
-      margin: 20px auto;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    #animationWrapper {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background-color: black;
-      z-index: 999;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
-    #animationWrapper img.logo {
-      width: 120px;
-      margin-top: -50px;
-    }
-    audio {
-      display: none;
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      opacity: 0.2;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Login</h2>
-    <label>Email</label>
-    <input type="email" id="email" placeholder="Enter your email" required />
-    <label>Password</label>
-    <input type="password" id="password" placeholder="Enter your password" required />
-    <div class="remember-container">
-      <label><input type="checkbox" id="rememberMe" /> Remember Me</label>
-      <a href="#" id="signupLink" style="color: #00ffff">Sign Up</a>
-    </div>
-    <button onclick="login()">Login</button>
-    <div class="loader" id="loader"></div>
-  </div>  <div id="animationWrapper">
-    <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" class="logo"/>
-    <p style="font-size: 1.5rem; color: white; margin-top: 1rem;">Welcome to Nicholas' Universe</p>
-    <audio autoplay>
-      <source src="https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav" type="audio/wav">
-    </audio>
-  </div>  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, setPersistence, browserLocalPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+<div id="authSection" class="min-h-screen flex items-center justify-center relative">
+  <div class="smoke"></div>
+  <div class="bg-gray-900 p-8 rounded-xl shadow-xl max-w-md w-full">
+    <h2 class="text-2xl font-bold mb-4 text-center shine-text">🌟 Welcome to Nicholas' Universe 🌟</h2><form id="authForm" class="space-y-4">
+  <input type="email" id="email" placeholder="Email" class="w-full px-4 py-2 rounded-lg bg-gray-800 text-white" required />
+  <input type="password" id="password" placeholder="Password" class="w-full px-4 py-2 rounded-lg bg-gray-800 text-white" required />
+  <div class="flex items-center">
+    <input type="checkbox" id="rememberMe" class="mr-2" />
+    <label for="rememberMe">Remember Me</label>
+  </div>
+  <div class="flex justify-between">
+    <button id="loginBtn" type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg w-full">Login</button>
+    <button id="signupBtn" type="button" class="ml-2 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg">Sign Up</button>
+  </div>
+  <div id="loadingSpinner" class="text-center hidden">⏳ Loading...</div>
+</form>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
-      authDomain: "my-website-357cb.firebaseapp.com",
-      projectId: "my-website-357cb",
-      storageBucket: "my-website-357cb.appspot.com",
-      messagingSenderId: "759627961944",
-      appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d",
-      measurementId: "G-MK9ZP12G83"
-    };
+  </div>
+</div><div id="unlockAnimation" class="text-center mt-10">
+  <div class="text-6xl mb-4">🔐</div>
+  <div class="text-4xl mb-4 animate-bounce">🔑</div>
+  <div class="text-6xl mb-4">🚪</div>
+  <img id="logoImage" src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" class="mx-auto w-40 h-40 animate-pulse" alt="Logo" />
+  <p class="mt-6 text-2xl">Welcome to Nicholas' Universe ✨</p>
+</div><audio id="welcomeAudio" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
-    window.login = () => {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      const rememberMe = document.getElementById("rememberMe").checked;
-      const loader = document.getElementById("loader");
-      loader.style.display = "block";
+  const firebaseConfig = {
+    apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
+    authDomain: "my-website-357cb.firebaseapp.com",
+    projectId: "my-website-357cb",
+    storageBucket: "my-website-357cb.appspot.com",
+    messagingSenderId: "759627961944",
+    appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d",
+    measurementId: "G-MK9ZP12G83"
+  };
 
-      const persistence = rememberMe ? browserLocalPersistence : browserSessionPersistence;
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-      setPersistence(auth, persistence)
-        .then(() => signInWithEmailAndPassword(auth, email, password))
-        .then(() => {
-          loader.style.display = "none";
-          document.querySelector('.container').style.display = 'none';
-          const animation = document.getElementById("animationWrapper");
-          animation.style.display = "flex";
-          setTimeout(() => {
-            window.location.href = "home.html";
-          }, 6000);
-        })
-        .catch((error) => {
-          loader.style.display = "none";
-          alert("Login Failed: " + error.message);
-        });
-    };
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const loginBtn = document.getElementById("loginBtn");
+  const signupBtn = document.getElementById("signupBtn");
+  const loadingSpinner = document.getElementById("loadingSpinner");
+  const rememberMe = document.getElementById("rememberMe");
+  const welcomeAudio = document.getElementById("welcomeAudio");
 
-    document.getElementById("signupLink").addEventListener("click", (e) => {
-      e.preventDefault();
-      const email = prompt("Enter your email to sign up:");
-      const password = prompt("Enter your password:");
-      if (email && password) {
-        createUserWithEmailAndPassword(auth, email, password)
-          .then(() => alert("Account created successfully! Please login."))
-          .catch((error) => alert("Signup Failed: " + error.message));
-      }
-    });
-  </script></body>
+  document.getElementById("authForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    loadingSpinner.classList.remove("hidden");
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
+      if (rememberMe.checked) localStorage.setItem("email", emailInput.value);
+      startUnlockAnimation();
+    } catch (error) {
+      alert("Login failed: " + error.message);
+    }
+    loadingSpinner.classList.add("hidden");
+  });
+
+  signupBtn.addEventListener("click", async () => {
+    try {
+      await createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
+      alert("Signup successful! Now login.");
+    } catch (error) {
+      alert("Signup failed: " + error.message);
+    }
+  });
+
+  function startUnlockAnimation() {
+    document.getElementById("authSection").style.display = "none";
+    const unlockSection = document.getElementById("unlockAnimation");
+    unlockSection.style.display = "block";
+    welcomeAudio.play();
+    setTimeout(() => {
+      window.location.href = "home.html";
+    }, 6000);
+  }
+
+  // Auto-fill email if remembered
+  const savedEmail = localStorage.getItem("email");
+  if (savedEmail) emailInput.value = savedEmail;
+</script></body>
 </html>

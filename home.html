@@ -423,43 +423,6 @@
       .hero { min-height: 140px; padding: 35px 4vw 10px 4vw;}
       nav .logo { margin-right: 10px;}
     }
-    
-  <!-- Firebase Auth and Tracking -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
-      authDomain: "my-website-357cb.firebaseapp.com",
-      projectId: "my-website-357cb",
-      storageBucket: "my-website-357cb.appspot.com",
-      messagingSenderId: "759627961944",
-      appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d",
-      measurementId: "G-MK9ZP12G83"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const userRef = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userRef);
-
-        if (!userSnap.exists()) {
-          await setDoc(userRef, {
-            email: user.email,
-            createdAt: new Date().toISOString()
-          });
-          console.log("New user saved:", user.email);
-        } else {
-          console.log("Existing user:", user.email);
-        }
-      }
-    });
   </style>
   <!-- EmailJS CDN -->
   <script src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
@@ -736,7 +699,45 @@
     }).catch((error) => {
       console.error("Sign-out error:", error);
     });
+    <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+  // Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
+    authDomain: "my-website-357cb.firebaseapp.com",
+    projectId: "my-website-357cb",
+    storageBucket: "my-website-357cb.appspot.com",
+    messagingSenderId: "759627961944",
+    appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d",
+    measurementId: "G-MK9ZP12G83"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Track signed-in users
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        await setDoc(userRef, {
+          email: user.email,
+          createdAt: new Date().toISOString()
+        });
+        console.log("New user saved:", user.email);
+      } else {
+        console.log("Existing user:", user.email);
+      }
+    }
   });
+</script>
   </script>
  <div class="text-center mt-10">
   <button id="signOutBtn"

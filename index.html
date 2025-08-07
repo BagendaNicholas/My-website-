@@ -6,7 +6,6 @@
   <title>Nicholas Bagenda – Login</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <script type="module">
-    // Import Firebase SDKs
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
     import {
       getAuth,
@@ -15,7 +14,6 @@
       onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
-    // Your Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
       authDomain: "my-website-357cb.firebaseapp.com",
@@ -26,32 +24,34 @@
       measurementId: "G-MK9ZP12G83"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // Auth Functions
-    document.getElementById("signupBtn").addEventListener("click", () => {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(() => alert("✅ Signup successful!"))
-        .catch(err => alert("❌ Signup Error: " + err.message));
-    });
+    document.addEventListener("DOMContentLoaded", () => {
+      const signupBtn = document.getElementById("signupBtn");
+      const loginBtn = document.getElementById("loginBtn");
 
-    document.getElementById("loginBtn").addEventListener("click", () => {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => window.location.href = "home.html")
-        .catch(err => alert("❌ Login Error: " + err.message));
-    });
+      signupBtn.addEventListener("click", () => {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        createUserWithEmailAndPassword(auth, email, password)
+          .then(() => alert("✅ Signup successful!"))
+          .catch(err => alert("❌ Signup Error: " + err.message));
+      });
 
-    // Auto-login redirect
-    onAuthStateChanged(auth, user => {
-      if (user) {
-        window.location.href = "home.html";
-      }
+      loginBtn.addEventListener("click", () => {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        signInWithEmailAndPassword(auth, email, password)
+          .then(() => window.location.href = "home.html")
+          .catch(err => alert("❌ Login Error: " + err.message));
+      });
+
+      onAuthStateChanged(auth, user => {
+        if (user) {
+          window.location.href = "home.html";
+        }
+      });
     });
   </script>
 </head>

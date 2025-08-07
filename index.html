@@ -1,116 +1,165 @@
-<!DOCTYPE html><html lang="en"><head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login | Nicholas' Universe</title>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";const firebaseConfig = {
-  apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
-  authDomain: "my-website-357cb.firebaseapp.com",
-  projectId: "my-website-357cb",
-  storageBucket: "my-website-357cb.firebasestorage.app",
-  messagingSenderId: "759627961944",
-  appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d",
-  measurementId: "G-MK9ZP12G83"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-document.getElementById("loginBtn").addEventListener("click", () => {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      document.querySelector("#padlock").classList.add("unlock");
-      setTimeout(() => {
-        document.querySelector("#door").classList.add("open");
-        setTimeout(() => {
-          document.querySelector("#logo").classList.add("reveal");
-          const audio = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
-          audio.play();
-          const welcome = new SpeechSynthesisUtterance("Welcome to Nicholas' universe");
-          speechSynthesis.speak(welcome);
-          setTimeout(() => {
-            window.location.href = "home.html";
-          }, 4000);
-        }, 2000);
-      }, 2000);
-    })
-    .catch((error) => {
-      alert("Login failed: " + error.message);
-    });
-});
-
-  </script>
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nicholas Bagenda – Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
     body {
       margin: 0;
-      height: 100vh;
-      background: radial-gradient(#0a0a23, #000);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #010a1b, #000000);
       color: white;
-      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
     }
-    .login-box {
-      background: rgba(255, 255, 255, 0.1);
+    .container {
+      background-color: #0d1b2a;
       padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 0 30px #00f7ff;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
     }
     input {
-      display: block;
+      width: 90%;
+      padding: 12px;
       margin: 10px 0;
-      padding: 0.5rem;
-      border-radius: 8px;
-      width: 100%;
       border: none;
+      border-radius: 10px;
+    }
+    label {
+      display: block;
+      text-align: left;
+      margin: 5px 0 2px 20px;
+    }
+    .remember-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
+      font-size: 14px;
     }
     button {
-      padding: 0.6rem 1.2rem;
-      border-radius: 8px;
-      background: #00f7ff;
-      color: black;
+      padding: 12px 20px;
+      background: #00ffff;
       border: none;
+      border-radius: 10px;
       cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
     }
-    #padlock.unlock {
-      content: "🔓";
+    button:hover {
+      background: #00cccc;
     }
-    #door.open {
-      animation: openDoor 2s ease forwards;
+    .loader {
+      display: none;
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #00ffff;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
     }
-    #logo {
-      opacity: 0;
-      transform: scale(0.5);
-      transition: 2s ease;
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
-    #logo.reveal {
-      opacity: 1;
-      transform: scale(1);
-      box-shadow: 0 0 60px white;
-      animation: smoke 3s ease;
+    #animationWrapper {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: black;
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
-    @keyframes openDoor {
-      0% { transform: scaleX(1); }
-      100% { transform: scaleX(0); }
+    #animationWrapper img.logo {
+      width: 120px;
+      margin-top: -50px;
     }
-    @keyframes smoke {
-      0% { filter: blur(8px); }
-      100% { filter: blur(0px); }
+    audio {
+      display: none;
     }
   </style>
-</head><body>
-  <div class="login-box">
+</head>
+<body>
+  <div class="container">
     <h2>Login</h2>
-    <input type="email" id="email" placeholder="Email" />
-    <input type="password" id="password" placeholder="Password" />
-    <button id="loginBtn">Login</button>
-  </div>  <div id="padlock" style="font-size: 60px; margin: 20px;">🔒</div>
-  <div id="door" style="font-size: 100px; margin: 20px;">🚪</div>
-  <img id="logo" src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Logo" width="200">
-</body></html>
+    <label>Email</label>
+    <input type="email" id="email" placeholder="Enter your email" required />
+    <label>Password</label>
+    <input type="password" id="password" placeholder="Enter your password" required />
+    <div class="remember-container">
+      <label><input type="checkbox" id="rememberMe" /> Remember Me</label>
+      <a href="#" id="signupLink" style="color: #00ffff">Sign Up</a>
+    </div>
+    <button onclick="login()">Login</button>
+    <div class="loader" id="loader"></div>
+  </div>  <div id="animationWrapper">
+    <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" class="logo"/>
+    <p style="font-size: 1.5rem; color: white; margin-top: 1rem;">Welcome to Nicholas' Universe</p>
+    <audio autoplay>
+      <source src="https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav" type="audio/wav">
+    </audio>
+  </div>  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, setPersistence, browserLocalPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
+      authDomain: "my-website-357cb.firebaseapp.com",
+      projectId: "my-website-357cb",
+      storageBucket: "my-website-357cb.appspot.com",
+      messagingSenderId: "759627961944",
+      appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d",
+      measurementId: "G-MK9ZP12G83"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.login = () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const rememberMe = document.getElementById("rememberMe").checked;
+      const loader = document.getElementById("loader");
+      loader.style.display = "block";
+
+      const persistence = rememberMe ? browserLocalPersistence : browserSessionPersistence;
+
+      setPersistence(auth, persistence)
+        .then(() => signInWithEmailAndPassword(auth, email, password))
+        .then(() => {
+          loader.style.display = "none";
+          document.querySelector('.container').style.display = 'none';
+          const animation = document.getElementById("animationWrapper");
+          animation.style.display = "flex";
+          setTimeout(() => {
+            window.location.href = "home.html";
+          }, 6000);
+        })
+        .catch((error) => {
+          loader.style.display = "none";
+          alert("Login Failed: " + error.message);
+        });
+    };
+
+    document.getElementById("signupLink").addEventListener("click", (e) => {
+      e.preventDefault();
+      const email = prompt("Enter your email to sign up:");
+      const password = prompt("Enter your password:");
+      if (email && password) {
+        createUserWithEmailAndPassword(auth, email, password)
+          .then(() => alert("Account created successfully! Please login."))
+          .catch((error) => alert("Signup Failed: " + error.message));
+      }
+    });
+  </script></body>
+</html>

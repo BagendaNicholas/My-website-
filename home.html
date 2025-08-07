@@ -53,7 +53,21 @@
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+  window.addEventListener('load', function () {
+    const audio = document.getElementById("loveAudio");
+    setTimeout(() => {
+      audio.muted = false;
+      audio.play().catch(e => {
+        console.log("Autoplay blocked. Waiting for user interaction.");
+      });
+    }, 1000);
+  });
 
+  document.addEventListener('click', () => {
+    const audio = document.getElementById("loveAudio");
+    audio.muted = false;
+    audio.play();
+  }, { once: true });
   <script>
     // Your Firebase config from Firebase Console
     const firebaseConfig = {

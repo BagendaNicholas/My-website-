@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-  <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Bagenda Logo" class="logo" />
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nicholas Bagenda – Login</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
     import {
       getAuth,
       createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-      onAuthStateChanged
+      signInWithEmailAndPassword
     } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
     const firebaseConfig = {
@@ -35,6 +34,7 @@
       signupBtn.addEventListener("click", () => {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
+
         createUserWithEmailAndPassword(auth, email, password)
           .then(() => alert("✅ Signup successful!"))
           .catch(err => alert("❌ Signup Error: " + err.message));
@@ -43,20 +43,22 @@
       loginBtn.addEventListener("click", () => {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
+
         signInWithEmailAndPassword(auth, email, password)
           .then(() => window.location.href = "home2.html")
           .catch(err => alert("❌ Login Error: " + err.message));
       });
-
-      onAuthStateChanged(auth, user => {
-        if (user) {
-          window.location.href = "home2.html";
-        }
-      });
     });
   </script>
 </head>
-<body class="bg-gradient-to-br from-gray-900 to-black text-white min-h-screen flex items-center justify-center">
+<body class="bg-gradient-to-br from-gray-900 to-black text-white min-h-screen flex items-center justify-center flex-col px-4">
+  
+  <!-- 🔥 LOGO IMAGE -->
+  <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png"
+       alt="Bagenda Logo"
+       class="w-32 h-auto mb-6 rounded-xl shadow-lg border-2 border-purple-400" />
+
+  <!-- 🔐 LOGIN BOX -->
   <div class="bg-white bg-opacity-10 p-8 rounded-2xl shadow-lg w-full max-w-md">
     <h1 class="text-3xl font-bold mb-6 text-center text-purple-400">🔥 Nicholas Bagenda – Login</h1>
     <input id="email" type="email" placeholder="Email" class="w-full p-3 rounded-lg mb-4 text-black" />
@@ -66,5 +68,6 @@
       <button id="loginBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl w-full">Sign In</button>
     </div>
   </div>
+
 </body>
 </html>

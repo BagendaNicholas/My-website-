@@ -2,237 +2,106 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nicholas Bagenda – Login</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
-
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <style>
     body {
-      background: linear-gradient(to bottom, #0f172a, #1e293b);
-      overflow: hidden;
-    }
-    .raindrop {
-      position: absolute;
-      width: 2px;
-      height: 20px;
-      background: rgba(255, 255, 255, 0.5);
-      animation: fall 1s linear infinite;
-      border-radius: 50px;
-    }
-    @keyframes fall {
-      0% { transform: translateY(-100%); opacity: 1; }
-      100% { transform: translateY(100vh); opacity: 0; }
-    }
-
-    .logo-glow {
-      animation: pulseGlow 4s ease-in-out infinite;
-    }
-    @keyframes pulseGlow {
-      0%, 100% { filter: drop-shadow(0 0 10px #60a5fa); }
-      50% { filter: drop-shadow(0 0 30px #a78bfa); }
-    }
-
-    .glow-text {
-      background: linear-gradient(90deg, #ffffff, #a78bfa, #60a5fa, #ffffff);
-      background-size: 300% 300%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: shimmer 5s infinite linear;
-    }
-    @keyframes shimmer {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.95);
-      z-index: 50;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
-    .unlock-sequence {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      animation: fadeIn 1s forwards;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.8); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .key-icon {
-      font-size: 60px;
-      animation: keyFly 2s ease forwards;
-    }
-    @keyframes keyFly {
-      0% { transform: translateX(-200px) rotate(-360deg); opacity: 0; }
-      100% { transform: translateX(0) rotate(0); opacity: 1; }
-    }
-
-    .lock-icon {
-      font-size: 80px;
-      margin-top: 10px;
-      animation: lockOpen 2s ease-in-out 2s forwards;
-    }
-    @keyframes lockOpen {
-      0% { transform: rotate(0); }
-      100% { transform: rotate(20deg); }
+      background: linear-gradient(to bottom right, #0f172a, #1e293b);
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
     }
 
     .door {
       width: 200px;
       height: 300px;
-      background: #1e3a8a;
-      border: 4px solid #3b82f6;
-      margin-top: 40px;
-      transform: scaleX(1);
-      opacity: 1;
-      animation: doorOpen 2s ease-in-out 4s forwards;
-    }
-    @keyframes doorOpen {
-      0% { transform: scaleX(1); opacity: 1; }
-      100% { transform: scaleX(0); opacity: 0; }
+      background: #333;
+      border: 4px solid #00f0ff;
+      margin: auto;
+      margin-top: 50px;
+      position: relative;
+      border-radius: 10px;
+      box-shadow: 0 0 40px #00f0ff;
+      overflow: hidden;
+      transition: transform 2s ease;
     }
 
-    .logo-appear {
-      opacity: 0;
-      transform: scale(0.5);
-      animation: logoShow 2s ease-in-out 6s forwards;
+    .door.open {
+      transform: rotateY(130deg);
     }
-    @keyframes logoShow {
-      to { opacity: 1; transform: scale(1); }
+
+    .smoke {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at center, rgba(255,255,255,0.3), transparent);
+      animation: smokeRise 4s infinite linear;
+      opacity: 0.6;
+    }
+
+    @keyframes smokeRise {
+      0% { transform: translateY(100%); opacity: 0.6; }
+      100% { transform: translateY(-100%); opacity: 0; }
+    }
+
+    .second-logo {
+      display: none;
+      width: 120px;
+      margin: 20px auto;
+      transition: opacity 2s ease-in;
+    }
+
+    .second-logo.visible {
+      display: block;
+      opacity: 1;
+    }
+
+    .audio-control {
+      display: none;
+    }
+
+    .show {
+      display: block;
     }
   </style>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import {
-      getAuth,
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
-      authDomain: "my-website-357cb.firebaseapp.com",
-      projectId: "my-website-357cb",
-      storageBucket: "my-website-357cb.appspot.com",
-      messagingSenderId: "759627961944",
-      appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const signupBtn = document.getElementById("signupBtn");
-      const loginBtn = document.getElementById("loginBtn");
-
-      function startUnlockAnimation() {
-        const overlay = document.getElementById('unlockOverlay');
-        overlay.style.display = 'flex';
-        setTimeout(() => {
-          window.location.href = "home.html";
-        }, 9000);
-      }
-
-      signupBtn.addEventListener("click", () => {
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        createUserWithEmailAndPassword(auth, email, password)
-          .then(startUnlockAnimation)
-          .catch(err => alert("❌ Signup Error: " + err.message));
-      });
-
-      loginBtn.addEventListener("click", () => {
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        signInWithEmailAndPassword(auth, email, password)
-          .then(startUnlockAnimation)
-          .catch(err => alert("❌ Login Error: " + err.message));
-      });
-
-      for (let i = 0; i < 100; i++) {
-        const drop = document.createElement('div');
-        drop.className = 'raindrop';
-        drop.style.left = Math.random() * 100 + 'vw';
-        drop.style.animationDuration = (Math.random() * 1.5 + 0.5) + 's';
-        drop.style.opacity = Math.random();
-        document.body.appendChild(drop);
-      }
-    });
-  </script>
 </head>
+<body class="text-center p-4">
 
-<body class="text-white min-h-screen flex items-center justify-center flex-col px-4">
+  <h1 class="text-3xl font-bold mb-6">🔐 Sign In to Enter</h1>
 
-  <!-- 🎧 AUDIO -->
-  <audio id="entryAudio" src="https://www.bensound.com/bensound-music/bensound-love.mp3" preload="auto" loop></audio>
-  <audio id="voiceAudio" src="https://cdn.pixabay.com/download/audio/2022/03/16/audio_0d50d8d4ba.mp3?filename=welcome-100583.mp3" preload="auto"></audio>
-
-  <!-- 🌟 LOGO -->
-  <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png"
-       alt="Bagenda Logo"
-       class="w-32 h-auto mb-6 rounded-xl border-2 border-blue-400 bg-white bg-opacity-10 backdrop-blur-sm logo-glow" />
-
-  <!-- 🔐 LOGIN BOX -->
-  <div class="bg-white bg-opacity-10 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md border border-blue-500">
-    <h1 class="text-3xl font-bold mb-6 text-center glow-text">🌟 Nicholas Bagenda – Login</h1>
-    <input id="email" type="email" placeholder="Email" class="w-full p-3 rounded-lg mb-4 text-black" />
-    <input id="password" type="password" placeholder="Password" class="w-full p-3 rounded-lg mb-6 text-black" />
-    <div class="flex justify-between gap-4">
-      <button id="signupBtn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl w-full">Sign Up</button>
-      <button id="loginBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl w-full">Sign In</button>
-    </div>
+  <div class="door" id="door">
+    <div class="smoke"></div>
   </div>
 
-  <!-- 🔓 ANIMATION OVERLAY -->
-  <div id="unlockOverlay" class="overlay">
-    <div class="unlock-sequence">
-      <div class="key-icon">🔑</div>
-      <div class="lock-icon">🔒</div>
-      <div class="relative">
-        <div class="door flex items-center justify-center">
-          <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png"
-               alt="Logo"
-               class="logo-appear w-20 h-auto" />
-        </div>
-        <!-- 🎯 FINAL LOGO IN PATH -->
-        <img id="finalLogo"
-             src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png"
-             class="w-20 h-auto mt-6 opacity-0 transition duration-1000"
-             alt="Final Logo" />
-      </div>
-      <div class="text-xl mt-2 glow-text">Access Granted – Welcome Nicholas 🌟</div>
-    </div>
+  <img src="https://your-image-link.com/second-logo.png" id="secondLogo" class="second-logo" alt="Nicholas Logo">
+
+  <div class="mt-8">
+    <input type="text" placeholder="Email" id="email" class="p-3 rounded mb-4 w-64 bg-gray-800 border border-blue-500 text-white" /><br>
+    <input type="password" placeholder="Password" id="password" class="p-3 rounded w-64 bg-gray-800 border border-blue-500 text-white" /><br>
+    <button onclick="signIn()" class="mt-4 px-6 py-3 bg-blue-600 hover:bg-blue-800 rounded-xl text-white font-bold">🚪 Enter Universe</button>
   </div>
 
-  <!-- 🌌 BACKGROUND WELCOME MESSAGE -->
-  <div class="absolute top-10 w-full text-center z-0">
-    <h1 class="text-4xl md:text-5xl font-bold glow-text opacity-20">
-      ✨ Welcome to the Nicholas' Universe ✨
-    </h1>
-  </div>
+  <audio id="welcomeAudio">
+    <source src="https://example.com/welcome-to-nicholas-universe.mp3" type="audio/mpeg">
+    Your browser does not support the audio tag.
+  </audio>
 
-  <!-- 🧠 LOGIC TO TRIGGER FINAL LOGO + AUDIO -->
   <script>
-    setTimeout(() => {
-      const finalLogo = document.getElementById("finalLogo");
-      const music = document.getElementById("entryAudio");
-      const voice = document.getElementById("voiceAudio");
+    function signIn() {
+      const door = document.getElementById("door");
+      const logo = document.getElementById("secondLogo");
+      const audio = document.getElementById("welcomeAudio");
 
-      finalLogo.classList.remove("opacity-0");
-      finalLogo.classList.add("opacity-100");
+      // Simulate successful login
+      door.classList.add("open");
 
-      music.play().catch(e => console.warn("🔇 Music blocked:", e));
-      voice.play().catch(e => console.warn("🔇 Voice blocked:", e));
-    }, 6500);
+      setTimeout(() => {
+        logo.classList.add("visible");
+        audio.play();
+      }, 2000); // Delay to match door opening animation
+    }
   </script>
+
 </body>
 </html>

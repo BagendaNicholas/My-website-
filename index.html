@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Nicholas Bagenda – Login</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
-
-  <style>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>  <style>
     body {
       background: linear-gradient(to bottom, #0f172a, #1e293b);
       overflow: hidden;
@@ -91,15 +88,21 @@
       display: none;
     }
 
-    .key-icon {
-      position: absolute;
-      font-size: 80px;
-      animation: keyEntry 1.5s ease-in-out forwards;
-    }
-
     .padlock-icon {
       font-size: 80px;
       animation: fadeIn 1.2s ease forwards;
+    }
+
+    .key-icon {
+      font-size: 80px;
+      animation: keyTurn 3s ease forwards;
+      transform-origin: right center;
+    }
+
+    @keyframes keyTurn {
+      0% { transform: rotate(0deg); }
+      50% { transform: rotate(45deg); }
+      100% { transform: rotate(-120deg); }
     }
 
     .door {
@@ -109,12 +112,6 @@
       border: 4px solid #3b82f6;
       margin-top: 30px;
       animation: doorOpen 3s ease-in-out 2.5s forwards;
-    }
-
-    @keyframes keyEntry {
-      0% { transform: translate(-200px, -200px) rotate(-90deg); opacity: 0; }
-      50% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
-      100% { transform: translate(0, 20px) rotate(180deg); opacity: 1; }
     }
 
     @keyframes doorOpen {
@@ -141,9 +138,28 @@
       50% { transform: scale(1.2) translateY(0); opacity: 1; filter: blur(5px); }
       100% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); }
     }
-  </style>
 
-  <script type="module">
+    .lightning {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      opacity: 0;
+      z-index: 999;
+      pointer-events: none;
+      animation: flash 1s ease-in-out;
+    }
+
+    @keyframes flash {
+      0%, 100% { opacity: 0; }
+      10% { opacity: 1; }
+      20% { opacity: 0; }
+      30% { opacity: 0.7; }
+      50% { opacity: 0; }
+    }
+  </style>  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
     import {
       getAuth,
@@ -170,6 +186,10 @@
 
       function triggerSuccessAnimation() {
         const overlay = document.getElementById('unlockOverlay');
+        const lightning = document.createElement('div');
+        lightning.className = 'lightning';
+        document.body.appendChild(lightning);
+
         overlay.style.display = 'flex';
         welcomeAudio.play();
 
@@ -193,54 +213,41 @@
           .then(triggerSuccessAnimation)
           .catch(err => alert("❌ Login Error: " + err.message));
       });
+
+      for (let i = 0; i < 100; i++) {
+        const drop = document.createElement('div');
+        drop.className = 'raindrop';
+        drop.style.left = Math.random() * 100 + 'vw';
+        drop.style.animationDuration = (Math.random() * 1.5 + 0.5) + 's';
+        drop.style.opacity = Math.random();
+        document.body.appendChild(drop);
+      }
     });
-
-    for (let i = 0; i < 100; i++) {
-      const drop = document.createElement('div');
-      drop.className = 'raindrop';
-      drop.style.left = Math.random() * 100 + 'vw';
-      drop.style.animationDuration = (Math.random() * 1.5 + 0.5) + 's';
-      drop.style.opacity = Math.random();
-      document.body.appendChild(drop);
-    }
-  </script>
-</head>
-
+  </script></head>
 <body class="text-white min-h-screen flex items-center justify-center flex-col px-4 relative z-10">
   <div class="fog"></div>
-  <div class="smoke"></div>
-
-  <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png"
-       alt="Bagenda Logo"
-       class="w-32 h-auto mb-6 rounded-xl border-2 border-blue-400 bg-white bg-opacity-10 backdrop-blur-sm logo-glow" />
-
-  <div class="bg-white bg-opacity-10 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md border border-blue-500 z-20">
+  <div class="smoke"></div>  <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Bagenda Logo" class="w-32 h-auto mb-6 rounded-xl border-2 border-blue-400 bg-white bg-opacity-10 backdrop-blur-sm logo-glow" />  <div class="bg-white bg-opacity-10 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md border border-blue-500 z-20">
     <h1 class="text-3xl font-bold mb-6 text-center glow-text">🌟 Nicholas Bagenda – Login</h1>
     <input id="email" type="email" placeholder="Email" class="w-full p-3 rounded-lg mb-4 text-black" />
-    <input id="password" type="password" placeholder="Password" class="w-full p-3 rounded-lg mb-2 text-black" />
+    <input id="password" type="password" placeholder="Password" class="w-full p-3 rounded-lg mb-2 text-black" /><div class="flex justify-between items-center text-sm text-white mb-4">
+  <label class="flex items-center">
+    <input type="checkbox" class="mr-2" /> Remember Me
+  </label>
+  <a href="#" class="hover:underline text-blue-300">Forgot Password?</a>
+</div>
 
-    <div class="flex justify-between items-center text-sm text-white mb-4">
-      <label class="flex items-center">
-        <input type="checkbox" class="mr-2" /> Remember Me
-      </label>
-      <a href="#" class="hover:underline text-blue-300">Forgot Password?</a>
-    </div>
+<div class="flex justify-between gap-4">
+  <button id="signupBtn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl w-full">Sign Up</button>
+  <button id="loginBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl w-full">Sign In</button>
+</div>
 
-    <div class="flex justify-between gap-4">
-      <button id="signupBtn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl w-full">Sign Up</button>
-      <button id="loginBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl w-full">Sign In</button>
-    </div>
-  </div>
-
-  <div id="unlockOverlay" class="overlay">
+  </div>  <div id="unlockOverlay" class="overlay">
     <div class="padlock-icon">🔒</div>
     <div class="key-icon">🔑</div>
     <div class="door"></div>
     <div class="mt-4 text-lg glow-text">Access Granted. Welcome to the Nicholas' Universe 🌟</div>
     <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Bagenda Logo" class="hero-logo" />
-  </div>
-
-  <audio id="welcomeAudio" controls style="display: none;">
+  </div>  <audio id="welcomeAudio" controls style="display: none;">
     <source src="https://raw.githubusercontent.com/BagendaNicholas/My-website-/main/ttsMP3.com_VoiceText_2025-8-7_20-36-46.mp3" type="audio/mp3">
     Your browser does not support the audio tag.
   </audio>

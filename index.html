@@ -63,7 +63,13 @@
       display: none;
     }
 
-    .lock-icon {
+    .key-icon {
+      position: absolute;
+      font-size: 80px;
+      animation: keyEntry 1.5s ease-in-out forwards;
+    }
+
+    .padlock-icon {
       font-size: 80px;
       animation: fadeIn 1.2s ease forwards;
     }
@@ -74,11 +80,18 @@
       background: #1e3a8a;
       border: 4px solid #3b82f6;
       margin-top: 30px;
-      animation: doorOpen 3s ease-in-out forwards;
+      opacity: 0; /* Starts hidden */
+      animation: doorOpen 3s ease-in-out 2.5s forwards; /* Delayed animation */
+    }
+
+    @keyframes keyEntry {
+      0% { transform: translate(-200px, -200px) rotate(-90deg); opacity: 0; }
+      50% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+      100% { transform: translate(0, 20px) rotate(180deg); opacity: 1; }
     }
 
     @keyframes doorOpen {
-      0% { transform: scaleX(1); opacity: 0; }
+      0% { transform: scaleX(1); opacity: 1; }
       100% { transform: scaleX(0); opacity: 1; }
     }
 
@@ -112,14 +125,16 @@
     document.addEventListener("DOMContentLoaded", () => {
       const signupBtn = document.getElementById("signupBtn");
       const loginBtn = document.getElementById("loginBtn");
+      const welcomeAudio = document.getElementById("welcomeAudio");
 
       function triggerSuccessAnimation() {
         const overlay = document.getElementById('unlockOverlay');
         overlay.style.display = 'flex';
+        welcomeAudio.play();
 
         setTimeout(() => {
           window.location.href = "home.html";
-        }, 4000);
+        }, 5000); // Increased delay to 5 seconds to accommodate the new animations and audio
       }
 
       signupBtn.addEventListener("click", () => {
@@ -153,12 +168,10 @@
 
 <body class="text-white min-h-screen flex items-center justify-center flex-col px-4">
 
-  <!-- ✨ GLOWING LOGO -->
   <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png"
        alt="Bagenda Logo"
        class="w-32 h-auto mb-6 rounded-xl border-2 border-blue-400 bg-white bg-opacity-10 backdrop-blur-sm logo-glow" />
 
-  <!-- 🔐 LOGIN BOX -->
   <div class="bg-white bg-opacity-10 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md border border-blue-500">
     <h1 class="text-3xl font-bold mb-6 text-center glow-text">🌟 Nicholas Bagenda – Login</h1>
     <input id="email" type="email" placeholder="Email" class="w-full p-3 rounded-lg mb-4 text-black" />
@@ -169,12 +182,15 @@
     </div>
   </div>
 
-  <!-- 🔓 UNLOCK OVERLAY -->
   <div id="unlockOverlay" class="overlay">
-    <div class="lock-icon">🔒</div>
+    <div class="padlock-icon">🔒</div>
+    <div class="key-icon">🔑</div>
     <div class="door"></div>
-    <div class="mt-4 text-lg glow-text">Access Granted. Welcome, Nicholas 🌟</div>
+    <div class="mt-4 text-lg glow-text">Access Granted. Welcome to the Nicholas' Universe 🌟</div>
   </div>
+
+  <audio id="welcomeAudio" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="auto"></audio>
 
 </body>
 </html>
+

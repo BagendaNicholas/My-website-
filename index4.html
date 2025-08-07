@@ -1,45 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Nicholas Bagenda – Home</title>
-    
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-          apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
-          authDomain: "my-website-357cb.firebaseapp.com",
-          projectId: "my-website-357cb",
-          storageBucket: "my-website-357cb.firebasestorage.app",
-          messagingSenderId: "759627961944",
-          appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d"
-        };
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        onAuthStateChanged(auth, (user) => {
-            if (!user) {
-                // User is not signed in, redirect them to the sign-in page.
-                window.location.href = "index.html"; 
-            }
-        });
-
-        document.getElementById('signout-button').addEventListener('click', () => {
-            signOut(auth).then(() => {
-                console.log("User signed out successfully.");
-            }).catch((error) => {
-                console.error("Sign out error:", error);
-            });
-        });
-    </script>
-
-
-<html lang="en">
-<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Inspiration ✨ | Bagenda</title>
@@ -144,7 +105,6 @@
   </style>
 </head>
 <body id="top">
-
   <header>
     <h1>Inspiration ✨</h1>
   </header>

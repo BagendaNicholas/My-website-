@@ -2,96 +2,81 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nicholas Bagenda – Home</title>
-
-  <!-- Firebase -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_AUTH_DOMAIN",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_STORAGE_BUCKET",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    const welcome = document.getElementById("welcome");
-    const signOutBtn = document.getElementById("signOutBtn");
-
-    onAuthStateChanged(auth, user => {
-      if (user) {
-        welcome.innerText = `Welcome, ${user.email}`;
-      } else {
-        window.location.href = "index.html"; // redirect if not logged in
-      }
-    });
-
-    signOutBtn.addEventListener("click", () => {
-      signOut(auth).then(() => {
-        window.location.href = "index.html";
-      });
-    });
-  </script>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welcome | Nicholas Bagenda</title>
   <style>
     body {
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      color: #fff;
+      background: linear-gradient(to bottom right, #1d1e33, #111);
+      color: white;
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
-      padding: 2rem;
-      margin: 0;
+      padding: 50px;
     }
-
+    .container {
+      background-color: #2a2b3c;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+      max-width: 500px;
+      margin: auto;
+    }
     h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      text-shadow: 0 0 15px #6a11cb;
+      color: #00ffff;
     }
-
-    #welcome {
-      font-size: 1.5rem;
-      margin-bottom: 2rem;
-    }
-
-    #signOutBtn {
-      background: linear-gradient(to right, #ff416c, #ff4b2b);
-      border: none;
-      padding: 12px 24px;
+    button {
+      background: crimson;
       color: white;
+      padding: 12px 25px;
       font-size: 16px;
-      font-weight: bold;
-      border-radius: 30px;
-      box-shadow: 0 0 10px #ff4b2b;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background 0.3s ease;
+      margin-top: 20px;
     }
-
-    #signOutBtn:hover {
-      background: linear-gradient(to right, #ff4b2b, #ff416c);
-    }
-
-    .glow-box {
-      margin-top: 2rem;
-      padding: 2rem;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.05);
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+    button:hover {
+      background: #ff4c4c;
     }
   </style>
 </head>
 <body>
-  <h1>Nicholas Bagenda</h1>
-  <div class="glow-box">
-    <p id="welcome">Loading...</p>
-    <button id="signOutBtn">Sign Out</button>
+  <div class="container">
+    <h1>Welcome, Nicholas! 🎉</h1>
+    <p>You have successfully logged in.</p>
+    <button onclick="logout()">Logout</button>
   </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+
+  <script>
+    // Your Firebase config from Firebase Console
+    const firebaseConfig = {
+      apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
+      authDomain: "my-website-357cb.firebaseapp.com",
+      projectId: "my-website-357cb",
+      storageBucket: "my-website-357cb.firebasestorage.app",
+      messagingSenderId: "759627961944",
+      appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d",
+      measurementId: "G-MK9ZP12G83"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Check if user is logged in
+    firebase.auth().onAuthStateChanged((user) => {
+      if (!user) {
+        // If not logged in, redirect to login page
+        window.location.href = "index.html";
+      }
+    });
+
+    function logout() {
+      firebase.auth().signOut().then(() => {
+        window.location.href = "index.html";
+      });
+    }
+  </script>
 </body>
 </html>

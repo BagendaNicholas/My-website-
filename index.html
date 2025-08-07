@@ -2,132 +2,68 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login | Nicholas Bagenda</title>
-  <style>
-    body {
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      color: white;
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
-
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      color: #00ffcc;
-      text-shadow: 0 0 10px #00ffcc;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      background: rgba(0, 0, 0, 0.4);
-      padding: 2rem;
-      border-radius: 1rem;
-      box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
-      width: 90%;
-      max-width: 400px;
-    }
-
-    input {
-      padding: 0.75rem;
-      border: none;
-      border-radius: 0.5rem;
-      outline: none;
-      font-size: 1rem;
-    }
-
-    button {
-      padding: 0.75rem;
-      border: none;
-      border-radius: 0.5rem;
-      background: #00ffcc;
-      color: #000;
-      font-weight: bold;
-      font-size: 1rem;
-      cursor: pointer;
-      box-shadow: 0 0 15px #00ffcc;
-      transition: background 0.3s;
-    }
-
-    button:hover {
-      background: #00ccaa;
-    }
-
-    .error {
-      color: red;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <h1>🔐 Login / Sign Up</h1>
-  <form id="authForm">
-    <input type="email" id="email" placeholder="Email" required />
-    <input type="password" id="password" placeholder="Password" required />
-    <button type="submit">Login or Register</button>
-    <p class="error" id="errorMessage"></p>
-  </form>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nicholas Bagenda – Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <script type="module">
+    // Import Firebase SDKs
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
     import {
       getAuth,
-      signInWithEmailAndPassword,
       createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
       onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
+    // Your Firebase config
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
+      apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
+      authDomain: "my-website-357cb.firebaseapp.com",
+      projectId: "my-website-357cb",
+      storageBucket: "my-website-357cb.firebasestorage.app",
+      messagingSenderId: "759627961944",
+      appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d",
+      measurementId: "G-MK9ZP12G83"
     };
 
+    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    const form = document.getElementById("authForm");
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-    const errorMessage = document.getElementById("errorMessage");
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const email = emailInput.value;
-      const password = passwordInput.value;
-
-      try {
-        // Try sign in first
-        await signInWithEmailAndPassword(auth, email, password);
-        window.location.href = "home.html";
-      } catch (err) {
-        // If sign in fails, try create account
-        try {
-          await createUserWithEmailAndPassword(auth, email, password);
-          window.location.href = "home.html";
-        } catch (signupErr) {
-          errorMessage.textContent = signupErr.message;
-        }
-      }
+    // Auth Functions
+    document.getElementById("signupBtn").addEventListener("click", () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => alert("✅ Signup successful!"))
+        .catch(err => alert("❌ Signup Error: " + err.message));
     });
 
-    // Auto redirect if already logged in
-    onAuthStateChanged(auth, (user) => {
+    document.getElementById("loginBtn").addEventListener("click", () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => window.location.href = "home.html")
+        .catch(err => alert("❌ Login Error: " + err.message));
+    });
+
+    // Auto-login redirect
+    onAuthStateChanged(auth, user => {
       if (user) {
         window.location.href = "home.html";
       }
     });
   </script>
+</head>
+<body class="bg-gradient-to-br from-gray-900 to-black text-white min-h-screen flex items-center justify-center">
+  <div class="bg-white bg-opacity-10 p-8 rounded-2xl shadow-lg w-full max-w-md">
+    <h1 class="text-3xl font-bold mb-6 text-center text-purple-400">🔥 Nicholas Bagenda – Login</h1>
+    <input id="email" type="email" placeholder="Email" class="w-full p-3 rounded-lg mb-4 text-black" />
+    <input id="password" type="password" placeholder="Password" class="w-full p-3 rounded-lg mb-6 text-black" />
+    <div class="flex justify-between gap-4">
+      <button id="signupBtn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl w-full">Sign Up</button>
+      <button id="loginBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl w-full">Sign In</button>
+    </div>
+  </div>
 </body>
 </html>

@@ -2,9 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Nicholas Bagenda – Login</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+
+  <style>
+    /* 💧 Water Dropping Background Animation */
+    body {
+      background: linear-gradient(to bottom, #0f172a, #1e293b);
+      overflow: hidden;
+    }
+
+    .raindrop {
+      position: absolute;
+      width: 2px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.5);
+      animation: fall 1s linear infinite;
+      border-radius: 50px;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100%);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+  </style>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
     import {
@@ -18,7 +47,7 @@
       apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
       authDomain: "my-website-357cb.firebaseapp.com",
       projectId: "my-website-357cb",
-      storageBucket: "my-website-357cb.firebasestorage.app",
+      storageBucket: "my-website-357cb.appspot.com",
       messagingSenderId: "759627961944",
       appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d",
       measurementId: "G-MK9ZP12G83"
@@ -52,19 +81,30 @@
           window.location.href = "home.html";
         }
       });
+
+      // 💧 Create Rain Drops Dynamically
+      for (let i = 0; i < 100; i++) {
+        const drop = document.createElement('div');
+        drop.className = 'raindrop';
+        drop.style.left = Math.random() * 100 + 'vw';
+        drop.style.animationDuration = (Math.random() * 1.5 + 0.5) + 's';
+        drop.style.opacity = Math.random();
+        document.body.appendChild(drop);
+      }
     });
   </script>
 </head>
-<body class="bg-gradient-to-br from-gray-900 to-black text-white min-h-screen flex items-center justify-center flex-col px-4">
-  
+
+<body class="text-white min-h-screen flex items-center justify-center flex-col px-4">
+
   <!-- 🔥 LOGO IMAGE -->
   <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png"
        alt="Bagenda Logo"
-       class="w-32 h-auto mb-6 rounded-xl shadow-lg border-2 border-purple-400" />
+       class="w-32 h-auto mb-6 rounded-xl shadow-lg border-2 border-blue-400 bg-white bg-opacity-10 backdrop-blur-sm" />
 
   <!-- 🔐 LOGIN BOX -->
-  <div class="bg-white bg-opacity-10 p-8 rounded-2xl shadow-lg w-full max-w-md">
-    <h1 class="text-3xl font-bold mb-6 text-center text-purple-400">🔥 Nicholas Bagenda – Login</h1>
+  <div class="bg-white bg-opacity-10 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md border border-blue-500">
+    <h1 class="text-3xl font-bold mb-6 text-center text-blue-300">💧 Nicholas Bagenda – Login</h1>
     <input id="email" type="email" placeholder="Email" class="w-full p-3 rounded-lg mb-4 text-black" />
     <input id="password" type="password" placeholder="Password" class="w-full p-3 rounded-lg mb-6 text-black" />
     <div class="flex justify-between gap-4">

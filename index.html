@@ -147,14 +147,11 @@
       function triggerSuccessAnimation() {
         const overlay = document.getElementById('unlockOverlay');
         overlay.style.display = 'flex';
-        // Playing the audio here to ensure it's triggered by a user action (the button click)
-        // This is a reliable way to play audio in modern browsers that often block 'autoplay'.
         welcomeAudio.play();
 
-        // New timeout to wait for all animations to complete before redirecting
         setTimeout(() => {
           window.location.href = "home.html";
-        }, 7000); // Increased delay to 7 seconds to accommodate the new animations
+        }, 7000);
       }
 
       signupBtn.addEventListener("click", () => {
@@ -213,10 +210,9 @@
   </div>
 
   <audio id="welcomeAudio" controls style="display: none;">
-      <source src="welcome_to_nicholas_universe.mp3" type="audio/mp3">
-      Your browser does not support the audio tag.
+    <source src="https://raw.githubusercontent.com/BagendaNicholas/My-website-/main/ttsMP3.com_VoiceText_2025-8-7_20-36-46.mp3" type="audio/mp3">
+    Your browser does not support the audio tag.
   </audio>
 
 </body>
 </html>
-

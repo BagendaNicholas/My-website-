@@ -7,7 +7,6 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
 
   <style>
-    /* Background & Rain */
     body {
       background: linear-gradient(to bottom, #0f172a, #1e293b);
       overflow: hidden;
@@ -25,7 +24,6 @@
       100% { transform: translateY(100vh); opacity: 0; }
     }
 
-    /* Logo & Text Shine */
     .logo-glow {
       animation: pulseGlow 4s ease-in-out infinite;
     }
@@ -33,6 +31,7 @@
       0%, 100% { filter: drop-shadow(0 0 10px #60a5fa); }
       50% { filter: drop-shadow(0 0 30px #a78bfa); }
     }
+
     .glow-text {
       background: linear-gradient(90deg, #ffffff, #a78bfa, #60a5fa, #ffffff);
       background-size: 300% 300%;
@@ -46,7 +45,6 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* Overlay Animation */
     .overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -141,7 +139,7 @@
         overlay.style.display = 'flex';
         setTimeout(() => {
           window.location.href = "home.html";
-        }, 9000); // Animation duration
+        }, 9000);
       }
 
       signupBtn.addEventListener("click", () => {
@@ -160,7 +158,6 @@
           .catch(err => alert("❌ Login Error: " + err.message));
       });
 
-      // Rain effect
       for (let i = 0; i < 100; i++) {
         const drop = document.createElement('div');
         drop.className = 'raindrop';
@@ -174,6 +171,10 @@
 </head>
 
 <body class="text-white min-h-screen flex items-center justify-center flex-col px-4">
+
+  <!-- 🎧 AUDIO -->
+  <audio id="entryAudio" src="https://www.bensound.com/bensound-music/bensound-love.mp3" preload="auto" loop></audio>
+  <audio id="voiceAudio" src="https://cdn.pixabay.com/download/audio/2022/03/16/audio_0d50d8d4ba.mp3?filename=welcome-100583.mp3" preload="auto"></audio>
 
   <!-- 🌟 LOGO -->
   <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png"
@@ -202,16 +203,36 @@
                alt="Logo"
                class="logo-appear w-20 h-auto" />
         </div>
+        <!-- 🎯 FINAL LOGO IN PATH -->
+        <img id="finalLogo"
+             src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png"
+             class="w-20 h-auto mt-6 opacity-0 transition duration-1000"
+             alt="Final Logo" />
       </div>
       <div class="text-xl mt-2 glow-text">Access Granted – Welcome Nicholas 🌟</div>
     </div>
   </div>
 
-  <!-- 🌌 Background Welcome Message -->
+  <!-- 🌌 BACKGROUND WELCOME MESSAGE -->
   <div class="absolute top-10 w-full text-center z-0">
     <h1 class="text-4xl md:text-5xl font-bold glow-text opacity-20">
       ✨ Welcome to the Nicholas' Universe ✨
     </h1>
   </div>
+
+  <!-- 🧠 LOGIC TO TRIGGER FINAL LOGO + AUDIO -->
+  <script>
+    setTimeout(() => {
+      const finalLogo = document.getElementById("finalLogo");
+      const music = document.getElementById("entryAudio");
+      const voice = document.getElementById("voiceAudio");
+
+      finalLogo.classList.remove("opacity-0");
+      finalLogo.classList.add("opacity-100");
+
+      music.play().catch(e => console.warn("🔇 Music blocked:", e));
+      voice.play().catch(e => console.warn("🔇 Voice blocked:", e));
+    }, 6500);
+  </script>
 </body>
 </html>

@@ -1,109 +1,19 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+  <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Bagenda Logo" class="logo" />
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nicholas' Universe Login</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-      background: black;
-      color: white;
-      font-family: 'Segoe UI', sans-serif;
-    }.login-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(255, 255, 255, 0.1);
-  padding: 30px;
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 20px #00f7ff;
-}
-
-input, button {
-  display: block;
-  margin: 15px auto;
-  padding: 10px;
-  width: 80%;
-  border: none;
-  border-radius: 10px;
-}
-
-button {
-  background: #00f7ff;
-  color: black;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.spinner {
-  display: none;
-  margin: 0 auto;
-  border: 8px solid #f3f3f3;
-  border-top: 8px solid #00f7ff;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-#animationScene {
-  display: none;
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: url('https://i.ibb.co/D9DbYbZ/dark-bg.jpg') no-repeat center center/cover;
-  z-index: 10;
-}
-
-.logo-img {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 200px;
-  opacity: 0;
-  animation: showLogo 3s ease 2s forwards;
-}
-
-@keyframes showLogo {
-  to { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
-}
-
-.rain {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-image: url('https://i.ibb.co/vLZmyyx/raindrops.gif');
-  background-size: cover;
-  pointer-events: none;
-  opacity: 0.5;
-}
-
-  </style>
-</head>
-<body>
-  <div class="login-container">
-    <h2>🔐 Nicholas Login</h2>
-    <input type="email" id="email" placeholder="📧 Email">
-    <input type="password" id="password" placeholder="🔑 Password">
-    <label><input type="checkbox" id="rememberMe"> Remember Me</label>
-    <button onclick="login()">Sign In</button>
-    <button onclick="resetPassword()">Forgot Password?</button>
-    <div class="spinner" id="spinner"></div>
-  </div>  <!-- Animation Scene -->  <div id="animationScene">
-    <div class="rain"></div>
-    <img class="logo-img" src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="logo" />
-  </div>  <script type="module">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nicholas Bagenda – Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, setPersistence, browserLocalPersistence, sendEmailVerification } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
@@ -118,51 +28,43 @@ button {
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    window.login = async function () {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      const rememberMe = document.getElementById("rememberMe").checked;
-      document.getElementById("spinner").style.display = "block";
+    document.addEventListener("DOMContentLoaded", () => {
+      const signupBtn = document.getElementById("signupBtn");
+      const loginBtn = document.getElementById("loginBtn");
 
-      try {
-        await setPersistence(auth, rememberMe ? browserLocalPersistence : undefined);
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      signupBtn.addEventListener("click", () => {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        createUserWithEmailAndPassword(auth, email, password)
+          .then(() => alert("✅ Signup successful!"))
+          .catch(err => alert("❌ Signup Error: " + err.message));
+      });
 
-        if (!userCredential.user.emailVerified) {
-          alert("📩 Email not verified. Check your inbox.");
-          sendEmailVerification(userCredential.user);
-          document.getElementById("spinner").style.display = "none";
-          return;
+      loginBtn.addEventListener("click", () => {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        signInWithEmailAndPassword(auth, email, password)
+          .then(() => window.location.href = "home2.html")
+          .catch(err => alert("❌ Login Error: " + err.message));
+      });
+
+      onAuthStateChanged(auth, user => {
+        if (user) {
+          window.location.href = "home2.html";
         }
-
-        document.querySelector(".login-container").style.display = "none";
-        const animationScene = document.getElementById("animationScene");
-        animationScene.style.display = "block";
-
-        // Play voice
-        const voice = new SpeechSynthesisUtterance("Welcome to Nicholas' Universe");
-        window.speechSynthesis.speak(voice);
-
-        // Redirect after animation
-        setTimeout(() => {
-          window.location.href = "home.html";
-        }, 7000);
-      } catch (error) {
-        alert("❌ " + error.message);
-      } finally {
-        document.getElementById("spinner").style.display = "none";
-      }
-    }
-
-    window.resetPassword = async function () {
-      const email = document.getElementById("email").value;
-      if (!email) return alert("📩 Enter your email to reset password.");
-      try {
-        await sendPasswordResetEmail(auth, email);
-        alert("📬 Password reset email sent.");
-      } catch (error) {
-        alert("❌ " + error.message);
-      }
-    }
-  </script></body>
+      });
+    });
+  </script>
+</head>
+<body class="bg-gradient-to-br from-gray-900 to-black text-white min-h-screen flex items-center justify-center">
+  <div class="bg-white bg-opacity-10 p-8 rounded-2xl shadow-lg w-full max-w-md">
+    <h1 class="text-3xl font-bold mb-6 text-center text-purple-400">🔥 Nicholas Bagenda – Login</h1>
+    <input id="email" type="email" placeholder="Email" class="w-full p-3 rounded-lg mb-4 text-black" />
+    <input id="password" type="password" placeholder="Password" class="w-full p-3 rounded-lg mb-6 text-black" />
+    <div class="flex justify-between gap-4">
+      <button id="signupBtn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl w-full">Sign Up</button>
+      <button id="loginBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl w-full">Sign In</button>
+    </div>
+  </div>
+</body>
 </html>

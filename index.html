@@ -1,131 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login Magic | Nicholas Bagenda</title>
+  <meta charset="UTF-8">
+  <title>Welcome Nicholas 🌟</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
+    html, body {
       margin: 0;
-      background: radial-gradient(circle at bottom, #0c0f33, #000);
+      padding: 0;
       overflow: hidden;
-      font-family: 'Segoe UI', sans-serif;
+      height: 100%;
+      background: radial-gradient(#0c0c22, #000);
+      font-family: Arial, sans-serif;
+    }
+
+    .shine {
+      background: radial-gradient(circle at center, #222 10%, #000);
+      animation: shineEffect 4s ease-in-out forwards;
+    }
+
+    @keyframes shineEffect {
+      0% { background: radial-gradient(circle, #000, #000); }
+      50% { background: radial-gradient(circle at center, #333 10%, #000); }
+      100% { background: radial-gradient(circle at center, #111 10%, #000); }
     }
 
     .container {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
       position: relative;
-    }
-
-    .lock {
-      font-size: 100px;
-      color: gold;
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.1); opacity: 0.7; }
+      width: 100%;
+      height: 100%;
     }
 
     .key {
-      font-size: 50px;
-      color: #ffd700;
       position: absolute;
+      width: 60px;
       left: 20%;
-      bottom: 20%;
-      animation: moveKey 3s ease forwards;
-      opacity: 0;
+      top: 50%;
+      transform: translateY(-50%) rotate(-30deg);
+      animation: moveKey 3s forwards ease-in-out;
+      z-index: 5;
     }
 
     @keyframes moveKey {
-      0% { transform: translateX(0); opacity: 0; }
-      50% { transform: translateX(150px) rotate(45deg); opacity: 1; }
-      100% { transform: translate(300px, -100px) rotate(90deg); opacity: 0; }
+      0% { left: -80px; opacity: 0; }
+      40% { left: 40%; opacity: 1; }
+      60% { transform: rotate(0deg); }
+      80% { transform: rotate(20deg); }
+      100% { left: 45%; top: 50%; opacity: 1; }
+    }
+
+    .lock {
+      position: absolute;
+      width: 100px;
+      left: 50%;
+      top: 45%;
+      transform: translate(-50%, -50%);
+      z-index: 6;
+      animation: unlock 4s ease forwards;
+    }
+
+    @keyframes unlock {
+      0% {}
+      50% { transform: translate(-50%, -50%) rotate(10deg); }
+      100% { transform: translate(-50%, -50%) rotate(0deg); opacity: 0; }
     }
 
     .door {
-      width: 120px;
+      position: absolute;
+      width: 100px;
       height: 200px;
-      background: #444;
-      position: relative;
-      border-radius: 10px;
-      overflow: hidden;
-      animation: openDoor 3s ease 3s forwards;
-      opacity: 0;
+      background: linear-gradient(to right, #333, #111);
+      border: 3px solid #666;
+      left: 50%;
+      top: 40%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      animation: openDoor 6s ease-in-out forwards;
     }
 
     @keyframes openDoor {
-      0% { transform: scaleX(1); opacity: 1; }
-      100% { transform: scaleX(0.1); opacity: 1; }
-    }
-
-    .logo {
-      position: absolute;
-      width: 200px;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      opacity: 0;
-      animation: showLogo 1.5s ease 6s forwards;
-      z-index: 10;
-    }
-
-    @keyframes showLogo {
-      0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-      100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+      0% {}
+      50% { transform: translate(-50%, -50%) rotateY(0deg); }
+      100% { transform: translate(-50%, -50%) rotateY(110deg); opacity: 0; }
     }
 
     .smoke {
       position: absolute;
-      bottom: 0;
-      width: 100%;
-      height: 100px;
-      background: radial-gradient(ellipse at center, #aaa 0%, transparent 70%);
-      animation: rise 4s ease-in-out 6s forwards;
+      width: 200px;
+      height: 200px;
+      top: 30%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse, rgba(255,255,255,0.2), transparent);
+      filter: blur(10px);
       opacity: 0;
+      animation: smokeRise 6s forwards;
+      z-index: 2;
     }
 
-    @keyframes rise {
-      0% { transform: translateY(50px); opacity: 0; }
-      100% { transform: translateY(-50px); opacity: 1; }
+    @keyframes smokeRise {
+      0% { top: 45%; opacity: 0; }
+      30% { opacity: 0.2; }
+      70% { opacity: 0.6; top: 20%; }
+      100% { opacity: 0; top: 10%; }
     }
 
-    .glow-text {
-      margin-top: 40px;
-      color: #fff;
-      font-size: 1.5rem;
-      text-align: center;
-      text-shadow: 0 0 5px #fff, 0 0 10px #0ff, 0 0 20px #0ff;
-      animation: appearGlow 2s ease 7s forwards;
+    .logo {
+      position: absolute;
+      width: 160px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
       opacity: 0;
+      z-index: 3;
+      animation: appearLogo 6s ease-in-out forwards 4s;
     }
 
-    @keyframes appearGlow {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes appearLogo {
+      0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+      50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
     }
   </style>
 </head>
-<body>
+<body class="shine">
   <div class="container">
-    <div class="lock">🔒</div>
-    <div class="key">🔑</div>
+    <img src="https://cdn-icons-png.flaticon.com/512/2913/2913609.png" class="key" />
+    <img src="https://cdn-icons-png.flaticon.com/512/1628/1628595.png" class="lock" />
     <div class="door"></div>
-    <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Logo" class="logo" />
     <div class="smoke"></div>
-    <div class="glow-text">Welcome to Bagenda Nicholas Universe 🌍✨</div>
+    <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" class="logo" />
   </div>
 
   <script>
-    // You can trigger this with successful login
-    window.addEventListener('load', () => {
-      document.querySelector('.key').style.opacity = '1';
-    });
+    setTimeout(() => {
+      window.location.href = "home.html";
+    }, 9000); // redirect after 9s
   </script>
 </body>
 </html>

@@ -674,4 +674,32 @@
     });
   </script>
 </body>
+  <!-- Logout Button at Bottom -->
+<div style="position: fixed; bottom: 20px; width: 100%; text-align: center;">
+  <button id="logoutBtn"
+          style="background-color: #f44336; color: white; padding: 12px 24px; font-weight: bold; border: none; border-radius: 8px; cursor: pointer;">
+    🔓 Log Out
+  </button>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  document.getElementById("logoutBtn").addEventListener("click", function () {
+    signOut(auth).then(() => {
+      window.location.href = "index.html"; // Or back to login page
+    });
+  });
+</script>
 </html>

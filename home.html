@@ -1,6 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nicholas Bagenda – Login</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at top, #0f172a, #1e293b);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 2px solid #3b82f6;
+      padding: 30px;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 0 30px rgba(59, 130, 246, 0.7);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #3b82f6;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      background-color: #1e293b;
+      color: white;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(to right, #3b82f6, #6366f1);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    #logoutBtn {
+      background: #ef4444;
+      margin-top: 10px;
+    }
+
+    .toggle {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .toggle a {
+      color: #60a5fa;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 id="formTitle">Sign In</h2>
+
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+
+    <button id="signInBtn">Sign In</button>
+    <button id="signUpBtn" class="hidden">Sign Up</button>
+    <button id="logoutBtn" class="hidden">Sign Out</button>
+
+    <div class="toggle">
+      <span id="toggleText">Don't have an account?</span>
+      <a id="toggleLink">Sign Up</a>
+    </div>
+  </div>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MSG_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const signInBtn = document.getElementById('signInBtn');
+    const signUpBtn = document.getElementById('signUpBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const formTitle = document.getElementById('formTitle');
+    const toggleText = document.getElementById('toggleText');
+    const toggleLink = document.getElementById('toggleLink');
+
+    let isSignUp = false;
+
+    toggleLink.addEventListener('click', () => {
+      isSignUp = !isSignUp;
+      formTitle.textContent = isSignUp ? "Sign Up" : "Sign In";
+      signInBtn.classList.toggle('hidden', isSignUp);
+      signUpBtn.classList.toggle('hidden', !isSignUp);
+      toggleText.textContent = isSignUp ? "Already have an account?" : "Don't have an account?";
+      toggleLink.textContent = isSignUp ? "Sign In" : "Sign Up";
+    });
+
+    signUpBtn.addEventListener('click', async () => {
+      try {
+        await createUserWithEmailAndPassword(auth, email.value, password.value);
+        alert("✅ Account created!");
+      } catch (error) {
+        alert("❌ " + error.message);
+      }
+    });
+
+    signInBtn.addEventListener('click', async () => {
+      try {
+        await signInWithEmailAndPassword(auth, email.value, password.value);
+        alert("✅ Logged in!");
+      } catch (error) {
+        alert("❌ " + error.message);
+      }
+    });
+
+    logoutBtn.addEventListener('click', () => {
+      signOut(auth);
+    });
+
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        logoutBtn.classList.remove('hidden');
+        signInBtn.classList.add('hidden');
+        signUpBtn.classList.add('hidden');
+        window.location.href = 'dashboard.html'; // redirect after login
+      } else {
+        logoutBtn.classList.add('hidden');
+        if (isSignUp) {
+          signUpBtn.classList.remove('hidden');
+        } else {
+          signInBtn.classList.remove('hidden');
+        }
+      }
+    });
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Nicholas Bagenda – Home</title>

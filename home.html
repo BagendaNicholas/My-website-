@@ -34,7 +34,6 @@
         if (user) {
           welcomeMsg.textContent = `Welcome, ${user.email}`;
         } else {
-          // If no user logged in, redirect to login page
           window.location.href = "index.html";
         }
       });
@@ -49,8 +48,27 @@
     });
   </script>
 </head>
-<body class="bg-gradient-to-br from-gray-900 to-black text-white min-h-screen flex flex-col items-center justify-center">
-  <h1 id="welcomeMsg" class="text-4xl mb-6"></h1>
-  <button id="signoutBtn" class="bg-red-600 hover:bg-red-700 px-6 py-3 rounded-xl text-white font-semibold">Sign Out</button>
+<body class="bg-gradient-to-br from-gray-900 to-black text-white min-h-screen flex flex-col">
+  <header class="p-6 text-center">
+    <h1 id="welcomeMsg" class="text-4xl font-bold"></h1>
+  </header>
+
+  <main class="flex-grow p-6 max-w-4xl mx-auto">
+    <!-- Replace this content with your own -->
+    <section>
+      <h2 class="text-3xl mb-4">My Content Section</h2>
+      <p class="mb-2">Welcome to your dashboard! Here is where your main content will go.</p>
+      <p>Add text, images, links, or anything you want inside this section.</p>
+    </section>
+  </main>
+
+  <footer class="p-4 bg-gray-800 text-center sticky bottom-0">
+    <button
+      id="signoutBtn"
+      class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-xl"
+    >
+      Sign Out
+    </button>
+  </footer>
 </body>
 </html>

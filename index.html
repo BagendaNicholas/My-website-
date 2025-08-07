@@ -1,126 +1,180 @@
-<html lang="en">  
-<head>  
-  <meta charset="UTF-8" />  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
-  <title>Login Magic | Nicholas Bagenda</title>  
-  <style>  
-    body {  
-      margin: 0;  
-      background: radial-gradient(circle at bottom, #0c0f33, #000);  
-      overflow: hidden;  
-      font-family: 'Segoe UI', sans-serif;  
-    }  .container {  
-  height: 100vh;  
-  display: flex;  
-  align-items: center;  
-  justify-content: center;  
-  flex-direction: column;  
-  position: relative;  
-}  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nicholas Bagenda – Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
 
-.lock {  
-  font-size: 100px;  
-  color: gold;  
-  animation: pulse 2s ease-in-out infinite;  
-}  
+  <style>
+    /* 💧 Rain Background */
+    body {
+      background: linear-gradient(to bottom, #0f172a, #1e293b);
+      overflow: hidden;
+    }
+    .raindrop {
+      position: absolute;
+      width: 2px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.5);
+      animation: fall 1s linear infinite;
+      border-radius: 50px;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-100%); opacity: 1; }
+      100% { transform: translateY(100vh); opacity: 0; }
+    }
 
-@keyframes pulse {  
-  0%, 100% { transform: scale(1); opacity: 1; }  
-  50% { transform: scale(1.1); opacity: 0.7; }  
-}  
+    /* 🌟 Glowing Logo */
+    .logo-glow {
+      animation: pulseGlow 4s ease-in-out infinite;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { filter: drop-shadow(0 0 10px #60a5fa); }
+      50% { filter: drop-shadow(0 0 30px #a78bfa); }
+    }
 
-.key {  
-  font-size: 50px;  
-  color: #ffd700;  
-  position: absolute;  
-  left: 20%;  
-  bottom: 20%;  
-  animation: moveKey 3s ease forwards;  
-  opacity: 0;  
-}  
+    /* ✨ Glowing Text */
+    .glow-text {
+      background: linear-gradient(90deg, #ffffff, #a78bfa, #60a5fa, #ffffff);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 5s infinite linear;
+    }
+    @keyframes shimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
-@keyframes moveKey {  
-  0% { transform: translateX(0); opacity: 0; }  
-  50% { transform: translateX(150px) rotate(45deg); opacity: 1; }  
-  100% { transform: translate(300px, -100px) rotate(90deg); opacity: 0; }  
-}  
+    /* 🛡️ Unlock Animation */
+    .overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+      font-size: 2rem;
+      display: none;
+    }
 
-.door {  
-  width: 120px;  
-  height: 200px;  
-  background: #444;  
-  position: relative;  
-  border-radius: 10px;  
-  overflow: hidden;  
-  animation: openDoor 3s ease 3s forwards;  
-  opacity: 0;  
-}  
+    .lock-icon {
+      font-size: 80px;
+      animation: fadeIn 1.2s ease forwards;
+    }
 
-@keyframes openDoor {  
-  0% { transform: scaleX(1); opacity: 1; }  
-  100% { transform: scaleX(0.1); opacity: 1; }  
-}  
+    .door {
+      width: 200px;
+      height: 300px;
+      background: #1e3a8a;
+      border: 4px solid #3b82f6;
+      margin-top: 30px;
+      animation: doorOpen 3s ease-in-out forwards;
+    }
 
-.logo {  
-  position: absolute;  
-  width: 200px;  
-  top: 50%;  
-  left: 50%;  
-  transform: translate(-50%, -50%) scale(0);  
-  opacity: 0;  
-  animation: showLogo 1.5s ease 6s forwards;  
-  z-index: 10;  
-}  
+    @keyframes doorOpen {
+      0% { transform: scaleX(1); opacity: 0; }
+      100% { transform: scaleX(0); opacity: 1; }
+    }
 
-@keyframes showLogo {  
-  0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }  
-  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }  
-}  
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
 
-.smoke {  
-  position: absolute;  
-  bottom: 0;  
-  width: 100%;  
-  height: 100px;  
-  background: radial-gradient(ellipse at center, #aaa 0%, transparent 70%);  
-  animation: rise 4s ease-in-out 6s forwards;  
-  opacity: 0;  
-}  
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
-@keyframes rise {  
-  0% { transform: translateY(50px); opacity: 0; }  
-  100% { transform: translateY(-50px); opacity: 1; }  
-}  
+    const firebaseConfig = {
+      apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
+      authDomain: "my-website-357cb.firebaseapp.com",
+      projectId: "my-website-357cb",
+      storageBucket: "my-website-357cb.appspot.com",
+      messagingSenderId: "759627961944",
+      appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d"
+    };
 
-.glow-text {  
-  margin-top: 40px;  
-  color: #fff;  
-  font-size: 1.5rem;  
-  text-align: center;  
-  text-shadow: 0 0 5px #fff, 0 0 10px #0ff, 0 0 20px #0ff;  
-  animation: appearGlow 2s ease 7s forwards;  
-  opacity: 0;  
-}  
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-@keyframes appearGlow {  
-  from { opacity: 0; transform: translateY(20px); }  
-  to { opacity: 1; transform: translateY(0); }  
-}
+    document.addEventListener("DOMContentLoaded", () => {
+      const signupBtn = document.getElementById("signupBtn");
+      const loginBtn = document.getElementById("loginBtn");
 
-  </style>  
-</head>  
-<body>  
-  <div class="container">  
-    <div class="lock">🔒</div>  
-    <div class="key">🔑</div>  
-    <div class="door"></div>  
-    <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Logo" class="logo" />  
-    <div class="smoke"></div>  
-    <div class="glow-text">Welcome to Bagenda Nicholas Universe 🌍✨</div>  
-  </div>    <script>  
-    // You can trigger this with successful login  
-    window.addEventListener('load', () => {  
-      document.querySelector('.key').style.opacity = '1';  
-    });  
-  </script>  </body>  
+      function triggerSuccessAnimation() {
+        const overlay = document.getElementById('unlockOverlay');
+        overlay.style.display = 'flex';
+
+        setTimeout(() => {
+          window.location.href = "home.html";
+        }, 4000);
+      }
+
+      signupBtn.addEventListener("click", () => {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        createUserWithEmailAndPassword(auth, email, password)
+          .then(triggerSuccessAnimation)
+          .catch(err => alert("❌ Signup Error: " + err.message));
+      });
+
+      loginBtn.addEventListener("click", () => {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        signInWithEmailAndPassword(auth, email, password)
+          .then(triggerSuccessAnimation)
+          .catch(err => alert("❌ Login Error: " + err.message));
+      });
+    });
+
+    // 💧 Create Rain Drops
+    for (let i = 0; i < 100; i++) {
+      const drop = document.createElement('div');
+      drop.className = 'raindrop';
+      drop.style.left = Math.random() * 100 + 'vw';
+      drop.style.animationDuration = (Math.random() * 1.5 + 0.5) + 's';
+      drop.style.opacity = Math.random();
+      document.body.appendChild(drop);
+    }
+  </script>
+</head>
+
+<body class="text-white min-h-screen flex items-center justify-center flex-col px-4">
+
+  <!-- ✨ GLOWING LOGO -->
+  <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png"
+       alt="Bagenda Logo"
+       class="w-32 h-auto mb-6 rounded-xl border-2 border-blue-400 bg-white bg-opacity-10 backdrop-blur-sm logo-glow" />
+
+  <!-- 🔐 LOGIN BOX -->
+  <div class="bg-white bg-opacity-10 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md border border-blue-500">
+    <h1 class="text-3xl font-bold mb-6 text-center glow-text">🌟 Nicholas Bagenda – Login</h1>
+    <input id="email" type="email" placeholder="Email" class="w-full p-3 rounded-lg mb-4 text-black" />
+    <input id="password" type="password" placeholder="Password" class="w-full p-3 rounded-lg mb-6 text-black" />
+    <div class="flex justify-between gap-4">
+      <button id="signupBtn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl w-full">Sign Up</button>
+      <button id="loginBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl w-full">Sign In</button>
+    </div>
+  </div>
+
+  <!-- 🔓 UNLOCK OVERLAY -->
+  <div id="unlockOverlay" class="overlay">
+    <div class="lock-icon">🔒</div>
+    <div class="door"></div>
+    <div class="mt-4 text-lg glow-text">Access Granted. Welcome, Nicholas 🌟</div>
+  </div>
+
+</body>
 </html>

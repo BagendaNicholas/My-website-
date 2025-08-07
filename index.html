@@ -7,7 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
 
   <style>
-    /* 💧 Water Dropping Background Animation */
+    /* 💧 Raindrop Animation */
     body {
       background: linear-gradient(to bottom, #0f172a, #1e293b);
       overflow: hidden;
@@ -23,14 +23,33 @@
     }
 
     @keyframes fall {
-      0% {
-        transform: translateY(-100%);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100vh);
-        opacity: 0;
-      }
+      0% { transform: translateY(-100%); opacity: 1; }
+      100% { transform: translateY(100vh); opacity: 0; }
+    }
+
+    /* 🌟 Glowing Star Text Animation */
+    .glow-text {
+      background: linear-gradient(90deg, #ffffff, #a78bfa, #60a5fa, #ffffff);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 5s infinite linear;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ✨ Flickering Star Effect for Buttons */
+    .twinkle {
+      animation: twinkle 2s infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { box-shadow: 0 0 10px #60a5fa; }
+      50% { box-shadow: 0 0 20px #a78bfa, 0 0 40px #ffffff; }
     }
   </style>
 
@@ -82,7 +101,7 @@
         }
       });
 
-      // 💧 Create Rain Drops Dynamically
+      // 💧 Rain drops
       for (let i = 0; i < 100; i++) {
         const drop = document.createElement('div');
         drop.className = 'raindrop';
@@ -97,19 +116,19 @@
 
 <body class="text-white min-h-screen flex items-center justify-center flex-col px-4">
 
-  <!-- 🔥 LOGO IMAGE -->
+  <!-- 🌠 LOGO -->
   <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png"
        alt="Bagenda Logo"
        class="w-32 h-auto mb-6 rounded-xl shadow-lg border-2 border-blue-400 bg-white bg-opacity-10 backdrop-blur-sm" />
 
-  <!-- 🔐 LOGIN BOX -->
+  <!-- ✨ LOGIN BOX -->
   <div class="bg-white bg-opacity-10 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md border border-blue-500">
-    <h1 class="text-3xl font-bold mb-6 text-center text-blue-300">💧 Nicholas Bagenda – Login</h1>
+    <h1 class="text-3xl font-bold mb-6 text-center glow-text">🌟 Nicholas Bagenda – Login</h1>
     <input id="email" type="email" placeholder="Email" class="w-full p-3 rounded-lg mb-4 text-black" />
     <input id="password" type="password" placeholder="Password" class="w-full p-3 rounded-lg mb-6 text-black" />
     <div class="flex justify-between gap-4">
-      <button id="signupBtn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl w-full">Sign Up</button>
-      <button id="loginBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl w-full">Sign In</button>
+      <button id="signupBtn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl w-full twinkle">Sign Up</button>
+      <button id="loginBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl w-full twinkle">Sign In</button>
     </div>
   </div>
 

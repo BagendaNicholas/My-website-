@@ -141,7 +141,7 @@
         overlay.style.display = 'flex';
         setTimeout(() => {
           window.location.href = "home.html";
-        }, 9000); // Give enough time for animation
+        }, 9000); // Animation duration
       }
 
       signupBtn.addEventListener("click", () => {
@@ -160,7 +160,7 @@
           .catch(err => alert("❌ Login Error: " + err.message));
       });
 
-      // Rain
+      // Rain effect
       for (let i = 0; i < 100; i++) {
         const drop = document.createElement('div');
         drop.className = 'raindrop';
@@ -196,11 +196,22 @@
     <div class="unlock-sequence">
       <div class="key-icon">🔑</div>
       <div class="lock-icon">🔒</div>
-      <div class="door"></div>
-      <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Logo" class="logo-appear w-32 mt-6" />
+      <div class="relative">
+        <div class="door flex items-center justify-center">
+          <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png"
+               alt="Logo"
+               class="logo-appear w-20 h-auto" />
+        </div>
+      </div>
       <div class="text-xl mt-2 glow-text">Access Granted – Welcome Nicholas 🌟</div>
     </div>
   </div>
 
+  <!-- 🌌 Background Welcome Message -->
+  <div class="absolute top-10 w-full text-center z-0">
+    <h1 class="text-4xl md:text-5xl font-bold glow-text opacity-20">
+      ✨ Welcome to the Nicholas' Universe ✨
+    </h1>
+  </div>
 </body>
 </html>

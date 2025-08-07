@@ -1,180 +1,168 @@
 <!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nicholas Login</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nicholas' Universe Login</title>
   <style>
-    body {
+    body, html {
       margin: 0;
       padding: 0;
-      background: linear-gradient(180deg, #000010, #0d0d40);
+      height: 100%;
+      overflow: hidden;
+      background: black;
       color: white;
       font-family: 'Segoe UI', sans-serif;
-      overflow: hidden;
-    }
-    .centered {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      text-align: center;
-    }
-    .spinner {
-      border: 6px solid #222;
-      border-top: 6px solid #00f0ff;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      animation: spin 1s linear infinite;
-      margin-top: 20px;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    .smoke {
-      position: absolute;
-      top: 60%;
-      width: 100%;
-      height: 200px;
-      background: url('https://i.postimg.cc/SsqJwFpw/smoke.gif') center no-repeat;
-      background-size: contain;
-      opacity: 0.6;
-    }
-    .logo {
-      width: 180px;
-      margin: 20px auto;
-      animation: fadeIn 3s ease-in-out forwards;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.7); }
-      to { opacity: 1; transform: scale(1); }
-    }
-    .padlock {
-      font-size: 70px;
-      margin: 20px;
-      animation: unlock 4s forwards;
-    }
-    @keyframes unlock {
-      0% { transform: rotate(0deg); color: #aaa; }
-      50% { transform: rotate(30deg); color: yellow; }
-      100% { transform: rotate(0deg); color: lime; }
-    }
-    .door {
-      width: 100%;
-      height: 100vh;
-      background: url('https://i.postimg.cc/7Yz7zppV/door.gif') center no-repeat;
-      background-size: cover;
-      animation: openDoor 6s ease-in-out forwards;
-    }
-    @keyframes openDoor {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 30px;
-      max-width: 300px;
-    }
-    input, button {
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-    }
-    input { background: #fff; color: #000; }
-    button { background: #00c6ff; color: #fff; cursor: pointer; transition: 0.3s; }
-    button:hover { background: #0099cc; }
-    label {
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    a { color: #00c6ff; font-size: 13px; text-decoration: none; }
+    }.login-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px #00f7ff;
+}
+
+input, button {
+  display: block;
+  margin: 15px auto;
+  padding: 10px;
+  width: 80%;
+  border: none;
+  border-radius: 10px;
+}
+
+button {
+  background: #00f7ff;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.spinner {
+  display: none;
+  margin: 0 auto;
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #00f7ff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#animationScene {
+  display: none;
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url('https://i.ibb.co/D9DbYbZ/dark-bg.jpg') no-repeat center center/cover;
+  z-index: 10;
+}
+
+.logo-img {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  opacity: 0;
+  animation: showLogo 3s ease 2s forwards;
+}
+
+@keyframes showLogo {
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+}
+
+.rain {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url('https://i.ibb.co/vLZmyyx/raindrops.gif');
+  background-size: cover;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
   </style>
 </head>
 <body>
-  <div class="centered">
-    <div class="padlock">🔒🔑</div>
-    <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" class="logo" alt="Logo" />
-    <div class="door"></div>
-    <div class="smoke"></div><form id="loginForm">
-  <input type="email" id="email" placeholder="📧 Email" required />
-  <input type="password" id="password" placeholder="🔑 Password" required />
-  <label><input type="checkbox" id="remember" /> Remember me</label>
-  <button type="submit">🚪 Login</button>
-  <a href="#" onclick="resetPassword()">🔑 Forgot Password?</a>
-  <a href="#" onclick="sendVerification()">📩 Resend Verification Email</a>
-</form>
-<div class="spinner" id="spinner" style="display: none;"></div>
+  <div class="login-container">
+    <h2>🔐 Nicholas Login</h2>
+    <input type="email" id="email" placeholder="📧 Email">
+    <input type="password" id="password" placeholder="🔑 Password">
+    <label><input type="checkbox" id="rememberMe"> Remember Me</label>
+    <button onclick="login()">Sign In</button>
+    <button onclick="resetPassword()">Forgot Password?</button>
+    <div class="spinner" id="spinner"></div>
+  </div>  <!-- Animation Scene -->  <div id="animationScene">
+    <div class="rain"></div>
+    <img class="logo-img" src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="logo" />
+  </div>  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, setPersistence, browserLocalPersistence, sendEmailVerification } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
-  </div>
-  <audio id="welcomeAudio" autoplay>
-    <source src="https://audio.jukehost.co.uk/F95E3txJLRbZrKs7tiyBgB3B0EVWzU7q" type="audio/mpeg" />
-  </audio>
-  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
       authDomain: "my-website-357cb.firebaseapp.com",
       projectId: "my-website-357cb",
-      storageBucket: "my-website-357cb.appspot.com",
+      storageBucket: "my-website-357cb.firebasestorage.app",
       messagingSenderId: "759627961944",
       appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d",
       measurementId: "G-MK9ZP12G83"
     };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();document.getElementById("loginForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-  document.getElementById("spinner").style.display = "block";
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const remember = document.getElementById("remember").checked;
 
-  if (remember) {
-    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-  } else {
-    auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
-  }
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-  auth.signInWithEmailAndPassword(email, password)
-    .then(() => {
-      document.getElementById("spinner").style.display = "none";
-      setTimeout(() => {
-        window.location.href = "home.html";
-      }, 4000);
-    })
-    .catch(error => {
-      alert("Login failed: " + error.message);
-      document.getElementById("spinner").style.display = "none";
-    });
-});
+    window.login = async function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const rememberMe = document.getElementById("rememberMe").checked;
+      document.getElementById("spinner").style.display = "block";
 
-function resetPassword() {
-  const email = prompt("Enter your email to reset password:");
-  if (email) {
-    auth.sendPasswordResetEmail(email).then(() => {
-      alert("Password reset email sent.");
-    }).catch(err => alert(err.message));
-  }
-}
+      try {
+        await setPersistence(auth, rememberMe ? browserLocalPersistence : undefined);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
-function sendVerification() {
-  const user = auth.currentUser;
-  if (user && !user.emailVerified) {
-    user.sendEmailVerification()
-      .then(() => alert("Verification email sent."))
-      .catch(err => alert(err.message));
-  } else {
-    alert("You must be logged in or your email is already verified.");
-  }
-}
+        if (!userCredential.user.emailVerified) {
+          alert("📩 Email not verified. Check your inbox.");
+          sendEmailVerification(userCredential.user);
+          document.getElementById("spinner").style.display = "none";
+          return;
+        }
 
-  </script>
-</body>
+        document.querySelector(".login-container").style.display = "none";
+        const animationScene = document.getElementById("animationScene");
+        animationScene.style.display = "block";
+
+        // Play voice
+        const voice = new SpeechSynthesisUtterance("Welcome to Nicholas' Universe");
+        window.speechSynthesis.speak(voice);
+
+        // Redirect after animation
+        setTimeout(() => {
+          window.location.href = "home.html";
+        }, 7000);
+      } catch (error) {
+        alert("❌ " + error.message);
+      } finally {
+        document.getElementById("spinner").style.display = "none";
+      }
+    }
+
+    window.resetPassword = async function () {
+      const email = document.getElementById("email").value;
+      if (!email) return alert("📩 Enter your email to reset password.");
+      try {
+        await sendPasswordResetEmail(auth, email);
+        alert("📬 Password reset email sent.");
+      } catch (error) {
+        alert("❌ " + error.message);
+      }
+    }
+  </script></body>
 </html>

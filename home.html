@@ -6,8 +6,14 @@
     <title>Nicholas Bagenda – Home</title>
     
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+        import { 
+            initializeApp 
+        } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { 
+            getAuth, 
+            onAuthStateChanged, 
+            signOut 
+        } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
         // Your web app's Firebase configuration
         const firebaseConfig = {
@@ -23,11 +29,12 @@
 
         onAuthStateChanged(auth, (user) => {
             if (!user) {
-                // User is not signed in, redirect them to the sign-in page.
+                // User is NOT signed in, redirect them to the sign-in page.
                 window.location.href = "index.html"; 
             }
         });
 
+        // The logic for the Sign Out button
         document.getElementById('signout-button').addEventListener('click', () => {
             signOut(auth).then(() => {
                 console.log("User signed out successfully.");
@@ -140,6 +147,21 @@
             text-shadow: 0 1px 6px #ffd70099;
             transition: color 0.3s, text-shadow 0.3s;
         }
+        /* Add styling for the sign out button */
+        nav #signout-button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-left: 20px;
+        }
+        nav #signout-button:hover {
+            background: #c0392b;
+        }
+
         .hero {
             display: flex;
             flex-direction: column;

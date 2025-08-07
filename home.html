@@ -2,196 +2,96 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Nicholas Bagenda – Home</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Orbitron', sans-serif;
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      color: #fff;
-      overflow-x: hidden;
-    }
 
-    header {
-      text-align: center;
-      padding: 3rem 1rem 2rem;
-      background: rgba(255, 255, 255, 0.05);
-      border-bottom: 2px solid #00f0ff;
-      box-shadow: 0 4px 10px rgba(0,255,255,0.2);
-    }
-
-    header h1 {
-      font-size: 3rem;
-      color: #00f0ff;
-      text-shadow: 0 0 10px #00f0ff;
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin: 2rem 0;
-    }
-
-    nav a {
-      padding: 12px 24px;
-      background: #00f0ff;
-      color: #000;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: bold;
-      box-shadow: 0 0 10px #00f0ff;
-      transition: all 0.3s;
-    }
-
-    nav a:hover {
-      transform: scale(1.05);
-      background: #0ff;
-    }
-
-    .section {
-      padding: 3rem 1rem;
-      max-width: 1000px;
-      margin: auto;
-      text-align: center;
-    }
-
-    .logout-btn {
-      background-color: #ff4d4d;
-      border: none;
-      padding: 12px 20px;
-      font-weight: bold;
-      color: white;
-      border-radius: 25px;
-      cursor: pointer;
-      margin-top: 2rem;
-      box-shadow: 0 0 10px #ff4d4d;
-    }
-
-    .logout-btn:hover {
-      background-color: #ff1a1a;
-    }
-
-    .contact-form {
-      margin-top: 3rem;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 12px;
-      margin: 12px 0;
-      border-radius: 10px;
-      border: none;
-      font-family: inherit;
-    }
-
-    button.send-btn {
-      background: #00f0ff;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 30px;
-      font-weight: bold;
-      cursor: pointer;
-      color: #000;
-      box-shadow: 0 0 10px #00f0ff;
-    }
-
-    button.send-btn:hover {
-      background: #0ff;
-    }
-  </style>
-</head>
-<body>
-
-  <header>
-    <h1>🌟 Nicholas Bagenda 🌟</h1>
-    <p>Welcome to my portfolio</p>
-  </header>
-
-  <nav>
-    <a href="index2.html">📚 Documents & Books</a>
-    <a href="index3.html">📹 Audio & Video</a>
-    <a href="index4.html">✨ Inspiration</a>
-    <a href="index5.html">🔗 Addiction Book</a>
-    <a href="index6.html">🧪 Skin Health</a>
-  </nav>
-
-  <div class="section">
-    <h2>About Me</h2>
-    <p>I’m passionate about tech, writing, healing, and faith. This is my digital home where I share my journey through books, code, and spiritual reflections.</p>
-
-    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
-
-    <div class="contact-form">
-      <h2>📬 Contact Me</h2>
-      <form id="contact-form">
-        <input type="text" id="name" placeholder="Your Name" required />
-        <input type="email" id="email" placeholder="Your Email" required />
-        <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
-        <button type="submit" class="send-btn">Send Message</button>
-      </form>
-    </div>
-  </div>
-
+  <!-- Firebase -->
   <script type="module">
-    // Firebase config
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      authDomain: "YOUR_AUTH_DOMAIN",
       projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
       appId: "YOUR_APP_ID"
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // Check if user is logged in
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = "login.html";
+    const welcome = document.getElementById("welcome");
+    const signOutBtn = document.getElementById("signOutBtn");
+
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        welcome.innerText = `Welcome, ${user.email}`;
+      } else {
+        window.location.href = "index.html"; // redirect if not logged in
       }
     });
 
-    // Logout function
-    window.logout = function () {
+    signOutBtn.addEventListener("click", () => {
       signOut(auth).then(() => {
-        window.location.href = "login.html";
-      });
-    };
-  </script>
-
-  <script>
-    // EmailJS contact form
-    document.getElementById("contact-form").addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
-        from_name: document.getElementById("name").value,
-        reply_to: document.getElementById("email").value,
-        message: document.getElementById("message").value,
-      }, "YOUR_PUBLIC_KEY")
-      .then(() => {
-        alert("✅ Message sent successfully!");
-        document.getElementById("contact-form").reset();
-      }, (error) => {
-        alert("❌ Failed to send: " + JSON.stringify(error));
+        window.location.href = "index.html";
       });
     });
   </script>
 
-  <!-- Load EmailJS -->
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <script>
-    emailjs.init("YOUR_PUBLIC_KEY");
-  </script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 2rem;
+      margin: 0;
+    }
 
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 15px #6a11cb;
+    }
+
+    #welcome {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    #signOutBtn {
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      border: none;
+      padding: 12px 24px;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 30px;
+      box-shadow: 0 0 10px #ff4b2b;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    #signOutBtn:hover {
+      background: linear-gradient(to right, #ff4b2b, #ff416c);
+    }
+
+    .glow-box {
+      margin-top: 2rem;
+      padding: 2rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>Nicholas Bagenda</h1>
+  <div class="glow-box">
+    <p id="welcome">Loading...</p>
+    <button id="signOutBtn">Sign Out</button>
+  </div>
 </body>
 </html>

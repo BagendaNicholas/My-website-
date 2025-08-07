@@ -674,37 +674,18 @@
     });
   </script>
 </body>
-  <script type="module">
+ <div class="text-center mt-10">
+  <button id="signOutBtn"
+          class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-2xl shadow-lg transition duration-300 transform hover:scale-105">
+    🔓 Sign Out
+  </button>
+</div>
+
+<script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-  import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
-    authDomain: "my-website-357cb.firebaseapp.com",
-    projectId: "my-website-357cb",
-    storageBucket: "my-website-357cb.firebasestorage.app",
-    messagingSenderId: "759627961944",
-    appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d",
-    measurementId: "G-MK9ZP12G83"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  const signOutBtn = document.getElementById("signOutBtn");
-  signOutBtn.addEventListener("click", () => {
-    signOut(auth).then(() => {
-      // Redirect to index.html after sign out
-      window.location.href = "index.html";
-    }).catch((error) => {
-      console.error("Sign-out error:", error);
-    });
-    <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+  import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
   import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-  // Firebase config
   const firebaseConfig = {
     apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
     authDomain: "my-website-357cb.firebaseapp.com",
@@ -715,7 +696,6 @@
     measurementId: "G-MK9ZP12G83"
   };
 
-  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
@@ -731,19 +711,27 @@
           email: user.email,
           createdAt: new Date().toISOString()
         });
-        console.log("New user saved:", user.email);
+        console.log("🆕 New user saved:", user.email);
       } else {
-        console.log("Existing user:", user.email);
+        console.log("✅ Existing user:", user.email);
       }
+    } else {
+      // Not signed in, redirect to login
+      window.location.href = "index.html";
     }
   });
+
+  // Sign out
+  const signOutBtn = document.getElementById("signOutBtn");
+  signOutBtn.addEventListener("click", () => {
+    signOut(auth)
+      .then(() => {
+        window.location.href = "index.html";
+      })
+      .catch((error) => {
+        console.error("❌ Sign-out error:", error);
+      });
+  });
 </script>
-  </script>
- <div class="text-center mt-10">
-  <button id="signOutBtn"
-          class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-2xl shadow-lg transition duration-300 transform hover:scale-105">
-    🔓 Sign Out
-  </button>
-</div>
 </div>
 </html>

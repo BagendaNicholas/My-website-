@@ -7,7 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
 
   <style>
-    /* 💧 Rain Background */
+    /* Background & Rain */
     body {
       background: linear-gradient(to bottom, #0f172a, #1e293b);
       overflow: hidden;
@@ -25,7 +25,7 @@
       100% { transform: translateY(100vh); opacity: 0; }
     }
 
-    /* 🌟 Glowing Logo */
+    /* Logo & Text Shine */
     .logo-glow {
       animation: pulseGlow 4s ease-in-out infinite;
     }
@@ -33,8 +33,6 @@
       0%, 100% { filter: drop-shadow(0 0 10px #60a5fa); }
       50% { filter: drop-shadow(0 0 30px #a78bfa); }
     }
-
-    /* ✨ Glowing Text */
     .glow-text {
       background: linear-gradient(90deg, #ffffff, #a78bfa, #60a5fa, #ffffff);
       background-size: 300% 300%;
@@ -48,24 +46,45 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* 🛡️ Unlock Animation */
+    /* Overlay Animation */
     .overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0, 0, 0, 0.95);
       z-index: 50;
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      color: white;
-      font-size: 2rem;
-      display: none;
+    }
+    .unlock-sequence {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 1s forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .key-icon {
+      font-size: 60px;
+      animation: keyFly 2s ease forwards;
+    }
+    @keyframes keyFly {
+      0% { transform: translateX(-200px) rotate(-360deg); opacity: 0; }
+      100% { transform: translateX(0) rotate(0); opacity: 1; }
     }
 
     .lock-icon {
       font-size: 80px;
-      animation: fadeIn 1.2s ease forwards;
+      margin-top: 10px;
+      animation: lockOpen 2s ease-in-out 2s forwards;
+    }
+    @keyframes lockOpen {
+      0% { transform: rotate(0); }
+      100% { transform: rotate(20deg); }
     }
 
     .door {
@@ -73,17 +92,22 @@
       height: 300px;
       background: #1e3a8a;
       border: 4px solid #3b82f6;
-      margin-top: 30px;
-      animation: doorOpen 3s ease-in-out forwards;
+      margin-top: 40px;
+      transform: scaleX(1);
+      opacity: 1;
+      animation: doorOpen 2s ease-in-out 4s forwards;
     }
-
     @keyframes doorOpen {
-      0% { transform: scaleX(1); opacity: 0; }
-      100% { transform: scaleX(0); opacity: 1; }
+      0% { transform: scaleX(1); opacity: 1; }
+      100% { transform: scaleX(0); opacity: 0; }
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.5); }
+    .logo-appear {
+      opacity: 0;
+      transform: scale(0.5);
+      animation: logoShow 2s ease-in-out 6s forwards;
+    }
+    @keyframes logoShow {
       to { opacity: 1; transform: scale(1); }
     }
   </style>
@@ -94,7 +118,6 @@
       getAuth,
       createUserWithEmailAndPassword,
       signInWithEmailAndPassword,
-      onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
     const firebaseConfig = {
@@ -113,20 +136,19 @@
       const signupBtn = document.getElementById("signupBtn");
       const loginBtn = document.getElementById("loginBtn");
 
-      function triggerSuccessAnimation() {
+      function startUnlockAnimation() {
         const overlay = document.getElementById('unlockOverlay');
         overlay.style.display = 'flex';
-
         setTimeout(() => {
           window.location.href = "home.html";
-        }, 4000);
+        }, 9000); // Give enough time for animation
       }
 
       signupBtn.addEventListener("click", () => {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
         createUserWithEmailAndPassword(auth, email, password)
-          .then(triggerSuccessAnimation)
+          .then(startUnlockAnimation)
           .catch(err => alert("❌ Signup Error: " + err.message));
       });
 
@@ -134,26 +156,26 @@
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
         signInWithEmailAndPassword(auth, email, password)
-          .then(triggerSuccessAnimation)
+          .then(startUnlockAnimation)
           .catch(err => alert("❌ Login Error: " + err.message));
       });
-    });
 
-    // 💧 Create Rain Drops
-    for (let i = 0; i < 100; i++) {
-      const drop = document.createElement('div');
-      drop.className = 'raindrop';
-      drop.style.left = Math.random() * 100 + 'vw';
-      drop.style.animationDuration = (Math.random() * 1.5 + 0.5) + 's';
-      drop.style.opacity = Math.random();
-      document.body.appendChild(drop);
-    }
+      // Rain
+      for (let i = 0; i < 100; i++) {
+        const drop = document.createElement('div');
+        drop.className = 'raindrop';
+        drop.style.left = Math.random() * 100 + 'vw';
+        drop.style.animationDuration = (Math.random() * 1.5 + 0.5) + 's';
+        drop.style.opacity = Math.random();
+        document.body.appendChild(drop);
+      }
+    });
   </script>
 </head>
 
 <body class="text-white min-h-screen flex items-center justify-center flex-col px-4">
 
-  <!-- ✨ GLOWING LOGO -->
+  <!-- 🌟 LOGO -->
   <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png"
        alt="Bagenda Logo"
        class="w-32 h-auto mb-6 rounded-xl border-2 border-blue-400 bg-white bg-opacity-10 backdrop-blur-sm logo-glow" />
@@ -169,11 +191,15 @@
     </div>
   </div>
 
-  <!-- 🔓 UNLOCK OVERLAY -->
+  <!-- 🔓 ANIMATION OVERLAY -->
   <div id="unlockOverlay" class="overlay">
-    <div class="lock-icon">🔒</div>
-    <div class="door"></div>
-    <div class="mt-4 text-lg glow-text">Access Granted. Welcome, Nicholas 🌟</div>
+    <div class="unlock-sequence">
+      <div class="key-icon">🔑</div>
+      <div class="lock-icon">🔒</div>
+      <div class="door"></div>
+      <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Logo" class="logo-appear w-32 mt-6" />
+      <div class="text-xl mt-2 glow-text">Access Granted – Welcome Nicholas 🌟</div>
+    </div>
   </div>
 
 </body>

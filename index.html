@@ -1,73 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nicholas Bagenda – Login</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-  
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import {
-      getAuth,
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword
-    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+  <meta charset="UTF-8">
+  <title>Welcome Nicholas 🌟</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+      background: radial-gradient(#0c0c22, #000);
+      font-family: Arial, sans-serif;
+    }
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
-      authDomain: "my-website-357cb.firebaseapp.com",
-      projectId: "my-website-357cb",
-      storageBucket: "my-website-357cb.firebasestorage.app",
-      messagingSenderId: "759627961944",
-      appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d",
-      measurementId: "G-MK9ZP12G83"
-    };
+    .shine {
+      background: radial-gradient(circle at center, #222 10%, #000);
+      animation: shineEffect 4s ease-in-out forwards;
+    }
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+    @keyframes shineEffect {
+      0% { background: radial-gradient(circle, #000, #000); }
+      50% { background: radial-gradient(circle at center, #333 10%, #000); }
+      100% { background: radial-gradient(circle at center, #111 10%, #000); }
+    }
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const signupBtn = document.getElementById("signupBtn");
-      const loginBtn = document.getElementById("loginBtn");
+    .container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
 
-      signupBtn.addEventListener("click", () => {
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
+    .key {
+      position: absolute;
+      width: 60px;
+      left: 20%;
+      top: 50%;
+      transform: translateY(-50%) rotate(-30deg);
+      animation: moveKey 3s forwards ease-in-out;
+      z-index: 5;
+    }
 
-        createUserWithEmailAndPassword(auth, email, password)
-          .then(() => alert("✅ Signup successful!"))
-          .catch(err => alert("❌ Signup Error: " + err.message));
-      });
+    @keyframes moveKey {
+      0% { left: -80px; opacity: 0; }
+      40% { left: 40%; opacity: 1; }
+      60% { transform: rotate(0deg); }
+      80% { transform: rotate(20deg); }
+      100% { left: 45%; top: 50%; opacity: 1; }
+    }
 
-      loginBtn.addEventListener("click", () => {
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
+    .lock {
+      position: absolute;
+      width: 100px;
+      left: 50%;
+      top: 45%;
+      transform: translate(-50%, -50%);
+      z-index: 6;
+      animation: unlock 4s ease forwards;
+    }
 
-        signInWithEmailAndPassword(auth, email, password)
-          .then(() => window.location.href = "home2.html")
-          .catch(err => alert("❌ Login Error: " + err.message));
-      });
-    });
-  </script>
+    @keyframes unlock {
+      0% {}
+      50% { transform: translate(-50%, -50%) rotate(10deg); }
+      100% { transform: translate(-50%, -50%) rotate(0deg); opacity: 0; }
+    }
+
+    .door {
+      position: absolute;
+      width: 100px;
+      height: 200px;
+      background: linear-gradient(to right, #333, #111);
+      border: 3px solid #666;
+      left: 50%;
+      top: 40%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      animation: openDoor 6s ease-in-out forwards;
+    }
+
+    @keyframes openDoor {
+      0% {}
+      50% { transform: translate(-50%, -50%) rotateY(0deg); }
+      100% { transform: translate(-50%, -50%) rotateY(110deg); opacity: 0; }
+    }
+
+    .smoke {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      top: 30%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse, rgba(255,255,255,0.2), transparent);
+      filter: blur(10px);
+      opacity: 0;
+      animation: smokeRise 6s forwards;
+      z-index: 2;
+    }
+
+    @keyframes smokeRise {
+      0% { top: 45%; opacity: 0; }
+      30% { opacity: 0.2; }
+      70% { opacity: 0.6; top: 20%; }
+      100% { opacity: 0; top: 10%; }
+    }
+
+    .logo {
+      position: absolute;
+      width: 160px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+      z-index: 3;
+      animation: appearLogo 6s ease-in-out forwards 4s;
+    }
+
+    @keyframes appearLogo {
+      0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+      50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-br from-gray-900 to-black text-white min-h-screen flex items-center justify-center flex-col px-4">
-  
-  <!-- 🔥 LOGO IMAGE -->
-  <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png"
-       alt="Bagenda Logo"
-       class="w-32 h-auto mb-6 rounded-xl shadow-lg border-2 border-purple-400" />
-
-  <!-- 🔐 LOGIN BOX -->
-  <div class="bg-white bg-opacity-10 p-8 rounded-2xl shadow-lg w-full max-w-md">
-    <h1 class="text-3xl font-bold mb-6 text-center text-purple-400">🔥 Nicholas Bagenda – Login</h1>
-    <input id="email" type="email" placeholder="Email" class="w-full p-3 rounded-lg mb-4 text-black" />
-    <input id="password" type="password" placeholder="Password" class="w-full p-3 rounded-lg mb-6 text-black" />
-    <div class="flex justify-between gap-4">
-      <button id="signupBtn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl w-full">Sign Up</button>
-      <button id="loginBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl w-full">Sign In</button>
-    </div>
+<body class="shine">
+  <div class="container">
+    <img src="https://cdn-icons-png.flaticon.com/512/2913/2913609.png" class="key" />
+    <img src="https://cdn-icons-png.flaticon.com/512/1628/1628595.png" class="lock" />
+    <div class="door"></div>
+    <div class="smoke"></div>
+    <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" class="logo" />
   </div>
 
+  <script>
+    setTimeout(() => {
+      window.location.href = "home.html";
+    }, 9000); // redirect after 9s
+  </script>
 </body>
 </html>

@@ -25,7 +25,8 @@ exports.handler = async (event, context) => {
     });
 
     const data = await response.json();
-    
+    console.log(data);
+
     // Check if the response contains a valid message
     if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0]) {
       const reply = data.candidates[0].content.parts[0].text;

@@ -1,51 +1,131 @@
-// This is your Netlify Function, to be saved as netlify/functions/ai-assistant.js
-
-exports.handler = async (event, context) => {
-  try {
-    const { message } = JSON.parse(event.body);
-
-    // This is the API key you stored in Netlify's environment variables
-    const apiKey = process.env.AI_ASSISTANT_KEY;
-
-    // Google's Gemini-pro API endpoint
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
-
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        contents: [
-          {
-            parts: [{ text: message }]
-          }
-        ]
-      })
-    });
-
-    const data = await response.json();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .chat-container {
+            width: 90%;
+            max-width: 600px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            height: 80vh;
+        }
+        .chat-display {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            border-bottom: 1px solid #eee;
+        }
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 15px;
+            max-width: 70%;
+        }
+        .user-message {
+            background-color: #007bff;
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        .ai-message {
+            background-color: #e2e6ea;
+            color: #333;
+            align-self: flex-start;
+            margin-right: auto;
+        }
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #eee;
+        }
+        .chat-input input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        .chat-input button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-display" id="chat-display">
+            <div class="message ai-message">Hello! How can I help you today?</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Ask me anything...">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
     
-    // Check if the response contains a valid message
-    if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0]) {
-      const reply = data.candidates[0].content.parts[0].text;
-      
-      return {
-        statusCode: 200,
-        body: JSON.stringify({ reply: reply })
-      };
-    } else {
-       return {
-        statusCode: 500,
-        body: JSON.stringify({ error: 'Failed to get a valid response from the Gemini API.' })
-      };
-    }
-    
-  } catch (error) {
-    console.error('API Error:', error);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: 'Failed to get a response from the AI.' })
-    };
-  }
-};
+    <script>
+        const chatDisplay = document.getElementById('chat-display');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+
+        function addMessage(message, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(sender === 'user' ? 'user-message' : 'ai-message');
+            messageDiv.textContent = message;
+            chatDisplay.appendChild(messageDiv);
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (message === '') return;
+
+            addMessage(message, 'user');
+            userInput.value = '';
+
+            try {
+                // Call the Netlify Function
+                const response = await fetch('/.netlify/functions/ai-assistant', {
+                    method: 'POST',
+                    body: JSON.stringify({ message: message })
+                });
+
+                const data = await response.json();
+                addMessage(data.reply, 'ai');
+
+            } catch (error) {
+                console.error('Error fetching AI response:', error);
+                addMessage('Sorry, I am unable to respond at the moment.', 'ai');
+            }
+        }
+
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

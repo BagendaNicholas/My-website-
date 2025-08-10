@@ -76,6 +76,9 @@
     <div class="chat-container">
         <div class="chat-display" id="chat-display">
             <div class="message ai-message">Hello! How can I help you today?</div>
+            <div class="message ai-message" id="loading-message" style="display: none;">
+                The AI is thinking...
+            </div>
         </div>
         <div class="chat-input">
             <input type="text" id="user-input" placeholder="Ask me anything...">
@@ -83,50 +86,54 @@
         </div>
     </div>
     
-    </body>
     <script>
-    const chatDisplay = document.getElementById('chat-display');
-    const userInput = document.getElementById('user-input');
-    const sendButton = document.getElementById('send-button');
+        const chatDisplay = document.getElementById('chat-display');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        const loadingMessage = document.getElementById('loading-message');
 
-    function addMessage(message, sender) {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message');
-        messageDiv.classList.add(sender === 'user' ? 'user-message' : 'ai-message');
-        messageDiv.textContent = message;
-        chatDisplay.appendChild(messageDiv);
-        chatDisplay.scrollTop = chatDisplay.scrollHeight;
-    }
-
-    async function sendMessage() {
-        const message = userInput.value.trim();
-        if (message === '') return;
-
-        addMessage(message, 'user');
-        userInput.value = '';
-
-        try {
-            // Call the Netlify Function
-            const response = await fetch('/.netlify/functions/ai-assistant', {
-                method: 'POST',
-                body: JSON.stringify({ message: message })
-            });
-
-            const data = await response.json();
-            addMessage(data.reply, 'ai');
-
-        } catch (error) {
-            console.error('Error fetching AI response:', error);
-            addMessage('Sorry, I am unable to respond at the moment.', 'ai');
+        function addMessage(message, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(sender === 'user' ? 'user-message' : 'ai-message');
+            messageDiv.textContent = message;
+            chatDisplay.appendChild(messageDiv);
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
         }
-    }
 
-    sendButton.addEventListener('click', sendMessage);
-    userInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            sendMessage();
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (message === '') return;
+
+            addMessage(message, 'user');
+            userInput.value = '';
+
+            loadingMessage.style.display = 'block';
+
+            try {
+                const response = await fetch('/.netlify/functions/ai-assistant', {
+                    method: 'POST',
+                    body: JSON.stringify({ message: message })
+                });
+
+                const data = await response.json();
+                
+                loadingMessage.style.display = 'none';
+                addMessage(data.reply, 'ai');
+
+            } catch (error) {
+                console.error('Error fetching AI response:', error);
+                loadingMessage.style.display = 'none';
+                addMessage('Sorry, I am unable to respond at the moment.', 'ai');
+            }
         }
-    });
-</script>
 
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
 </html>

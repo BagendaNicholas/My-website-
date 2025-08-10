@@ -1,35 +1,32 @@
-// This is your Netlify Function, to be saved as netlify/functions/ai-assistant.js
+// This is your Netlify Function, for the OpenAI API
 
 exports.handler = async (event, context) => {
   try {
     const { message } = JSON.parse(event.body);
 
     // This is the API key you stored in Netlify's environment variables
-    const apiKey = process.env.AI_ASSISTANT_KEY;
+    const apiKey = process.env.OPENAI_API_KEY;
 
-    // Google's Gemini-pro API endpoint
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+    // OpenAI API endpoint for chat completions
+    const endpoint = 'https://api.openai.com/v1/chat/completions';
 
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        contents: [
-          {
-            parts: [{ text: message }]
-          }
-        ]
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: message }]
       })
     });
 
     const data = await response.json();
-    console.log(data);
-
+    
     // Check if the response contains a valid message
-    if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0]) {
-      const reply = data.candidates[0].content.parts[0].text;
+    if (data.choices && data.choices[0] && data.choices[0].message) {
+      const reply = data.choices[0].message.content;
       
       return {
         statusCode: 200,
@@ -38,7 +35,7 @@ exports.handler = async (event, context) => {
     } else {
        return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'Failed to get a valid response from the Gemini API.' })
+        body: JSON.stringify({ error: 'Failed to get a valid response from the OpenAI API.' })
       };
     }
     

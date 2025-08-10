@@ -1,32 +1,46 @@
+// This is your Netlify Function, to be saved as netlify/functions/ai-assistant.js
 
 exports.handler = async (event, context) => {
   try {
     const { message } = JSON.parse(event.body);
 
-   
-    const apiKey = process.env.api key; // Use the name you gave it in the Netlify dashboard
+    // This is the API key you stored in Netlify's environment variables
+    const apiKey = process.env.AI_ASSISTANT_KEY;
 
-    const response = await fetch('https://api.your-ai-provider.com/v1/completions', {
+    // Google's Gemini-pro API endpoint
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+
+    const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: "your-model-name", // e.g., "gpt-3.5-turbo"
-        prompt: message,
-        max_tokens: 150
+        contents: [
+          {
+            parts: [{ text: message }]
+          }
+        ]
       })
     });
 
     const data = await response.json();
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify({
-        reply: data.choices[0].text 
-      })
-    };
+    
+    // Check if the response contains a valid message
+    if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0]) {
+      const reply = data.candidates[0].content.parts[0].text;
+      
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ reply: reply })
+      };
+    } else {
+       return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'Failed to get a valid response from the Gemini API.' })
+      };
+    }
+    
   } catch (error) {
     console.error('API Error:', error);
     return {
@@ -35,4 +49,3 @@ exports.handler = async (event, context) => {
     };
   }
 };
-

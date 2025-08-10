@@ -17,21 +17,3 @@
 </body>
 </html>
 
-body {
-  margin: 0;
-  background: black;
-  overflow-y: scroll;
-}
-
-.video-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-video {
-  width: 100%;
-  height: 100vh;
-  object-fit: cover;
-  margin-bottom: 10px;
-}

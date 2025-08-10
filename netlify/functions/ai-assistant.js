@@ -76,6 +76,9 @@
     <div class="chat-container">
         <div class="chat-display" id="chat-display">
             <div class="message ai-message">Hello! How can I help you today?</div>
+            <div class="message ai-message" id="loading-message" style="display: none;">
+                The AI is thinking...
+            </div>
         </div>
         <div class="chat-input">
             <input type="text" id="user-input" placeholder="Ask me anything...">
@@ -87,6 +90,7 @@
         const chatDisplay = document.getElementById('chat-display');
         const userInput = document.getElementById('user-input');
         const sendButton = document.getElementById('send-button');
+        const loadingMessage = document.getElementById('loading-message');
 
         function addMessage(message, sender) {
             const messageDiv = document.createElement('div');
@@ -104,6 +108,8 @@
             addMessage(message, 'user');
             userInput.value = '';
 
+            loadingMessage.style.display = 'block'; // Show the loading message
+
             try {
                 // Call the Netlify Function
                 const response = await fetch('/.netlify/functions/ai-assistant', {
@@ -112,10 +118,13 @@
                 });
 
                 const data = await response.json();
+                
+                loadingMessage.style.display = 'none'; // Hide the loading message
                 addMessage(data.reply, 'ai');
 
             } catch (error) {
                 console.error('Error fetching AI response:', error);
+                loadingMessage.style.display = 'none'; // Hide it on error too
                 addMessage('Sorry, I am unable to respond at the moment.', 'ai');
             }
         }

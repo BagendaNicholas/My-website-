@@ -149,6 +149,13 @@
     <button onclick="startRecording()">🎤 Start Recording</button>
     <button onclick="stopRecording()">⏹ Stop Recording</button>
   </div>
+  
+  <div class="action-buttons">
+    <label for="fileUpload" style="width: 100%;">
+      <input type="file" id="fileUpload" style="display: none;" onchange="handleFileUpload(event)" multiple>
+      <button type="button" onclick="document.getElementById('fileUpload').click()" style="width: 100%;">📁 Upload Files (Photo, Video, Audio)</button>
+    </label>
+  </div>
 
   <div class="action-buttons">
     <button onclick="exportData()">Export Notes</button>
@@ -198,7 +205,7 @@
     }
 
     let password = prompt("Set a password for this folder:");
-    if (password === null) return; // User canceled
+    if (password === null) return;
     
     let salt = CryptoJS.lib.WordArray.random(128/8).toString();
     data[folderName] = { salt: salt, notes: [] };
@@ -262,7 +269,7 @@
       }
       activeFolderKey = await deriveKey(entered, folderData.salt);
     } else if (!folderData.password) {
-      activeFolderKey = await deriveKey("", folderData.salt); // Use a dummy key for unencrypted notes
+      activeFolderKey = await deriveKey("", folderData.salt);
     }
     
     loadNotes();
@@ -286,18 +293,29 @@
     }
 
     notes.forEach((encrypted, index) => {
-      let noteText;
+      let noteContent;
       try {
         let bytes = CryptoJS.AES.decrypt(encrypted, activeFolderKey);
-        noteText = bytes.toString(CryptoJS.enc.Utf8) || "Unable to decrypt";
+        noteContent = bytes.toString(CryptoJS.enc.Utf8) || "Unable to decrypt";
       } catch {
-        noteText = "Unable to decrypt";
+        noteContent = "Unable to decrypt";
       }
       
       let li = document.createElement("li");
       let textSpan = document.createElement("span");
-      textSpan.textContent = noteText;
-      textSpan.onclick = () => editNote(index);
+      
+      if (noteContent.startsWith('data:')) {
+        let fileType = noteContent.split(';')[0].split('/')[0].split(':')[1];
+        let fileName = noteContent.split(';')[1].split(',')[0].replace('filename=', '');
+        textSpan.textContent = `📁 ${fileType} file: ${fileName}`;
+        textSpan.onclick = () => {
+          window.open(noteContent, '_blank');
+        };
+      } else {
+        textSpan.textContent = noteContent;
+        textSpan.onclick = () => editNote(index);
+      }
+
       let delBtn = document.createElement("button");
       delBtn.textContent = "🗑";
       delBtn.className = "delete-btn";
@@ -324,19 +342,30 @@
     }
 
     folderData.notes.forEach((encrypted, index) => {
-      let noteText;
+      let noteContent;
       try {
         let bytes = CryptoJS.AES.decrypt(encrypted, activeFolderKey);
-        noteText = bytes.toString(CryptoJS.enc.Utf8);
+        noteContent = bytes.toString(CryptoJS.enc.Utf8);
       } catch {
-        noteText = "Unable to decrypt";
+        noteContent = "Unable to decrypt";
       }
       
-      if (noteText.toLowerCase().includes(searchTerm)) {
+      if (noteContent.toLowerCase().includes(searchTerm)) {
         let li = document.createElement("li");
         let textSpan = document.createElement("span");
-        textSpan.textContent = noteText;
-        textSpan.onclick = () => editNote(index);
+
+        if (noteContent.startsWith('data:')) {
+            let fileType = noteContent.split(';')[0].split('/')[0].split(':')[1];
+            let fileName = noteContent.split(';')[1].split(',')[0].replace('filename=', '');
+            textSpan.textContent = `📁 ${fileType} file: ${fileName}`;
+            textSpan.onclick = () => {
+              window.open(noteContent, '_blank');
+            };
+        } else {
+            textSpan.textContent = noteContent;
+            textSpan.onclick = () => editNote(index);
+        }
+
         let delBtn = document.createElement("button");
         delBtn.textContent = "🗑";
         delBtn.className = "delete-btn";
@@ -382,9 +411,14 @@
 
     try {
         let bytes = CryptoJS.AES.decrypt(folderData.notes[index], activeFolderKey);
-        let noteText = bytes.toString(CryptoJS.enc.Utf8);
-        document.getElementById("noteArea").value = noteText;
-        editIndex = index;
+        let noteContent = bytes.toString(CryptoJS.enc.Utf8);
+
+        if (noteContent.startsWith('data:')) {
+          showStatus("Cannot edit file content directly. You can delete and re-upload it.", "error");
+        } else {
+          document.getElementById("noteArea").value = noteContent;
+          editIndex = index;
+        }
     } catch {
         showStatus("Failed to decrypt note.", "error");
     }
@@ -434,6 +468,29 @@
     if (recognition) {
       recognition.stop();
       showStatus("Recording stopped.");
+    }
+  }
+
+  function handleFileUpload(event) {
+    if (!activeFolderKey) {
+      showStatus("Please unlock the folder before uploading files.", "error");
+      return;
+    }
+    const files = event.target.files;
+    if (files.length === 0) return;
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const fileDataUrl = `${e.target.result};filename=${file.name}`;
+        const encryptedFile = CryptoJS.AES.encrypt(fileDataUrl, activeFolderKey).toString();
+        data[document.getElementById("folderSelect").value].notes.unshift(encryptedFile);
+        saveData();
+        loadNotes();
+        showStatus(`File "${file.name}" uploaded and encrypted.`);
+      };
+      reader.readAsDataURL(file);
     }
   }
 

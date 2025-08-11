@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NicholeSecure Notebook</title>
+<title>Advanced Secure Notebook</title>
 <style>
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -124,7 +124,7 @@
 <body>
 
 <div class="notebook-container">
-  <h2>🔒 Nichole Secure Notebook</h2>
+  <h2>🔒 Simple Notebook</h2>
   
   <div class="flex-row">
     <select id="folderSelect"></select>
@@ -133,8 +133,7 @@
   </div>
   <div class="flex-row">
     <button class="delete-btn" onclick="deleteFolder()">🗑 Delete Folder</button>
-    <button onclick="unlockFolder()">🔓 Unlock Folder</button>
-  </div>
+    </div>
 
   <input type="text" id="searchNotes" placeholder="🔍 Search notes..." oninput="filterNotes()">
 
@@ -150,13 +149,6 @@
     <button onclick="stopRecording()">⏹ Stop Recording</button>
   </div>
   
-  <div class="action-buttons">
-    <label for="fileUpload" style="width: 100%;">
-      <input type="file" id="fileUpload" style="display: none;" onchange="handleFileUpload(event)" multiple>
-      <button type="button" onclick="document.getElementById('fileUpload').click()" style="width: 100%;">📁 Upload Files (Photo, Video, Audio)</button>
-    </label>
-  </div>
-
   <div class="action-buttons">
     <button onclick="exportData()">Export Notes</button>
     <label for="importFile" class="action-buttons" style="flex-grow: 1;">
@@ -204,17 +196,9 @@
       return showStatus("Folder already exists!", "error");
     }
 
-    let password = prompt("Set a password for this folder:");
-    if (password === null) return;
-    
+    // No password prompt
     let salt = CryptoJS.lib.WordArray.random(128/8).toString();
-    data[folderName] = { salt: salt, notes: [] };
-    if (password !== "") {
-      data[folderName].password = password;
-    } else {
-      if (!confirm("Are you sure you want to create a folder with no password?")) return;
-      data[folderName].password = null;
-    }
+    data[folderName] = { salt: salt, password: null, notes: [] };
     
     saveData();
     document.getElementById("newFolderName").value = "";
@@ -226,22 +210,13 @@
 
   function deleteFolder() {
     let folder = document.getElementById("folderSelect").value;
-    let folderData = data[folder];
-
+    
     if (Object.keys(data).length <= 1) {
       return showStatus("Cannot delete the last folder.", "error");
     }
 
-    if (folderData.password) {
-      let entered = prompt(`Enter password for folder "${folder}" to confirm deletion:`);
-      if (entered !== folderData.password) {
-        showStatus("Incorrect password!", "error");
-        return;
-      }
-    } else {
-      if (!confirm(`Are you sure you want to delete folder "${folder}" and all its notes? This folder has no password.`)) {
-        return;
-      }
+    if (!confirm(`Are you sure you want to delete folder "${folder}" and all its notes?`)) {
+      return;
     }
     
     delete data[folder];
@@ -260,17 +235,8 @@
       return;
     }
 
-    if (folderData.password && !activeFolderKey) {
-      let entered = prompt(`Enter password for folder "${folder}":`);
-      if (entered !== folderData.password) {
-        showStatus("Incorrect password!", "error");
-        document.getElementById("notesList").innerHTML = "<li>🔒 Locked</li>";
-        return;
-      }
-      activeFolderKey = await deriveKey(entered, folderData.salt);
-    } else if (!folderData.password) {
-      activeFolderKey = await deriveKey("", folderData.salt);
-    }
+    // No password needed, just derive the key
+    activeFolderKey = await deriveKey("", folderData.salt);
     
     loadNotes();
     showStatus(`Folder "${folder}" unlocked.`);
@@ -288,7 +254,7 @@
     list.innerHTML = "";
     
     if (!activeFolderKey) {
-      list.innerHTML = "<li>🔒 Folder Locked</li>";
+      list.innerHTML = "<li>Please select and unlock a folder.</li>";
       return;
     }
 
@@ -304,23 +270,8 @@
       let li = document.createElement("li");
       let textSpan = document.createElement("span");
       
-      if (noteContent.startsWith('data:')) {
-        let fileType = noteContent.split(';')[0].split('/')[0].split(':')[1];
-        let fileName = noteContent.split(';')[1].split(',')[0].replace('filename=', '');
-        textSpan.textContent = `📁 ${fileType} file: ${fileName}`;
-        textSpan.onclick = () => {
-          let a = document.createElement('a');
-          a.href = noteContent;
-          a.download = fileName;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          showStatus(`Downloading "${fileName}"...`);
-        };
-      } else {
-        textSpan.textContent = noteContent;
-        textSpan.onclick = () => editNote(index);
-      }
+      textSpan.textContent = noteContent;
+      textSpan.onclick = () => editNote(index);
 
       let delBtn = document.createElement("button");
       delBtn.textContent = "🗑";
@@ -343,7 +294,7 @@
     list.innerHTML = "";
 
     if (!activeFolderKey) {
-        list.innerHTML = "<li>🔒 Folder Locked</li>";
+        list.innerHTML = "<li>Please select and unlock a folder.</li>";
         return;
     }
 
@@ -360,23 +311,8 @@
         let li = document.createElement("li");
         let textSpan = document.createElement("span");
 
-        if (noteContent.startsWith('data:')) {
-            let fileType = noteContent.split(';')[0].split('/')[0].split(':')[1];
-            let fileName = noteContent.split(';')[1].split(',')[0].replace('filename=', '');
-            textSpan.textContent = `📁 ${fileType} file: ${fileName}`;
-            textSpan.onclick = () => {
-              let a = document.createElement('a');
-              a.href = noteContent;
-              a.download = fileName;
-              document.body.appendChild(a);
-              a.click();
-              document.body.removeChild(a);
-              showStatus(`Downloading "${fileName}"...`);
-            };
-        } else {
-            textSpan.textContent = noteContent;
-            textSpan.onclick = () => editNote(index);
-        }
+        textSpan.textContent = noteContent;
+        textSpan.onclick = () => editNote(index);
 
         let delBtn = document.createElement("button");
         delBtn.textContent = "🗑";
@@ -424,13 +360,8 @@
     try {
         let bytes = CryptoJS.AES.decrypt(folderData.notes[index], activeFolderKey);
         let noteContent = bytes.toString(CryptoJS.enc.Utf8);
-
-        if (noteContent.startsWith('data:')) {
-          showStatus("Cannot edit file content directly. You can download and re-upload it.", "error");
-        } else {
-          document.getElementById("noteArea").value = noteContent;
-          editIndex = index;
-        }
+        document.getElementById("noteArea").value = noteContent;
+        editIndex = index;
     } catch {
         showStatus("Failed to decrypt note.", "error");
     }
@@ -438,23 +369,14 @@
 
   function deleteNote(index) {
     let folder = document.getElementById("folderSelect").value;
-    let folderData = data[folder];
 
     if (!activeFolderKey) {
         showStatus("Please unlock the folder first!", "error");
         return;
     }
     
-    if (folderData.password) {
-        let entered = prompt(`Enter password for folder "${folder}" to delete this note:`);
-        if (entered !== folderData.password) {
-            showStatus("Incorrect password!", "error");
-            return;
-        }
-    } else {
-        if (!confirm("Are you sure you want to delete this note?")) {
-            return;
-        }
+    if (!confirm("Are you sure you want to delete this note?")) {
+      return;
     }
 
     data[folder].notes.splice(index, 1);
@@ -498,28 +420,7 @@
     }
   }
 
-  function handleFileUpload(event) {
-    if (!activeFolderKey) {
-      showStatus("Please unlock the folder before uploading files.", "error");
-      return;
-    }
-    const files = event.target.files;
-    if (files.length === 0) return;
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const fileDataUrl = `${e.target.result};filename=${file.name}`;
-        const encryptedFile = CryptoJS.AES.encrypt(fileDataUrl, activeFolderKey).toString();
-        data[document.getElementById("folderSelect").value].notes.unshift(encryptedFile);
-        saveData();
-        loadNotes();
-        showStatus(`File "${file.name}" uploaded and encrypted.`);
-      };
-      reader.readAsDataURL(file);
-    }
-  }
+  // Removed handleFileUpload function
 
   function saveData() {
     localStorage.setItem("advancedNotebookData", JSON.stringify(data));

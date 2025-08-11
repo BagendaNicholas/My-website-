@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nichole secure Notebook</title>
+<title>Advanced Secure Notebook</title>
 <style>
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -124,7 +124,7 @@
 <body>
 
 <div class="notebook-container">
-  <h2>🔒 Nichole Secure Notebook</h2>
+  <h2>🔒 Advanced Secure Notebook</h2>
   
   <div class="flex-row">
     <select id="folderSelect"></select>
@@ -438,10 +438,25 @@
 
   function deleteNote(index) {
     let folder = document.getElementById("folderSelect").value;
+    let folderData = data[folder];
+
     if (!activeFolderKey) {
         showStatus("Please unlock the folder first!", "error");
         return;
     }
+    
+    if (folderData.password) {
+        let entered = prompt(`Enter password for folder "${folder}" to delete this note:`);
+        if (entered !== folderData.password) {
+            showStatus("Incorrect password!", "error");
+            return;
+        }
+    } else {
+        if (!confirm("Are you sure you want to delete this note?")) {
+            return;
+        }
+    }
+
     data[folder].notes.splice(index, 1);
     saveData();
     loadNotes();

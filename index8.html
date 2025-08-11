@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Secure Folder Notebook with Voice Recording</title>
+<title>Encrypted Notebook with Voice Recording</title>
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -68,11 +68,13 @@
     border-radius: 5px;
   }
 </style>
+<!-- Add CryptoJS for encryption -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 <body>
 
 <div class="notebook">
-  <h2>📓 My Notebook</h2>
+  <h2>📓 Secure Notebook</h2>
   
   <div class="folder-controls">
     <select id="folderSelect" onchange="unlockFolder()"></select>
@@ -94,9 +96,9 @@
 
 <script>
   let recognition;
-  let data = JSON.parse(localStorage.getItem("folderNotesSecure")) || {};
+  let data = JSON.parse(localStorage.getItem("folderNotesEncrypted")) || {};
   let editIndex = null;
-  let unlockedFolders = {}; // Tracks unlocked password-protected folders
+  let unlockedFolders = {};
 
   function init() {
     let folderSelect = document.getElementById("folderSelect");
@@ -151,25 +153,35 @@
         document.getElementById("notesList").innerHTML = "<li>🔒 Locked</li>";
         return;
       }
-      unlockedFolders[folder] = true;
+      unlockedFolders[folder] = entered; // store password for encryption/decryption
     }
     loadNotes();
   }
 
   function loadNotes() {
     let folder = document.getElementById("folderSelect").value;
-    let notes = data[folder].notes || [];
+    let folderData = data[folder];
+    let notes = folderData.notes || [];
     let list = document.getElementById("notesList");
     list.innerHTML = "";
-    notes.forEach((note, index) => {
+    notes.forEach((encrypted, index) => {
+      let noteText;
+      if (folderData.password) {
+        try {
+          let bytes = CryptoJS.AES.decrypt(encrypted, unlockedFolders[folder]);
+          noteText = bytes.toString(CryptoJS.enc.Utf8) || "🔒 Unable to decrypt";
+        } catch {
+          noteText = "🔒 Unable to decrypt";
+        }
+      } else {
+        noteText = encrypted;
+      }
       let li = document.createElement("li");
-
       let textSpan = document.createElement("span");
-      textSpan.textContent = note;
+      textSpan.textContent = noteText;
       textSpan.style.flex = "1";
       textSpan.style.cursor = "pointer";
       textSpan.onclick = () => editNote(index);
-
       let delBtn = document.createElement("button");
       delBtn.textContent = "🗑";
       delBtn.className = "delete-btn";
@@ -177,7 +189,6 @@
         e.stopPropagation();
         deleteNote(index);
       };
-
       li.appendChild(textSpan);
       li.appendChild(delBtn);
       list.appendChild(li);
@@ -187,19 +198,20 @@
   function filterNotes() {
     let searchTerm = document.getElementById("searchNotes").value.toLowerCase();
     let folder = document.getElementById("folderSelect").value;
-    let notes = data[folder].notes || [];
+    let folderData = data[folder];
     let list = document.getElementById("notesList");
     list.innerHTML = "";
-    notes
-      .filter(note => note.toLowerCase().includes(searchTerm))
-      .forEach((note, index) => {
+    folderData.notes.forEach((encrypted, index) => {
+      let noteText = folderData.password
+        ? CryptoJS.AES.decrypt(encrypted, unlockedFolders[folder]).toString(CryptoJS.enc.Utf8)
+        : encrypted;
+      if (noteText.toLowerCase().includes(searchTerm)) {
         let li = document.createElement("li");
         let textSpan = document.createElement("span");
-        textSpan.textContent = note;
+        textSpan.textContent = noteText;
         textSpan.style.flex = "1";
         textSpan.style.cursor = "pointer";
         textSpan.onclick = () => editNote(index);
-
         let delBtn = document.createElement("button");
         delBtn.textContent = "🗑";
         delBtn.className = "delete-btn";
@@ -207,33 +219,43 @@
           e.stopPropagation();
           deleteNote(index);
         };
-
         li.appendChild(textSpan);
         li.appendChild(delBtn);
         list.appendChild(li);
-      });
+      }
+    });
   }
 
   function saveNote() {
     let folder = document.getElementById("folderSelect").value;
     let note = document.getElementById("noteArea").value.trim();
     if (!note) return alert("Write something before saving!");
-
     if (editIndex !== null) {
-      data[folder].notes[editIndex] = note;
+      data[folder].notes[editIndex] = encryptNote(note, folder);
       editIndex = null;
     } else {
-      data[folder].notes.unshift(note);
+      data[folder].notes.unshift(encryptNote(note, folder));
     }
-    
     saveData();
     document.getElementById("noteArea").value = "";
     loadNotes();
   }
 
+  function encryptNote(note, folder) {
+    let folderData = data[folder];
+    if (folderData.password) {
+      return CryptoJS.AES.encrypt(note, unlockedFolders[folder]).toString();
+    }
+    return note;
+  }
+
   function editNote(index) {
     let folder = document.getElementById("folderSelect").value;
-    document.getElementById("noteArea").value = data[folder].notes[index];
+    let folderData = data[folder];
+    let noteText = folderData.password
+      ? CryptoJS.AES.decrypt(folderData.notes[index], unlockedFolders[folder]).toString(CryptoJS.enc.Utf8)
+      : folderData.notes[index];
+    document.getElementById("noteArea").value = noteText;
     editIndex = index;
   }
 
@@ -267,7 +289,7 @@
   }
 
   function saveData() {
-    localStorage.setItem("folderNotesSecure", JSON.stringify(data));
+    localStorage.setItem("folderNotesEncrypted", JSON.stringify(data));
   }
 
   init();

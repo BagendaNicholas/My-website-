@@ -3,472 +3,76 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Advanced Secure Notebook</title>
+<title>3D Rotating Cube</title>
 <style>
   body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #2c3e50;
-    color: #ecf0f1;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    margin: 0;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  .notebook-container {
-    background: rgba(44, 62, 80, 0.9);
-    padding: 30px;
-    border-radius: 15px;
-    width: 100%;
-    max-width: 600px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(236, 240, 241, 0.1);
-  }
-  h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #3498db;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-  }
-  select, input, textarea, button {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border: 1px solid #34495e;
-    border-radius: 8px;
-    box-sizing: border-box;
-    background: #34495e;
-    color: #ecf0f1;
-    font-size: 16px;
-  }
-  textarea {
-    min-height: 150px;
-    resize: vertical;
-  }
-  button {
-    background: #3498db;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    font-weight: bold;
-  }
-  button:hover {
-    background: #2980b9;
-  }
-  .delete-btn {
-    background: #e74c3c;
-  }
-  .delete-btn:hover {
-    background: #c0392b;
-  }
-  .flex-row {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-  .flex-row input {
-    flex-grow: 1;
-    margin: 0;
-  }
-  .flex-row button {
-    width: auto;
-    padding: 12px 18px;
-    margin: 0;
-  }
-  #notesList {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
-    max-height: 300px;
-    overflow-y: auto;
-  }
-  #notesList li {
-    background: #34495e;
-    padding: 12px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: background 0.3s ease;
-  }
-  #notesList li:hover {
-    background: #465d75;
-  }
-  #notesList li span {
-    flex-grow: 1;
-    cursor: pointer;
-    white-space: nowrap;
+    background-color: #282c34;
     overflow: hidden;
-    text-overflow: ellipsis;
+    margin: 0;
   }
-  .action-buttons {
+
+  .scene {
+    width: 200px;
+    height: 200px;
+    perspective: 800px; /* Provides the 3D perspective */
+  }
+
+  .cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transform: translateZ(-100px); /* Move the cube back in space */
+    animation: cubeRotate 8s infinite linear;
+  }
+
+  .cube-face {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border: 2px solid white;
+    font-size: 30px;
+    color: white;
     display: flex;
-    gap: 10px;
-    margin-top: 10px;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    background: rgba(52, 152, 219, 0.7); /* A semi-transparent blue */
   }
-  .action-buttons button {
-    flex-grow: 1;
-  }
-  .status-message {
-    text-align: center;
-    margin-top: 10px;
-    font-style: italic;
-    color: #95a5a6;
+
+  .front  { transform: rotateY(0deg) translateZ(100px); }
+  .back   { transform: rotateY(180deg) translateZ(100px); }
+  .right  { transform: rotateY(90deg) translateZ(100px); }
+  .left   { transform: rotateY(-90deg) translateZ(100px); }
+  .top    { transform: rotateX(90deg) translateZ(100px); }
+  .bottom { transform: rotateX(-90deg) translateZ(100px); }
+
+  @keyframes cubeRotate {
+    from {
+      transform: rotateX(0deg) rotateY(0deg);
+    }
+    to {
+      transform: rotateX(360deg) rotateY(360deg);
+    }
   }
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 <body>
 
-<div class="notebook-container">
-  <h2>🔒 Simple Notebook</h2>
-  
-  <div class="flex-row">
-    <select id="folderSelect"></select>
-    <input type="text" id="newFolderName" placeholder="New folder name">
-    <button onclick="createFolder()">➕</button>
+<div class="scene">
+  <div class="cube">
+    <div class="cube-face front">FRONT</div>
+    <div class="cube-face back">BACK</div>
+    <div class="cube-face right">RIGHT</div>
+    <div class="cube-face left">LEFT</div>
+    <div class="cube-face top">TOP</div>
+    <div class="cube-face bottom">BOTTOM</div>
   </div>
-  <div class="flex-row">
-    <button class="delete-btn" onclick="deleteFolder()">🗑 Delete Folder</button>
-    </div>
-
-  <input type="text" id="searchNotes" placeholder="🔍 Search notes..." oninput="filterNotes()">
-
-  <textarea id="noteArea" placeholder="Write your note here..."></textarea>
-  
-  <div class="action-buttons">
-    <button onclick="saveNote()">💾 Save/Update</button>
-    <button onclick="newNote()">🆕 New Note</button>
-  </div>
-
-  <div class="action-buttons">
-    <button onclick="startRecording()">🎤 Start Recording</button>
-    <button onclick="stopRecording()">⏹ Stop Recording</button>
-  </div>
-  
-  <div class="action-buttons">
-    <button onclick="exportData()">Export Notes</button>
-    <label for="importFile" class="action-buttons" style="flex-grow: 1;">
-      <input type="file" id="importFile" style="display: none;" onchange="importData(event)">
-      <button type="button" onclick="document.getElementById('importFile').click()" style="width: 100%;">Import Notes</button>
-    </label>
-  </div>
-
-  <p class="status-message" id="statusMessage"></p>
-  
-  <ul id="notesList"></ul>
 </div>
-
-<script>
-  let recognition;
-  let data = JSON.parse(localStorage.getItem("advancedNotebookData")) || {};
-  let editIndex = null;
-  let activeFolderKey = null;
-
-  function init() {
-    let folderSelect = document.getElementById("folderSelect");
-    folderSelect.innerHTML = "";
-    Object.keys(data).forEach(folder => {
-      let opt = document.createElement("option");
-      opt.value = folder;
-      opt.textContent = folder;
-      folderSelect.appendChild(opt);
-    });
-    if (Object.keys(data).length === 0) {
-      data["Default"] = { salt: CryptoJS.lib.WordArray.random(128/8).toString(), password: null, notes: [] };
-      saveData();
-    }
-    folderSelect.value = Object.keys(data)[0];
-    unlockFolder();
-    document.getElementById("folderSelect").onchange = () => {
-      activeFolderKey = null;
-      loadNotes();
-    };
-  }
-
-  async function createFolder() {
-    let folderName = document.getElementById("newFolderName").value.trim();
-    if (!folderName) return showStatus("Please enter a folder name.", "error");
-    if (data[folderName]) {
-      return showStatus("Folder already exists!", "error");
-    }
-
-    // No password prompt
-    let salt = CryptoJS.lib.WordArray.random(128/8).toString();
-    data[folderName] = { salt: salt, password: null, notes: [] };
-    
-    saveData();
-    document.getElementById("newFolderName").value = "";
-    init();
-    document.getElementById("folderSelect").value = folderName;
-    unlockFolder();
-    showStatus(`Folder "${folderName}" created.`);
-  }
-
-  function deleteFolder() {
-    let folder = document.getElementById("folderSelect").value;
-    
-    if (Object.keys(data).length <= 1) {
-      return showStatus("Cannot delete the last folder.", "error");
-    }
-
-    if (!confirm(`Are you sure you want to delete folder "${folder}" and all its notes?`)) {
-      return;
-    }
-    
-    delete data[folder];
-    saveData();
-    activeFolderKey = null;
-    init();
-    showStatus(`Folder "${folder}" and its notes have been permanently deleted.`);
-  }
-
-  async function unlockFolder() {
-    let folder = document.getElementById("folderSelect").value;
-    let folderData = data[folder];
-
-    if (!folderData) {
-      document.getElementById("notesList").innerHTML = "<li>No folder selected.</li>";
-      return;
-    }
-
-    // No password needed, just derive the key
-    activeFolderKey = await deriveKey("", folderData.salt);
-    
-    loadNotes();
-    showStatus(`Folder "${folder}" unlocked.`);
-  }
-
-  async function deriveKey(password, salt) {
-    return CryptoJS.PBKDF2(password, salt, { keySize: 256/32, iterations: 1000 }).toString();
-  }
-
-  async function loadNotes() {
-    let folder = document.getElementById("folderSelect").value;
-    let folderData = data[folder];
-    let notes = folderData.notes || [];
-    let list = document.getElementById("notesList");
-    list.innerHTML = "";
-    
-    if (!activeFolderKey) {
-      list.innerHTML = "<li>Please select and unlock a folder.</li>";
-      return;
-    }
-
-    notes.forEach((encrypted, index) => {
-      let noteContent;
-      try {
-        let bytes = CryptoJS.AES.decrypt(encrypted, activeFolderKey);
-        noteContent = bytes.toString(CryptoJS.enc.Utf8) || "Unable to decrypt";
-      } catch {
-        noteContent = "Unable to decrypt";
-      }
-      
-      let li = document.createElement("li");
-      let textSpan = document.createElement("span");
-      
-      textSpan.textContent = noteContent;
-      textSpan.onclick = () => editNote(index);
-
-      let delBtn = document.createElement("button");
-      delBtn.textContent = "🗑";
-      delBtn.className = "delete-btn";
-      delBtn.onclick = (e) => {
-        e.stopPropagation();
-        deleteNote(index);
-      };
-      li.appendChild(textSpan);
-      li.appendChild(delBtn);
-      list.appendChild(li);
-    });
-  }
-
-  async function filterNotes() {
-    let searchTerm = document.getElementById("searchNotes").value.toLowerCase();
-    let folder = document.getElementById("folderSelect").value;
-    let folderData = data[folder];
-    let list = document.getElementById("notesList");
-    list.innerHTML = "";
-
-    if (!activeFolderKey) {
-        list.innerHTML = "<li>Please select and unlock a folder.</li>";
-        return;
-    }
-
-    folderData.notes.forEach((encrypted, index) => {
-      let noteContent;
-      try {
-        let bytes = CryptoJS.AES.decrypt(encrypted, activeFolderKey);
-        noteContent = bytes.toString(CryptoJS.enc.Utf8);
-      } catch {
-        noteContent = "Unable to decrypt";
-      }
-      
-      if (noteContent.toLowerCase().includes(searchTerm)) {
-        let li = document.createElement("li");
-        let textSpan = document.createElement("span");
-
-        textSpan.textContent = noteContent;
-        textSpan.onclick = () => editNote(index);
-
-        let delBtn = document.createElement("button");
-        delBtn.textContent = "🗑";
-        delBtn.className = "delete-btn";
-        delBtn.onclick = (e) => {
-          e.stopPropagation();
-          deleteNote(index);
-        };
-        li.appendChild(textSpan);
-        li.appendChild(delBtn);
-        list.appendChild(li);
-      }
-    });
-  }
-
-  async function saveNote() {
-    let folder = document.getElementById("folderSelect").value;
-    let note = document.getElementById("noteArea").value.trim();
-    if (!note) return showStatus("Write something before saving!", "error");
-    if (!activeFolderKey) return showStatus("Please unlock the folder first!", "error");
-
-    let encryptedNote = CryptoJS.AES.encrypt(note, activeFolderKey).toString();
-    if (editIndex !== null) {
-      data[folder].notes[editIndex] = encryptedNote;
-      editIndex = null;
-    } else {
-      data[folder].notes.unshift(encryptedNote);
-    }
-    
-    saveData();
-    document.getElementById("noteArea").value = "";
-    loadNotes();
-    showStatus("Note saved successfully!");
-  }
-
-  function editNote(index) {
-    let folder = document.getElementById("folderSelect").value;
-    let folderData = data[folder];
-
-    if (!activeFolderKey) {
-        showStatus("Please unlock the folder first!", "error");
-        return;
-    }
-
-    try {
-        let bytes = CryptoJS.AES.decrypt(folderData.notes[index], activeFolderKey);
-        let noteContent = bytes.toString(CryptoJS.enc.Utf8);
-        document.getElementById("noteArea").value = noteContent;
-        editIndex = index;
-    } catch {
-        showStatus("Failed to decrypt note.", "error");
-    }
-  }
-
-  function deleteNote(index) {
-    let folder = document.getElementById("folderSelect").value;
-
-    if (!activeFolderKey) {
-        showStatus("Please unlock the folder first!", "error");
-        return;
-    }
-    
-    if (!confirm("Are you sure you want to delete this note?")) {
-      return;
-    }
-
-    data[folder].notes.splice(index, 1);
-    saveData();
-    loadNotes();
-    showStatus("Note deleted.");
-  }
-
-  function newNote() {
-    document.getElementById("noteArea").value = "";
-    editIndex = null;
-    showStatus("New note sheet created.");
-  }
-
-  function startRecording() {
-    if (!('webkitSpeechRecognition' in window)) {
-      return showStatus("Your browser doesn't support speech recognition.", "error");
-    }
-    recognition = new webkitSpeechRecognition();
-    recognition.lang = "en-US";
-    recognition.interimResults = true;
-    recognition.continuous = true;
-    recognition.onresult = function(event) {
-      let interim_transcript = '';
-      for (let i = event.resultIndex; i < event.results.length; ++i) {
-        if (event.results[i].isFinal) {
-          document.getElementById("noteArea").value += event.results[i][0].transcript + " ";
-        } else {
-          interim_transcript += event.results[i][0].transcript;
-        }
-      }
-    };
-    recognition.start();
-    showStatus("Recording started. Speak now...");
-  }
-
-  function stopRecording() {
-    if (recognition) {
-      recognition.stop();
-      showStatus("Recording stopped.");
-    }
-  }
-
-  // Removed handleFileUpload function
-
-  function saveData() {
-    localStorage.setItem("advancedNotebookData", JSON.stringify(data));
-  }
-
-  function exportData() {
-    const dataStr = JSON.stringify(data, null, 2);
-    const blob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `notebook_backup_${new Date().toISOString()}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    showStatus("Notebook data exported as JSON file.");
-  }
-
-  function importData(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      try {
-        const importedData = JSON.parse(e.target.result);
-        if (confirm("Importing will overwrite all existing notebook data. Are you sure?")) {
-          data = importedData;
-          saveData();
-          init();
-          showStatus("Notebook data imported successfully!");
-        }
-      } catch (err) {
-        showStatus("Failed to import file. Please ensure it's a valid JSON.", "error");
-      }
-    };
-    reader.readAsText(file);
-  }
-
-  function showStatus(message, type = "success") {
-    const statusDiv = document.getElementById("statusMessage");
-    statusDiv.textContent = message;
-    statusDiv.style.color = type === "error" ? "#e74c3c" : "#2ecc71";
-  }
-
-  init();
-</script>
 
 </body>
 </html>

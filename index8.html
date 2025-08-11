@@ -179,7 +179,7 @@
       folderSelect.appendChild(opt);
     });
     if (Object.keys(data).length === 0) {
-      data["Default"] = { salt: CryptoJS.lib.WordArray.random(128/8).toString(), notes: [] };
+      data["Default"] = { salt: CryptoJS.lib.WordArray.random(128/8).toString(), password: null, notes: [] };
       saveData();
     }
     folderSelect.value = Object.keys(data)[0];
@@ -198,14 +198,15 @@
     }
 
     let password = prompt("Set a password for this folder:");
-    if (!password) {
-      if (!confirm("Are you sure you want to create a folder with no password?")) return;
-    }
+    if (password === null) return; // User canceled
     
     let salt = CryptoJS.lib.WordArray.random(128/8).toString();
     data[folderName] = { salt: salt, notes: [] };
-    if (password) {
+    if (password !== "") {
       data[folderName].password = password;
+    } else {
+      if (!confirm("Are you sure you want to create a folder with no password?")) return;
+      data[folderName].password = null;
     }
     
     saveData();
@@ -218,16 +219,29 @@
 
   function deleteFolder() {
     let folder = document.getElementById("folderSelect").value;
+    let folderData = data[folder];
+
     if (Object.keys(data).length <= 1) {
       return showStatus("Cannot delete the last folder.", "error");
     }
-    if (confirm(`Are you sure you want to delete folder "${folder}" and all its notes?`)) {
-      delete data[folder];
-      saveData();
-      activeFolderKey = null;
-      init();
-      showStatus(`Folder "${folder}" deleted.`);
+
+    if (folderData.password) {
+      let entered = prompt(`Enter password for folder "${folder}" to confirm deletion:`);
+      if (entered !== folderData.password) {
+        showStatus("Incorrect password!", "error");
+        return;
+      }
+    } else {
+      if (!confirm(`Are you sure you want to delete folder "${folder}" and all its notes? This folder has no password.`)) {
+        return;
+      }
     }
+    
+    delete data[folder];
+    saveData();
+    activeFolderKey = null;
+    init();
+    showStatus(`Folder "${folder}" and its notes have been permanently deleted.`);
   }
 
   async function unlockFolder() {

@@ -16,12 +16,11 @@ exports.handler = async (event, context) => {
   if (!HUGGING_FACE_TOKEN) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Hugging Face API token not configured. Please set it in Netlify environment variables.' }),
+      body: JSON.stringify({ error: 'Hugging Face API token not configured.' }),
     };
   }
 
   // --- Configuration for the DialoGPT model ---
-  // This is the correct API URL for microsoft/DialoGPT-small
   const modelUrl = 'https://api-inference.huggingface.co/models/microsoft/DialoGPT-small'; 
 
   try {
@@ -31,28 +30,37 @@ exports.handler = async (event, context) => {
         'Authorization': `Bearer ${HUGGING_FACE_TOKEN}`,
         'Content-Type': 'application/json',
       },
-      // The Hugging Face API for DialoGPT often expects a 'text' field, not 'inputs'
+      // The API for DialoGPT often expects a 'text' field inside 'inputs'
       body: JSON.stringify({
-        inputs: {
-          text: message,
-        },
+        inputs: { text: message },
       }),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Hugging Face API Error:', errorText);
+      // Log the full error to Netlify logs for debugging
+      console.error('Hugging Face API Error:', response.status, errorText);
       return {
         statusCode: response.status,
-        body: JSON.stringify({ error: `API responded with status ${response.status}. See Netlify logs for details.` }),
+        body: JSON.stringify({ error: `Hugging Face API responded with status ${response.status}.` }),
       };
     }
 
     const result = await response.json();
 
-    // The Hugging Face API response structure can vary.
-    // For DialoGPT, the reply is often in result.generated_text
-    const generatedText = result?.generated_text || 'No response generated.';
+    // Log the full successful response for debugging
+    console.log('Hugging Face API Response:', JSON.stringify(result));
+
+    let generatedText = 'No response generated.';
+
+    // The API might return an array of objects or a single object.
+    if (Array.isArray(result) && result.length > 0) {
+      // Handle the array case
+      generatedText = result[0]?.generated_text;
+    } else if (result?.generated_text) {
+      // Handle the single object case
+      generatedText = result.generated_text;
+    }
 
     return {
       statusCode: 200,
@@ -60,20 +68,11 @@ exports.handler = async (event, context) => {
     };
 
   } catch (error) {
-    console.error('Function error:', error);
+    // Log the full crash error for debugging
+    console.error('Function execution error:', error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'Failed to connect to Hugging Face API. Check Netlify function logs.' }),
+      body: JSON.stringify({ error: 'Failed to process AI response. Check Netlify function logs.' }),
     };
   }
 };
-
-{
-  "name": "huggingface-proxy-function",
-  "version": "1.0.0",
-  "description": "A proxy function for the Hugging Face Inference API",
-  "main": "huggingface-proxy.js",
-  "dependencies": {
-    "node-fetch": "^2.6.1"
-  }
-}

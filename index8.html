@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Notebook with Voice Recording</title>
+<title>Folder Notebook with Voice Recording</title>
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -14,32 +14,30 @@
   }
   .notebook {
     position: fixed;
-    top: 20%;
+    top: 10%;
     left: 50%;
     transform: translateX(-50%);
     background: rgba(255,255,255,0.1);
     padding: 20px;
     border-radius: 10px;
-    width: 320px;
+    width: 340px;
     backdrop-filter: blur(5px);
   }
-  textarea {
+  select, input, textarea, button {
     width: 100%;
-    height: 80px;
+    margin-top: 8px;
+    padding: 6px;
     border: none;
     border-radius: 5px;
-    padding: 10px;
-    resize: none;
     outline: none;
   }
+  textarea {
+    height: 80px;
+    resize: none;
+  }
   button {
-    margin-top: 8px;
-    margin-right: 5px;
-    padding: 6px 10px;
-    border: none;
     background: #00ffcc;
     cursor: pointer;
-    border-radius: 5px;
   }
   ul {
     list-style: none;
@@ -53,15 +51,39 @@
     padding: 6px;
     border-radius: 5px;
     margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .folder-controls {
+    display: flex;
+    gap: 5px;
+  }
+  .delete-btn {
+    background: red;
+    color: white;
+    border: none;
+    padding: 4px 6px;
+    cursor: pointer;
+    border-radius: 5px;
   }
 </style>
 </head>
 <body>
 
 <div class="notebook">
+  <h2>📓 My Notebook</h2>
+  
+  <div class="folder-controls">
+    <select id="folderSelect" onchange="loadNotes()"></select>
+    <input type="text" id="newFolderName" placeholder="New folder name">
+    <button onclick="createFolder()">➕</button>
+    <button class="delete-btn" onclick="deleteFolder()">🗑</button>
+  </div>
+
   <textarea id="noteArea" placeholder="Write your note here..."></textarea>
-  <br>
-  <button onclick="saveNote()">💾 Save</button>
+  <button onclick="saveNote()">💾 Save Note</button>
+  <button onclick="newNote()">🆕 New Sheet</button>
   <button onclick="startRecording()">🎤 Record</button>
   <button onclick="stopRecording()">⏹ Stop</button>
 
@@ -70,26 +92,84 @@
 
 <script>
   let recognition;
+  let data = JSON.parse(localStorage.getItem("folderNotes")) || {};
+
+  function init() {
+    let folderSelect = document.getElementById("folderSelect");
+    folderSelect.innerHTML = "";
+    Object.keys(data).forEach(folder => {
+      let opt = document.createElement("option");
+      opt.value = folder;
+      opt.textContent = folder;
+      folderSelect.appendChild(opt);
+    });
+    if (Object.keys(data).length === 0) {
+      data["Default"] = [];
+      saveData();
+    }
+    loadNotes();
+  }
+
+  function createFolder() {
+    let folderName = document.getElementById("newFolderName").value.trim();
+    if (!folderName) return alert("Enter a folder name");
+    if (!data[folderName]) {
+      data[folderName] = [];
+      saveData();
+      document.getElementById("newFolderName").value = "";
+      init();
+      document.getElementById("folderSelect").value = folderName;
+      loadNotes();
+    } else {
+      alert("Folder already exists!");
+    }
+  }
+
+  function deleteFolder() {
+    let folder = document.getElementById("folderSelect").value;
+    if (confirm(`Delete folder "${folder}" and all its notes?`)) {
+      delete data[folder];
+      saveData();
+      init();
+    }
+  }
 
   function loadNotes() {
-    let notes = JSON.parse(localStorage.getItem("myNotes")) || [];
+    let folder = document.getElementById("folderSelect").value;
+    let notes = data[folder] || [];
     let list = document.getElementById("notesList");
     list.innerHTML = "";
-    notes.forEach(note => {
+    notes.forEach((note, index) => {
       let li = document.createElement("li");
       li.textContent = note;
+      let delBtn = document.createElement("button");
+      delBtn.textContent = "🗑";
+      delBtn.className = "delete-btn";
+      delBtn.onclick = () => deleteNote(index);
+      li.appendChild(delBtn);
       list.appendChild(li);
     });
   }
 
   function saveNote() {
+    let folder = document.getElementById("folderSelect").value;
     let note = document.getElementById("noteArea").value.trim();
     if (!note) return alert("Write something before saving!");
-    let notes = JSON.parse(localStorage.getItem("myNotes")) || [];
-    notes.unshift(note); // Add new note to top
-    localStorage.setItem("myNotes", JSON.stringify(notes));
+    data[folder].unshift(note);
+    saveData();
     document.getElementById("noteArea").value = "";
     loadNotes();
+  }
+
+  function deleteNote(index) {
+    let folder = document.getElementById("folderSelect").value;
+    data[folder].splice(index, 1);
+    saveData();
+    loadNotes();
+  }
+
+  function newNote() {
+    document.getElementById("noteArea").value = "";
   }
 
   function startRecording() {
@@ -109,7 +189,11 @@
     if (recognition) recognition.stop();
   }
 
-  loadNotes();
+  function saveData() {
+    localStorage.setItem("folderNotes", JSON.stringify(data));
+  }
+
+  init();
 </script>
 
 </body>

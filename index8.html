@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Folder Notebook with Voice Recording</title>
+<title>Secure Folder Notebook with Voice Recording</title>
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -20,7 +20,7 @@
     background: rgba(255,255,255,0.1);
     padding: 20px;
     border-radius: 10px;
-    width: 340px;
+    width: 360px;
     backdrop-filter: blur(5px);
   }
   select, input, textarea, button {
@@ -75,11 +75,13 @@
   <h2>📓 My Notebook</h2>
   
   <div class="folder-controls">
-    <select id="folderSelect" onchange="loadNotes()"></select>
+    <select id="folderSelect" onchange="unlockFolder()"></select>
     <input type="text" id="newFolderName" placeholder="New folder name">
     <button onclick="createFolder()">➕</button>
     <button class="delete-btn" onclick="deleteFolder()">🗑</button>
   </div>
+
+  <input type="text" id="searchNotes" placeholder="🔍 Search notes..." oninput="filterNotes()">
 
   <textarea id="noteArea" placeholder="Write your note here..."></textarea>
   <button onclick="saveNote()">💾 Save / Update Note</button>
@@ -92,8 +94,9 @@
 
 <script>
   let recognition;
-  let data = JSON.parse(localStorage.getItem("folderNotes")) || {};
-  let editIndex = null; // Tracks if we are editing an existing note
+  let data = JSON.parse(localStorage.getItem("folderNotesSecure")) || {};
+  let editIndex = null;
+  let unlockedFolders = {}; // Tracks unlocked password-protected folders
 
   function init() {
     let folderSelect = document.getElementById("folderSelect");
@@ -105,22 +108,23 @@
       folderSelect.appendChild(opt);
     });
     if (Object.keys(data).length === 0) {
-      data["Default"] = [];
+      data["Default"] = { password: null, notes: [] };
       saveData();
     }
-    loadNotes();
+    unlockFolder();
   }
 
   function createFolder() {
     let folderName = document.getElementById("newFolderName").value.trim();
     if (!folderName) return alert("Enter a folder name");
     if (!data[folderName]) {
-      data[folderName] = [];
+      let pass = prompt("Set a password for this folder (leave blank for none):");
+      data[folderName] = { password: pass || null, notes: [] };
       saveData();
       document.getElementById("newFolderName").value = "";
       init();
       document.getElementById("folderSelect").value = folderName;
-      loadNotes();
+      unlockFolder();
     } else {
       alert("Folder already exists!");
     }
@@ -135,9 +139,26 @@
     }
   }
 
+  function unlockFolder() {
+    let folder = document.getElementById("folderSelect").value;
+    let folderData = data[folder];
+
+    if (!folderData) return;
+    if (folderData.password && !unlockedFolders[folder]) {
+      let entered = prompt(`Enter password for folder "${folder}":`);
+      if (entered !== folderData.password) {
+        alert("Incorrect password!");
+        document.getElementById("notesList").innerHTML = "<li>🔒 Locked</li>";
+        return;
+      }
+      unlockedFolders[folder] = true;
+    }
+    loadNotes();
+  }
+
   function loadNotes() {
     let folder = document.getElementById("folderSelect").value;
-    let notes = data[folder] || [];
+    let notes = data[folder].notes || [];
     let list = document.getElementById("notesList");
     list.innerHTML = "";
     notes.forEach((note, index) => {
@@ -163,18 +184,46 @@
     });
   }
 
+  function filterNotes() {
+    let searchTerm = document.getElementById("searchNotes").value.toLowerCase();
+    let folder = document.getElementById("folderSelect").value;
+    let notes = data[folder].notes || [];
+    let list = document.getElementById("notesList");
+    list.innerHTML = "";
+    notes
+      .filter(note => note.toLowerCase().includes(searchTerm))
+      .forEach((note, index) => {
+        let li = document.createElement("li");
+        let textSpan = document.createElement("span");
+        textSpan.textContent = note;
+        textSpan.style.flex = "1";
+        textSpan.style.cursor = "pointer";
+        textSpan.onclick = () => editNote(index);
+
+        let delBtn = document.createElement("button");
+        delBtn.textContent = "🗑";
+        delBtn.className = "delete-btn";
+        delBtn.onclick = (e) => {
+          e.stopPropagation();
+          deleteNote(index);
+        };
+
+        li.appendChild(textSpan);
+        li.appendChild(delBtn);
+        list.appendChild(li);
+      });
+  }
+
   function saveNote() {
     let folder = document.getElementById("folderSelect").value;
     let note = document.getElementById("noteArea").value.trim();
     if (!note) return alert("Write something before saving!");
 
     if (editIndex !== null) {
-      // Update existing note
-      data[folder][editIndex] = note;
+      data[folder].notes[editIndex] = note;
       editIndex = null;
     } else {
-      // Create new note
-      data[folder].unshift(note);
+      data[folder].notes.unshift(note);
     }
     
     saveData();
@@ -184,13 +233,13 @@
 
   function editNote(index) {
     let folder = document.getElementById("folderSelect").value;
-    document.getElementById("noteArea").value = data[folder][index];
-    editIndex = index; // Mark this note for updating
+    document.getElementById("noteArea").value = data[folder].notes[index];
+    editIndex = index;
   }
 
   function deleteNote(index) {
     let folder = document.getElementById("folderSelect").value;
-    data[folder].splice(index, 1);
+    data[folder].notes.splice(index, 1);
     saveData();
     loadNotes();
   }
@@ -218,7 +267,7 @@
   }
 
   function saveData() {
-    localStorage.setItem("folderNotes", JSON.stringify(data));
+    localStorage.setItem("folderNotesSecure", JSON.stringify(data));
   }
 
   init();

@@ -67,3 +67,13 @@ exports.handler = async (event, context) => {
     };
   }
 };
+
+{
+  "name": "huggingface-proxy-function",
+  "version": "1.0.0",
+  "description": "A proxy function for the Hugging Face Inference API",
+  "main": "huggingface-proxy.js",
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  }
+}

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>📓 My Notebook</title>
+  <title>📓 My Voice Notebook</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -34,15 +34,16 @@
     }
     button {
       padding: 10px 15px;
-      background-color: #5cb85c;
-      color: white;
+      margin: 5px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      color: white;
     }
-    button:hover {
-      background-color: #4cae4c;
-    }
+    #saveNote { background-color: #5cb85c; }
+    #saveNote:hover { background-color: #4cae4c; }
+    #recordBtn { background-color: #007bff; }
+    #recordBtn:hover { background-color: #0056b3; }
     .note {
       background: #f9f9f9;
       padding: 10px;
@@ -66,9 +67,11 @@
 <body>
 
 <div class="container">
-  <h1>📓 My Notebook</h1>
-  <textarea id="noteInput" placeholder="Write your note here..."></textarea>
+  <h1>📓 My Voice Notebook</h1>
+  <textarea id="noteInput" placeholder="Write or speak your note here..."></textarea>
+  <br>
   <button id="saveNote">Save Note</button>
+  <button id="recordBtn">🎤 Start Recording</button>
   <h3>My Saved Notes:</h3>
   <div id="notesList"></div>
 </div>
@@ -77,9 +80,11 @@
   document.addEventListener('DOMContentLoaded', () => {
     const noteInput = document.getElementById('noteInput');
     const saveNote = document.getElementById('saveNote');
+    const recordBtn = document.getElementById('recordBtn');
     const notesList = document.getElementById('notesList');
-
     let notes = JSON.parse(localStorage.getItem('notes')) || [];
+    let isRecording = false;
+    let recognition;
 
     function displayNotes() {
       notesList.innerHTML = '';
@@ -109,6 +114,37 @@
       localStorage.setItem('notes', JSON.stringify(notes));
       displayNotes();
     };
+
+    // Voice Recording Feature
+    if ('webkitSpeechRecognition' in window) {
+      recognition = new webkitSpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        noteInput.value += (noteInput.value ? ' ' : '') + transcript;
+      };
+
+      recognition.onend = () => {
+        isRecording = false;
+        recordBtn.textContent = '🎤 Start Recording';
+      };
+
+      recordBtn.addEventListener('click', () => {
+        if (!isRecording) {
+          recognition.start();
+          isRecording = true;
+          recordBtn.textContent = '⏹ Stop Recording';
+        } else {
+          recognition.stop();
+        }
+      });
+    } else {
+      recordBtn.disabled = true;
+      recordBtn.textContent = '🎤 Voice not supported';
+    }
 
     displayNotes();
   });

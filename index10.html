@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple 2D Rally Game</title>
+    <style>
+        body {
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        canvas {
+            background-color: #008000; /* Green for the track area */
+            border: 2px solid #fff;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="gameCanvas" width="800" height="600"></canvas>
+
+<script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Car properties
+    let car = {
+        x: 50,
+        y: 50,
+        width: 30,
+        height: 50,
+        speed: 0,
+        maxSpeed: 5,
+        acceleration: 0.2,
+        friction: 0.05,
+        angle: 0,
+        turningSpeed: 0.05
+    };
+
+    // Keyboard input state
+    const keys = {
+        ArrowUp: false,
+        ArrowDown: false,
+        ArrowLeft: false,
+        ArrowRight: false
+    };
+
+    // Event listeners for keyboard input
+    document.addEventListener('keydown', (e) => {
+        if (e.key in keys) {
+            keys[e.key] = true;
+        }
+    });
+
+    document.addEventListener('keyup', (e) => {
+        if (e.key in keys) {
+            keys[e.key] = false;
+        }
+    });
+
+    function update() {
+        // Handle car movement
+        if (keys.ArrowUp) {
+            car.speed += car.acceleration;
+        }
+        if (keys.ArrowDown) {
+            car.speed -= car.acceleration * 0.5; // Slower reverse
+        }
+
+        // Apply friction
+        if (car.speed > 0) {
+            car.speed -= car.friction;
+        } else if (car.speed < 0) {
+            car.speed += car.friction;
+        }
+
+        // Clamp speed to prevent it from getting out of control
+        car.speed = Math.min(Math.max(car.speed, -car.maxSpeed / 2), car.maxSpeed);
+
+        // Handle turning only when moving
+        if (Math.abs(car.speed) > car.friction) {
+            if (keys.ArrowLeft) {
+                car.angle -= car.turningSpeed * (car.speed > 0 ? 1 : -1);
+            }
+            if (keys.ArrowRight) {
+                car.angle += car.turningSpeed * (car.speed > 0 ? 1 : -1);
+            }
+        }
+
+        // Calculate new position based on speed and angle
+        car.x += car.speed * Math.cos(car.angle - Math.PI / 2);
+        car.y += car.speed * Math.sin(car.angle - Math.PI / 2);
+    }
+
+    function draw() {
+        // Clear the canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Save the canvas state before rotation
+        ctx.save();
+
+        // Translate and rotate the canvas to draw the car
+        ctx.translate(car.x, car.y);
+        ctx.rotate(car.angle);
+
+        // Draw the car
+        ctx.fillStyle = 'red';
+        ctx.fillRect(-car.width / 2, -car.height / 2, car.width, car.height);
+
+        // Restore the canvas state
+        ctx.restore();
+
+        // Optional: Draw a simple track boundary
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 10;
+        ctx.strokeRect(50, 50, 700, 500); // Simple rectangular track
+    }
+
+    // Main game loop
+    function gameLoop() {
+        update();
+        draw();
+        requestAnimationFrame(gameLoop);
+    }
+
+    // Start the game loop
+    gameLoop();
+</script>
+
+</body>
+</html>

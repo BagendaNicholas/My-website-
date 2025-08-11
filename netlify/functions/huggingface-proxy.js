@@ -1,4 +1,3 @@
-// This file should be placed at: netlify/functions/huggingface-proxy.js
 
 const fetch = require('node-fetch');
 

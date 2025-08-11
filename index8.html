@@ -82,7 +82,7 @@
   </div>
 
   <textarea id="noteArea" placeholder="Write your note here..."></textarea>
-  <button onclick="saveNote()">💾 Save Note</button>
+  <button onclick="saveNote()">💾 Save / Update Note</button>
   <button onclick="newNote()">🆕 New Sheet</button>
   <button onclick="startRecording()">🎤 Record</button>
   <button onclick="stopRecording()">⏹ Stop</button>
@@ -93,6 +93,7 @@
 <script>
   let recognition;
   let data = JSON.parse(localStorage.getItem("folderNotes")) || {};
+  let editIndex = null; // Tracks if we are editing an existing note
 
   function init() {
     let folderSelect = document.getElementById("folderSelect");
@@ -141,11 +142,22 @@
     list.innerHTML = "";
     notes.forEach((note, index) => {
       let li = document.createElement("li");
-      li.textContent = note;
+
+      let textSpan = document.createElement("span");
+      textSpan.textContent = note;
+      textSpan.style.flex = "1";
+      textSpan.style.cursor = "pointer";
+      textSpan.onclick = () => editNote(index);
+
       let delBtn = document.createElement("button");
       delBtn.textContent = "🗑";
       delBtn.className = "delete-btn";
-      delBtn.onclick = () => deleteNote(index);
+      delBtn.onclick = (e) => {
+        e.stopPropagation();
+        deleteNote(index);
+      };
+
+      li.appendChild(textSpan);
       li.appendChild(delBtn);
       list.appendChild(li);
     });
@@ -155,10 +167,25 @@
     let folder = document.getElementById("folderSelect").value;
     let note = document.getElementById("noteArea").value.trim();
     if (!note) return alert("Write something before saving!");
-    data[folder].unshift(note);
+
+    if (editIndex !== null) {
+      // Update existing note
+      data[folder][editIndex] = note;
+      editIndex = null;
+    } else {
+      // Create new note
+      data[folder].unshift(note);
+    }
+    
     saveData();
     document.getElementById("noteArea").value = "";
     loadNotes();
+  }
+
+  function editNote(index) {
+    let folder = document.getElementById("folderSelect").value;
+    document.getElementById("noteArea").value = data[folder][index];
+    editIndex = index; // Mark this note for updating
   }
 
   function deleteNote(index) {
@@ -170,6 +197,7 @@
 
   function newNote() {
     document.getElementById("noteArea").value = "";
+    editIndex = null;
   }
 
   function startRecording() {

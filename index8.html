@@ -309,7 +309,13 @@
         let fileName = noteContent.split(';')[1].split(',')[0].replace('filename=', '');
         textSpan.textContent = `📁 ${fileType} file: ${fileName}`;
         textSpan.onclick = () => {
-          window.open(noteContent, '_blank');
+          let a = document.createElement('a');
+          a.href = noteContent;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          showStatus(`Downloading "${fileName}"...`);
         };
       } else {
         textSpan.textContent = noteContent;
@@ -359,7 +365,13 @@
             let fileName = noteContent.split(';')[1].split(',')[0].replace('filename=', '');
             textSpan.textContent = `📁 ${fileType} file: ${fileName}`;
             textSpan.onclick = () => {
-              window.open(noteContent, '_blank');
+              let a = document.createElement('a');
+              a.href = noteContent;
+              a.download = fileName;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              showStatus(`Downloading "${fileName}"...`);
             };
         } else {
             textSpan.textContent = noteContent;
@@ -414,7 +426,7 @@
         let noteContent = bytes.toString(CryptoJS.enc.Utf8);
 
         if (noteContent.startsWith('data:')) {
-          showStatus("Cannot edit file content directly. You can delete and re-upload it.", "error");
+          showStatus("Cannot edit file content directly. You can download and re-upload it.", "error");
         } else {
           document.getElementById("noteArea").value = noteContent;
           editIndex = index;

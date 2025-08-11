@@ -3,133 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple 2D Rally Game</title>
+    <title>Catch the Squares</title>
     <style>
         body {
-            background-color: #333;
+            background-color: #2c3e50;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            overflow: hidden;
+            font-family: sans-serif;
+            color: #ecf0f1;
+            text-align: center;
         }
         canvas {
-            background-color: #008000; /* Green for the track area */
-            border: 2px solid #fff;
+            background-color: #34495e;
+            border: 5px solid #ecf0f1;
+            cursor: none; /* Hide the default mouse cursor */
+        }
+        #game-info {
+            position: absolute;
+            top: 20px;
+            font-size: 24px;
+        }
+        #game-over-screen {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #ecf0f1;
+            font-size: 32px;
+            padding: 30px;
+            border-radius: 10px;
+            display: none; /* Hidden by default */
+        }
+        #game-over-screen button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+            border: none;
+            background-color: #27ae60;
+            color: #fff;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
 
+<div id="game-info">Score: <span id="score-value">0</span></div>
 <canvas id="gameCanvas" width="800" height="600"></canvas>
+<div id="game-over-screen">
+    <p>Game Over!</p>
+    <p>Final Score: <span id="final-score">0</span></p>
+    <button onclick="window.location.reload()">Play Again</button>
+</div>
 
 <script>
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
+    const scoreElement = document.getElementById('score-value');
+    const gameOverScreen = document.getElementById('game-over-screen');
+    const finalScoreElement = document.getElementById('final-score');
 
-    // Car properties
-    let car = {
-        x: 50,
-        y: 50,
-        width: 30,
-        height: 50,
-        speed: 0,
-        maxSpeed: 5,
-        acceleration: 0.2,
-        friction: 0.05,
-        angle: 0,
-        turningSpeed: 0.05
+    let score = 0;
+    let gameOver = false;
+
+    // Player properties (the paddle)
+    const player = {
+        x: canvas.width / 2 - 50,
+        y: canvas.height - 30,
+        width: 100,
+        height: 20,
+        speed: 8,
+        dx: 0
     };
 
-    // Keyboard input state
-    const keys = {
-        ArrowUp: false,
-        ArrowDown: false,
-        ArrowLeft: false,
-        ArrowRight: false
-    };
+    // Array to hold the falling squares
+    const fallingSquares = [];
+    let squareSpawnInterval;
 
-    // Event listeners for keyboard input
-    document.addEventListener('keydown', (e) => {
-        if (e.key in keys) {
-            keys[e.key] = true;
-        }
-    });
-
-    document.addEventListener('keyup', (e) => {
-        if (e.key in keys) {
-            keys[e.key] = false;
-        }
-    });
+    function createSquare() {
+        // Create a new square at a random horizontal position
+        const size = Math.random() * 20 + 15; // Random size between 15 and 35
+        fallingSquares.push({
+            x: Math.random() * (canvas.width - size),
+            y: -size,
+            size: size,
+            speed: Math.random() * 2 + 1, // Random speed between 1 and 3
+            color: `hsl(${Math.random() * 360}, 70%, 60%)` // Random color
+        });
+    }
 
     function update() {
-        // Handle car movement
-        if (keys.ArrowUp) {
-            car.speed += car.acceleration;
-        }
-        if (keys.ArrowDown) {
-            car.speed -= car.acceleration * 0.5; // Slower reverse
-        }
+        if (gameOver) return;
 
-        // Apply friction
-        if (car.speed > 0) {
-            car.speed -= car.friction;
-        } else if (car.speed < 0) {
-            car.speed += car.friction;
-        }
+        // Move the player paddle
+        player.x += player.dx;
 
-        // Clamp speed to prevent it from getting out of control
-        car.speed = Math.min(Math.max(car.speed, -car.maxSpeed / 2), car.maxSpeed);
+        // Keep the player within the canvas bounds
+        if (player.x < 0) player.x = 0;
+        if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
 
-        // Handle turning only when moving
-        if (Math.abs(car.speed) > car.friction) {
-            if (keys.ArrowLeft) {
-                car.angle -= car.turningSpeed * (car.speed > 0 ? 1 : -1);
+        // Update the falling squares' positions
+        for (let i = fallingSquares.length - 1; i >= 0; i--) {
+            const square = fallingSquares[i];
+            square.y += square.speed;
+
+            // Check for collision with the player
+            if (
+                square.y + square.size > player.y &&
+                square.x < player.x + player.width &&
+                square.x + square.size > player.x
+            ) {
+                // Collision detected! Increase score and remove the square.
+                score++;
+                scoreElement.innerText = score;
+                fallingSquares.splice(i, 1);
             }
-            if (keys.ArrowRight) {
-                car.angle += car.turningSpeed * (car.speed > 0 ? 1 : -1);
+            
+            // Check if a square has fallen past the bottom of the screen
+            if (square.y > canvas.height) {
+                gameOver = true;
+                finalScoreElement.innerText = score;
+                gameOverScreen.style.display = 'block';
+                clearInterval(squareSpawnInterval); // Stop spawning new squares
             }
         }
-
-        // Calculate new position based on speed and angle
-        car.x += car.speed * Math.cos(car.angle - Math.PI / 2);
-        car.y += car.speed * Math.sin(car.angle - Math.PI / 2);
     }
 
     function draw() {
-        // Clear the canvas
+        // Clear the canvas for the next frame
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Save the canvas state before rotation
-        ctx.save();
+        // Draw the player paddle
+        ctx.fillStyle = '#2980b9';
+        ctx.fillRect(player.x, player.y, player.width, player.height);
 
-        // Translate and rotate the canvas to draw the car
-        ctx.translate(car.x, car.y);
-        ctx.rotate(car.angle);
-
-        // Draw the car
-        ctx.fillStyle = 'red';
-        ctx.fillRect(-car.width / 2, -car.height / 2, car.width, car.height);
-
-        // Restore the canvas state
-        ctx.restore();
-
-        // Optional: Draw a simple track boundary
-        ctx.strokeStyle = 'white';
-        ctx.lineWidth = 10;
-        ctx.strokeRect(50, 50, 700, 500); // Simple rectangular track
+        // Draw the falling squares
+        fallingSquares.forEach(square => {
+            ctx.fillStyle = square.color;
+            ctx.fillRect(square.x, square.y, square.size, square.size);
+        });
     }
 
     // Main game loop
     function gameLoop() {
         update();
         draw();
-        requestAnimationFrame(gameLoop);
+        if (!gameOver) {
+            requestAnimationFrame(gameLoop);
+        }
     }
 
-    // Start the game loop
+    // Keyboard event listeners
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+            player.dx = -player.speed;
+        } else if (e.key === 'ArrowRight') {
+            player.dx = player.speed;
+        }
+    });
+
+    document.addEventListener('keyup', (e) => {
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            player.dx = 0; // Stop moving when the key is released
+        }
+    });
+
+    // Start the game
     gameLoop();
+    squareSpawnInterval = setInterval(createSquare, 1000); // Create a new square every second
 </script>
 
 </body>

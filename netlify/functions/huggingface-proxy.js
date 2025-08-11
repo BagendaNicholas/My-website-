@@ -1,16 +1,12 @@
-
 const fetch = require('node-fetch');
 
 exports.handler = async (event, context) => {
-  // Only allow POST requests
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
-  // Get the message from the request body
   const { message } = JSON.parse(event.body);
 
-  // Retrieve the API key from environment variables
   const HUGGING_FACE_TOKEN = process.env.HUGGING_FACE_TOKEN;
   if (!HUGGING_FACE_TOKEN) {
     return {
@@ -19,7 +15,6 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // --- Configuration for the DialoGPT model ---
   const modelUrl = 'https://api-inference.huggingface.co/models/microsoft/DialoGPT-small'; 
 
   try {
@@ -29,7 +24,6 @@ exports.handler = async (event, context) => {
         'Authorization': `Bearer ${HUGGING_FACE_TOKEN}`,
         'Content-Type': 'application/json',
       },
-      // The API for DialoGPT often expects a 'text' field inside 'inputs'
       body: JSON.stringify({
         inputs: { text: message },
       }),
@@ -37,7 +31,6 @@ exports.handler = async (event, context) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      // Log the full error to Netlify logs for debugging
       console.error('Hugging Face API Error:', response.status, errorText);
       return {
         statusCode: response.status,
@@ -47,17 +40,13 @@ exports.handler = async (event, context) => {
 
     const result = await response.json();
 
-    // Log the full successful response for debugging
     console.log('Hugging Face API Response:', JSON.stringify(result));
 
     let generatedText = 'No response generated.';
 
-    // The API might return an array of objects or a single object.
     if (Array.isArray(result) && result.length > 0) {
-      // Handle the array case
       generatedText = result[0]?.generated_text;
     } else if (result?.generated_text) {
-      // Handle the single object case
       generatedText = result.generated_text;
     }
 
@@ -67,7 +56,6 @@ exports.handler = async (event, context) => {
     };
 
   } catch (error) {
-    // Log the full crash error for debugging
     console.error('Function execution error:', error);
     return {
       statusCode: 500,

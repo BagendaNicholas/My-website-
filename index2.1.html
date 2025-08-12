@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive 3D Rotating Cube</title>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #282c34;
+    overflow: hidden;
+    margin: 0;
+  }
+
+  .scene {
+    width: 200px;
+    height: 200px;
+    perspective: 800px;
+  }
+
+  .cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transform: translateZ(-100px);
+    animation: cubeRotate 8s infinite linear;
+  }
+
+  /* Each anchor tag now acts as the clickable face */
+  .cube-face-link {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+
+  .cube-face {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* This rule makes your images fit perfectly */
+  .cube-face img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Positioning for each face */
+  .front  { transform: rotateY(0deg) translateZ(100px); }
+  .back   { transform: rotateY(180deg) translateZ(100px); }
+  .right  { transform: rotateY(90deg) translateZ(100px); }
+  .left   { transform: rotateY(-90deg) translateZ(100px); }
+  .top    { transform: rotateX(90deg) translateZ(100px); }
+  .bottom { transform: rotateX(-90deg) translateZ(100px); }
+
+  @keyframes cubeRotate {
+    from {
+      transform: rotateX(0deg) rotateY(0deg);
+    }
+    to {
+      transform: rotateX(360deg) rotateY(360deg);
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="scene">
+  <div class="cube">
+    <a href="index2.2.html" class="cube-face-link front">
+      <div class="cube-face"><img src="https://i.postimg.cc/W3kM7rgd/20250518-101215.jpg" alt="Nicholas Bagenda" /></div>
+    </a>
+    <a href="index2.3.html" class="cube-face-link back">
+      <div class="cube-face"><img src="https://i.postimg.cc/W3kM7rgd/20250518-101215.jpg" alt="Nicholas Bagenda" /></div>
+    </a>
+    <a href="index2.4.html" class="cube-face-link right">
+      <div class="cube-face"><img src="https://i.postimg.cc/W3kM7rgd/20250518-101215.jpg" alt="Nicholas Bagenda" /></div>
+    </a>
+    <a href="index2.5.html" class="cube-face-link left">
+      <div class="cube-face"><img src="https://i.postimg.cc/W3kM7rgd/20250518-101215.jpg" alt="Nicholas Bagenda" /></div>
+    </a>
+    <a href="index2.6.html" class="cube-face-link top">
+      <div class="cube-face"><img src="https://i.postimg.cc/W3kM7rgd/20250518-101215.jpg" alt="Nicholas Bagenda" /></div>
+    </a>
+    <a href="index2.7.html" class="cube-face-link bottom">
+      <div class="cube-face"><img src="https://i.postimg.cc/W3kM7rgd/20250518-101215.jpg" alt="Nicholas Bagenda" /></div>
+    </a>
+  </div>
+</div>
+
+</body>
+</html>

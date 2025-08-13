@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redirecting...</title>
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      opacity: 1;
+      transition: opacity 1s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+  <h1>Loading Home Page...</h1>
+
+  <script>
+    setTimeout(() => {
+      document.body.style.opacity = "0";
+      setTimeout(() => {
+        window.location.href = "/home.html"; // Make sure this file exists
+      }, 1000);
+    }, 1000);
+  </script>
+</body>
+</html>

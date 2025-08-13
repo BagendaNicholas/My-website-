@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Redirecting...</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      opacity: 1;
+      transition: opacity 1.5s ease; /* Smooth fade-out */
+    }
+    .center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+</head>
+<body>
+  <div class="center">
+    <h1>Loading...</h1>
+    <p>Taking you to Home page...</p>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      document.body.style.opacity = 0; // fade out
+      setTimeout(() => {
+        window.location.href = "home.html"; // redirect
+      }, 1500); // matches fade duration
+    }, 1000); // wait 1 second before fading
+  </script>
+</body>
+</html>

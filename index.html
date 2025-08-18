@@ -222,6 +222,66 @@
         drop.style.opacity = Math.random();
         document.body.appendChild(drop);
       }
+<html>
+<head>
+  <title>Phone Auth</title>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+</head>
+<body>
+  <h2>Login with Phone</h2>
+
+  <input type="text" id="phoneNumber" placeholder="+256..." />
+  <div id="recaptcha-container"></div>
+  <button onclick="sendCode()">Send Code</button>
+
+  <br><br>
+
+  <input type="text" id="verifyCode" placeholder="Enter code" />
+  <button onclick="verifyCode()">Verify</button>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtITVhzg",
+      authDomain: "my-website-357cb.firebaseapp.com",
+      projectId: "my-website-357cb"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+      'size': 'normal'
+    });
+
+    function sendCode() {
+      const phoneNumber = document.getElementById('phoneNumber').value;
+ const appVerifier = window.recaptchaVerifier;
+
+      auth.signInWithPhoneNumber(phoneNumber, appVerifier)
+        .then((confirmationResult) => {
+          window.confirmationResult = confirmationResult;
+          alert("Code sent!");
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    }
+
+    function verifyCode() {
+      const code = document.getElementById('verifyCode').value;
+
+      window.confirmationResult.confirm(code)
+        .then((result) => {
+          alert("Phone number verified!");
+        })
+        .catch((error) => {
+          alert("Incorrect code");
+        });
+    }
+  </script>
+</body>
+</html>
     });
   </script></head>
 <body class="text-white min-h-screen flex items-center justify-center flex-col px-4 relative z-10">

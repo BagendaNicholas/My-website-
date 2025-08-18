@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nicholas Bagenda – Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #0f172a, #1e293b);
+      overflow: hidden;
+    }
+
+    .raindrop {
+      position: absolute;
+      width: 2px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.5);
+      animation: fall 1s linear infinite;
+      border-radius: 50px;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-100%); opacity: 1; }
+      100% { transform: translateY(100vh); opacity: 0; }
+    }
+
+    .fog {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(ellipse at center, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 70%);
+      animation: moveFog 60s linear infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .smoke {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: url('https://i.ibb.co/yQTK8RL/smoke2.gif') repeat;
+      opacity: 0.08;
+      mix-blend-mode: screen;
+      z-index: 2;
+    }
+
+    @keyframes moveFog {
+      0% { transform: translate(0%, 0%); }
+      50% { transform: translate(-25%, -10%); }
+      100% { transform: translate(0%, 0%); }
+    }
+
+    .logo-glow {
+      animation: pulseGlow 4s ease-in-out infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { filter: drop-shadow(0 0 10px #60a5fa); }
+      50% { filter: drop-shadow(0 0 30px #a78bfa); }
+    }
+
+    .glow-text {
+      background: linear-gradient(90deg, #ffffff, #a78bfa, #60a5fa, #ffffff);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 5s infinite linear;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+      font-size: 2rem;
+      display: none;
+    }
+
+    .padlock-icon {
+      font-size: 80px;
+      animation: fadeIn 1.2s ease forwards;
+    }
+
+    .key-icon {
+      font-size: 80px;
+      animation: keyTurn 3s ease forwards;
+      transform-origin: right center;
+    }
+
+    @keyframes keyTurn {
+      0% { transform: rotate(0deg); }
+      50% { transform: rotate(45deg); }
+      100% { transform: rotate(-120deg); }
+    }
+
+    .door {
+      width: 200px;
+      height: 300px;
+      background: #1e3a8a;
+      border: 4px solid #3b82f6;
+      margin-top: 30px;
+      animation: doorOpen 3s ease-in-out 2.5s forwards;
+    }
+
+    @keyframes doorOpen {
+      0% { transform: scaleX(1); opacity: 1; }
+      100% { transform: scaleX(0); opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .hero-logo {
+      position: absolute;
+      width: 150px;
+      opacity: 0;
+      filter: blur(10px);
+      transform: scale(0.5);
+      animation: heroLanding 2s ease-out 5s forwards;
+    }
+
+    @keyframes heroLanding {
+      0% { transform: scale(0.5) translateY(-500px); opacity: 0; filter: blur(10px); }
+      50% { transform: scale(1.2) translateY(0); opacity: 1; filter: blur(5px); }
+      100% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); }
+    }
+
+    .lightning {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      opacity: 0;
+      z-index: 999;
+      pointer-events: none;
+      animation: flash 1s ease-in-out;
+    }
+
+    @keyframes flash {
+      0%, 100% { opacity: 0; }
+      10% { opacity: 1; }
+      20% { opacity: 0; }
+      30% { opacity: 0.7; }
+      50% { opacity: 0; }
+    }
+
+    .error-message {
+      color: #ef4444;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+      text-align: center;
+      transition: opacity 0.5s ease-in-out;
+      opacity: 0;
+      min-height: 24px;
+    }
+    
+    .error-message.show {
+      opacity: 1;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body class="text-white min-h-screen flex items-center justify-center flex-col px-4 relative z-10">
+  <div class="fog"></div>
+  <div class="smoke"></div>
+  <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Bagenda Logo" class="w-32 h-auto mb-6 rounded-xl border-2 border-blue-400 bg-white bg-opacity-10 backdrop-blur-sm logo-glow" />
+  
+  <div class="bg-white bg-opacity-10 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md border border-blue-500 z-20">
+    <h1 class="text-3xl font-bold mb-6 text-center glow-text">🌟 Nicholas Bagenda – Login</h1>
+    
+    <div id="email-auth-section">
+      <input id="email" type="email" placeholder="Email" class="w-full p-3 rounded-lg mb-4 text-black" />
+      <input id="password" type="password" placeholder="Password" class="w-full p-3 rounded-lg mb-2 text-black" />
+      <div class="flex justify-between items-center text-sm text-white mb-4">
+        <label class="flex items-center">
+          <input type="checkbox" class="mr-2" /> Remember Me
+        </label>
+        <a href="#" class="hover:underline text-blue-300">Forgot Password?</a>
+      </div>
+      <div class="flex justify-between gap-4">
+        <button id="signupBtn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl w-full">Sign Up</button>
+        <button id="loginBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl w-full">Sign In</button>
+      </div>
+    </div>
+
+    <div id="phone-auth-section" class="hidden">
+      <input id="phoneNumber" type="tel" placeholder="Phone Number (+256...)" class="w-full p-3 rounded-lg mb-4 text-black" />
+      <div id="recaptcha-container" class="mb-4"></div>
+      <input id="verificationCode" type="text" placeholder="Verification Code" class="w-full p-3 rounded-lg mb-4 text-black hidden" />
+      <button id="sendCodeBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl w-full mb-4">Send Code</button>
+      <button id="verifyCodeBtn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl w-full hidden">Verify Code</button>
+    </div>
+
+    <div id="error-message" class="error-message"></div>
+
+    <div class="mt-4 text-center">
+      <button id="toggleAuthBtn" class="text-blue-400 hover:underline text-sm">Use Phone Number instead</button>
+    </div>
+  </div>
+
+  <div id="unlockOverlay" class="overlay">
+    <div class="padlock-icon">🔒</div>
+    <div class="key-icon">🔑</div>
+    <div class="door"></div>
+    <div class="mt-4 text-lg glow-text">Access Granted🌟</div>
+    <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Bagenda Logo" class="hero-logo" />
+  </div>
+  
+  <audio id="welcomeAudio" controls style="display: none;">
+    <source src="https://raw.githubusercontent.com/BagendaNicholas/My-website-/main/ttsMP3.com_VoiceText_2025-8-7_20-36-46.mp3" type="audio/mp3">
+    Your browser does not support the audio tag.
+  </audio>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      signInWithPhoneNumber,
+      RecaptchaVerifier
+    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
+      authDomain: "my-website-357cb.firebaseapp.com",
+      projectId: "my-website-357cb",
+      storageBucket: "my-website-357cb.appspot.com",
+      messagingSenderId: "759627961944",
+      appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const emailAuthSection = document.getElementById("email-auth-section");
+    const phoneAuthSection = document.getElementById("phone-auth-section");
+    const toggleAuthBtn = document.getElementById("toggleAuthBtn");
+    
+    // Email Auth Elements
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const signupBtn = document.getElementById("signupBtn");
+    const loginBtn = document.getElementById("loginBtn");
+    
+    // Phone Auth Elements
+    const phoneNumberInput = document.getElementById("phoneNumber");
+    const verificationCodeInput = document.getElementById("verificationCode");
+    const sendCodeBtn = document.getElementById("sendCodeBtn");
+    const verifyCodeBtn = document.getElementById("verifyCodeBtn");
+    
+    // Global Elements
+    const welcomeAudio = document.getElementById("welcomeAudio");
+    const errorMessage = document.getElementById("error-message");
+    
+    let recaptchaVerifier;
+    let confirmationResult;
+
+    function displayError(message) {
+      errorMessage.textContent = "❌ " + message;
+      errorMessage.classList.add("show");
+      setTimeout(() => {
+        errorMessage.classList.remove("show");
+      }, 5000);
+    }
+
+    function triggerSuccessAnimation() {
+      const overlay = document.getElementById('unlockOverlay');
+      const lightning = document.createElement('div');
+      lightning.className = 'lightning';
+      document.body.appendChild(lightning);
+
+      overlay.style.display = 'flex';
+      welcomeAudio.play();
+
+      setTimeout(() => {
+        window.location.href = "home.html";
+      }, 7000);
+    }
+
+    // Toggle between email and phone sections
+    toggleAuthBtn.addEventListener("click", () => {
+      if (emailAuthSection.classList.contains("hidden")) {
+        emailAuthSection.classList.remove("hidden");
+        phoneAuthSection.classList.add("hidden");
+        toggleAuthBtn.textContent = "Use Phone Number instead";
+        if (recaptchaVerifier) {
+          recaptchaVerifier.clear();
+        }
+      } else {
+        emailAuthSection.classList.add("hidden");
+        phoneAuthSection.classList.remove("hidden");
+        toggleAuthBtn.textContent = "Use Email/Password instead";
+        recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
+            'size': 'normal',
+            'callback': (response) => {
+              // reCAPTCHA solved, allow signInWithPhoneNumber.
+            },
+            'expired-callback': () => {
+              // Response expired. Ask user to solve reCAPTCHA again.
+              displayError("reCAPTCHA expired. Please try again.");
+            }
+        }, auth);
+      }
+    });
+
+    // Email/Password Authentication
+    signupBtn.addEventListener("click", () => {
+      const email = emailInput.value;
+      const password = passwordInput.value;
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(triggerSuccessAnimation)
+        .catch(err => displayError(err.message));
+    });
+
+    loginBtn.addEventListener("click", () => {
+      const email = emailInput.value;
+      const password = passwordInput.value;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(triggerSuccessAnimation)
+        .catch(err => displayError(err.message));
+    });
+
+    // Phone Number Authentication
+    sendCodeBtn.addEventListener("click", () => {
+      const phoneNumber = phoneNumberInput.value;
+      if (!phoneNumber) {
+        displayError("Please enter a phone number.");
+        return;
+      }
+      const appVerifier = recaptchaVerifier;
+      signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+        .then((confirmation) => {
+          confirmationResult = confirmation;
+          verificationCodeInput.classList.remove("hidden");
+          verifyCodeBtn.classList.remove("hidden");
+          sendCodeBtn.classList.add("hidden");
+          displayError("Verification code sent! [attachment_0](attachment)");
+        })
+        .catch((error) => {
+          displayError(error.message);
+        });
+    });
+
+    verifyCodeBtn.addEventListener("click", () => {
+      const code = verificationCodeInput.value;
+      if (!code) {
+        displayError("Please enter the verification code.");
+        return;
+      }
+      confirmationResult.confirm(code)
+        .then(() => {
+          triggerSuccessAnimation();
+        })
+        .catch((error) => {
+          displayError("Incorrect verification code. " + error.message);
+        });
+    });
+    
+    document.addEventListener("DOMContentLoaded", () => {
+      for (let i = 0; i < 100; i++) {
+        const drop = document.createElement('div');
+        drop.className = 'raindrop';
+        drop.style.left = Math.random() * 100 + 'vw';
+        drop.style.animationDuration = (Math.random() * 1.5 + 0.5) + 's';
+        drop.style.opacity = Math.random();
+        document.body.appendChild(drop);
+      }
+    });
+  </script>
+</body>
+</html>

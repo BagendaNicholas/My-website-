@@ -1,149 +1,157 @@
 <!DOCTYPE html>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2816278854816808"
-     crossorigin="anonymous"></script>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Getting Out of Babylon – Bagenda Nicholas</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NicholasAI Assistant</title>
   <style>
     body {
-      background-color: #1a1a1a;
-      color: #ffffff;
-      font-family: 'Arial', sans-serif;
-      line-height: 1.6;
+      font-family: Arial, sans-serif;
+      background: #0a0f29;
+      color: white;
       margin: 0;
       padding: 0;
     }
 
-    header {
-      background-color: #333;
-      padding: 1rem 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-    }
-
-    nav a {
-      color: #ffffff;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 0.5rem;
-      border-bottom: 2px solid transparent;
-    }
-
-    nav a:hover {
-      border-bottom: 2px solid #00ffcc;
-    }
-
-    nav a.active {
-      border-bottom: 2px solid #00ffcc;
-    }
-
-    h1, h2, h3 {
-      color: #00ffcc;
-    }
-
-    a {
-      color: #00ffcc;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    section {
-      padding: 1rem 2rem;
-    }
-
-    .toc {
-      display: block;
-      margin-bottom: 0.5rem;
-      padding-left: 2rem;
-    }
-
-    footer {
-      background-color: #333;
-      padding: 1rem;
-      text-align: center;
-      color: #aaa;
-      font-size: 0.9rem;
-      margin-top: 2rem;
-    }
-    
-    li {
-      margin-bottom: 8px;
-    }
-    .nav-buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 30px;
-    }
-    .fixed-buttons {
+    /* Floating Button */
+    #chatButton {
       position: fixed;
       bottom: 20px;
-      left: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .fixed-buttons a {
-      background: #ffffff22;
+      right: 20px;
+      background: #1e90ff;
       color: white;
-      padding: 10px 15px;
-      border-radius: 6px;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 28px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #1e90ff;
+    }
+
+    /* Chat Window */
+    #chatWindow {
+      display: none;
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 300px;
+      height: 400px;
+      background: #121635;
+      border-radius: 15px;
+      box-shadow: 0 0 25px #1e90ff;
+      overflow: hidden;
+      flex-direction: column;
+    }
+
+    #chatHeader {
+      background: #1e90ff;
+      padding: 10px;
       font-weight: bold;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
       text-align: center;
     }
-    .fixed-buttons a:hover {
-      background: #ffffff44;
+
+    #chatMessages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+    }
+
+    #chatInput {
+      display: flex;
+      border-top: 1px solid #1e90ff;
+    }
+
+    #chatInput input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+      background: #0a0f29;
+      color: white;
+    }
+
+    #chatInput button {
+      background: #1e90ff;
+      border: none;
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .message {
+      margin: 5px 0;
+      padding: 8px;
+      border-radius: 10px;
+      max-width: 80%;
+    }
+
+    .user {
+      background: #1e90ff;
+      align-self: flex-end;
+      text-align: right;
+    }
+
+    .bot {
+      background: #2d325a;
+      align-self: flex-start;
     }
   </style>
 </head>
 <body>
- 
+  <!-- Floating Button -->
+  <button id="chatButton">💬</button>
+
+  <!-- Chat Window -->
+  <div id="chatWindow">
+    <div id="chatHeader">🤖 NicholasAI</div>
+    <div id="chatMessages"></div>
+    <div id="chatInput">
+      <input type="text" id="userInput" placeholder="Type a message...">
+      <button onclick="sendMessage()">➤</button>
+    </div>
   </div>
-  <div class="fixed-buttons">
-    <a href="#top">🔝 Top</a>
-    <a href="index2.1.html">🏡 Home</a>
-  </div>
-  </style>
-</head>
-<body>
 
- <!-- Clickable Logo -->
-    <a href="mailto:nicholasbagenda@gmail.com" title="Email Me">
-      <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png"
-           alt="Nicholas Bagenda Footer Logo"
-           style="width:100px; height: auto; border-radius: 5px; box-shadow: 0 2px 3px rgba(0,0,0,0.1);">
-    </a>
+  <script>
+    const chatButton = document.getElementById('chatButton');
+    const chatWindow = document.getElementById('chatWindow');
+    const chatMessages = document.getElementById('chatMessages');
+    const userInput = document.getElementById('userInput');
 
-    <!-- Hidden Email (still clickable) -->
-    <p style="margin-top: 1rem; font-size: 0.1px; color: transparent;">
-      <a href="mailto:nicholasbagenda@gmail.com" style="color: transparent; text-decoration: none;">
-        nicholasbagenda@gmail.com
-      </a>
-    </p>
+    chatButton.addEventListener('click', () => {
+      chatWindow.style.display = chatWindow.style.display === 'flex' ? 'none' : 'flex';
+      chatWindow.style.flexDirection = 'column';
+    });
 
-    <!-- Copyright -->
-    <p style="font-size: 0.85rem; color: #999;">
-      &copy; 2025 Nicholas Bagenda. All rights reserved.
-    </p>
+    function sendMessage() {
+      const message = userInput.value.trim();
+      if (message === '') return;
 
-  </div>
-    </footer>
-  <a href="index8.html" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">
-  <button style="padding: 12px 18px; background-color: #00ffcc; color: #000; border: none; border-radius: 50px; font-size: 16px; box-shadow: 0 0 15px #00ffcc; cursor: pointer;">
-    🚀 Soon 8
-  </button>
-  </a>
+      addMessage(message, 'user');
+      userInput.value = '';
+
+      setTimeout(() => {
+        const reply = getBotReply(message);
+        addMessage(reply, 'bot');
+      }, 600);
+    }
+
+    function addMessage(text, sender) {
+      const msg = document.createElement('div');
+      msg.classList.add('message', sender);
+      msg.innerText = text;
+      chatMessages.appendChild(msg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function getBotReply(message) {
+      const msg = message.toLowerCase();
+      if (msg.includes("hello")) return "Hello 👋, I’m NicholasAI! How can I help you today?";
+      if (msg.includes("verse")) return "📖 John 3:16 - For God so loved the world...";
+      if (msg.includes("who are you")) return "I’m NicholasAI, your personal assistant powered by Grayson 🤝.";
+      if (msg.includes("bye")) return "Goodbye 👋, may God bless you!";
+      return "Hmm 🤔, I’m still learning... but Grayson is helping me get smarter!";
+    }
+  </script>
+</body>
 </html>
-

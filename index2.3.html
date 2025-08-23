@@ -1,1 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NicholasAI Assistant</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0a0f29;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+    #chatButton {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #1e90ff;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 28px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #1e90ff;
+    }
+    #chatWindow {
+      display: none;
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 300px;
+      height: 400px;
+      background: #121635;
+      border-radius: 15px;
+      box-shadow: 0 0 25px #1e90ff;
+      overflow: hidden;
+      flex-direction: column;
+    }
+    #chatHeader {
+      background: #1e90ff;
+      padding: 10px;
+      font-weight: bold;
+      text-align: center;
+    }
+    #chatMessages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+    }
+    #chatInput {
+      display: flex;
+      border-top: 1px solid #1e90ff;
+    }
+    #chatInput input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+      background: #0a0f29;
+      color: white;
+    }
+    #chatInput button {
+      background: #1e90ff;
+      border: none;
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+    }
+    .message {
+      margin: 5px 0;
+      padding: 8px;
+      border-radius: 10px;
+      max-width: 80%;
+    }
+    .user {
+      background: #1e90ff;
+      align-self: flex-end;
+      text-align: right;
+    }
+    .bot {
+      background: #2d325a;
+      align-self: flex-start;
+    }
+  </style>
+</head>
+<body>
+  <button id="chatButton">💬</button>
+  <div id="chatWindow">
+    <div id="chatHeader">🤖 NicholasAI</div>
+    <div id="chatMessages"></div>
+    <div id="chatInput">
+      <input type="text" id="userInput" placeholder="Type a message...">
+      <button onclick="sendMessage()">➤</button>
+    </div>
+  </div>
 
+  <script>
+    const chatButton = document.getElementById('chatButton');
+    const chatWindow = document.getElementById('chatWindow');
+    const chatMessages = document.getElementById('chatMessages');
+    const userInput = document.getElementById('userInput');
+
+    chatButton.addEventListener('click', () => {
+      chatWindow.style.display = chatWindow.style.display === 'flex' ? 'none' : 'flex';
+      chatWindow.style.flexDirection = 'column';
+    });
+
+    async function sendMessage() {
+      const message = userInput.value.trim();
+      if (message === '') return;
+
+      addMessage(message, 'user');
+      userInput.value = '';
+
+      // Send message to OpenAI API
+      const reply = await getBotReply(message);
+      addMessage(reply, 'bot');
+    }
+
+    function addMessage(text, sender) {
+      const msg = document.createElement('div');
+      msg.classList.add('message', sender);
+      msg.innerText = text;
+      chatMessages.appendChild(msg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    async function getBotReply(message) {
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer YOUR_API_KEY_HERE"
+        },
+        body: JSON.stringify({
+          model: "gpt-4o-mini",
+          messages: [{ role: "system", content: "You are NicholasAI, a friendly assistant powered by Grayson." },
+                     { role: "user", content: message }]
+        })
+      });
+
+      const data = await response.json();
+      return data.choices[0].message.content;
+    }
+  </script>
+</body>
+</html>

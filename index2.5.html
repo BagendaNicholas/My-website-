@@ -3,199 +3,167 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NicholasAI Chat</title>
+<title>NicholasAI with Persistent Memory</title>
 <style>
-    body {
-        font-family: 'Segoe UI', sans-serif;
-        background: #1a1a2e;
-        color: #fff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-    }
-    .chat-container {
-        width: 90%;
-        max-width: 600px;
-        background: #162447;
-        border-radius: 12px;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        box-shadow: 0 0 15px #0f3460;
-    }
-    .chat-header {
-        background: #0f3460;
-        padding: 15px;
-        font-size: 1.5em;
-        font-weight: bold;
-        text-align: center;
-        border-bottom: 2px solid #53354a;
-    }
-    .chat-window {
-        flex: 1;
-        padding: 15px;
-        overflow-y: auto;
-    }
-    .message {
-        margin: 8px 0;
-        padding: 10px 15px;
-        border-radius: 20px;
-        max-width: 75%;
-        clear: both;
-    }
-    .user {
-        background: #e94560;
-        float: right;
-        text-align: right;
-    }
-    .ai {
-        background: #53354a;
-        float: left;
-        text-align: left;
-    }
-    .input-container {
-        display: flex;
-        border-top: 2px solid #0f3460;
-    }
-    input {
-        flex: 1;
-        padding: 15px;
-        border: none;
-        border-radius: 0;
-        outline: none;
-        font-size: 1em;
-        background: #1a1a2e;
-        color: #fff;
-    }
-    button {
-        padding: 0 20px;
-        border: none;
-        background: #0f3460;
-        color: #fff;
-        cursor: pointer;
-        font-size: 1em;
-        transition: 0.3s;
-    }
-    button:hover {
-        background: #53354a;
-    }
+  body {
+    font-family: Arial, sans-serif;
+    background: #1e1e2f;
+    color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+  h1 {
+    margin-top: 20px;
+    color: #00ffcc;
+    text-shadow: 0 0 10px #00ffcc;
+  }
+  #chatBox {
+    width: 90%;
+    max-width: 600px;
+    height: 70%;
+    background: #2c2c44;
+    border-radius: 10px;
+    padding: 10px;
+    overflow-y: auto;
+    margin-top: 20px;
+    box-shadow: 0 0 20px #000;
+  }
+  .message {
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 5px;
+  }
+  .user {
+    background: #00ccff;
+    color: #000;
+    text-align: right;
+  }
+  .bot {
+    background: #00ffcc;
+    color: #000;
+    text-align: left;
+  }
+  #inputContainer {
+    width: 90%;
+    max-width: 600px;
+    display: flex;
+    margin-top: 10px;
+  }
+  #userInput {
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px 0 0 5px;
+    border: none;
+    font-size: 16px;
+  }
+  #sendBtn {
+    padding: 10px;
+    background: #00ffcc;
+    color: #000;
+    border: none;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0;
+    font-weight: bold;
+  }
+  #sendBtn:hover {
+    background: #00e6b8;
+  }
 </style>
 </head>
 <body>
-
-<div class="chat-container">
-    <div class="chat-header">NicholasAI 🤖</div>
-    <div class="chat-window" id="chatWindow"></div>
-    <div class="input-container">
-        <input type="text" id="userInput" placeholder="Type a message..." />
-        <button onclick="sendMessage()">Send</button>
-    </div>
+<h1>NicholasAI 🤖 (Persistent Memory)</h1>
+<div id="chatBox"></div>
+<div id="inputContainer">
+  <input type="text" id="userInput" placeholder="Type your message here...">
+  <button id="sendBtn">Send</button>
 </div>
 
 <script>
-const chatWindow = document.getElementById('chatWindow');
+const chatBox = document.getElementById('chatBox');
+const userInput = document.getElementById('userInput');
+const sendBtn = document.getElementById('sendBtn');
 
-function addMessage(text, sender) {
-    const msg = document.createElement('div');
-    msg.className = 'message ' + sender;
-    msg.textContent = text;
-    chatWindow.appendChild(msg);
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-}
+// Load memory from localStorage or create empty array
+let memory = JSON.parse(localStorage.getItem('nicholasMemory')) || [];
 
+// Predefined responses
+const greetings = ["Hey", "Hi", "Hello", "Yo", "Greetings", "Salutations", "What's up", "Hola", "Bonjour"];
+const endings = ["! How’s it going?", "! Good to see you!", "! Ready to chat?", "! How are you today?", "! Long time no see!", "! What's new?", "! Feeling great?"];
+const emojis = ["😊", "😎", "🤖", "✨", "🔥", "💡", "🎉", "👍", "💛"];
+const techResponses = ["Did you try turning it off and on?", "Have you checked the console?", "I love coding too!", "Tech is amazing!", "Let's debug this together!"];
+const spiritualResponses = ["Stay blessed!", "Keep faith alive.", "Trust the journey.", "Pray and stay positive.", "God is watching over you."];
+const motivationalResponses = ["You can do it!", "Believe in yourself.", "Never give up.", "Every step counts.", "Keep moving forward."];
+const jokes = ["Why did the chicken cross the road? To get to the other side!", "I would tell you a UDP joke, but you might not get it.", "Why do programmers prefer dark mode? Because light attracts bugs!"];
+
+// Helper function
 function randomChoice(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
+  return arr[Math.floor(Math.random() * arr.length)];
 }
 
-function getResponse(message) {
-    message = message.toLowerCase().trim();
-
-    const responses = {
-        greetings: [
-            "Hey there! How’s it going?",
-            "Hi! Good to see you 😊",
-            "Hello! I’m ready to chat with you."
-        ],
-        howAreYou: [
-            "I’m your Big Bro, Nicholas! Always doing great 😎",
-            "Feeling awesome today! How about you?",
-            "I’m here, ready to help you out!"
-        ],
-        help: [
-            "Sure! I can guide you. What do you need help with?",
-            "I’m here to help! Ask me anything.",
-            "You can ask me anything—from tech tips to life advice."
-        ],
-        time: [
-            () => `It’s currently ${new Date().toLocaleTimeString()}`,
-            () => `Right now, the time is ${new Date().toLocaleTimeString()}`
-        ],
-        date: [
-            () => `Today is ${new Date().toDateString()}`,
-            () => `It’s ${new Date().toLocaleDateString()} today`
-        ],
-        feelings: [
-            "I’m always excited to chat with you!",
-            "I’m doing great, thanks for asking!",
-            "Feeling very ready to assist you 😄"
-        ],
-        tech: [
-            "Tech is amazing! What specifically do you want to know?",
-            "I can help with programming, AI, or web stuff.",
-            "I love talking about tech! Tell me what you’re curious about."
-        ],
-        jokes: [
-            "Why did the computer go to the doctor? It caught a virus! 😅",
-            "I would tell you a UDP joke, but you might not get it.",
-            "Why do programmers prefer dark mode? Because light attracts bugs!"
-        ],
-        spiritual: [
-            "“The joy of the Lord is your strength.” – Nehemiah 8:10",
-            "Keep faith, Nicholas! God sees your heart.",
-            "Every day is a gift. Stay grateful and strong."
-        ],
-        motivation: [
-            "You can do it! 💪 Keep pushing forward!",
-            "Believe in yourself, Nicholas. The best is ahead!",
-            "Small steps every day lead to big results!"
-        ],
-        games: [
-            "Let’s play a quick guessing game! Think of a number 1-10.",
-            "I can quiz you: What is the capital of France?",
-            "Trivia time! Who invented the first computer?"
-        ]
-    };
-
-    if (message.includes("hello") || message.includes("hi")) return randomChoice(responses.greetings);
-    if (message.includes("how are you")) return randomChoice(responses.howAreYou);
-    if (message.includes("help")) return randomChoice(responses.help);
-    if (message.includes("time")) return randomChoice(responses.time)();
-    if (message.includes("date") || message.includes("day")) return randomChoice(responses.date)();
-    if (message.includes("feeling") || message.includes("mood")) return randomChoice(responses.feelings);
-    if (message.includes("tech") || message.includes("programming") || message.includes("ai")) return randomChoice(responses.tech);
-    if (message.includes("joke")) return randomChoice(responses.jokes);
-    if (message.includes("spiritual") || message.includes("god") || message.includes("bible")) return randomChoice(responses.spiritual);
-    if (message.includes("motivate") || message.includes("encourage") || message.includes("motivation")) return randomChoice(responses.motivation);
-    if (message.includes("game") || message.includes("play")) return randomChoice(responses.games);
-
-    return "Hmm… I’m not sure about that yet. Can you ask something else?";
+// Add message to chat
+function addMessage(msg, sender) {
+  const div = document.createElement('div');
+  div.classList.add('message', sender);
+  div.textContent = msg;
+  chatBox.appendChild(div);
+  chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-function sendMessage() {
-    const userInput = document.getElementById('userInput');
-    const message = userInput.value.trim();
-    if (!message) return;
-    addMessage(message, 'user');
-    userInput.value = '';
+// Generate response
+function generateResponse(userMsg) {
+  userMsg = userMsg.toLowerCase();
 
-    setTimeout(() => {
-        const response = getResponse(message);
-        addMessage(response, 'ai');
-    }, 500);
+  // Add user message to memory
+  memory.push(userMsg);
+  localStorage.setItem('nicholasMemory', JSON.stringify(memory));
+
+  // Context-aware responses
+  if(userMsg.includes("how are you") || userMsg.includes("how's it going")) {
+    return "I'm doing great! Previously you said: '" + (memory[memory.length-2] || "nothing yet") + "' 😊";
+  }
+  if(userMsg.includes("hi") || userMsg.includes("hello") || userMsg.includes("hey")) {
+    return randomChoice(greetings) + randomChoice(endings) + " " + randomChoice(emojis);
+  }
+  if(userMsg.includes("tech") || userMsg.includes("code") || userMsg.includes("debug")) {
+    return randomChoice(techResponses) + " " + randomChoice(emojis);
+  }
+  if(userMsg.includes("pray") || userMsg.includes("faith") || userMsg.includes("bless")) {
+    return randomChoice(spiritualResponses) + " " + randomChoice(emojis);
+  }
+  if(userMsg.includes("motivate") || userMsg.includes("inspire") || userMsg.includes("encourage")) {
+    return randomChoice(motivationalResponses) + " " + randomChoice(emojis);
+  }
+  if(userMsg.includes("joke") || userMsg.includes("funny")) {
+    return randomChoice(jokes) + " " + randomChoice(emojis);
+  }
+
+  // Default response combining memory for context
+  const contextSnippet = memory.slice(-3, -1).join(", ");
+  return randomChoice(greetings) + "! Previously you said: [" + contextSnippet + "] " + randomChoice(techResponses.concat(spiritualResponses, motivationalResponses, jokes)) + " " + randomChoice(emojis);
 }
+
+// Display old messages on load
+memory.forEach(msg => addMessage(msg, "user")); // optional: mark all previous as user
+
+// Send message
+sendBtn.addEventListener('click', () => {
+  const msg = userInput.value.trim();
+  if(msg === "") return;
+  addMessage(msg, "user");
+  const botReply = generateResponse(msg);
+  addMessage(botReply, "bot");
+  userInput.value = "";
+});
+
+// Enter key
+userInput.addEventListener('keypress', (e) => {
+  if(e.key === 'Enter') sendBtn.click();
+});
 </script>
-
 </body>
 </html>

@@ -1,98 +1,140 @@
-<!-- ========================= NICHOLASAI SIDEBAR CHAT ========================= -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NicholasAI Sidebar Chat</title>
 <style>
-:root {
-  --nai-accent: #1e90ff;
-  --nai-bg: #0a0f29;
-  --nai-panel: #121635;
-  --nai-text: #e9ecff;
-  --nai-bot: #2d325a;
-  --nai-user: #1e90ff;
-  --nai-glow: 0 0 18px rgba(30,144,255,.55);
-}
-#nai-launcher{position:fixed;right:18px;bottom:18px;width:58px;height:58px;border:0;border-radius:50%;background:var(--nai-accent);color:#fff;font-size:24px;cursor:pointer;box-shadow:var(--nai-glow);display:flex;align-items:center;justify-content:center;}
-#nai-launcher:active{transform:scale(.98);}
-#nai-panel{position:fixed;top:0;right:-420px;width:400px;max-width:92vw;height:100dvh;background:var(--nai-panel);box-shadow:-6px 0 24px rgba(2,8,40,.55);border-left:1px solid rgba(30,144,255,.25);display:flex;flex-direction:column;transition:right .35s ease;z-index:999998;color:var(--nai-text);}
-#nai-panel.open{right:0;}
-#nai-header{padding:14px 16px;background:linear-gradient(90deg, var(--nai-accent), #5bb0ff);display:flex;align-items:center;justify-content:space-between;color:#fff;}
-#nai-title{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.3px;}
-#nai-title .dot{width:10px;height:10px;border-radius:50%;background:#7CFC00;box-shadow:0 0 10px #7CFC00;}
-#nai-close{background:transparent;border:0;color:#fff;font-size:22px;cursor:pointer;}
-#nai-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:var(--nai-bg);}
-.nai-msg{max-width:82%;padding:10px 12px;border-radius:14px;line-height:1.35;box-shadow:0 2px 8px rgba(0,0,0,.25);word-wrap:break-word;}
-.nai-bot{background:var(--nai-bot);align-self:flex-start;border-top-left-radius:6px;}
-.nai-user{background:var(--nai-user);color:#fff;align-self:flex-end;border-top-right-radius:6px;}
-#nai-inputbar{display:flex;gap:8px;padding:12px;border-top:1px solid rgba(30,144,255,.25);background:rgba(255,255,255,.02);}
-#nai-text{flex:1;background:#0c1233;color:var(--nai-text);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px;outline:none;}
-#nai-send{background:var(--nai-accent);border:0;color:#fff;padding:0 14px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:var(--nai-glow);}
-#nai-send:disabled{opacity:.6;cursor:not-allowed;box-shadow:none;}
-.nai-typing{display:inline-flex;gap:4px;align-items:center;}
-.nai-typing span{width:6px;height:6px;border-radius:50%;background:#cfe3ff;animation:nai-bump 1.2s infinite;}
-.nai-typing span:nth-child(2){animation-delay:.15s;} 
-.nai-typing span:nth-child(3){animation-delay:.3s;}
-@keyframes nai-bump{0%,80%,100%{opacity:.25;transform:translateY(0);}40%{opacity:1;transform:translateY(-5px);}}
-@media (max-width:420px){#nai-msgs{padding:10px;}#nai-inputbar{padding:10px;}}
+  body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+  
+  /* Floating chat button */
+  #chatToggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    z-index: 1000;
+  }
+
+  /* Chat sidebar */
+  #chatSidebar {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 350px;
+    max-height: 500px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 1000;
+  }
+
+  #chatHeader {
+    background: #4CAF50;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  #chatMessages {
+    padding: 10px;
+    height: 350px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  #chatInputContainer {
+    display: flex;
+    border-top: 1px solid #ccc;
+  }
+
+  #chatInput {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    outline: none;
+  }
+
+  #chatSend {
+    padding: 10px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  .message { margin: 5px 0; }
+  .user { color: blue; }
+  .nicholas { color: green; }
 </style>
+</head>
+<body>
 
-<button id="nai-launcher" aria-label="Open NicholasAI">💬</button>
+<button id="chatToggle">💬</button>
 
-<aside id="nai-panel" aria-label="NicholasAI sidebar" aria-hidden="true">
-  <div id="nai-header">
-    <div id="nai-title"><span class="dot"></span> NicholasAI <small style="opacity:.9;font-weight:500;">— powered by Grayson</small></div>
-    <button id="nai-close" title="Close">✖</button>
+<div id="chatSidebar">
+  <div id="chatHeader">NicholasAI — powered by Grayson</div>
+  <div id="chatMessages"></div>
+  <div id="chatInputContainer">
+    <input type="text" id="chatInput" placeholder="Type a message…">
+    <button id="chatSend">Send</button>
   </div>
-  <div id="nai-msgs"></div>
-  <div id="nai-inputbar">
-    <input id="nai-text" type="text" placeholder="Type a message…" autocomplete="off" />
-    <button id="nai-send">Send</button>
-  </div>
-</aside>
+</div>
 
 <script>
-(() => {
-  // ✅ Use Termux backend
-  const BACKEND_URL = "http://localhost:3000/chat";
+  const chatToggle = document.getElementById('chatToggle');
+  const chatSidebar = document.getElementById('chatSidebar');
+  const chatMessages = document.getElementById('chatMessages');
+  const chatInput = document.getElementById('chatInput');
+  const chatSend = document.getElementById('chatSend');
 
-  const $ = (s,p=document)=>p.querySelector(s);
-  const msgs=$("#nai-msgs"), panel=$("#nai-panel"), openBtn=$("#nai-launcher"), closeBtn=$("#nai-close"), input=$("#nai-text"), sendBtn=$("#nai-send");
+  chatToggle.addEventListener('click', () => {
+    chatSidebar.style.display = chatSidebar.style.display === 'flex' ? 'none' : 'flex';
+    chatSidebar.style.flexDirection = 'column';
+  });
 
-  let busy=false, saved=JSON.parse(localStorage.getItem("nicholasai_chat_history")||"[]");
+  async function sendMessage() {
+    const message = chatInput.value.trim();
+    if (!message) return;
+    appendMessage('user', message);
+    chatInput.value = '';
 
-  const pushAndSave=(role,content)=>{ saved.push({role,content,t:Date.now()}); localStorage.setItem("nicholasai_chat_history",JSON.stringify(saved)); };
-  const addMsg=(text,who="bot")=>{ const div=document.createElement("div"); div.className=`nai-msg ${who==="user"?"nai-user":"nai-bot"}`; div.textContent=text; msgs.appendChild(div); msgs.scrollTop=msgs.scrollHeight; return div; };
-  const addTyping=()=>{ const div=document.createElement("div"); div.className="nai-msg nai-bot"; div.innerHTML=`<span class="nai-typing"><span></span><span></span><span></span></span>`; msgs.appendChild(div); msgs.scrollTop=msgs.scrollHeight; return div; };
-
-  const openPanel=()=>{ panel.classList.add("open"); panel.setAttribute("aria-hidden","false"); input.focus();
-    if(saved.length===0) addMsg("Hello 👋 I’m NicholasAI, connected to Grayson. How can I help you today?");
-    else { msgs.innerHTML=""; saved.forEach(m=>addMsg(m.content, m.role==="user"?"user":"bot")); }
-  };
-  const closePanel=()=>{ panel.classList.remove("open"); panel.setAttribute("aria-hidden","true"); };
-  openBtn.addEventListener("click", openPanel);
-  closeBtn.addEventListener("click", closePanel);
-
-  const sendCurrent=async()=>{
-    const text=input.value.trim(); if(!text||busy)return; input.value="";
-    addMsg(text,"user"); pushAndSave("user",text);
-    busy=true; sendBtn.disabled=true; const typing=addTyping();
-
-    try{
-      const res = await fetch(BACKEND_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text })
+    try {
+      const res = await fetch('http://localhost:3000/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message })
       });
-      if(!res.ok) throw new Error("Network error");
       const data = await res.json();
-      const reply = data.reply || data.message || "Hmm… I couldn’t get a reply right now.";
-      typing.remove(); addMsg(reply,"bot"); pushAndSave("bot",reply);
-    } catch(err){
-      typing.remove(); const fallback="⚠️ I couldn’t reach Grayson right now. Try again."; addMsg(fallback,"bot"); pushAndSave("bot",fallback);
+      appendMessage('nicholas', data.reply);
+    } catch (err) {
+      appendMessage('nicholas', '⚠️ Could not reach Grayson right now. Try again.');
       console.error(err);
-    } finally{ busy=false; sendBtn.disabled=false; input.focus(); }
-  };
+    }
+  }
 
-  sendBtn.addEventListener("click",sendCurrent);
-  input.addEventListener("keydown",e=>{ if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); sendCurrent(); } });
-  window.addEventListener("keydown", e=>{ if(e.altKey && e.key.toLowerCase()==="n"){ panel.classList.contains("open")?closePanel():openPanel(); } });
-})();
+  function appendMessage(sender, text) {
+    const div = document.createElement('div');
+    div.classList.add('message', sender);
+    div.textContent = (sender === 'user' ? 'You: ' : 'NicholasAI: ') + text;
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  chatSend.addEventListener('click', sendMessage);
+  chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
 </script>
-<!-- ========================= /NicholasAI Sidebar ========================= -->
+
+</body>
+</html>

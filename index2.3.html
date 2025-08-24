@@ -1,140 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NicholasAI Sidebar Chat</title>
-<style>
-  body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-  
-  /* Floating chat button */
-  #chatToggle {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #4CAF50;
-    color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 20px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    z-index: 1000;
-  }
-
-  /* Chat sidebar */
-  #chatSidebar {
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    width: 350px;
-    max-height: 500px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    display: none;
-    flex-direction: column;
-    overflow: hidden;
-    z-index: 1000;
-  }
-
-  #chatHeader {
-    background: #4CAF50;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    font-weight: bold;
-  }
-
-  #chatMessages {
-    padding: 10px;
-    height: 350px;
-    overflow-y: auto;
-    flex: 1;
-  }
-
-  #chatInputContainer {
-    display: flex;
-    border-top: 1px solid #ccc;
-  }
-
-  #chatInput {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    outline: none;
-  }
-
-  #chatSend {
-    padding: 10px;
-    background: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-
-  .message { margin: 5px 0; }
-  .user { color: blue; }
-  .nicholas { color: green; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NicholasAI Chat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1e1e2f;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #00ffff;
+    }
+    #chat {
+      width: 100%;
+      max-width: 500px;
+      height: 400px;
+      border: 1px solid #444;
+      padding: 10px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      background-color: #2e2e3e;
+      border-radius: 10px;
+    }
+    .message {
+      margin: 5px 0;
+    }
+    .user {
+      color: #ffcc00;
+    }
+    .bot {
+      color: #00ffcc;
+    }
+    #inputForm {
+      display: flex;
+      width: 100%;
+      max-width: 500px;
+    }
+    #messageInput {
+      flex: 1;
+      padding: 10px;
+      border-radius: 5px 0 0 5px;
+      border: none;
+    }
+    #sendBtn {
+      padding: 10px;
+      background-color: #00ffff;
+      border: none;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 0 5px 5px 0;
+    }
+    #sendBtn:hover {
+      background-color: #00cccc;
+    }
+  </style>
 </head>
 <body>
+  <h1>NicholasAI Chat</h1>
+  <div id="chat"></div>
+  <form id="inputForm">
+    <input type="text" id="messageInput" placeholder="Type a message..." required />
+    <button type="submit" id="sendBtn">Send</button>
+  </form>
 
-<button id="chatToggle">💬</button>
+  <script>
+    const chatDiv = document.getElementById('chat');
+    const form = document.getElementById('inputForm');
+    const input = document.getElementById('messageInput');
+    const BACKEND_URL = 'http://localhost:3000/chat'; // Your NicholasAI backend
 
-<div id="chatSidebar">
-  <div id="chatHeader">NicholasAI — powered by Grayson</div>
-  <div id="chatMessages"></div>
-  <div id="chatInputContainer">
-    <input type="text" id="chatInput" placeholder="Type a message…">
-    <button id="chatSend">Send</button>
-  </div>
-</div>
-
-<script>
-  const chatToggle = document.getElementById('chatToggle');
-  const chatSidebar = document.getElementById('chatSidebar');
-  const chatMessages = document.getElementById('chatMessages');
-  const chatInput = document.getElementById('chatInput');
-  const chatSend = document.getElementById('chatSend');
-
-  chatToggle.addEventListener('click', () => {
-    chatSidebar.style.display = chatSidebar.style.display === 'flex' ? 'none' : 'flex';
-    chatSidebar.style.flexDirection = 'column';
-  });
-
-  async function sendMessage() {
-    const message = chatInput.value.trim();
-    if (!message) return;
-    appendMessage('user', message);
-    chatInput.value = '';
-
-    try {
-      const res = await fetch('http://localhost:3000/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message })
-      });
-      const data = await res.json();
-      appendMessage('nicholas', data.reply);
-    } catch (err) {
-      appendMessage('nicholas', '⚠️ Could not reach Grayson right now. Try again.');
-      console.error(err);
+    function addMessage(text, sender) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'message ' + sender;
+      msgDiv.textContent = text;
+      chatDiv.appendChild(msgDiv);
+      chatDiv.scrollTop = chatDiv.scrollHeight;
     }
-  }
 
-  function appendMessage(sender, text) {
-    const div = document.createElement('div');
-    div.classList.add('message', sender);
-    div.textContent = (sender === 'user' ? 'You: ' : 'NicholasAI: ') + text;
-    chatMessages.appendChild(div);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const message = input.value.trim();
+      if (!message) return;
 
-  chatSend.addEventListener('click', sendMessage);
-  chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
-</script>
+      addMessage(message, 'user');
+      input.value = '';
 
+      try {
+        const response = await fetch(BACKEND_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message })
+        });
+
+        const data = await response.json();
+        addMessage(data.reply || 'NicholasAI did not respond.', 'bot');
+      } catch (err) {
+        addMessage('⚠️ Error: Could not reach NicholasAI.', 'bot');
+        console.error(err);
+      }
+    });
+  </script>
 </body>
 </html>

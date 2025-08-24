@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NicholasAI – Dynamic AI</title>
+<title>NicholasAI – Markov AI</title>
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -76,7 +76,7 @@
 </style>
 </head>
 <body>
-<h1>NicholasAI 🤖 – Dynamic Responses</h1>
+<h1>NicholasAI 🤖 – Markov AI</h1>
 <div id="chatBox"></div>
 <div id="inputContainer">
   <input type="text" id="userInput" placeholder="Type your message...">
@@ -115,13 +115,25 @@ function addMessage(msg, sender) {
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// Generate dynamic response
+// MARKOV-style generator
+function generateMarkovResponse(msg) {
+  const words = msg.split(/\s+/);
+  let response = [];
+  
+  for (let i = 0; i < 10; i++) { // generate ~10 words
+    const word = randomChoice(words.concat([...templates.greetings,...templates.tech,...templates.spiritual,...templates.motivational,...templates.jokes]));
+    response.push(word);
+  }
+  
+  return response.join(' ') + " " + randomChoice(templates.emojis);
+}
+
+// Generate AI response
 function generateResponse(userMsg) {
   userMsg = userMsg.toLowerCase();
   memory.push(userMsg);
   localStorage.setItem('nicholasMemory', JSON.stringify(memory));
 
-  // Keyword detection
   if(userMsg.includes("hi") || userMsg.includes("hello")) {
     return randomChoice(templates.greetings) + randomChoice(templates.endings) + " " + randomChoice(templates.emojis);
   }
@@ -138,9 +150,8 @@ function generateResponse(userMsg) {
     return randomChoice(templates.jokes) + " " + randomChoice(templates.emojis);
   }
 
-  // Dynamic AI generation using memory
-  const context = memory.slice(-3).join(", ");
-  return randomChoice(templates.greetings) + "! Based on what you said before: [" + context + "], here's a thought: " + randomChoice([...templates.tech,...templates.spiritual,...templates.motivational,...templates.jokes]) + " " + randomChoice(templates.emojis);
+  // If no keywords, generate Markov-style dynamic response
+  return generateMarkovResponse(userMsg);
 }
 
 // Display old messages

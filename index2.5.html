@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NicholasAI with Persistent Memory</title>
+<title>NicholasAI – Dynamic AI</title>
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -76,36 +76,37 @@
 </style>
 </head>
 <body>
-<h1>NicholasAI 🤖 (Persistent Memory)</h1>
+<h1>NicholasAI 🤖 – Dynamic Responses</h1>
 <div id="chatBox"></div>
 <div id="inputContainer">
-  <input type="text" id="userInput" placeholder="Type your message here...">
+  <input type="text" id="userInput" placeholder="Type your message...">
   <button id="sendBtn">Send</button>
 </div>
 
 <script>
+// Chat memory using localStorage
+let memory = JSON.parse(localStorage.getItem('nicholasMemory')) || [];
 const chatBox = document.getElementById('chatBox');
 const userInput = document.getElementById('userInput');
 const sendBtn = document.getElementById('sendBtn');
 
-// Load memory from localStorage or create empty array
-let memory = JSON.parse(localStorage.getItem('nicholasMemory')) || [];
+// Response templates
+const templates = {
+  greetings: ["Hi", "Hello", "Hey", "Yo", "Greetings", "Salutations"],
+  endings: ["! How are you?", "! What's up?", "! Ready to chat?", "! Feeling good?", "! How’s your day?"],
+  emojis: ["😊","😎","🤖","✨","🔥","💡","🎉","👍","💛"],
+  tech: ["Have you tried debugging it?", "Code is fun!", "Let's figure it out.", "Tech is amazing!", "Check the console."],
+  spiritual: ["Keep faith alive.", "Trust the journey.", "Stay blessed.", "Pray and be positive."],
+  motivational: ["You can do it!", "Believe in yourself.", "Never give up.", "Every step counts."],
+  jokes: ["Why did the chicken cross the road? To get to the other side!", "Why do programmers prefer dark mode? Because light attracts bugs!", "I would tell you a UDP joke, but you might not get it."]
+};
 
-// Predefined responses
-const greetings = ["Hey", "Hi", "Hello", "Yo", "Greetings", "Salutations", "What's up", "Hola", "Bonjour"];
-const endings = ["! How’s it going?", "! Good to see you!", "! Ready to chat?", "! How are you today?", "! Long time no see!", "! What's new?", "! Feeling great?"];
-const emojis = ["😊", "😎", "🤖", "✨", "🔥", "💡", "🎉", "👍", "💛"];
-const techResponses = ["Did you try turning it off and on?", "Have you checked the console?", "I love coding too!", "Tech is amazing!", "Let's debug this together!"];
-const spiritualResponses = ["Stay blessed!", "Keep faith alive.", "Trust the journey.", "Pray and stay positive.", "God is watching over you."];
-const motivationalResponses = ["You can do it!", "Believe in yourself.", "Never give up.", "Every step counts.", "Keep moving forward."];
-const jokes = ["Why did the chicken cross the road? To get to the other side!", "I would tell you a UDP joke, but you might not get it.", "Why do programmers prefer dark mode? Because light attracts bugs!"];
-
-// Helper function
+// Helper: random choice
 function randomChoice(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-// Add message to chat
+// Add message to chat box
 function addMessage(msg, sender) {
   const div = document.createElement('div');
   div.classList.add('message', sender);
@@ -114,46 +115,41 @@ function addMessage(msg, sender) {
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// Generate response
+// Generate dynamic response
 function generateResponse(userMsg) {
   userMsg = userMsg.toLowerCase();
-
-  // Add user message to memory
   memory.push(userMsg);
   localStorage.setItem('nicholasMemory', JSON.stringify(memory));
 
-  // Context-aware responses
-  if(userMsg.includes("how are you") || userMsg.includes("how's it going")) {
-    return "I'm doing great! Previously you said: '" + (memory[memory.length-2] || "nothing yet") + "' 😊";
-  }
-  if(userMsg.includes("hi") || userMsg.includes("hello") || userMsg.includes("hey")) {
-    return randomChoice(greetings) + randomChoice(endings) + " " + randomChoice(emojis);
+  // Keyword detection
+  if(userMsg.includes("hi") || userMsg.includes("hello")) {
+    return randomChoice(templates.greetings) + randomChoice(templates.endings) + " " + randomChoice(templates.emojis);
   }
   if(userMsg.includes("tech") || userMsg.includes("code") || userMsg.includes("debug")) {
-    return randomChoice(techResponses) + " " + randomChoice(emojis);
+    return randomChoice(templates.tech) + " " + randomChoice(templates.emojis);
   }
   if(userMsg.includes("pray") || userMsg.includes("faith") || userMsg.includes("bless")) {
-    return randomChoice(spiritualResponses) + " " + randomChoice(emojis);
+    return randomChoice(templates.spiritual) + " " + randomChoice(templates.emojis);
   }
-  if(userMsg.includes("motivate") || userMsg.includes("inspire") || userMsg.includes("encourage")) {
-    return randomChoice(motivationalResponses) + " " + randomChoice(emojis);
+  if(userMsg.includes("motivate") || userMsg.includes("inspire")) {
+    return randomChoice(templates.motivational) + " " + randomChoice(templates.emojis);
   }
   if(userMsg.includes("joke") || userMsg.includes("funny")) {
-    return randomChoice(jokes) + " " + randomChoice(emojis);
+    return randomChoice(templates.jokes) + " " + randomChoice(templates.emojis);
   }
 
-  // Default response combining memory for context
-  const contextSnippet = memory.slice(-3, -1).join(", ");
-  return randomChoice(greetings) + "! Previously you said: [" + contextSnippet + "] " + randomChoice(techResponses.concat(spiritualResponses, motivationalResponses, jokes)) + " " + randomChoice(emojis);
+  // Dynamic AI generation using memory
+  const context = memory.slice(-3).join(", ");
+  return randomChoice(templates.greetings) + "! Based on what you said before: [" + context + "], here's a thought: " + randomChoice([...templates.tech,...templates.spiritual,...templates.motivational,...templates.jokes]) + " " + randomChoice(templates.emojis);
 }
 
-// Display old messages on load
-memory.forEach(msg => addMessage(msg, "user")); // optional: mark all previous as user
+// Display old messages
+memory.forEach(msg => addMessage(msg, "user"));
 
 // Send message
 sendBtn.addEventListener('click', () => {
   const msg = userInput.value.trim();
-  if(msg === "") return;
+  if(!msg) return;
   addMessage(msg, "user");
   const botReply = generateResponse(msg);
   addMessage(botReply, "bot");

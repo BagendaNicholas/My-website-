@@ -3,80 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NicholasAI – Markov AI</title>
+<title>NicholasAI – Real Chatbot</title>
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #1e1e2f;
-    color: #f5f5f5;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-  }
-  h1 {
-    margin-top: 20px;
-    color: #00ffcc;
-    text-shadow: 0 0 10px #00ffcc;
-  }
-  #chatBox {
-    width: 90%;
-    max-width: 600px;
-    height: 70%;
-    background: #2c2c44;
-    border-radius: 10px;
-    padding: 10px;
-    overflow-y: auto;
-    margin-top: 20px;
-    box-shadow: 0 0 20px #000;
-  }
-  .message {
-    margin: 5px 0;
-    padding: 8px;
-    border-radius: 5px;
-  }
-  .user {
-    background: #00ccff;
-    color: #000;
-    text-align: right;
-  }
-  .bot {
-    background: #00ffcc;
-    color: #000;
-    text-align: left;
-  }
-  #inputContainer {
-    width: 90%;
-    max-width: 600px;
-    display: flex;
-    margin-top: 10px;
-  }
-  #userInput {
-    flex: 1;
-    padding: 10px;
-    border-radius: 5px 0 0 5px;
-    border: none;
-    font-size: 16px;
-  }
-  #sendBtn {
-    padding: 10px;
-    background: #00ffcc;
-    color: #000;
-    border: none;
-    cursor: pointer;
-    border-radius: 0 5px 5px 0;
-    font-weight: bold;
-  }
-  #sendBtn:hover {
-    background: #00e6b8;
-  }
+  body { font-family: Arial, sans-serif; background:#1e1e2f; color:#f5f5f5; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; height:100vh; margin:0; padding:0; }
+  h1 { margin-top:20px; color:#00ffcc; text-shadow:0 0 10px #00ffcc; }
+  #chatBox { width:90%; max-width:600px; height:70%; background:#2c2c44; border-radius:10px; padding:10px; overflow-y:auto; margin-top:20px; box-shadow:0 0 20px #000; }
+  .message { margin:5px 0; padding:8px; border-radius:5px; }
+  .user { background:#00ccff; color:#000; text-align:right; }
+  .bot { background:#00ffcc; color:#000; text-align:left; }
+  #inputContainer { width:90%; max-width:600px; display:flex; margin-top:10px; }
+  #userInput { flex:1; padding:10px; border-radius:5px 0 0 5px; border:none; font-size:16px; }
+  #sendBtn { padding:10px; background:#00ffcc; color:#000; border:none; cursor:pointer; border-radius:0 5px 5px 0; font-weight:bold; }
+  #sendBtn:hover { background:#00e6b8; }
 </style>
 </head>
 <body>
-<h1>NicholasAI 🤖 – Markov AI</h1>
+<h1>NicholasAI 🤖</h1>
 <div id="chatBox"></div>
 <div id="inputContainer">
   <input type="text" id="userInput" placeholder="Type your message...">
@@ -84,13 +26,14 @@
 </div>
 
 <script>
-// Chat memory using localStorage
+// Memory and chat box
 let memory = JSON.parse(localStorage.getItem('nicholasMemory')) || [];
 const chatBox = document.getElementById('chatBox');
 const userInput = document.getElementById('userInput');
 const sendBtn = document.getElementById('sendBtn');
 
-// Response templates
+// NicholasAI identity
+const botName = "NicholasAI";
 const templates = {
   greetings: ["Hi", "Hello", "Hey", "Yo", "Greetings", "Salutations"],
   endings: ["! How are you?", "! What's up?", "! Ready to chat?", "! Feeling good?", "! How’s your day?"],
@@ -101,12 +44,10 @@ const templates = {
   jokes: ["Why did the chicken cross the road? To get to the other side!", "Why do programmers prefer dark mode? Because light attracts bugs!", "I would tell you a UDP joke, but you might not get it."]
 };
 
-// Helper: random choice
-function randomChoice(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
+// Random choice helper
+function randomChoice(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-// Add message to chat box
+// Add message to chat
 function addMessage(msg, sender) {
   const div = document.createElement('div');
   div.classList.add('message', sender);
@@ -115,46 +56,50 @@ function addMessage(msg, sender) {
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// MARKOV-style generator
+// MARKOV-like generator for unknown input
 function generateMarkovResponse(msg) {
   const words = msg.split(/\s+/);
   let response = [];
-  
-  for (let i = 0; i < 10; i++) { // generate ~10 words
+  for (let i=0; i<10; i++) {
     const word = randomChoice(words.concat([...templates.greetings,...templates.tech,...templates.spiritual,...templates.motivational,...templates.jokes]));
     response.push(word);
   }
-  
   return response.join(' ') + " " + randomChoice(templates.emojis);
 }
 
 // Generate AI response
 function generateResponse(userMsg) {
-  userMsg = userMsg.toLowerCase();
+  const msg = userMsg.toLowerCase();
   memory.push(userMsg);
   localStorage.setItem('nicholasMemory', JSON.stringify(memory));
 
-  if(userMsg.includes("hi") || userMsg.includes("hello")) {
-    return randomChoice(templates.greetings) + randomChoice(templates.endings) + " " + randomChoice(templates.emojis);
-  }
-  if(userMsg.includes("tech") || userMsg.includes("code") || userMsg.includes("debug")) {
-    return randomChoice(templates.tech) + " " + randomChoice(templates.emojis);
-  }
-  if(userMsg.includes("pray") || userMsg.includes("faith") || userMsg.includes("bless")) {
-    return randomChoice(templates.spiritual) + " " + randomChoice(templates.emojis);
-  }
-  if(userMsg.includes("motivate") || userMsg.includes("inspire")) {
-    return randomChoice(templates.motivational) + " " + randomChoice(templates.emojis);
-  }
-  if(userMsg.includes("joke") || userMsg.includes("funny")) {
-    return randomChoice(templates.jokes) + " " + randomChoice(templates.emojis);
-  }
+  // Identity & self-awareness
+  if(msg.includes("who are you") || msg.includes("your name")) return `I am ${botName}, your friendly AI assistant! ${randomChoice(templates.emojis)}`;
+  if(msg.includes("how are you")) return `I'm doing great! Thanks for asking. ${randomChoice(templates.emojis)}`;
+  if(msg.includes("what can you do")) return `I can chat with you, give advice, tell jokes, or motivate you! ${randomChoice(templates.emojis)}`;
+  if(msg.includes("your age") || msg.includes("old are you")) return `I was created recently, but I'm wise for my code! ${randomChoice(templates.emojis)}`;
+  if(msg.includes("your creator") || msg.includes("who made you")) return `I was built by Nicholas! ${randomChoice(templates.emojis)}`;
 
-  // If no keywords, generate Markov-style dynamic response
+  // Greetings
+  if(msg.includes("hi") || msg.includes("hello")) return randomChoice(templates.greetings) + randomChoice(templates.endings) + " " + randomChoice(templates.emojis);
+
+  // Tech/Code
+  if(msg.includes("tech") || msg.includes("code") || msg.includes("debug")) return randomChoice(templates.tech) + " " + randomChoice(templates.emojis);
+
+  // Spiritual
+  if(msg.includes("pray") || msg.includes("faith") || msg.includes("bless")) return randomChoice(templates.spiritual) + " " + randomChoice(templates.emojis);
+
+  // Motivational
+  if(msg.includes("motivate") || msg.includes("inspire")) return randomChoice(templates.motivational) + " " + randomChoice(templates.emojis);
+
+  // Jokes
+  if(msg.includes("joke") || msg.includes("funny")) return randomChoice(templates.jokes) + " " + randomChoice(templates.emojis);
+
+  // Default Markov-style
   return generateMarkovResponse(userMsg);
 }
 
-// Display old messages
+// Display old memory
 memory.forEach(msg => addMessage(msg, "user"));
 
 // Send message
@@ -167,10 +112,8 @@ sendBtn.addEventListener('click', () => {
   userInput.value = "";
 });
 
-// Enter key
-userInput.addEventListener('keypress', (e) => {
-  if(e.key === 'Enter') sendBtn.click();
-});
+// Enter key sends
+userInput.addEventListener('keypress', (e) => { if(e.key==='Enter') sendBtn.click(); });
 </script>
 </body>
 </html>

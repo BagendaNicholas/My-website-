@@ -1,122 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Sabbath | Bagenda</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0a1a2f;
-      color: #e0e8ff;
-      line-height: 1.6;
-      scroll-behavior: smooth;
-    }
-    header {
-      text-align: center;
-      padding: 2rem;
-      background: linear-gradient(90deg, #091426, #112a4b);
-      color: #5efcff;
-      text-shadow: 0 0 10px #5efcff, 0 0 20px #00eaff;
-      font-size: 2rem;
-      font-weight: bold;
-    }
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 1.5rem;
-    }
-    h2 {
-      color: #5efcff;
-      text-shadow: 0 0 8px #5efcff;
-      border-bottom: 1px solid #00cfff;
-      padding-bottom: 0.3rem;
-    }
-    a {
-      color: #fffb96;
-      text-decoration: none;
-    }
-    a:hover {
-      text-shadow: 0 0 8px #fff176;
-    }
-    ul.toc {
-      list-style: none;
-      padding: 0;
-      margin-bottom: 2rem;
-    }
-    ul.toc li {
-      margin: 0.5rem 0;
-    }
-    /* Floating navigation buttons */
-    .floating-nav {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      z-index: 1000;
-    }
-    .floating-nav a {
-      background: #112a4b;
-      color: #5efcff;
-      padding: 10px 15px;
-      border-radius: 50px;
-      box-shadow: 0 0 10px #00eaff, 0 0 20px #0088aa;
-      text-align: center;
-      font-size: 18px;
-      transition: 0.3s;
-    }
-    .floating-nav a:hover {
-      background: #00eaff;
-      color: #0a1a2f;
-      box-shadow: 0 0 20px #00eaff, 0 0 40px #00cfff;
-    }
-    footer {
-      text-align: center;
-      padding: 1rem;
-      margin-top: 3rem;
-      background: #091426;
-      color: #5efcff;
-      font-size: 0.9rem;
-    }
-  </style>
-</head>
-<body>
-
-  <header>
-    ✨ The Sabbath – By Bagenda Nicholas ✨
-  </header>
-
-  <div class="container">
-    <h2>📖 Table of Contents</h2>
-    <ul class="toc">
-       </div>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Sabbath | By Bagenda Nicholas</title>
+    <style>
         body {
             font-family: 'Times New Roman', Times, serif;
             line-height: 1.6;
             margin: 0 auto;
-            max-width: 800px;
+            max-width: 900px; /* Merged max-width for better consistency */
             padding: 20px;
+            background: #0a1a2f; /* From first document */
+            color: #e0e8ff; /* From first document */
+            scroll-behavior: smooth; /* From first document */
+        }
+        header {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(90deg, #091426, #112a4b);
+            color: #5efcff;
+            text-shadow: 0 0 10px #5efcff, 0 0 20px #00eaff;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 1.5rem;
         }
         h1, h2, h3, h4 {
             font-family: Georgia, 'Times New Roman', Times, serif;
-            color: #333;
+            color: #5efcff; /* Merged with the blue color from first document */
+            text-shadow: 0 0 8px #5efcff;
+            border-bottom: 1px solid #00cfff;
+            padding-bottom: 0.3rem;
+        }
+        a {
+            color: #fffb96;
+            text-decoration: none;
+        }
+        a:hover {
+            text-shadow: 0 0 8px #fff176;
+        }
+        ul.toc {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+        }
+        ul.toc li {
+            margin: 0.5rem 0;
         }
         .chapter {
             margin-bottom: 40px;
         }
         .poetic-reflection, .dedication, .acknowledgements, .introduction, .epilogue, .conclusion {
             font-style: italic;
-            border-left: 3px solid #ccc;
+            border-left: 3px solid #00cfff; /* Merged with the blue color */
             padding-left: 15px;
             margin-bottom: 20px;
         }
         .author-info, .copyright-page {
             font-size: 0.9em;
-            color: #555;
+            color: #e0e8ff; /* Merged with main text color */
         }
         .table-of-contents {
             margin-bottom: 40px;
@@ -133,20 +79,23 @@
             left: 20px;
             z-index: 999;
             display: flex;
+            flex-direction: column;
             gap: 10px;
         }
         .fixed-buttons a {
-            background: #ffffff22;
-            color: white;
+            background: #112a4b; /* Merged styles for consistency */
+            color: #5efcff;
             padding: 10px 15px;
-            border-radius: 6px;
-            font-weight: bold;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            border-radius: 50px;
+            box-shadow: 0 0 10px #00eaff, 0 0 20px #0088aa;
             text-align: center;
-            text-decoration: none;
+            font-size: 18px;
+            transition: 0.3s;
         }
         .fixed-buttons a:hover {
-            background: #ffffff44;
+            background: #00eaff;
+            color: #0a1a2f;
+            box-shadow: 0 0 20px #00eaff, 0 0 40px #00cfff;
         }
         .index9-btn {
             position: fixed;
@@ -154,7 +103,7 @@
             right: 20px;
             z-index: 999;
         }
-        .index9-btn button {
+        .index9-btn a button {
             padding: 12px 18px;
             background-color: #00ffcc;
             color: #000;
@@ -164,218 +113,253 @@
             box-shadow: 0 0 15px #00ffcc;
             cursor: pointer;
         }
-        .index9-btn button:hover {
+        .index9-btn a button:hover {
             background-color: #1affd5;
+        }
+        /* Floating navigation buttons from the first document */
+        .floating-nav {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+        .floating-nav a {
+            background: #112a4b;
+            color: #5efcff;
+            padding: 10px 15px;
+            border-radius: 50px;
+            box-shadow: 0 0 10px #00eaff, 0 0 20px #0088aa;
+            text-align: center;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+        .floating-nav a:hover {
+            background: #00eaff;
+            color: #0a1a2f;
+            box-shadow: 0 0 20px #00eaff, 0 0 40px #00cfff;
+        }
+        footer {
+            text-align: center;
+            padding: 1rem;
+            margin-top: 3rem;
+            background: #091426;
+            color: #5efcff;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body id="top">
 
-    <div class="chapter">
-        <h1>THE SABBATH</h1>
-        <p>"In the rhythm of time, from evening to evening, lies a divine gift—a day set apart, holy, and blessed. The Sabbath is God’s invitation to rest, worship, and renewal. This book seeks to reveal its purpose, history, and eternal significance, guiding every heart to honor the seventh day and enter into the rest of the Creator."</p>
-    </div>
+    <header>
+        ✨ The Sabbath – By Bagenda Nicholas ✨
+    </header>
 
-    <div class="author-info">
-        <p>✍️ <strong>Author:</strong> Bagenda Nicholas(as the Voice of the Creator)</p>
-        <p>Narrated by: The One Who Was, Is, and Is to Come</p>
-        <p>📧 Email: nicholasbagenda@gmail.com</p>
-        <p>📞 Phone: +256742367077</p>
-    </div>
+    <div class="container">
+        <div class="chapter">
+            <h1>THE SABBATH</h1>
+            <p>"In the rhythm of time, from evening to evening, lies a divine gift—a day set apart, holy, and blessed. The Sabbath is God’s invitation to rest, worship, and renewal. This book seeks to reveal its purpose, history, and eternal significance, guiding every heart to honor the seventh day and enter into the rest of the Creator."</p>
+        </div>
 
-    <div class="copyright-page">
-        <p><strong>Copyright Page</strong></p>
-        <p>&copy;2025 by Bagenda Nicholas</p>
-        <p>All rights reserved.</p>
-        <p>No part of this book may be copied, stored, or reproduced in any form without permission from the publisher.</p>
-    </div>
+        <div class="author-info">
+            <p>✍️ <strong>Author:</strong> Bagenda Nicholas(as the Voice of the Creator)</p>
+            <p>Narrated by: The One Who Was, Is, and Is to Come</p>
+            <p>📧 Email: nicholasbagenda@gmail.com</p>
+            <p>📞 Phone: +256742367077</p>
+        </div>
 
-    <div class="poetic-reflection">
-        <h2>📖 Poetic Reflection: Revelation and the Forehead</h2>
-        <p>"Behold, My children, the forehead bears the mark of mind and thought, A place where loyalty dwells, where the heart’s allegiance is sought. The seal of God, I place upon those who honor My law, Who keep the Sabbath holy, who walk in My awe. In Revelation, the vision unfolds, both warning and light, A mark to distinguish the faithful from the night. Those who turn from man’s tradition, from human decree, Receive My seal, from one Sabbath to eternity. The forehead, a symbol of wisdom, intent, and choice, Where devotion and faithfulness find their voice. Obedience inscribed not in stone, but in heart and mind, A sign of My covenant, eternal, loving, and kind. Mark not the day of man, nor follow the world’s deceit, But honor My seventh day, in rest and worship complete. From evening to evening, let your thoughts align, With My law, My promise, My sacred sign. The forehead bears witness, the soul keeps pace, With My covenant of mercy, My seal of grace. And those who embrace this gift, steadfast and true, Shall find life everlasting, in Me, renewed."</p>
-    </div>
+        <div class="copyright-page">
+            <p><strong>Copyright Page</strong></p>
+            <p>&copy;2025 by Bagenda Nicholas</p>
+            <p>All rights reserved.</p>
+            <p>No part of this book may be copied, stored, or reproduced in any form without permission from the publisher.</p>
+        </div>
 
-    <div class="dedication">
-        <h2>📖 Dedication</h2>
-        <p>"This book is dedicated to all who seek to honor God, walk in His ways, and embrace the gift of His holy Sabbath. To the faithful who long for rest, peace, and communion with the Creator—may this book guide you, inspire you, and strengthen your devotion. To families, teachers, and leaders—may you find in these pages the wisdom to teach, preserve, and celebrate the Sabbath as a sign of God’s covenant, love, and eternal blessing. And to my Heavenly Father, the Author of time, rest, and creation—may all who read this book be drawn closer to You, and may Your Sabbath be kept holy in their hearts forever."</p>
-    </div>
+        <div class="poetic-reflection">
+            <h2>📖 Poetic Reflection: Revelation and the Forehead</h2>
+            <p>"Behold, My children, the forehead bears the mark of mind and thought, A place where loyalty dwells, where the heart’s allegiance is sought. The seal of God, I place upon those who honor My law, Who keep the Sabbath holy, who walk in My awe. In Revelation, the vision unfolds, both warning and light, A mark to distinguish the faithful from the night. Those who turn from man’s tradition, from human decree, Receive My seal, from one Sabbath to eternity. The forehead, a symbol of wisdom, intent, and choice, Where devotion and faithfulness find their voice. Obedience inscribed not in stone, but in heart and mind, A sign of My covenant, eternal, loving, and kind. Mark not the day of man, nor follow the world’s deceit, But honor My seventh day, in rest and worship complete. From evening to evening, let your thoughts align, With My law, My promise, My sacred sign. The forehead bears witness, the soul keeps pace, With My covenant of mercy, My seal of grace. And those who embrace this gift, steadfast and true, Shall find life everlasting, in Me, renewed."</p>
+        </div>
 
-    <div class="acknowledgements">
-        <h2>📖 Acknowledgements</h2>
-        <p>"I give heartfelt thanks to my Heavenly Father, whose wisdom, guidance, and Spirit inspired every word of this book. Without His presence, understanding, and revelation, this work would not have been possible. I am grateful to all the faithful teachers, mentors, and spiritual guides whose insights into God’s Word helped shape these pages. Your dedication to truth and obedience to the Lord’s commandments has been a light on this journey. To my family, friends, and loved ones, thank you for your encouragement, patience, and support as I devoted time to writing this book. Your prayers and understanding strengthened me each day. Finally, I acknowledge all readers and seekers of truth who will open this book with an open heart. May it bless you, guide you, and draw you closer to the Creator of heaven and earth, who sanctified the Sabbath and calls all to rest in Him."</p>
-    </div>
+        <div class="dedication">
+            <h2>📖 Dedication</h2>
+            <p>"This book is dedicated to all who seek to honor God, walk in His ways, and embrace the gift of His holy Sabbath. To the faithful who long for rest, peace, and communion with the Creator—may this book guide you, inspire you, and strengthen your devotion. To families, teachers, and leaders—may you find in these pages the wisdom to teach, preserve, and celebrate the Sabbath as a sign of God’s covenant, love, and eternal blessing. And to my Heavenly Father, the Author of time, rest, and creation—may all who read this book be drawn closer to You, and may Your Sabbath be kept holy in their hearts forever."</p>
+        </div>
 
-    <div class="table-of-contents">
-        <h2>📖 The Sabbath – Table of Contents</h2>
-        <ol>
-            <li><a href="#chapter-1">In the Beginning: Time and Creation – “And the evening and the morning were the first day.” Understanding God’s order of time.</a></li>
-            <li><a href="#chapter-2">The Seventh Day: A Holy Rest – Why God blessed and sanctified the seventh day.</a></li>
-            <li><a href="#chapter-3">Evening and Morning: God’s Clock – The divine rhythm of time, different from human calendars.</a></li>
-            <li><a href="#chapter-4">The Sabbath vs. Sunday – Tracing history, prophecy, and tradition.</a></li>
-            <li><a href="#chapter-5">Sabbath in the Commandments – “Remember the Sabbath day, to keep it holy.”</a></li>
-            <li><a href="#chapter-6">The Sabbath and Israel – Lessons from the wilderness, manna, and obedience.</a></li>
-            <li><a href="#chapter-7">Jesus and the Sabbath – How Christ lived, taught, and restored the Sabbath.</a></li>
-            <li><a href="#chapter-8">The Early Church and the Sabbath – Did the apostles change the day? Historical evidence.</a></li>
-            <li><a href="#chapter-9">The Rise of Sunday Worship – From Rome to modern Christianity: What changed?</a></li>
-            <li><a href="#chapter-10">The Seal of God vs. the Mark of the Beast – Sabbath in prophecy (Revelation & Daniel).</a></li>
-            <li><a href="#chapter-11">Evening Worship: Entering Rest – Why God counts a day from evening to evening.</a></li>
-            <li><a href="#chapter-12">Morning Worship: Walking in Light – The spiritual power of beginning with God.</a></li>
-            <li><a href="#chapter-13">The Sabbath and Family – Rest, worship, unity, and joy at home.</a></li>
-            <li><a href="#chapter-14">The Sabbath and Creation Care – Rest for the land, animals, and environment.</a></li>
-            <li><a href="#chapter-15">The Sabbath and Healing – How Jesus used Sabbath for restoration.</a></li>
-            <li><a href="#chapter-16">The Sabbath in the End Times – A final test of loyalty and worship.</a></li>
-            <li><a href="#chapter-17">Sabbath and Freedom – Deliverance from slavery, sin, and worldliness.</a></li>
-            <li><a href="#chapter-18">The Sabbath in Heaven – “From one Sabbath to another shall all flesh come to worship.” (Isaiah 66:23)</a></li>
-            <li><a href="#chapter-19">Common Questions Answered – What about Colossians 2? What about Paul’s writings?</a></li>
-            <li><a href="#chapter-20">Come Unto Rest – The final invitation of Christ: Sabbath as a sign of eternal rest.</a></li>
-        </ol>
-    </div>
+        <div class="acknowledgements">
+            <h2>📖 Acknowledgements</h2>
+            <p>"I give heartfelt thanks to my Heavenly Father, whose wisdom, guidance, and Spirit inspired every word of this book. Without His presence, understanding, and revelation, this work would not have been possible. I am grateful to all the faithful teachers, mentors, and spiritual guides whose insights into God’s Word helped shape these pages. Your dedication to truth and obedience to the Lord’s commandments has been a light on this journey. To my family, friends, and loved ones, thank you for your encouragement, patience, and support as I devoted time to writing this book. Your prayers and understanding strengthened me each day. Finally, I acknowledge all readers and seekers of truth who will open this book with an open heart. May it bless you, guide you, and draw you closer to the Creator of heaven and earth, who sanctified the Sabbath and calls all to rest in Him."</p>
+        </div>
 
-    <div class="introduction">
-        <h2>📖 Introduction: The Forgotten Rest</h2>
-        <p>"I am the Lord of the Sabbath. Before the foundation of the world, before man drew his first breath, I set apart a day — holy, eternal, and untouched by the changing hands of time. For it is written: ‘And God blessed the seventh day, and sanctified it: because that in it He had rested from all His work which God created and made’ (Genesis 2:3). But man has forgotten. He has exchanged My holy day for the works of his own hands, calling another day sacred when I did not call it so. He has followed the rhythm of empires and kings, but not the rhythm of his Creator. Yet My Word declares: ‘Remember the Sabbath day, to keep it holy… the seventh day is the Sabbath of the Lord thy God’ (Exodus 20:8–10). The Sabbath is not a burden, but a gift. ‘The Sabbath was made for man, and not man for the Sabbath’ (Mark 2:27). It is not a shadow, but a seal. It is the reminder that I am the God who made heaven and earth, sea and sky, morning and evening. ‘Moreover also I gave them My Sabbaths, to be a sign between Me and them, that they might know that I am the Lord that sanctify them’ (Ezekiel 20:12). Now I speak again, that the world may understand the difference between Saturday and Sunday, between evening and morning, between man’s tradition and My eternal command. The Sabbath is not lost, nor has it been changed. ‘For I am the Lord, I change not’ (Malachi 3:6). It remains as sure as the sun that rises and the stars that shine. Come, My children, walk with Me through the pages of time. See where the Sabbath was born, how it was kept, and how it will endure until the heavens themselves are rolled away. For this is not man’s day — ‘the seventh day is the Sabbath of the Lord thy God’ (Exodus 20:10)."</p>
-    </div>
+        <div class="table-of-contents">
+            <h2>📖 The Sabbath – Table of Contents</h2>
+            <ol>
+                <li><a href="#chapter-1">In the Beginning: Time and Creation – “And the evening and the morning were the first day.” Understanding God’s order of time.</a></li>
+                <li><a href="#chapter-2">The Seventh Day: A Holy Rest – Why God blessed and sanctified the seventh day.</a></li>
+                <li><a href="#chapter-3">Evening and Morning: God’s Clock – The divine rhythm of time, different from human calendars.</a></li>
+                <li><a href="#chapter-4">The Sabbath vs. Sunday – Tracing history, prophecy, and tradition.</a></li>
+                <li><a href="#chapter-5">Sabbath in the Commandments – “Remember the Sabbath day, to keep it holy.”</a></li>
+                <li><a href="#chapter-6">The Sabbath and Israel – Lessons from the wilderness, manna, and obedience.</a></li>
+                <li><a href="#chapter-7">Jesus and the Sabbath – How Christ lived, taught, and restored the Sabbath.</a></li>
+                <li><a href="#chapter-8">The Early Church and the Sabbath – Did the apostles change the day? Historical evidence.</a></li>
+                <li><a href="#chapter-9">The Rise of Sunday Worship – From Rome to modern Christianity: What changed?</a></li>
+                <li><a href="#chapter-10">The Seal of God vs. the Mark of the Beast – Sabbath in prophecy (Revelation & Daniel).</a></li>
+                <li><a href="#chapter-11">Evening Worship: Entering Rest – Why God counts a day from evening to evening.</a></li>
+                <li><a href="#chapter-12">Morning Worship: Walking in Light – The spiritual power of beginning with God.</a></li>
+                <li><a href="#chapter-13">The Sabbath and Family – Rest, worship, unity, and joy at home.</a></li>
+                <li><a href="#chapter-14">The Sabbath and Creation Care – Rest for the land, animals, and environment.</a></li>
+                <li><a href="#chapter-15">The Sabbath and Healing – How Jesus used Sabbath for restoration.</a></li>
+                <li><a href="#chapter-16">The Sabbath in the End Times – A final test of loyalty and worship.</a></li>
+                <li><a href="#chapter-17">Sabbath and Freedom – Deliverance from slavery, sin, and worldliness.</a></li>
+                <li><a href="#chapter-18">The Sabbath in Heaven – “From one Sabbath to another shall all flesh come to worship.” (Isaiah 66:23)</a></li>
+                <li><a href="#chapter-19">Common Questions Answered – What about Colossians 2? What about Paul’s writings?</a></li>
+                <li><a href="#chapter-20">Come Unto Rest – The final invitation of Christ: Sabbath as a sign of eternal rest.</a></li>
+            </ol>
+        </div>
 
-    <div class="chapter">
-        <h2 id="chapter-1">📖 Chapter 1: In the Beginning – Time and Creation</h2>
-        <p><em>"In the beginning, I created the heavens and the earth. I stretched out the heavens like a curtain and laid the foundations of the deep. Darkness was upon the face of the waters, and I said, ‘Let there be light’ — and there was light (Genesis 1:1–3). I divided the light from the darkness, calling the light Day and the darkness Night. And it was written: ‘And the evening and the morning were the first day’ (Genesis 1:5). Thus I established My rhythm of time — not by the clocks of men, not by the calendars of kingdoms, but by My own Word. Evening to evening, morning to morning, this was the heartbeat of creation. I spoke, and the firmament appeared; I commanded, and dry land arose. I set the sun to rule the day and the moon to govern the night, and I appointed the stars for signs, for seasons, for days, and for years (Genesis 1:14–18). All time was born out of My Word, and all creation bowed to My order. But My work was not complete until I gave rest. For on the seventh day, I ended My work which I had made, and I rested. ‘And God blessed the seventh day, and sanctified it: because that in it He had rested from all His work’ (Genesis 2:2–3). I did not rest because I was weary, for I am everlasting strength. I rested to set apart a day, a covenant of time, a holy sanctuary in the rhythm of creation. The Sabbath was woven into the very fabric of the universe before sin entered, before law was written on stone, before nations rose and fell. It was My signature upon creation, a seal of completion, a reminder that all things are Mine. As it is written: ‘The heaven is My throne, and the earth is My footstool… for all those things hath Mine hand made’ (Isaiah 66:1–2). Therefore, My children, the Sabbath is not of man’s invention. It was not born from Israel alone, nor from the prophets, nor from the apostles. It is eternal, as old as the light itself. For every evening and morning testify of My order, and every seventh day testifies of My rest. I am the Lord of time. I created the day and the night, the rising of the sun and the setting of the same. And I declared from the beginning: ‘The seventh day is the Sabbath of the Lord thy God’ (Exodus 20:10). This is the foundation of worship, the cornerstone of obedience, the heartbeat of creation."</em></p>
-    </div>
+        <div class="introduction">
+            <h2>📖 Introduction: The Forgotten Rest</h2>
+            <p>"I am the Lord of the Sabbath. Before the foundation of the world, before man drew his first breath, I set apart a day — holy, eternal, and untouched by the changing hands of time. For it is written: ‘And God blessed the seventh day, and sanctified it: because that in it He had rested from all His work which God created and made’ (Genesis 2:3). But man has forgotten. He has exchanged My holy day for the works of his own hands, calling another day sacred when I did not call it so. He has followed the rhythm of empires and kings, but not the rhythm of his Creator. Yet My Word declares: ‘Remember the Sabbath day, to keep it holy… the seventh day is the Sabbath of the Lord thy God’ (Exodus 20:8–10). The Sabbath is not a burden, but a gift. ‘The Sabbath was made for man, and not man for the Sabbath’ (Mark 2:27). It is not a shadow, but a seal. It is the reminder that I am the God who made heaven and earth, sea and sky, morning and evening. ‘Moreover also I gave them My Sabbaths, to be a sign between Me and them, that they might know that I am the Lord that sanctify them’ (Ezekiel 20:12). Now I speak again, that the world may understand the difference between Saturday and Sunday, between evening and morning, between man’s tradition and My eternal command. The Sabbath is not lost, nor has it been changed. ‘For I am the Lord, I change not’ (Malachi 3:6). It remains as sure as the sun that rises and the stars that shine. Come, My children, walk with Me through the pages of time. See where the Sabbath was born, how it was kept, and how it will endure until the heavens themselves are rolled away. For this is not man’s day — ‘the seventh day is the Sabbath of the Lord thy God’ (Exodus 20:10)."</p>
+        </div>
 
-    <div class="chapter">
-        <h2 id="chapter-2">📖 Chapter 2: The Seventh Day – A Holy Rest</h2>
-        <p>"When I finished the work of creation, I did not crown it with another act of power, but with rest. For it is written: ‘On the seventh day God ended His work which He had made; and He rested on the seventh day from all His work which He had made’ (Genesis 2:2). I blessed the seventh day. I sanctified it. No other day received such a blessing, no other day was set apart. The first day bore the light, the second day held the firmament, the third brought forth land and sea, the fourth carried sun and stars, the fifth filled the waters and skies, the sixth bore living creatures and man. But the seventh… the seventh was Mine. It was not created for toil, nor for trade, nor for the ambitions of men. It was created for fellowship. For as it is written: ‘The Sabbath was made for man, and not man for the Sabbath’ (Mark 2:27). It was My gift, My covenant of time, My dwelling place in the rhythm of days. I placed it in the law so that generations would not forget. ‘Remember the Sabbath day, to keep it holy. Six days shalt thou labour, and do all thy work: but the seventh day is the Sabbath of the Lord thy God’ (Exodus 20:8–10). Do you see, My children? It was not a new command, but an eternal reminder. In the wilderness, when I fed My people with manna, I taught them again My rest. Six days they gathered, but on the seventh they found none. For I said: ‘Tomorrow is the rest of the holy Sabbath unto the Lord… bake that which ye will bake today, and seethe that ye will seethe; and that which remaineth lay up for you to be kept until the morning’ (Exodus 16:23). And the manna did not rot, for My blessing preserved it. The Sabbath is a holy sanctuary in time. Just as the temple was holy in space, the Sabbath is holy in days. Step into it, and you step into My presence. Profane it, and you profane the sign of our covenant. For I declared: ‘It is a sign between Me and you throughout your generations; that ye may know that I am the Lord that doth sanctify you’ (Exodus 31:13). Therefore, My beloved, the seventh day is not like the others. It is not common. It is not to be shifted by decree or altered by custom. For I am the Lord, I change not (Malachi 3:6). As I rested, so shall you rest. As I blessed, so shall you receive blessing. As I sanctified, so shall you be sanctified in Me. The seventh day is the holy rest — eternal, unbroken, unchanging. A refuge for the weary, a delight for the faithful, a sign for My people. ‘If thou turn away thy foot from the Sabbath, from doing thy pleasure on My holy day… then shalt thou delight thyself in the Lord’ (Isaiah 58:13–14). Enter into My rest, My children. For in the Sabbath, you do not only cease from labor — you enter My heart."</p>
-    </div>
+        <div class="chapter">
+            <h2 id="chapter-1">📖 Chapter 1: In the Beginning – Time and Creation</h2>
+            <p><em>"In the beginning, I created the heavens and the earth. I stretched out the heavens like a curtain and laid the foundations of the deep. Darkness was upon the face of the waters, and I said, ‘Let there be light’ — and there was light (Genesis 1:1–3). I divided the light from the darkness, calling the light Day and the darkness Night. And it was written: ‘And the evening and the morning were the first day’ (Genesis 1:5). Thus I established My rhythm of time — not by the clocks of men, not by the calendars of kingdoms, but by My own Word. Evening to evening, morning to morning, this was the heartbeat of creation. I spoke, and the firmament appeared; I commanded, and dry land arose. I set the sun to rule the day and the moon to govern the night, and I appointed the stars for signs, for seasons, for days, and for years (Genesis 1:14–18). All time was born out of My Word, and all creation bowed to My order. But My work was not complete until I gave rest. For on the seventh day, I ended My work which I had made, and I rested. ‘And God blessed the seventh day, and sanctified it: because that in it He had rested from all His work’ (Genesis 2:2–3). I did not rest because I was weary, for I am everlasting strength. I rested to set apart a day, a covenant of time, a holy sanctuary in the rhythm of creation. The Sabbath was woven into the very fabric of the universe before sin entered, before law was written on stone, before nations rose and fell. It was My signature upon creation, a seal of completion, a reminder that all things are Mine. As it is written: ‘The heaven is My throne, and the earth is My footstool… for all those things hath Mine hand made’ (Isaiah 66:1–2). Therefore, My children, the Sabbath is not of man’s invention. It was not born from Israel alone, nor from the prophets, nor from the apostles. It is eternal, as old as the light itself. For every evening and morning testify of My order, and every seventh day testifies of My rest. I am the Lord of time. I created the day and the night, the rising of the sun and the setting of the same. And I declared from the beginning: ‘The seventh day is the Sabbath of the Lord thy God’ (Exodus 20:10). This is the foundation of worship, the cornerstone of obedience, the heartbeat of creation."</em></p>
+        </div>
 
-    <div class="chapter">
-        <h2 id="chapter-3">📖 Chapter 3: Evening and Morning – God’s Clock</h2>
-        <p>"From the very beginning, I ordered time by My voice. When light broke through the darkness, I declared: ‘And the evening and the morning were the first day’ (Genesis 1:5). Thus I set the boundary of time — not by the clocks of men, not by the midnight hour of nations, but by the rising and setting of light. The day begins when the sun sets, and the evening ushers in the newness of time. For I spoke again: ‘And the evening and the morning were the second day… and the third day… and the sixth day’ (Genesis 1:8, 13, 31). Do you not see? I gave the order of days as evening first, then morning. When My people Israel stood before Me, I confirmed this order. I commanded: ‘From even unto even, shall ye celebrate your Sabbath’ (Leviticus 23:32). For as the sun dipped below the horizon, a new day was born. At twilight, My holy hours began, and in the morning light, they continued until the next evening. But man, in his wisdom, altered My clock. He struck the hour at midnight, dividing time where I did not divide it. He lifted morning above evening, and he forgot the rhythm of creation. Yet My order stands firm, for the heavens still declare it. Does not the sun rise and set at My command? Does not darkness give way to dawn? The evening is a time of surrender. As the world quiets and labor ceases, My children are called into rest. The morning is a time of renewal, when the light of day reveals the mercy of a new beginning. ‘It is of the Lord’s mercies that we are not consumed… they are new every morning: great is Thy faithfulness’ (Lamentations 3:22–23). Therefore, My beloved, the Sabbath begins at sunset on the sixth day and ends at sunset on the seventh. This is My clock, unchanging, eternal, true. Those who keep My Sabbath from evening to evening walk in harmony with creation itself. Lift up your eyes and behold: every sunset testifies of My covenant, every sunrise confirms My mercy. Evening and morning, this is the heartbeat of time. For I, the Lord, declare the end from the beginning, and My Word shall not fail."</p>
-    </div>
+        <div class="chapter">
+            <h2 id="chapter-2">📖 Chapter 2: The Seventh Day – A Holy Rest</h2>
+            <p>"When I finished the work of creation, I did not crown it with another act of power, but with rest. For it is written: ‘On the seventh day God ended His work which He had made; and He rested on the seventh day from all His work which He had made’ (Genesis 2:2). I blessed the seventh day. I sanctified it. No other day received such a blessing, no other day was set apart. The first day bore the light, the second day held the firmament, the third brought forth land and sea, the fourth carried sun and stars, the fifth filled the waters and skies, the sixth bore living creatures and man. But the seventh… the seventh was Mine. It was not created for toil, nor for trade, nor for the ambitions of men. It was created for fellowship. For as it is written: ‘The Sabbath was made for man, and not man for the Sabbath’ (Mark 2:27). It was My gift, My covenant of time, My dwelling place in the rhythm of days. I placed it in the law so that generations would not forget. ‘Remember the Sabbath day, to keep it holy. Six days shalt thou labour, and do all thy work: but the seventh day is the Sabbath of the Lord thy God’ (Exodus 20:8–10). Do you see, My children? It was not a new command, but an eternal reminder. In the wilderness, when I fed My people with manna, I taught them again My rest. Six days they gathered, but on the seventh they found none. For I said: ‘Tomorrow is the rest of the holy Sabbath unto the Lord… bake that which ye will bake today, and seethe that ye will seethe; and that which remaineth lay up for you to be kept until the morning’ (Exodus 16:23). And the manna did not rot, for My blessing preserved it. The Sabbath is a holy sanctuary in time. Just as the temple was holy in space, the Sabbath is holy in days. Step into it, and you step into My presence. Profane it, and you profane the sign of our covenant. For I declared: ‘It is a sign between Me and you throughout your generations; that ye may know that I am the Lord that doth sanctify you’ (Exodus 31:13). Therefore, My beloved, the seventh day is not like the others. It is not common. It is not to be shifted by decree or altered by custom. For I am the Lord, I change not (Malachi 3:6). As I rested, so shall you rest. As I blessed, so shall you receive blessing. As I sanctified, so shall you be sanctified in Me. The seventh day is the holy rest — eternal, unbroken, unchanging. A refuge for the weary, a delight for the faithful, a sign for My people. ‘If thou turn away thy foot from the Sabbath, from doing thy pleasure on My holy day… then shalt thou delight thyself in the Lord’ (Isaiah 58:13–14). Enter into My rest, My children. For in the Sabbath, you do not only cease from labor — you enter My heart."</p>
+        </div>
 
-    <div class="chapter">
-        <h2 id="chapter-4">📖 Chapter 4: The Sabbath vs. Sunday – Tracing History, Prophecy, and Tradition</h2>
-        <p>"My children, hear My voice and understand the difference that has been blurred by centuries of human tradition. The Sabbath, the seventh day, is Mine. I declared it at creation, I wrote it in the Ten Commandments: ‘Remember the Sabbath day, to keep it holy’ (Exodus 20:8). Yet men, in their desire to follow rulers and customs, shifted their worship to another day, calling it holy when I did not call it so. The day called Sunday — the first day of the week — was never consecrated by Me. It became the day of man’s tradition, instituted by powers seeking to replace My holy rest with human authority. The prophets foretold that the faithful would be tested in this matter: ‘Blessed is the man that keepeth the Sabbath from polluting it’ (Isaiah 56:2, adapted). Consider Israel in the wilderness: the Sabbath was a sign between Me and them, a mark of obedience and love. Six days they gathered manna, but on the seventh, they rested. The Sabbath was a covenant, eternal and unchangeable. When Jesus walked among men, He restored the true meaning of the Sabbath. ‘The Son of Man is Lord even of the Sabbath’ (Mark 2:28). He showed that it was made for the good of man, to bring life, restoration, and blessing, not bondage. Yet over centuries, traditions multiplied. Empires rose, kings decreed, and Sunday was lifted above the day I sanctified. Men called it the Lord’s Day, but I, the Lord, had never changed it. My command stands: ‘The seventh day is the Sabbath of the Lord thy God’ (Exodus 20:10). Do not be deceived, My children. To honor My creation, My law, and My covenant is to honor life itself. Sunday may be convenient, it may carry the trappings of worship, but it is not My day. Those who return to the seventh day, observing from evening to evening, are keeping the seal of obedience, walking in truth, and following the rhythm of creation. Let history speak, but let My Word stand higher. Traditions change, kingdoms fall, calendars shift — yet the Sabbath remains. I call again: choose My day, embrace My rest, and find the blessing I prepared before the foundations of the world. For it is written: ‘Verily My Sabbaths are a sign between Me and you, that ye may know that I am the Lord that sanctify you’ (Exodus 31:13). Walk in My truth, and you shall not be led astray by the wisdom of men. The seventh day is Mine. Keep it holy, as I commanded, and you shall know peace, joy, and fellowship with Me."</p>
-        <p><strong>🕰️ The Story Behind Sunday Worship</strong></p>
-        <p>"Centuries after My people left Egypt, empires rose and fell. The Roman Empire, under Constantine, sought unity through law and religion. Pagan sun worship was widespread, and rulers desired one common day for rest and worship. Thus, in AD 321, Sunday was officially declared a day of rest by imperial decree, not by My command. They called it the Lord’s Day, yet it was rooted in human tradition, not in the covenant I made with creation. Many Christians, confused by pressure and custom, began to gather on Sunday instead of the seventh day. Yet even amid shifting calendars, faithful ones kept My command, observing the seventh day in secret, enduring ridicule, exile, and persecution.‘Blessed is the man that keepeth the Sabbath from polluting it’ (Isaiah 56:2, adapted). Kings and councils continued to enforce Sunday worship, mixing My truth with human rule. The Sabbath was marginalized, called obsolete, and yet it never vanished. In homes, families whispered prayers at sunset on the seventh day. In hidden gatherings, My people read the Scriptures, counting from evening to evening, teaching children the holiness of the seventh day. Even in the modern age, many nations follow Sunday rest, not knowing the history behind it. Yet in the hearts of those who seek Me, the seventh day remains sacred, eternal, and unchanging. It is not tradition but obedience that brings blessing.‘The seventh day is the Sabbath of the Lord thy God’ (Exodus 20:10). Thus, My children, the story of Sunday is a story of human compromise, convenience, and error. The story of the seventh day is the story of covenant, blessing, and divine order. Learn from both: do not be swayed by human law when it contradicts My law. Keep the seventh day holy, and you shall walk in My rest."</p>
-    </div>
+        <div class="chapter">
+            <h2 id="chapter-3">📖 Chapter 3: Evening and Morning – God’s Clock</h2>
+            <p>"From the very beginning, I ordered time by My voice. When light broke through the darkness, I declared: ‘And the evening and the morning were the first day’ (Genesis 1:5). Thus I set the boundary of time — not by the clocks of men, not by the midnight hour of nations, but by the rising and setting of light. The day begins when the sun sets, and the evening ushers in the newness of time. For I spoke again: ‘And the evening and the morning were the second day… and the third day… and the sixth day’ (Genesis 1:8, 13, 31). Do you not see? I gave the order of days as evening first, then morning. When My people Israel stood before Me, I confirmed this order. I commanded: ‘From even unto even, shall ye celebrate your Sabbath’ (Leviticus 23:32). For as the sun dipped below the horizon, a new day was born. At twilight, My holy hours began, and in the morning light, they continued until the next evening. But man, in his wisdom, altered My clock. He struck the hour at midnight, dividing time where I did not divide it. He lifted morning above evening, and he forgot the rhythm of creation. Yet My order stands firm, for the heavens still declare it. Does not the sun rise and set at My command? Does not darkness give way to dawn? The evening is a time of surrender. As the world quiets and labor ceases, My children are called into rest. The morning is a time of renewal, when the light of day reveals the mercy of a new beginning. ‘It is of the Lord’s mercies that we are not consumed… they are new every morning: great is Thy faithfulness’ (Lamentations 3:22–23). Therefore, My beloved, the Sabbath begins at sunset on the sixth day and ends at sunset on the seventh. This is My clock, unchanging, eternal, true. Those who keep My Sabbath from evening to evening walk in harmony with creation itself. Lift up your eyes and behold: every sunset testifies of My covenant, every sunrise confirms My mercy. Evening and morning, this is the heartbeat of time. For I, the Lord, declare the end from the beginning, and My Word shall not fail."</p>
+        </div>
 
-    <div class="chapter">
-        <h2 id="chapter-5">📖 Chapter 5: The Sabbath in the Commandments – Remembering What is Holy</h2>
-        <p>"I, the Lord, spoke My law to Moses upon the mountain, inscribing it upon stone: ‘Remember the Sabbath day, to keep it holy. Six days shalt thou labour, and do all thy work: But the seventh day is the Sabbath of the Lord thy God’ (Exodus 20:8–10). This commandment is eternal, a sign of obedience, a covenant of time between Me and My creation. The Sabbath is holy because I sanctified it, because I rested on it, and because it points to eternal fellowship with Me. Yet men, in their rebellion, have invented other days and religions, turning away from My command:</p>
-        <p><strong>1. Sun worship and Sunday</strong> – Long after creation, pagan nations worshiped the sun. Rome, under Emperor Constantine in AD 321, declared Sunday a day of rest to honor the sun and unify the empire. This human decree later influenced many Christians, who began observing Sunday instead of My Sabbath. It is not Mine, but an invention of men.</p>
-        <p><strong>2. Moon worship and Friday</strong> – Some nations and religions, including early Islamic tradition, chose Friday as a special day for communal worship. While they gather to pray, this day was not sanctified by Me. It is a human appointment, not a divine command.</p>
-        <p><strong>3. Other man-made religious days</strong> – Throughout history, kings, prophets, and religious leaders have created holidays and sacred days to consolidate power or mark tradition. None of these change My eternal law. ‘The seventh day is the Sabbath of the Lord thy God’ (Exodus 20:10). The purpose of including these histories is not to honor them, but to warn My people. Many have been deceived, thinking man-made days carry blessing or holiness. But only the seventh day, kept from evening to evening, carries the covenant and the blessing. The Sabbath is more than a day. It is a sign, a seal, a holy sanctuary in time: ‘Verily My Sabbaths are a sign between Me and you, that ye may know that I am the Lord that sanctify you’ (Exodus 31:13). It teaches obedience, humility, and points to eternal rest in Me: ‘There remaineth therefore a rest to the people of God’ (Hebrews 4:9). Do not follow the inventions of men. Keep the seventh day holy, as I commanded. Honor Me, honor creation, and align with the rhythm of heaven itself. No human tradition can replace it. The Sabbath is Mine, forever."</p>
-    </div>
+        <div class="chapter">
+            <h2 id="chapter-4">📖 Chapter 4: The Sabbath vs. Sunday – Tracing History, Prophecy, and Tradition</h2>
+            <p>"My children, hear My voice and understand the difference that has been blurred by centuries of human tradition. The Sabbath, the seventh day, is Mine. I declared it at creation, I wrote it in the Ten Commandments: ‘Remember the Sabbath day, to keep it holy’ (Exodus 20:8). Yet men, in their desire to follow rulers and customs, shifted their worship to another day, calling it holy when I did not call it so. The day called Sunday — the first day of the week — was never consecrated by Me. It became the day of man’s tradition, instituted by powers seeking to replace My holy rest with human authority. The prophets foretold that the faithful would be tested in this matter: ‘Blessed is the man that keepeth the Sabbath from polluting it’ (Isaiah 56:2, adapted). Consider Israel in the wilderness: the Sabbath was a sign between Me and them, a mark of obedience and love. Six days they gathered manna, but on the seventh, they rested. The Sabbath was a covenant, eternal and unchangeable. When Jesus walked among men, He restored the true meaning of the Sabbath. ‘The Son of Man is Lord even of the Sabbath’ (Mark 2:28). He showed that it was made for the good of man, to bring life, restoration, and blessing, not bondage. Yet over centuries, traditions multiplied. Empires rose, kings decreed, and Sunday was lifted above the day I sanctified. Men called it the Lord’s Day, but I, the Lord, had never changed it. My command stands: ‘The seventh day is the Sabbath of the Lord thy God’ (Exodus 20:10). Do not be deceived, My children. To honor My creation, My law, and My covenant is to honor life itself. Sunday may be convenient, it may carry the trappings of worship, but it is not My day. Those who return to the seventh day, observing from evening to evening, are keeping the seal of obedience, walking in truth, and following the rhythm of creation. Let history speak, but let My Word stand higher. Traditions change, kingdoms fall, calendars shift — yet the Sabbath remains. I call again: choose My day, embrace My rest, and find the blessing I prepared before the foundations of the world. For it is written: ‘Verily My Sabbaths are a sign between Me and you, that ye may know that I am the Lord that sanctify you’ (Exodus 31:13). Walk in My truth, and you shall not be led astray by the wisdom of men. The seventh day is Mine. Keep it holy, as I commanded, and you shall know peace, joy, and fellowship with Me."</p>
+            <p><strong>🕰️ The Story Behind Sunday Worship</strong></p>
+            <p>"Centuries after My people left Egypt, empires rose and fell. The Roman Empire, under Constantine, sought unity through law and religion. Pagan sun worship was widespread, and rulers desired one common day for rest and worship. Thus, in AD 321, Sunday was officially declared a day of rest by imperial decree, not by My command. They called it the Lord’s Day, yet it was rooted in human tradition, not in the covenant I made with creation. Many Christians, confused by pressure and custom, began to gather on Sunday instead of the seventh day. Yet even amid shifting calendars, faithful ones kept My command, observing the seventh day in secret, enduring ridicule, exile, and persecution.‘Blessed is the man that keepeth the Sabbath from polluting it’ (Isaiah 56:2, adapted). Kings and councils continued to enforce Sunday worship, mixing My truth with human rule. The Sabbath was marginalized, called obsolete, and yet it never vanished. In homes, families whispered prayers at sunset on the seventh day. In hidden gatherings, My people read the Scriptures, counting from evening to evening, teaching children the holiness of the seventh day. Even in the modern age, many nations follow Sunday rest, not knowing the history behind it. Yet in the hearts of those who seek Me, the seventh day remains sacred, eternal, and unchanging. It is not tradition but obedience that brings blessing.‘The seventh day is the Sabbath of the Lord thy God’ (Exodus 20:10). Thus, My children, the story of Sunday is a story of human compromise, convenience, and error. The story of the seventh day is the story of covenant, blessing, and divine order. Learn from both: do not be swayed by human law when it contradicts My law. Keep the seventh day holy, and you shall walk in My rest."</p>
+        </div>
 
-    <div class="chapter">
-        <h2 id="chapter-6">📖 Chapter 6: The Sabbath and Israel – Lessons from the Wilderness, Manna, and Obedience</h2>
-        <p>"When My people walked out of Egypt, I led them by a cloud by day and fire by night. In the wilderness, I provided manna from heaven, teaching them the meaning of trust, provision, and rest. For it is written: ‘Six days ye shall gather, but on the seventh day, there shall be none’ (Exodus 16:26). I told them, ‘Tomorrow is the rest of the holy Sabbath unto the Lord. Bake that which ye will bake today, and seethe that ye will seethe; and that which remaineth lay up for you to be kept until the morning’ (Exodus 16:23). And behold, the manna did not rot; My blessing preserved it. This was a sign for generations: the Sabbath is a covenant, a trust in My provision, a day set apart from human toil. Yet My people tested Me. Some went out to gather manna on the seventh day, doubting My word. I rebuked them: ‘How long refuse ye to keep My commandments and My laws?’ (Exodus 16:28). The Sabbath is not a suggestion; it is My command. To honor it is to walk in obedience and receive My blessing. In their tents and cities, I gave them laws and statutes to protect the Sabbath. It was a day of rest for the young, the old, the stranger, and the servant. It was not for the privileged alone. ‘Ye shall keep the Sabbath, therefore, for it is holy unto you… that ye may know that I am the Lord your God’ (Exodus 31:14–15). The Sabbath also teaches spiritual lessons. Six days are for labor, human effort, and worldly concerns. The seventh day is a call to cease, to trust, to commune with Me. It is a shadow of eternal rest: ‘For he that is entered into His rest, he also hath ceased from his own works, as God did from His’ (Hebrews 4:10). My children, Israel’s example is a warning and a guide. When they obeyed, they prospered; when they ignored the Sabbath, they suffered confusion and loss. I desire the same for you. Keep the Sabbath, honor My command, and let it teach you humility, reliance, and joy in My provision. The manna was bread from heaven, but the Sabbath is life from heaven. Obedience to My command is more than ritual; it is fellowship with Me, a rhythm that marks My people. ‘Blessed is the man that keepeth the Sabbath from polluting it’ (Isaiah 56:2). Walk in the footsteps of Israel, not in their rebellion, and find true rest."</p>
-    </div>
+        <div class="chapter">
+            <h2 id="chapter-5">📖 Chapter 5: The Sabbath in the Commandments – Remembering What is Holy</h2>
+            <p>"I, the Lord, spoke My law to Moses upon the mountain, inscribing it upon stone: ‘Remember the Sabbath day, to keep it holy. Six days shalt thou labour, and do all thy work: But the seventh day is the Sabbath of the Lord thy God’ (Exodus 20:8–10). This commandment is eternal, a sign of obedience, a covenant of time between Me and My creation. The Sabbath is holy because I sanctified it, because I rested on it, and because it points to eternal fellowship with Me. Yet men, in their rebellion, have invented other days and religions, turning away from My command:</p>
+            <p><strong>1. Sun worship and Sunday</strong> – Long after creation, pagan nations worshiped the sun. Rome, under Emperor Constantine in AD 321, declared Sunday a day of rest to honor the sun and unify the empire. This human decree later influenced many Christians, who began observing Sunday instead of My Sabbath. It is not Mine, but an invention of men.</p>
+            <p><strong>2. Moon worship and Friday</strong> – Some nations and religions, including early Islamic tradition, chose Friday as a special day for communal worship. While they gather to pray, this day was not sanctified by Me. It is a human appointment, not a divine command.</p>
+            <p><strong>3. Other man-made religious days</strong> – Throughout history, kings, prophets, and religious leaders have created holidays and sacred days to consolidate power or mark tradition. None of these change My eternal law. ‘The seventh day is the Sabbath of the Lord thy God’ (Exodus 20:10). The purpose of including these histories is not to honor them, but to warn My people. Many have been deceived, thinking man-made days carry blessing or holiness. But only the seventh day, kept from evening to evening, carries the covenant and the blessing. The Sabbath is more than a day. It is a sign, a seal, a holy sanctuary in time: ‘Verily My Sabbaths are a sign between Me and you, that ye may know that I am the Lord that sanctify you’ (Exodus 31:13). It teaches obedience, humility, and points to eternal rest in Me: ‘There remaineth therefore a rest to the people of God’ (Hebrews 4:9). Do not follow the inventions of men. Keep the seventh day holy, as I commanded. Honor Me, honor creation, and align with the rhythm of heaven itself. No human tradition can replace it. The Sabbath is Mine, forever."</p>
+        </div>
 
-    <div class="chapter">
-        <h2 id="chapter-7">📖 Chapter 7: The Sabbath and Jesus – Restored Meaning and Redemption</h2>
-        <p>"When I sent My Son, Jesus, into the world, He came not to abolish My law, but to fulfill it and restore its true meaning. Many misunderstood the Sabbath, thinking it a burden or a set of restrictions. Yet He declared: ‘The Sabbath was made for man, and not man for the Sabbath’ (Mark 2:27). Jesus walked among men, teaching them that the Sabbath is a gift, a day of blessing, of restoration, of healing. He healed the sick, gave sight to the blind, and freed the oppressed on the Sabbath. Not to break My command, but to show its purpose: life, mercy, and fellowship with Me. ‘The Son of Man is Lord even of the Sabbath’ (Mark 2:28). He corrected false interpretations. The Pharisees had added human rules, turning My holy day into a legalistic burden. Jesus showed that true Sabbath-keeping is not just ceasing from work, but doing good, loving mercy, and walking humbly with Me. ‘It is lawful to do good on the Sabbath’ (Matthew 12:12). Through His life, Jesus revealed the deeper meaning: the Sabbath points to rest in Me. As My people ceased from labor, they were reminded of the eternal rest promised to all who believe: ‘There remaineth therefore a rest to the people of God’ (Hebrews 4:9). Jesus’ example restored the Sabbath to its original purpose — a day to honor Me, to rest from worldly toil, to heal, to teach, and to commune with God. He invites all who are weary to come and find true rest. ‘Come unto Me, all ye that labour and are heavy laden, and I will give you rest’ (Matthew 11:28). Therefore, My children, to honor the Sabbath as Jesus did is to honor Me, to embrace mercy, obedience, and true spiritual rest. Keep the seventh day holy, from evening to evening, as I commanded from creation. Do not follow human tradition; follow My Word. In this obedience, you shall find blessing, guidance, and eternal fellowship with Me."</p>
-    </div>
+        <div class="chapter">
+            <h2 id="chapter-6">📖 Chapter 6: The Sabbath and Israel – Lessons from the Wilderness, Manna, and Obedience</h2>
+            <p>"When My people walked out of Egypt, I led them by a cloud by day and fire by night. In the wilderness, I provided manna from heaven, teaching them the meaning of trust, provision, and rest. For it is written: ‘Six days ye shall gather, but on the seventh day, there shall be none’ (Exodus 16:26). I told them, ‘Tomorrow is the rest of the holy Sabbath unto the Lord. Bake that which ye will bake today, and seethe that ye will seethe; and that which remaineth lay up for you to be kept until the morning’ (Exodus 16:23). And behold, the manna did not rot; My blessing preserved it. This was a sign for generations: the Sabbath is a covenant, a trust in My provision, a day set apart from human toil. Yet My people tested Me. Some went out to gather manna on the seventh day, doubting My word. I rebuked them: ‘How long refuse ye to keep My commandments and My laws?’ (Exodus 16:28). The Sabbath is not a suggestion; it is My command. To honor it is to walk in obedience and receive My blessing. In their tents and cities, I gave them laws and statutes to protect the Sabbath. It was a day of rest for the young, the old, the stranger, and the servant. It was not for the privileged alone. ‘Ye shall keep the Sabbath, therefore, for it is holy unto you… that ye may know that I am the Lord your God’ (Exodus 31:14–15). The Sabbath also teaches spiritual lessons. Six days are for labor, human effort, and worldly concerns. The seventh day is a call to cease, to trust, to commune with Me. It is a shadow of eternal rest: ‘For he that is entered into His rest, he also hath ceased from his own works, as God did from His’ (Hebrews 4:10). My children, Israel’s example is a warning and a guide. When they obeyed, they prospered; when they ignored the Sabbath, they suffered confusion and loss. I desire the same for you. Keep the Sabbath, honor My command, and let it teach you humility, reliance, and joy in My provision. The manna was bread from heaven, but the Sabbath is life from heaven. Obedience to My command is more than ritual; it is fellowship with Me, a rhythm that marks My people. ‘Blessed is the man that keepeth the Sabbath from polluting it’ (Isaiah 56:2). Walk in the footsteps of Israel, not in their rebellion, and find true rest."</p>
+        </div>
 
-    <div class="chapter">
-        <h2 id="chapter-8">📖 Chapter 8: The Early Church and the Sabbath – Did the Apostles Change the Day?</h2>
-        <p>"When My Son ascended to heaven, He left His disciples to teach, guide, and shepherd My people. Many have asked: ‘Did the apostles change the Sabbath to Sunday?’ Hear My Word: they did not. In the book of Acts and the epistles, My people continued to observe the Sabbath as I commanded. ‘And he reasoned in the synagogue every Sabbath, and persuaded both Jews and Greeks’ (Acts 18:4). Paul, the apostle to the Gentiles, went to the synagogue on the Sabbath, teaching and preaching My truth. Not one verse commands a shift to Sunday; not one command of Mine was broken. The early believers honored the seventh day from evening to evening. They gathered in homes, synagogues, and open places to worship, pray, study the Scriptures, and fellowship. Sabbath-keeping was their covenantal rhythm, reflecting obedience, rest, and communion with Me. Some point to references of gatherings on the first day of the week. These were not replacements of the Sabbath, but additional meetings, often for instruction or breaking of bread. ‘Upon the first day of the week, when the disciples came together to break bread…’ (Acts 20:7). Observe carefully: Sabbath observance is never abolished. These gatherings were voluntary, not commanded as a replacement. I warned My children through the apostles: obedience to My law is eternal. ‘Think not that I am come to destroy the law, or the prophets: I am not come to destroy, but to fulfil’ (Matthew 5:17). The Sabbath remains holy, a sign of covenant and rest, from My creation to eternity. The early church faced persecution, confusion, and false teaching. Yet faithful believers kept My Sabbath, even as others followed human traditions. They honored the seventh day, not as a burden, but as a delight, a refuge, and a mark of covenant relationship with Me. My children, the apostles did not change the day. The Sabbath is eternal. Human tradition may deceive, but My Word stands. ‘The seventh day is the Sabbath of the Lord thy God’ (Exodus 20:10). Keep it holy, as the apostles did, and walk in My blessing and rest."</p>
-    </div>
+        <div class="chapter">
+            <h2 id="chapter-7">📖 Chapter 7: The Sabbath and Jesus – Restored Meaning and Redemption</h2>
+            <p>"When I sent My Son, Jesus, into the world, He came not to abolish My law, but to fulfill it and restore its true meaning. Many misunderstood the Sabbath, thinking it a burden or a set of restrictions. Yet He declared: ‘The Sabbath was made for man, and not man for the Sabbath’ (Mark 2:27). Jesus walked among men, teaching them that the Sabbath is a gift, a day of blessing, of restoration, of healing. He healed the sick, gave sight to the blind, and freed the oppressed on the Sabbath. Not to break My command, but to show its purpose: life, mercy, and fellowship with Me. ‘The Son of Man is Lord even of the Sabbath’ (Mark 2:28). He corrected false interpretations. The Pharisees had added human rules, turning My holy day into a legalistic burden. Jesus showed that true Sabbath-keeping is not just ceasing from work, but doing good, loving mercy, and walking humbly with Me. ‘It is lawful to do good on the Sabbath’ (Matthew 12:12). Through His life, Jesus revealed the deeper meaning: the Sabbath points to rest in Me. As My people ceased from labor, they were reminded of the eternal rest promised to all who believe: ‘There remaineth therefore a rest to the people of God’ (Hebrews 4:9). Jesus’ example restored the Sabbath to its original purpose — a day to honor Me, to rest from worldly toil, to heal, to teach, and to commune with God. He invites all who are weary to come and find true rest. ‘Come unto Me, all ye that labour and are heavy laden, and I will give you rest’ (Matthew 11:28). Therefore, My children, to honor the Sabbath as Jesus did is to honor Me, to embrace mercy, obedience, and true spiritual rest. Keep the seventh day holy, from evening to evening, as I commanded from creation. Do not follow human tradition; follow My Word. In this obedience, you shall find blessing, guidance, and eternal fellowship with Me."</p>
+        </div>
 
-    <div class="chapter">
-        <h2 id="chapter-9">📖 Chapter 9: The Rise of Sunday Worship – From Rome to Modern Christianity: What Changed?</h2>
-        <p>"My children, listen and understand. The Sabbath I sanctified at creation—the seventh day—was kept by Israel, by My Son, and by the apostles. Yet over centuries, human rulers sought to change what I had set apart. The Roman Empire, after the apostles had passed from the earth, became the stage for a great shift. Emperor Constantine, seeking unity among his subjects, declared Sunday a day of rest in AD 321, honoring the sun. This was not My command. It was the invention of men, blending pagan sun worship with a desire to consolidate power. Later, church leaders, influenced by this decree, began to elevate Sunday as the Lord’s Day. Many Christians, unaware of My command, accepted Sunday as a replacement for the Sabbath. Yet no Scripture commands this change. It is a human tradition. ‘The seventh day is the Sabbath of the Lord thy God’ (Exodus 20:10) — unchanged, unbroken, eternal. Through the centuries, Sunday observance spread across nations, while the seventh day was neglected or forgotten. Calendars, laws, and society aligned with human authority rather than My Word. Kings, councils, and priests sanctioned it, claiming divine authority. But I, the Lord, remained unaltered. My covenant with the seventh day stands. Many today still follow Sunday worship, believing it is the biblical command. Yet I call My people back to the truth. The Sabbath is a sign of obedience, a day of rest, blessing, and communion with Me. Human tradition cannot replace My holy day. Remember: the shift from Sabbath to Sunday was man’s invention, influenced by political power and pagan practice, not by Me. Those who return to the seventh day, observing it from evening to evening, honor My law, My covenant, and My creation. ‘Blessed is the man that keepeth the Sabbath from polluting it’ (Isaiah 56:2). Keep My Sabbath, My children. Let no human decree obscure the command I wrote with My own hand. My holy day endures forever, a sanctuary in time, a rhythm of rest, and a sign of eternal covenant."</p>
-    </div>
+        <div class="chapter">
+            <h2 id="chapter-8">📖 Chapter 8: The Early Church and the Sabbath – Did the Apostles Change the Day?</h2>
+            <p>"When My Son ascended to heaven, He left His disciples to teach, guide, and shepherd My people. Many have asked: ‘Did the apostles change the Sabbath to Sunday?’ Hear My Word: they did not. In the book of Acts and the epistles, My people continued to observe the Sabbath as I commanded. ‘And he reasoned in the synagogue every Sabbath, and persuaded both Jews and Greeks’ (Acts 18:4). Paul, the apostle to the Gentiles, went to the synagogue on the Sabbath, teaching and preaching My truth. Not one verse commands a shift to Sunday; not one command of Mine was broken. The early believers honored the seventh day from evening to evening. They gathered in homes, synagogues, and open places to worship, pray, study the Scriptures, and fellowship. Sabbath-keeping was their covenantal rhythm, reflecting obedience, rest, and communion with Me. Some point to references of gatherings on the first day of the week. These were not replacements of the Sabbath, but additional meetings, often for instruction or breaking of bread. ‘Upon the first day of the week, when the disciples came together to break bread…’ (Acts 20:7). Observe carefully: Sabbath observance is never abolished. These gatherings were voluntary, not commanded as a replacement. I warned My children through the apostles: obedience to My law is eternal. ‘Think not that I am come to destroy the law, or the prophets: I am not come to destroy, but to fulfil’ (Matthew 5:17). The Sabbath remains holy, a sign of covenant and rest, from My creation to eternity. The early church faced persecution, confusion, and false teaching. Yet faithful believers kept My Sabbath, even as others followed human traditions. They honored the seventh day, not as a burden, but as a delight, a refuge, and a mark of covenant relationship with Me. My children, the apostles did not change the day. The Sabbath is eternal. Human tradition may deceive, but My Word stands. ‘The seventh day is the Sabbath of the Lord thy God’ (Exodus 20:10). Keep it holy, as the apostles did, and walk in My blessing and rest."</p>
+        </div>
 
-    <div class="chapter">
-        <h2 id="chapter-10">📖 Chapter 10: The Seal of God vs. the Mark of the Beast – Sabbath in Prophecy</h2>
-        <p>"My children, hear My voice. I gave the Sabbath as a sign of My covenant, a seal between Me and My people: ‘Ye shall keep the Sabbath, therefore, for it is holy unto you… that ye may know that I am the Lord that sanctify you’ (Exodus 31:13). This seal marks obedience, faithfulness, and loyalty to Me. But in the last days, many will be deceived by the powers of the world. Revelation speaks of a mark, the mark of the beast, given to those who worship the traditions of men instead of My commandments: ‘He causeth all, both small and great, rich and poor, free and bond, to receive a mark in their right hand, or in their foreheads’ (Revelation 13:16). Those who reject My Sabbath and follow the human-invented day—without understanding My law—walk dangerously close to the mark of deception. The Sabbath is not only a day of rest; it is a sign of loyalty, a spiritual test, and a covenantal seal. Keep it, and you carry My mark; ignore it, and you align with rebellion. Daniel also foretold a time of persecution and confusion, when many would be deceived by false worship: ‘And he shall speak great words against the most High, and shall wear out the saints of the most High’ (Daniel 7:25). Those who hold fast to My commandments, including the Sabbath, will be preserved. The seal of God is evident in obedience, in keeping the seventh day holy, from evening to evening. It is a mark of truth, love, and covenant loyalty. Do not be led astray by human authority, false tradition, or popular custom. My law endures forever: ‘The seventh day is the Sabbath of the Lord thy God’ (Exodus 20:10). Walk in My ways, My children, and you shall bear My seal. It is a sign of protection, blessing, and fellowship. Reject the lies of man-made worship, honor the seventh day, and you shall be counted among the faithful in the last days."</p>
-    </div>
+        <div class="chapter">
+            <h2 id="chapter-9">📖 Chapter 9: The Rise of Sunday Worship – From Rome to Modern Christianity: What Changed?</h2>
+            <p>"My children, listen and understand. The Sabbath I sanctified at creation—the seventh day—was kept by Israel, by My Son, and by the apostles. Yet over centuries, human rulers sought to change what I had set apart. The Roman Empire, after the apostles had passed from the earth, became the stage for a great shift. Emperor Constantine, seeking unity among his subjects, declared Sunday a day of rest in AD 321, honoring the sun. This was not My command. It was the invention of men, blending pagan sun worship with a desire to consolidate power. Later, church leaders, influenced by this decree, began to elevate Sunday as the Lord’s Day. Many Christians, unaware of My command, accepted Sunday as a replacement for the Sabbath. Yet no Scripture commands this change. It is a human tradition. ‘The seventh day is the Sabbath of the Lord thy God’ (Exodus 20:10) — unchanged, unbroken, eternal. Through the centuries, Sunday observance spread across nations, while the seventh day was neglected or forgotten. Calendars, laws, and society aligned with human authority rather than My Word. Kings, councils, and priests sanctioned it, claiming divine authority. But I, the Lord, remained unaltered. My covenant with the seventh day stands. Many today still follow Sunday worship, believing it is the biblical command. Yet I call My people back to the truth. The Sabbath is a sign of obedience, a day of rest, blessing, and communion with Me. Human tradition cannot replace My holy day. Remember: the shift from Sabbath to Sunday was man’s invention, influenced by political power and pagan practice, not by Me. Those who return to the seventh day, observing it from evening to evening, honor My law, My covenant, and My creation. ‘Blessed is the man that keepeth the Sabbath from polluting it’ (Isaiah 56:2). Keep My Sabbath, My children. Let no human decree obscure the command I wrote with My own hand. My holy day endures forever, a sanctuary in time, a rhythm of rest, and a sign of eternal covenant."</p>
+        </div>
 
-    <div class="chapter">
-        <h2 id="chapter-11">📖 Chapter 11: Evening Worship – Entering Rest</h2>
-        <p>"My children, hear and understand My order of time. From the very beginning, I established that a day begins in the evening: ‘And the evening and the morning were the first day’ (Genesis 1:5). Evening is the doorway into rest, the sacred threshold where labor ends and My blessing begins. The Sabbath begins at evening, at sunset, marking a transition from toil to holiness. In Israel, this rhythm was observed faithfully: families would light lamps, prepare meals, and cease work, entering into a day set apart for Me. ‘Ye shall kindle no fire throughout your habitations upon the Sabbath day’ (Exodus 35:3). Work stops; worship begins. Evening worship is more than ritual; it is a spiritual act of surrender. It signals the cessation of human effort and the recognition that life, rest, and provision come from Me. The evening marks the entrance into covenantal rest, a time to bless, to meditate, to commune, and to reflect upon My goodness. Consider the pattern I established: from evening to evening, the Sabbath is kept holy. The evening is a door to the sacred, a pause in the busyness of life. When My children honor this, they align with My rhythm, receiving peace, restoration, and spiritual renewal. Neglecting the evening worship is to miss the start of My blessing. The Sabbath is sanctified not only by time, but by obedience and reverence. Enter My rest in the evening, and you shall walk in My light, guided and protected throughout the coming day. Thus, My children, let the evening be your doorway into holiness. Cease your labor, lift your hearts, and step into the rest I ordained at creation. For My Sabbath is a gift, a sanctuary in time, a reflection of eternal rest, and the blessing begins at evening."</p>
-    </div>
+        <div class="chapter">
+            <h2 id="chapter-10">📖 Chapter 10: The Seal of God vs. the Mark of the Beast – Sabbath in Prophecy</h2>
+            <p>"My children, hear My voice. I gave the Sabbath as a sign of My covenant, a seal between Me and My people: ‘Ye shall keep the Sabbath, therefore, for it is holy unto you… that ye may know that I am the Lord that sanctify you’ (Exodus 31:13). This seal marks obedience, faithfulness, and loyalty to Me. But in the last days, many will be deceived by the powers of the world. Revelation speaks of a mark, the mark of the beast, given to those who worship the traditions of men instead of My commandments: ‘He causeth all, both small and great, rich and poor, free and bond, to receive a mark in their right hand, or in their foreheads’ (Revelation 13:16). Those who reject My Sabbath and follow the human-invented day—without understanding My law—walk dangerously close to the mark of deception. The Sabbath is not only a day of rest; it is a sign of loyalty, a spiritual test, and a covenantal seal. Keep it, and you carry My mark; ignore it, and you align with rebellion. Daniel also foretold a time of persecution and confusion, when many would be deceived by false worship: ‘And he shall speak great words against the most High, and shall wear out the saints of the Most High’ (Daniel 7:25). Those who hold fast to My commandments, including the Sabbath, will be preserved. The seal of God is evident in obedience, in keeping the seventh day holy, from evening to evening. It is a mark of truth, love, and covenant loyalty. Do not be led astray by human authority, false tradition, or popular custom. My law endures forever: ‘The seventh day is the Sabbath of the Lord thy God’ (Exodus 20:10). Walk in My ways, My children, and you shall bear My seal. It is a sign of protection, blessing, and fellowship. Reject the lies of man-made worship, honor the seventh day, and you shall be counted among the faithful in the last days."</p>
+        </div>
 
-    <div class="chapter">
-        <h2 id="chapter-12">📖 Chapter 12: Morning Worship – Walking in Light</h2>
-        <p>"My children, just as the Sabbath begins at evening, so each day begins in My light. Morning is a time of awakening, a sacred opportunity to walk in My presence, to commit your day to Me, and to seek guidance, strength, and blessing. ‘But I will sing of thy power; yea, I will sing aloud of thy mercy in the morning: for thou hast been my defense and refuge in the day of my trouble’ (Psalm 59:16). To rise in the morning and worship Me is to align your heart with the rhythm of heaven. As the sun rises, it illuminates the earth; likewise, My Word illuminates the soul of those who seek Me at the start of the day. Morning worship is not a mere ritual; it is a declaration that you trust Me with your time, your labor, and your life. The early Israelites and My faithful children would begin the day with prayer, study of My Word, and acts of devotion. ‘Seven times a day do I praise thee because of thy righteous judgments’ (Psalm 119:164). Walking in light in the morning strengthens the spirit, protects against temptation, and sets the tone for obedience, joy, and faithfulness. Morning worship complements the Sabbath and all holy days. While evening marks entry into rest, morning marks entry into light, life, and purpose. It is a time to consecrate your thoughts, your plans, and your actions to Me, acknowledging My authority and blessing over all things. Therefore, My children, rise with the light, speak to Me, and let your first thoughts and actions honor Me. Walking in light each morning ensures that your day, your Sabbath, and your life remain consecrated, holy, and aligned with My eternal plan."</p>
-    </div>
+        <div class="chapter">
+            <h2 id="chapter-11">📖 Chapter 11: Evening Worship – Entering Rest</h2>
+            <p>"My children, hear and understand My order of time. From the very beginning, I established that a day begins in the evening: ‘And the evening and the morning were the first day’ (Genesis 1:5). Evening is the doorway into rest, the sacred threshold where labor ends and My blessing begins. The Sabbath begins at evening, at sunset, marking a transition from toil to holiness. In Israel, this rhythm was observed faithfully: families would light lamps, prepare meals, and cease work, entering into a day set apart for Me. ‘Ye shall kindle no fire throughout your habitations upon the Sabbath day’ (Exodus 35:3). Work stops; worship begins. Evening worship is more than ritual; it is a spiritual act of surrender. It signals the cessation of human effort and the recognition that life, rest, and provision come from Me. The evening marks the entrance into covenantal rest, a time to bless, to meditate, to commune, and to reflect upon My goodness. Consider the pattern I established: from evening to evening, the Sabbath is kept holy. The evening is a door to the sacred, a pause in the busyness of life. When My children honor this, they align with My rhythm, receiving peace, restoration, and spiritual renewal. Neglecting the evening worship is to miss the start of My blessing. The Sabbath is sanctified not only by time, but by obedience and reverence. Enter My rest in the evening, and you shall walk in My light, guided and protected throughout the coming day. Thus, My children, let the evening be your doorway into holiness. Cease your labor, lift your hearts, and step into the rest I ordained at creation. For My Sabbath is a gift, a sanctuary in time, a reflection of eternal rest, and the blessing begins at evening."</p>
+        </div>
 
-    <div class="chapter">
-        <h2 id="chapter-13">📖 Chapter 13: The Sabbath and Family – Rest, Worship, Unity, and Joy at Home</h2>
-        <p>"My children, the Sabbath is not only a personal blessing; it is a gift for families, a time to grow together in faith, love, and obedience. From creation, I designed family as the first unit of society, and the Sabbath is the rhythm that strengthens it. On the seventh day, families are called to cease from work, to rest, and to commune with Me together. ‘Six days shalt thou labor, and do all thy work: but the seventh day is the Sabbath of the Lord thy God…’ (Exodus 20:9–10). This day is for parents to teach children My law, to share stories of My faithfulness, and to build a legacy of worship. Sabbath at home is a sanctuary. Families can read My Word aloud, pray together, sing praises, and reflect on the wonders of creation. Meals become holy fellowship, conversations become instruction in righteousness, and hearts are united in love and reverence for Me. Conflict, stress, and worldly distractions are set aside. The Sabbath restores relationships. Husbands, wives, parents, and children find joy and peace in the shared obedience to My command. ‘And thou shalt teach them diligently unto thy children, and shalt talk of them when thou sittest in thine house, and when thou walkest by the way, and when thou liest down, and when thou risest up’ (Deuteronomy 6:7). Families who honor the Sabbath together also witness blessing. Children learn obedience, humility, and reverence. Adults experience rest, renewal, and divine guidance. The home becomes a reflection of My kingdom, where love, joy, and holiness dwell. My children, make the Sabbath a day of family. Enter My rest together, rejoice in Me, and let your household be a living testament of My covenant. In this way, the Sabbath becomes more than a day—it becomes a holy rhythm of unity, instruction, and eternal blessing."</p>
-    </div>
+        <div class="chapter">
+            <h2 id="chapter-12">📖 Chapter 12: Morning Worship – Walking in Light</h2>
+            <p>"My children, just as the Sabbath begins at evening, so each day begins in My light. Morning is a time of awakening, a sacred opportunity to walk in My presence, to commit your day to Me, and to seek guidance, strength, and blessing. ‘But I will sing of thy power; yea, I will sing aloud of thy mercy in the morning: for thou hast been my defense and refuge in the day of my trouble’ (Psalm 59:16). To rise in the morning and worship Me is to align your heart with the rhythm of heaven. As the sun rises, it illuminates the earth; likewise, My Word illuminates the soul of those who seek Me at the start of the day. Morning worship is not a mere ritual; it is a declaration that you trust Me with your time, your labor, and your life. The early Israelites and My faithful children would begin the day with prayer, study of My Word, and acts of devotion. ‘Seven times a day do I praise thee because of thy righteous judgments’ (Psalm 119:164). Walking in light in the morning strengthens the spirit, protects against temptation, and sets the tone for obedience, joy, and faithfulness. Morning worship complements the Sabbath and all holy days. While evening marks entry into rest, morning marks entry into light, life, and purpose. It is a time to consecrate your thoughts, your plans, and your actions to Me, acknowledging My authority and blessing over all things. Therefore, My children, rise with the light, speak to Me, and let your first thoughts and actions honor Me. Walking in light each morning ensures that your day, your Sabbath, and your life remain consecrated, holy, and aligned with My eternal plan."</p>
+        </div>
 
-    <div class="chapter">
-        <h2 id="chapter-14">📖 Chapter 14: The Sabbath and Creation Care – Rest for the Land, Animals, and Environment</h2>
-        <p>"My children, the Sabbath is not only a gift for mankind; it is a command for all creation. When I sanctified the seventh day, I established a rhythm of rest that extends beyond human labor, touching the land, the animals, and all I have made. In the wilderness, I instructed Israel: ‘Six years thou shalt sow thy land, and shalt gather in the fruits thereof: But the seventh year shall be a Sabbath of rest unto the land, a Sabbath for the Lord’ (Leviticus 25:3–4). The land, too, is My creation and requires rest. It is a time for soil to recover, for fertility to renew, and for the environment to flourish according to My design. The Sabbath also provides rest for animals. Work animals, livestock, and even creatures in the care of man are granted relief from labor. This teaches My children mercy and stewardship: all life is sacred, and obedience to the Sabbath reflects respect for My creation. The rhythm of rest extends to humanity’s stewardship of the environment. By ceasing work, planting, or overusing resources on the Sabbath, My people honor the natural order I established. The Sabbath becomes a witness to the wisdom of divine law: obedience brings blessing, care brings restoration, and rest sustains life. Creation itself is renewed when My people honor the Sabbath. Rivers, soil, and air are preserved; animals are protected; and human life is enriched with peace and reflection. My children learn that stewardship is obedience, and that rest is a divine act of preservation and worship. Remember, My children: the Sabbath is a covenantal sign not only between Me and man, but between Me and all creation. Keep it holy, from evening to evening, and you honor My law, restore the land, protect life, and walk in harmony with heaven’s rhythm."</p>
-    </div>
+        <div class="chapter">
+            <h2 id="chapter-13">📖 Chapter 13: The Sabbath and Family – Rest, Worship, Unity, and Joy at Home</h2>
+            <p>"My children, the Sabbath is not only a personal blessing; it is a gift for families, a time to grow together in faith, love, and obedience. From creation, I designed family as the first unit of society, and the Sabbath is the rhythm that strengthens it. On the seventh day, families are called to cease from work, to rest, and to commune with Me together. ‘Six days shalt thou labor, and do all thy work: but the seventh day is the Sabbath of the Lord thy God…’ (Exodus 20:9–10). This day is for parents to teach children My law, to share stories of My faithfulness, and to build a legacy of worship. Sabbath at home is a sanctuary. Families can read My Word aloud, pray together, sing praises, and reflect on the wonders of creation. Meals become holy fellowship, conversations become instruction in righteousness, and hearts are united in love and reverence for Me. Conflict, stress, and worldly distractions are set aside. The Sabbath restores relationships. Husbands, wives, parents, and children find joy and peace in the shared obedience to My command. ‘And thou shalt teach them diligently unto thy children, and shalt talk of them when thou sittest in thine house, and when thou walkest by the way, and when thou liest down, and when thou risest up’ (Deuteronomy 6:7). Families who honor the Sabbath together also witness blessing. Children learn obedience, humility, and reverence. Adults experience rest, renewal, and divine guidance. The home becomes a reflection of My kingdom, where love, joy, and holiness dwell. My children, make the Sabbath a day of family. Enter My rest together, rejoice in Me, and let your household be a living testament of My covenant. In this way, the Sabbath becomes more than a day—it becomes a holy rhythm of unity, instruction, and eternal blessing."</p>
+        </div>
 
-    <div class="chapter">
-        <h2 id="chapter-15">📖 Chapter 15: The Sabbath and Healing – How Jesus Used Sabbath for Restoration</h2>
-        <p>"My children, the Sabbath is a day of blessing, restoration, and healing. When My Son, Jesus, walked the earth, He demonstrated the true purpose of the Sabbath: to bring life, mercy, and wholeness to My creation. The Pharisees often criticized Him, saying, ‘It is not lawful to heal on the Sabbath’ (Luke 13:14). But Jesus answered with love and authority: ‘Is it lawful to do good on the Sabbath days, or to save life?’ (Matthew 12:12). Through His actions, He revealed that the Sabbath is meant for restoration, not restriction. Jesus healed the sick, gave sight to the blind, freed those oppressed by disease or affliction, and restored dignity to the downtrodden—all on the Sabbath. He taught that obedience to My law is not about burden, but about blessing, mercy, and life. The Sabbath is a sanctuary, a day to reflect My heart and compassion. The healing done on the Sabbath is both physical and spiritual. When My children enter My rest, cease from work, and commune with Me, hearts are restored, minds are renewed, and bodies are refreshed. The Sabbath becomes a sanctuary of peace, hope, and divine power. Consider these lessons: The Sabbath is a time for mercy, reflecting My character. Healing is part of Sabbath worship, showing that obedience brings life. Resting on the Sabbath restores the soul, mind, and body, aligning My children with heaven’s rhythm. Therefore, My children, honor the Sabbath as Jesus did. Enter into rest, extend mercy, seek healing, and rejoice in My restoration. The seventh day is holy, a gift for renewal and a testimony of My loving law."</p>
-    </div>
+        <div class="chapter">
+            <h2 id="chapter-14">📖 Chapter 14: The Sabbath and Creation Care – Rest for the Land, Animals, and Environment</h2>
+            <p>"My children, the Sabbath is not only a gift for mankind; it is a command for all creation. When I sanctified the seventh day, I established a rhythm of rest that extends beyond human labor, touching the land, the animals, and all I have made. In the wilderness, I instructed Israel: ‘Six years thou shalt sow thy land, and shalt gather in the fruits thereof: But the seventh year shall be a Sabbath of rest unto the land, a Sabbath for the Lord’ (Leviticus 25:3–4). The land, too, is My creation and requires rest. It is a time for soil to recover, for fertility to renew, and for the environment to flourish according to My design. The Sabbath also provides rest for animals. Work animals, livestock, and even creatures in the care of man are granted relief from labor. This teaches My children mercy and stewardship: all life is sacred, and obedience to the Sabbath reflects respect for My creation. The rhythm of rest extends to humanity’s stewardship of the environment. By ceasing work, planting, or overusing resources on the Sabbath, My people honor the natural order I established. The Sabbath becomes a witness to the wisdom of divine law: obedience brings blessing, care brings restoration, and rest sustains life. Creation itself is renewed when My people honor the Sabbath. Rivers, soil, and air are preserved; animals are protected; and human life is enriched with peace and reflection. My children learn that stewardship is obedience, and that rest is a divine act of preservation and worship. Remember, My children: the Sabbath is a covenantal sign not only between Me and man, but between Me and all creation. Keep it holy, from evening to evening, and you honor My law, restore the land, protect life, and walk in harmony with heaven’s rhythm."</p>
+        </div>
 
-    <div class="chapter">
-        <h2 id="chapter-16">📖 Chapter 16: The Sabbath in the End Times – A Final Test of Loyalty and Worship</h2>
-        <p>"My children, the Sabbath has always been a sign of obedience, loyalty, and covenant with Me. In the last days, this holy day will also serve as a final test of faithfulness. Revelation and prophecy reveal that many will be deceived by human traditions, yet those who keep My commandments, including the Sabbath, will stand as faithful witnesses. I declared through My prophets: ‘Here is the patience of the saints: here are they that keep the commandments of God, and the faith of Jesus’ (Revelation 14:12). Keeping the seventh day holy, from evening to evening, is a mark of loyalty, a demonstration of love for Me, and a sign that My Word is obeyed even in the face of persecution. In the end times, many will be pressured to follow man-made worship, reject the Sabbath, and honor human-invented days. Those who comply will bear the mark of deception. Those who remain steadfast in observing the Sabbath will bear My seal, a testament of obedience, faithfulness, and divine protection. The Sabbath serves as a spiritual refuge, a place of rest and communion, even amidst trials. It is a reminder that My law is eternal, that My promises are sure, and that those who honor Me will inherit life eternal. ‘Blessed is the man that doeth this, and the son of man shall find rest in him’ (Isaiah 66:23). My children, the end times will test hearts, minds, and worship. The seventh-day Sabbath is both a shield and a sign. Those who honor it will experience peace, guidance, and protection. It is a sacred rhythm that separates obedience from rebellion, truth from deception, and My faithful from the deceived. Stand firm, My children. Keep My Sabbath. Let no fear, pressure, or tradition sway you. Your loyalty today echoes into eternity, and the Sabbath is the eternal sign of that covenant."</p>
-    </div>
+        <div class="chapter">
+            <h2 id="chapter-15">📖 Chapter 15: The Sabbath and Healing – How Jesus Used Sabbath for Restoration</h2>
+            <p>"My children, the Sabbath is a day of blessing, restoration, and healing. When My Son, Jesus, walked the earth, He demonstrated the true purpose of the Sabbath: to bring life, mercy, and wholeness to My creation. The Pharisees often criticized Him, saying, ‘It is not lawful to heal on the Sabbath’ (Luke 13:14). But Jesus answered with love and authority: ‘Is it lawful to do good on the Sabbath days, or to save life?’ (Matthew 12:12). Through His actions, He revealed that the Sabbath is meant for restoration, not restriction. Jesus healed the sick, gave sight to the blind, freed those oppressed by disease or affliction, and restored dignity to the downtrodden—all on the Sabbath. He taught that obedience to My law is not about burden, but about blessing, mercy, and life. The Sabbath is a sanctuary, a day to reflect My heart and compassion. The healing done on the Sabbath is both physical and spiritual. When My children enter My rest, cease from work, and commune with Me, hearts are restored, minds are renewed, and bodies are refreshed. The Sabbath becomes a sanctuary of peace, hope, and divine power. Consider these lessons: The Sabbath is a time for mercy, reflecting My character. Healing is part of Sabbath worship, showing that obedience brings life. Resting on the Sabbath restores the soul, mind, and body, aligning My children with heaven’s rhythm. Therefore, My children, honor the Sabbath as Jesus did. Enter into rest, extend mercy, seek healing, and rejoice in My restoration. The seventh day is holy, a gift for renewal and a testimony of My loving law."</p>
+        </div>
 
-    <div class="chapter">
-        <h2 id="chapter-17">📖 Chapter 17: Sabbath and Freedom – Deliverance from Slavery, Sin, and Worldliness</h2>
-        <p>"My children, the Sabbath is a day of liberation, a gift of freedom from the burdens of the world, the chains of sin, and the oppression of toil. From the beginning, I established it as a sanctuary, a sacred pause where My people can step away from worldly slavery and enter My rest. In Egypt, Israel labored under harsh masters. Yet I delivered them, commanding them to remember My Sabbath: a symbol of liberation and covenant. ‘Six days shalt thou labor, and do all thy work: but the seventh day is the Sabbath of the Lord thy God’ (Exodus 20:9–10). The Sabbath was a reminder that freedom is not earned by labor alone, but through obedience to Me and trust in My provision. The Sabbath frees the spirit. When My children cease from work, worldly cares, and self-reliance, they acknowledge Me as Lord, and find rest for the soul. It restores perspective, refreshes hearts, and breaks the bondage of stress, greed, and worldly distraction. Jesus, My Son, demonstrated this freedom. On the Sabbath, He healed, taught, and ministered to those oppressed by sin and sickness. ‘The Son of Man is Lord even of the Sabbath’ (Mark 2:28). Through the Sabbath, humanity can taste the freedom of obedience, mercy, and grace. By keeping the Sabbath, My people are set apart. They are freed from the tyranny of man-made schedules, societal pressures, and the world’s pursuit of ceaseless labor. They are reminded that true freedom comes from aligning with My law, walking in My rest, and trusting My guidance. My children, let the Sabbath be your sanctuary of freedom. Enter My rest, release the burdens of the week, delight in My presence, and rejoice in liberation from sin, stress, and worldly distractions. For in the Sabbath, I give true freedom—a foretaste of the eternal rest promised in My kingdom."</p>
-    </div>
+        <div class="chapter">
+            <h2 id="chapter-16">📖 Chapter 16: The Sabbath in the End Times – A Final Test of Loyalty and Worship</h2>
+            <p>"My children, the Sabbath has always been a sign of obedience, loyalty, and covenant with Me. In the last days, this holy day will also serve as a final test of faithfulness. Revelation and prophecy reveal that many will be deceived by human traditions, yet those who keep My commandments, including the Sabbath, will stand as faithful witnesses. I declared through My prophets: ‘Here is the patience of the saints: here are they that keep the commandments of God, and the faith of Jesus’ (Revelation 14:12). Keeping the seventh day holy, from evening to evening, is a mark of loyalty, a demonstration of love for Me, and a sign that My Word is obeyed even in the face of persecution. In the end times, many will be pressured to follow man-made worship, reject the Sabbath, and honor human-invented days. Those who comply will bear the mark of deception. Those who remain steadfast in observing the Sabbath will bear My seal, a testament of obedience, faithfulness, and divine protection. The Sabbath serves as a spiritual refuge, a place of rest and communion, even amidst trials. It is a reminder that My law is eternal, that My promises are sure, and that those who honor Me will inherit life eternal. ‘Blessed is the man that doeth this, and the son of man shall find rest in him’ (Isaiah 66:23). My children, the end times will test hearts, minds, and worship. The seventh-day Sabbath is both a shield and a sign. Those who honor it will experience peace, guidance, and protection. It is a sacred rhythm that separates obedience from rebellion, truth from deception, and My faithful from the deceived. Stand firm, My children. Keep My Sabbath. Let no fear, pressure, or tradition sway you. Your loyalty today echoes into eternity, and the Sabbath is the eternal sign of that covenant."</p>
+        </div>
 
-    <div class="chapter">
-        <h2 id="chapter-18">📖 Chapter 18: The Sabbath in Heaven – “From One Sabbath to Another Shall All Flesh Come to Worship”</h2>
-        <p>"My children, the Sabbath is eternal, stretching beyond time, into eternity, and into My heavenly kingdom. As Isaiah declared: ‘And it shall come to pass, that from one new moon to another, and from one Sabbath to another, shall all flesh come to worship before me, saith the Lord’ (Isaiah 66:23). The Sabbath is not merely earthly—it is divine, everlasting, and a foretaste of the rest prepared for all faithful. In heaven, there is no toil or weariness, yet the rhythm of My holy Sabbath continues. It is a day of worship, communion, reflection, and joy. My people will gather from all nations, every tribe, and every language to honor Me, rejoicing in My creation and eternal presence. The Sabbath in heaven is a continuation of what I established on earth: a day set apart, holy, and blessed. The faithful who kept the seventh day in obedience and love will find their worship perfected, their rest complete, and their hearts fully aligned with Me. Even in eternity, the Sabbath serves as a reminder of My covenant: obedience brings blessing, faithfulness is rewarded, and My law endures forever. The rhythm of six days of labor followed by one day of rest is mirrored in heaven as worship and reverence to Me, where all creation acknowledges My sovereignty. My children, honor the Sabbath now, and you participate in the eternal pattern of heaven. Let your rest on the seventh day be a reflection of the rest that awaits all who love Me. The Sabbath is a sign, a gift, and a promise—a connection between the temporal and the eternal. Walk in My rhythm, and you shall worship with joy, from one Sabbath to another, forever in My presence."</p>
-    </div>
+        <div class="chapter">
+            <h2 id="chapter-17">📖 Chapter 17: Sabbath and Freedom – Deliverance from Slavery, Sin, and Worldliness</h2>
+            <p>"My children, the Sabbath is a day of liberation, a gift of freedom from the burdens of the world, the chains of sin, and the oppression of toil. From the beginning, I established it as a sanctuary, a sacred pause where My people can step away from worldly slavery and enter My rest. In Egypt, Israel labored under harsh masters. Yet I delivered them, commanding them to remember My Sabbath: a symbol of liberation and covenant. ‘Six days shalt thou labor, and do all thy work: but the seventh day is the Sabbath of the Lord thy God’ (Exodus 20:9–10). The Sabbath was a reminder that freedom is not earned by labor alone, but through obedience to Me and trust in My provision. The Sabbath frees the spirit. When My children cease from work, worldly cares, and self-reliance, they acknowledge Me as Lord, and find rest for the soul. It restores perspective, refreshes hearts, and breaks the bondage of stress, greed, and worldly distraction. Jesus, My Son, demonstrated this freedom. On the Sabbath, He healed, taught, and ministered to those oppressed by sin and sickness. ‘The Son of Man is Lord even of the Sabbath’ (Mark 2:28). Through the Sabbath, humanity can taste the freedom of obedience, mercy, and grace. By keeping the Sabbath, My people are set apart. They are freed from the tyranny of man-made schedules, societal pressures, and the world’s pursuit of ceaseless labor. They are reminded that true freedom comes from aligning with My law, walking in My rest, and trusting My guidance. My children, let the Sabbath be your sanctuary of freedom. Enter My rest, release the burdens of the week, delight in My presence, and rejoice in liberation from sin, stress, and worldly distractions. For in the Sabbath, I give true freedom—a foretaste of the eternal rest promised in My kingdom."</p>
+        </div>
 
-    <div class="chapter">
-        <h2 id="chapter-19">📖 Chapter 19: Common Questions Answered – What About Colossians 2? What About Paul’s Writings?</h2>
-        <p>"My children, many have questioned the Sabbath because of Paul’s writings. They ask, ‘Didn’t Paul say the law is abolished?’ or point to Colossians 2:16-17. Hear My Word clearly: Paul never abolished My law. He spoke against human traditions and legalism, not against the commandments I wrote with My own hand. Colossians 2:16-17 says: ‘Let no man therefore judge you in meat, or in drink, or in respect of an holyday, or of the new moon, or of the Sabbath days: Which are a shadow of things to come; but the body is of Christ.’ Understand, My children: Paul was addressing judgmental legalism and misuse of the law. The Sabbath was a shadow pointing to Me, the fulfillment of all rest and redemption. Paul also instructed believers to obey My commandments and walk in love. ‘All scripture is given by inspiration of God, and is profitable for doctrine, for reproof, for correction, for instruction in righteousness’ (2 Timothy 3:16). The Sabbath remains holy, a sign of covenant, obedience, and blessing. Some claim that Sabbath-keeping is for the Jews only. Yet Paul himself went to the synagogue on the Sabbath, teaching Jews and Gentiles alike (Acts 18:4). My law is eternal, meant for all who love Me, not limited by culture, nation, or time. Therefore, My children, do not be confused by misinterpretations. Keep My Sabbath holy. Do not allow human reasoning or selective reading to sway you. Paul honored My law, and so must all who follow him truly. Obedience to the Sabbath is a gift, a covenant, and a testimony of your love and faithfulness to Me."</p>
-    </div>
+        <div class="chapter">
+            <h2 id="chapter-18">📖 Chapter 18: The Sabbath in Heaven – “From One Sabbath to Another Shall All Flesh Come to Worship”</h2>
+            <p>"My children, the Sabbath is eternal, stretching beyond time, into eternity, and into My heavenly kingdom. As Isaiah declared: ‘And it shall come to pass, that from one new moon to another, and from one Sabbath to another, shall all flesh come to worship before me, saith the Lord’ (Isaiah 66:23). The Sabbath is not merely earthly—it is divine, everlasting, and a foretaste of the rest prepared for all faithful. In heaven, there is no toil or weariness, yet the rhythm of My holy Sabbath continues. It is a day of worship, communion, reflection, and joy. My people will gather from all nations, every tribe, and every language to honor Me, rejoicing in My creation and eternal presence. The Sabbath in heaven is a continuation of what I established on earth: a day set apart, holy, and blessed. The faithful who kept the seventh day in obedience and love will find their worship perfected, their rest complete, and their hearts fully aligned with Me. Even in eternity, the Sabbath serves as a reminder of My covenant: obedience brings blessing, faithfulness is rewarded, and My law endures forever. The rhythm of six days of labor followed by one day of rest is mirrored in heaven as worship and reverence to Me, where all creation acknowledges My sovereignty. My children, honor the Sabbath now, and you participate in the eternal pattern of heaven. Let your rest on the seventh day be a reflection of the rest that awaits all who love Me. The Sabbath is a sign, a gift, and a promise—a connection between the temporal and the eternal. Walk in My rhythm, and you shall worship with joy, from one Sabbath to another, forever in My presence."</p>
+        </div>
 
-    <div class="chapter">
-        <h2 id="chapter-20">📖 Chapter 20: Come Unto Rest – The Final Invitation of Christ: Sabbath as a Sign of Eternal Rest</h2>
-        <p>"My children, the Sabbath is more than a day; it is My invitation to enter into rest, peace, and fellowship with Me. From creation to eternity, I set apart the seventh day as holy, a sign of My love, covenant, and provision. Jesus calls to all who labor and are heavy-laden: ‘Come unto me, all ye that labour and are heavy laden, and I will give you rest’ (Matthew 11:28). The Sabbath is the earthly manifestation of this eternal rest—a day to cease from toil, from sin, and from the burdens of the world, and to delight in Me. Through the Sabbath, My children experience restoration: the body is renewed, the spirit is refreshed, and the soul rejoices in My presence. It is a covenantal sign, a sacred rhythm that points to eternal rest in My kingdom. ‘For he that hath entered into his rest, he also hath ceased from his own works, as God did from his’ (Hebrews 4:10). The Sabbath invites obedience, love, and faithfulness. It is a refuge from chaos, a sanctuary for families, a blessing for creation, and a testament to loyalty. Those who accept My invitation enter into harmony with My rhythm, walking in light, peace, and joy. My children, the Sabbath is eternal. It is a foretaste of heaven, a seal of covenant, and a witness to all generations. Come unto rest, honor the seventh day, and delight in the fullness of My blessing. Keep it holy from evening to evening, and you shall know My joy, My peace, and My eternal presence."</p>
-    </div>
+        <div class="chapter">
+            <h2 id="chapter-19">📖 Chapter 19: Common Questions Answered – What About Colossians 2? What About Paul’s Writings?</h2>
+            <p>"My children, many have questioned the Sabbath because of Paul’s writings. They ask, ‘Didn’t Paul say the law is abolished?’ or point to Colossians 2:16-17. Hear My Word clearly: Paul never abolished My law. He spoke against human traditions and legalism, not against the commandments I wrote with My own hand. Colossians 2:16-17 says: ‘Let no man therefore judge you in meat, or in drink, or in respect of an holyday, or of the new moon, or of the Sabbath days: Which are a shadow of things to come; but the body is of Christ.’ Understand, My children: Paul was addressing judgmental legalism and misuse of the law. The Sabbath was a shadow pointing to Me, the fulfillment of all rest and redemption. Paul also instructed believers to obey My commandments and walk in love. ‘All scripture is given by inspiration of God, and is profitable for doctrine, for reproof, for correction, for instruction in righteousness’ (2 Timothy 3:16). The Sabbath remains holy, a sign of covenant, obedience, and blessing. Some claim that Sabbath-keeping is for the Jews only. Yet Paul himself went to the synagogue on the Sabbath, teaching Jews and Gentiles alike (Acts 18:4). My law is eternal, meant for all who love Me, not limited by culture, nation, or time. Therefore, My children, do not be confused by misinterpretations. Keep My Sabbath holy. Do not allow human reasoning or selective reading to sway you. Paul honored My law, and so must all who follow him truly. Obedience to the Sabbath is a gift, a covenant, and a testimony of your love and faithfulness to Me."</p>
+        </div>
 
-    <div class="conclusion">
-        <h2>📖 Conclusion: Keep the Sabbath, Enter His Rest</h2>
-        <p>"My children, the Sabbath is more than a command—it is My gift, My rhythm, My sanctuary in time. From creation, through the lives of Israel, the ministry of My Son, the apostles’ faithful example, and even into eternity, the seventh day stands as a sign of covenant, blessing, and communion with Me. Through the Sabbath, you are invited to rest from toil, to enter My peace, and to experience restoration for your body, mind, and spirit. It is a day to honor Me, to strengthen families, to care for creation, to seek healing, and to walk in freedom from sin and worldly burdens. Do not be deceived by human traditions, false teachings, or popular customs that replace My holy day. Keep it from evening to evening, as I ordained at creation, and you shall bear My seal, live in My blessing, and experience the joy of obedience. The Sabbath points to eternity: a foretaste of heavenly rest, a sign of loyalty, and a testimony of faithfulness. As you walk in My rhythm, you reflect My character, participate in My covenant, and prepare your heart for the eternal rest I promise. Come unto My Sabbath, My children. Delight in it. Honor it. Walk in it. For in keeping My holy day, you enter the fullness of My love, My presence, and My eternal rest."</p>
-    </div>
+        <div class="chapter">
+            <h2 id="chapter-20">📖 Chapter 20: Come Unto Rest – The Final Invitation of Christ: Sabbath as a Sign of Eternal Rest</h2>
+            <p>"My children, the Sabbath is more than a day; it is My invitation to enter into rest, peace, and fellowship with Me. From creation to eternity, I set apart the seventh day as holy, a sign of My love, covenant, and provision. Jesus calls to all who labor and are heavy-laden: ‘Come unto me, all ye that labour and are heavy laden, and I will give you rest’ (Matthew 11:28). The Sabbath is the earthly manifestation of this eternal rest—a day to cease from toil, from sin, and from the burdens of the world, and to delight in Me. Through the Sabbath, My children experience restoration: the body is renewed, the spirit is refreshed, and the soul rejoices in My presence. It is a covenantal sign, a sacred rhythm that points to eternal rest in My kingdom. ‘For he that hath entered into his rest, he also hath ceased from his own works, as God did from his’ (Hebrews 4:10). The Sabbath invites obedience, love, and faithfulness. It is a refuge from chaos, a sanctuary for families, a blessing for creation, and a testament to loyalty. Those who accept My invitation enter into harmony with My rhythm, walking in light, peace, and joy. My children, the Sabbath is eternal. It is a foretaste of heaven, a seal of covenant, and a witness to all generations. Come unto rest, honor the seventh day, and delight in the fullness of My blessing. Keep it holy from evening to evening, and you shall know My joy, My peace, and My eternal presence."</p>
+        </div>
 
-    <div class="epilogue">
-        <h2>📖 Epilogue: A Personal Invitation to Rest</h2>
-        <p>"My children, as this book comes to a close, remember that the Sabbath is not only a day to follow—it is a relationship, a rhythm, and a gift from Me. It is a sacred space where time meets eternity, where your heart meets Mine, and where rest transforms your life. Many have misunderstood it. Some have neglected it. Some have replaced it with human traditions. But I call you back to the original, eternal truth: the seventh day, from evening to evening, is holy, blessed, and sanctified. Let this book be more than knowledge. Let it be a guide, a reminder, and a call to practice. Walk in the Sabbath as Jesus did: with mercy, love, and joy. Teach it to your children. Celebrate it with your family. Protect it in your home, your work, and your heart. The Sabbath is a preview of heaven. Each week, it offers a taste of eternal peace, a moment to align with My will, and an opportunity to rejoice in My presence. Do not let it pass unnoticed. Step into My rest, and let it refresh your soul, strengthen your faith, and renew your spirit. Come, My children, and keep the Sabbath. Enter fully into its blessing, and experience the fullness of My love, My peace, and My eternal rest."</p>
-    </div>
+        <div class="conclusion">
+            <h2>📖 Conclusion: Keep the Sabbath, Enter His Rest</h2>
+            <p>"My children, the Sabbath is more than a command—it is My gift, My rhythm, My sanctuary in time. From creation, through the lives of Israel, the ministry of My Son, the apostles’ faithful example, and even into eternity, the seventh day stands as a sign of covenant, blessing, and communion with Me. Through the Sabbath, you are invited to rest from toil, to enter My peace, and to experience restoration for your body, mind, and spirit. It is a day to honor Me, to strengthen families, to care for creation, to seek healing, and to walk in freedom from sin and worldly burdens. Do not be deceived by human traditions, false teachings, or popular customs that replace My holy day. Keep it from evening to evening, as I ordained at creation, and you shall bear My seal, live in My blessing, and experience the joy of obedience. The Sabbath points to eternity: a foretaste of heavenly rest, a sign of loyalty, and a testimony of faithfulness. As you walk in My rhythm, you reflect My character, participate in My covenant, and prepare your heart for the eternal rest I promise. Come unto My Sabbath, My children. Delight in it. Honor it. Walk in it. For in keeping My holy day, you enter the fullness of My love, My presence, and My eternal rest."</p>
+        </div>
 
-    <div class="fixed-buttons">
-        <a href="#top">🔝 Top</a>
-        <a href="home.html">🏡 Home</a>
-    </div>
-    
-  <!-- Floating Navigation -->
-  <div class="floating-nav">
-    <a href="index.html">🏡</a>
-    <a href="index2.html">📚</a>
-    <a href="index3.html">📹</a>
-    <a href="index4.html">✨</a>
-    <a href="#top">⬆️</a>
-  </div>
+        <div class="epilogue">
+            <h2>📖 Epilogue: A Personal Invitation to Rest</h2>
+            <p>"My children, as this book comes to a close, remember that the Sabbath is not only a day to follow—it is a relationship, a rhythm, and a gift from Me. It is a sacred space where time meets eternity, where your heart meets Mine, and where rest transforms your life. Many have misunderstood it. Some have neglected it. Some have replaced it with human traditions. But I call you back to the original, eternal truth: the seventh day, from evening to evening, is holy, blessed, and sanctified. Let this book be more than knowledge. Let it be a guide, a reminder, and a call to practice. Walk in the Sabbath as Jesus did: with mercy, love, and joy. Teach it to your children. Celebrate it with your family. Protect it in your home, your work, and your heart. The Sabbath is a preview of heaven. Each week, it offers a taste of eternal peace, a moment to align with My will, and an opportunity to rejoice in My presence. Do not let it pass unnoticed. Step into My rest, and let it refresh your soul, strengthen your faith, and renew your spirit. Come, My children, and keep the Sabbath. Enter fully into its blessing, and experience the fullness of My love, My peace, and My eternal rest."</p>
+        </div>
 
-  <footer>
-    © 2025 Bagenda Nicholas | The Voice of the Creator
-  </footer>
+        <div class="fixed-buttons">
+            <a href="#top">🔝 Top</a>
+            <a href="home.html">🏡 Home</a>
+        </div>
+        
+        <div class="floating-nav">
+            <a href="index.html">🏡</a>
+            <a href="index2.html">📚</a>
+            <a href="index3.html">📹</a>
+            <a href="index4.html">✨</a>
+            <a href="#top">⬆️</a>
+        </div>
+        
+        <div class="index9-btn">
+            <a href="index9.html">
+                <button>🚀 Index 9</button>
+            </a>
+        </div>
 
-</body>
-</html>
+    </div> <footer>
+        © 2025 Bagenda Nicholas | The Voice of the Creator
+    </footer>
 
-    <div class="index9-btn">
-        <a href="index9.html">
-            <button>🚀 Index 9</button>
-        </a>
-    </div>
 </body>
 </html>

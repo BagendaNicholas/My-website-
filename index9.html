@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nichole Needs Hi Li 💖</title>
 <style>
+/* Body */
 body {
   margin: 0;
   padding: 0;
@@ -13,7 +14,7 @@ body {
   color: #fff;
   text-align: center;
   overflow-x: hidden;
-  overflow-y: auto; /* allow vertical scrolling */
+  overflow-y: auto;
   position: relative;
   min-height: 100vh;
 }
@@ -83,12 +84,30 @@ body {
 }
 .gear:hover { background: #0ea5e9; color: white; }
 
+/* Scroll to top button */
+#scrollTopBtn {
+  display: none;
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  font-size: 2rem;
+  background: #38bdf8;
+  color: black;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 10;
+  transition: 0.3s;
+}
+#scrollTopBtn:hover { background: #0ea5e9; color: white; }
+
 /* Themes */
 .theme-light { background: linear-gradient(135deg, #f8fafc, #e2e8f0); color: #111; }
 .theme-dark { background: linear-gradient(135deg, #0f172a, #1e293b); color: #fff; }
 .theme-romantic { background: linear-gradient(135deg, #ec4899, #f472b6); color: #fff; }
 
-/* Raindrops */
+/* Rain and stars */
 .rain {
   position: absolute;
   width: 2px;
@@ -98,10 +117,18 @@ body {
   animation: fall linear infinite;
   z-index: 1;
 }
-@keyframes fall {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(100vh); }
+@keyframes fall { 0% { transform: translateY(0); } 100% { transform: translateY(100vh); } }
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: twinkle infinite alternate;
 }
+@keyframes twinkle { from { opacity:0.3; } to { opacity:1; } }
 </style>
 </head>
 <body id="top" class="theme-dark">
@@ -130,8 +157,11 @@ body {
 <!-- Gear -->
 <div class="gear" onclick="changeTheme()">⚙️</div>
 
+<!-- Scroll to top -->
+<button id="scrollTopBtn" onclick="scrollToTop()">⬆️</button>
+
 <script>
-// Messages to display
+// Messages
 const messages = [
   "✨ Welcome, my friend!",
   "💖 This is more than a page — it’s a story.",
@@ -145,7 +175,6 @@ const messages = [
 const presentationDiv = document.getElementById("presentation");
 let msgIndex = 0;
 let charIndex = 0;
-
 function typeMessage() {
   if(msgIndex < messages.length) {
     const currentMessage = messages[msgIndex];
@@ -174,27 +203,43 @@ function changeTheme() {
   document.body.classList.add(themes[currentTheme]);
 }
 
-// Unmute audio after user interaction
+// Unmute audio after interaction
 document.body.addEventListener("click", () => {
   const audio = document.getElementById("loveAudio");
   audio.muted = false;
   audio.play();
 });
 
-// Rain drops that scroll with content
-const scrollHeight = 3000; // approximate scrollable height
-for(let i=0;i<100;i++){
+// Scroll to top button logic
+const scrollTopBtn = document.getElementById("scrollTopBtn");
+window.onscroll = () => {
+  scrollTopBtn.style.display = (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) ? "block" : "none";
+};
+function scrollToTop() { window.scrollTo({top:0, behavior:'smooth'}); }
+
+// Rain drops
+const scrollHeight = 5000; // taller for endless feel
+for(let i=0;i<150;i++){
   const rainDrop = document.createElement("div");
   rainDrop.classList.add("rain");
   rainDrop.style.left = Math.random()*100 + "vw";
   rainDrop.style.animationDuration = (2 + Math.random()*3) + "s";
   rainDrop.style.opacity = 0.2 + Math.random()*0.8;
   rainDrop.style.height = 10 + Math.random()*20 + "px";
-  
-  // Random initial vertical position within scrollable area
   rainDrop.style.top = Math.random()*scrollHeight + "px";
-  
   document.body.appendChild(rainDrop);
+}
+
+// Stars
+for(let i=0;i<100;i++){
+  const star = document.createElement("div");
+  star.classList.add("star");
+  star.style.left = Math.random()*100 + "vw";
+  star.style.top = Math.random()*scrollHeight + "px";
+  star.style.width = 1 + Math.random()*3 + "px";
+  star.style.height = star.style.width;
+  star.style.animationDuration = (1 + Math.random()*2) + "s";
+  document.body.appendChild(star);
 }
 </script>
 

@@ -7,22 +7,31 @@
 <style>
   body {
     font-family: 'Arial', sans-serif;
-    background: #ffffff;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #001d3d, #003566);
+    color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0;
     min-height: 100vh;
+    transition: background 0.5s;
   }
 
-  /* Header icons */
+  /* Night mode toggle */
+  .dark-mode {
+    background: #000814;
+    color: #ffffff;
+  }
+
   .header {
     width: 100%;
     max-width: 900px;
     display: flex;
     justify-content: flex-end;
-    padding: 20px 0;
+    padding: 20px;
     gap: 15px;
+    position: relative;
   }
 
   .header img {
@@ -30,7 +39,6 @@
     cursor: pointer;
   }
 
-  /* Search section */
   .search-container {
     display: flex;
     flex-direction: column;
@@ -44,7 +52,7 @@
     margin-bottom: 20px;
   }
 
-  /* Google CSE search bar styling */
+  /* Google-style search box */
   .gcse-searchbox-only input.gsc-input {
     width: 400px !important;
     height: 45px !important;
@@ -64,14 +72,12 @@
     cursor: pointer;
   }
 
-  /* Search results container */
   .gcse-searchresults-only {
     width: 100%;
     max-width: 900px;
     margin-top: 40px;
   }
 
-  /* Microphone icon */
   .mic-icon {
     position: absolute;
     right: 140px;
@@ -84,54 +90,80 @@
   footer {
     margin-top: 40px;
     font-size: 14px;
-    color: #5f6368;
+    color: #ffffffa0;
+  }
+
+  /* Floating site light */
+  .site-light {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255,255,200,0.7) 0%, rgba(255,255,200,0) 70%);
+    border-radius: 50%;
+    box-shadow: 0 0 80px 30px rgba(255,255,200,0.5);
+    transform: translateX(-50%);
+    animation: floatLight 6s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes floatLight {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-30px); }
   }
 
 </style>
 </head>
 <body>
 
+<div class="site-light"></div>
+
 <!-- Header -->
 <div class="header">
   <img src="https://img.icons8.com/color/48/000000/apps.png" alt="Apps">
   <img src="https://img.icons8.com/color/48/000000/avatar.png" alt="Profile">
+  <img src="https://img.icons8.com/ios-filled/50/ffffff/moon-symbol.png" alt="Toggle Dark Mode" style="width:28px; cursor:pointer;" onclick="toggleDarkMode()">
 </div>
 
 <!-- Search Section -->
 <div class="search-container">
   <img class="search-logo" src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" alt="Logo">
 
-  <!-- Google CSE Search Box -->
   <div style="position: relative;">
     <script async src="https://cse.google.com/cse.js?cx=254199eb340f84c1b"></script>
     <div class="gcse-searchbox-only"></div>
-    <img class="mic-icon" src="https://img.icons8.com/ios-filled/50/000000/microphone.png" alt="Voice Search" onclick="startVoiceSearch()">
+    <img class="mic-icon" src="https://img.icons8.com/ios-filled/50/ffffff/microphone.png" alt="Voice Search" onclick="startVoiceSearch()">
   </div>
 
-  <!-- Search Results -->
   <div class="gcse-searchresults-only"></div>
 </div>
 
 <footer>© 2025 Bagenda Global Search</footer>
 
-<!-- Voice Search Script -->
 <script>
-function startVoiceSearch() {
-  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-  recognition.lang = 'en-US';
-  recognition.start();
+  function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+  }
 
-  recognition.onresult = function(event) {
-    const transcript = event.results[0][0].transcript;
-    const input = document.querySelector('.gsc-input');
-    input.value = transcript;
-    document.querySelector('.gsc-search-button').click();
-  };
+  // Voice Search
+  function startVoiceSearch() {
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = 'en-US';
+    recognition.start();
 
-  recognition.onerror = function(event) {
-    alert("Voice search failed. Try typing instead.");
-  };
-}
+    recognition.onresult = function(event) {
+      const transcript = event.results[0][0].transcript;
+      const input = document.querySelector('.gsc-input');
+      input.value = transcript;
+      document.querySelector('.gsc-search-button').click();
+    };
+
+    recognition.onerror = function(event) {
+      alert("Voice search failed. Try typing instead.");
+    };
+  }
 </script>
 
 </body>

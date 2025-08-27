@@ -1,30 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Main Pages -->
   <url>
-    <loc>https://bagendanicholas.github.io/My-website-/</loc>
+    <loc>https://bagenda.netlify.app/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://bagendanicholas.github.io/My-website-/#home</loc>
-    <changefreq>monthly</changefreq>
+    <loc>https://bagenda.netlify.app/index2.html</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://bagendanicholas.github.io/My-website-/#about</loc>
+    <loc>https://bagenda.netlify.app/index3.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://bagenda.netlify.app/index4.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://bagenda.netlify.app/index5.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://bagenda.netlify.app/index6.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://bagenda.netlify.app/index7.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://bagendanicholas.github.io/My-website-/#projects</loc>
+    <loc>https://bagenda.netlify.app/index8.html</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Books -->
+  <url>
+    <loc>https://bagenda.netlify.app/Am-The-Creator/index.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://bagendanicholas.github.io/My-website-/#contact</loc>
+    <loc>https://bagenda.netlify.app/Breaking-the-Chains-of-Addiction/index.html</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.9</priority>
   </url>
+  <url>
+    <loc>https://bagenda.netlify.app/The-Hidden-Truth/index.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://bagenda.netlify.app/I-Felt-in-Love-with-a-Shadow/index.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://bagenda.netlify.app/The-Day-My-Heart-Knew/index.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://bagenda.netlify.app/Friends-I-Wonder/index.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- PDFs & Resources -->
+  <url>
+    <loc>https://bagenda.netlify.app/assets/docs/Getting-Out-of-WPS-Office.pdf</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Media Assets (images, audio, etc.) -->
+  <url>
+    <loc>https://bagenda.netlify.app/assets/images/cover1.jpg</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bagenda.netlify.app/assets/images/cover2.jpg</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bagenda.netlify.app/assets/audio/love-music.mp3</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- External Reference Sites -->
   <url>
     <loc>https://bagendanicholas.websites.co.in/</loc>
     <changefreq>monthly</changefreq>
@@ -35,15 +110,5 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url>
-    <loc>https://eu.docworkspace.com/d/sILCzp8ecAq2ItMAG?sa=601.1123</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://github.com/BagendaNicholas/My-website-/blob/main/Getting%20Out%20of-WPS%20Office.pdf</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <!-- Add more URLs for each important static asset, blog post, or resource as needed -->
+
 </urlset>

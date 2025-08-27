@@ -16,14 +16,16 @@
     align-items: center;
     min-height: 100vh;
     transition: background 0.5s;
+    overflow-x: hidden;
   }
 
-  /* Night mode toggle */
+  /* Dark mode toggle */
   .dark-mode {
     background: #000814;
     color: #ffffff;
   }
 
+  /* Header icons */
   .header {
     width: 100%;
     max-width: 900px;
@@ -32,6 +34,7 @@
     padding: 20px;
     gap: 15px;
     position: relative;
+    z-index: 1;
   }
 
   .header img {
@@ -45,52 +48,12 @@
     align-items: center;
     gap: 20px;
     width: 100%;
+    z-index: 1;
   }
 
   .search-logo {
     width: 272px;
     margin-bottom: 20px;
-  }
-
-  /* Google-style search box */
-  .gcse-searchbox-only input.gsc-input {
-    width: 400px !important;
-    height: 45px !important;
-    font-size: 16px;
-    padding: 0 15px;
-    border-radius: 24px;
-    border: 1px solid #dcdcdc;
-    box-shadow: 0 1px 6px rgba(32,33,36,.28);
-    outline: none;
-  }
-
-  .gcse-searchbox-only input.gsc-search-button {
-    height: 45px !important;
-    border-radius: 0 24px 24px 0;
-    background: #f8f9fa;
-    border: 1px solid #dcdcdc;
-    cursor: pointer;
-  }
-
-  .gcse-searchresults-only {
-    width: 100%;
-    max-width: 900px;
-    margin-top: 40px;
-  }
-
-  .mic-icon {
-    position: absolute;
-    right: 140px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    width: 24px;
-  }
-
-  footer {
-    margin-top: 40px;
-    font-size: 14px;
-    color: #ffffffa0;
   }
 
   /* Floating site light */
@@ -114,6 +77,21 @@
     50% { transform: translateX(-50%) translateY(-30px); }
   }
 
+  .mic-icon {
+    position: absolute;
+    right: 140px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 24px;
+  }
+
+  footer {
+    margin-top: 40px;
+    font-size: 14px;
+    color: #ffffffa0;
+  }
+
 </style>
 </head>
 <body>
@@ -131,23 +109,25 @@
 <div class="search-container">
   <img class="search-logo" src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" alt="Logo">
 
-  <div style="position: relative;">
+  <div style="position: relative; width: 100%; max-width: 900px;">
+    <!-- Google CSE search -->
     <script async src="https://cse.google.com/cse.js?cx=254199eb340f84c1b"></script>
-    <div class="gcse-searchbox-only"></div>
+    <div class="gcse-search"></div>
+
+    <!-- Microphone icon -->
     <img class="mic-icon" src="https://img.icons8.com/ios-filled/50/ffffff/microphone.png" alt="Voice Search" onclick="startVoiceSearch()">
   </div>
-
-  <div class="gcse-searchresults-only"></div>
 </div>
 
 <footer>© 2025 Bagenda Global Search</footer>
 
 <script>
+  // Dark mode toggle
   function toggleDarkMode() {
     document.body.classList.toggle('dark-mode');
   }
 
-  // Voice Search
+  // Voice search
   function startVoiceSearch() {
     const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
     recognition.lang = 'en-US';
@@ -157,7 +137,8 @@
       const transcript = event.results[0][0].transcript;
       const input = document.querySelector('.gsc-input');
       input.value = transcript;
-      document.querySelector('.gsc-search-button').click();
+      const searchButton = document.querySelector('.gsc-search-button');
+      if(searchButton) searchButton.click();
     };
 
     recognition.onerror = function(event) {

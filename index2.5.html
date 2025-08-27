@@ -10,7 +10,7 @@ header {background:#161b22; padding:15px; text-align:center; font-size:22px; fon
 #chatbox {flex:1; padding:15px; overflow-y:auto; display:flex; flex-direction:column; gap:10px;}
 .message {max-width:75%; padding:10px 15px; border-radius:15px; line-height:1.4; word-wrap:break-word;}
 .user {align-self:flex-end; background:#00ffcc; color:#000; border-bottom-right-radius:0;}
-.bot {align-self:flex-start; background:#2c2f33; border-bottom-left-radius:0;}
+.bot {align-self:flex-start; background:#2c2f33; border-bottom-left-radius:0; position:relative;}
 footer {display:flex; align-items:center; padding:10px; background:#161b22; border-top:2px solid #00ffcc;}
 #userInput {flex:1; padding:10px 15px; border-radius:20px; border:none; outline:none; font-size:16px;}
 button {background:#00ffcc; border:none; padding:10px 15px; margin-left:8px; border-radius:50%; cursor:pointer; font-size:18px;}
@@ -18,6 +18,8 @@ button:hover {background:#00ccaa;}
 .result-link {color:#00ccff; text-decoration:none; display:block; margin:5px 0;}
 .result-link:hover {text-decoration:underline;}
 #modeBtn {border-radius:20px; padding:5px 15px; margin-right:8px; font-size:14px;}
+.typing {display:inline-block; width:6px; height:6px; margin:0 2px; background:#00ffcc; border-radius:50%; animation: blink 1s infinite;}
+@keyframes blink {0%, 80%, 100% {opacity:0;} 40% {opacity:1;}}
 </style>
 </head>
 <body>
@@ -47,7 +49,10 @@ const CX = "254199eb340f84c1b";
 const personalityResponses = {
   "who made you": "I was made by the Creator, and powered by NicholasAI 🤖✨",
   "what is god": "God is the Creator of everything, the source of love, light, and life 💫🙏",
-  "how are you": "I'm glowing bright and ready to chat! 🌟 How about you?"
+  "how are you": "I'm glowing bright and ready to chat! 🌟 How about you?",
+  "hello": "Hey there! 💕 So happy to see you!",
+  "hi": "Hi! 😎 How's your day going?",
+  "thank you": "You're welcome! 😇💖",
 };
 
 function appendMessage(sender, text, isHTML=false){
@@ -72,6 +77,15 @@ function getPersonalityResponse(query){
   return null;
 }
 
+function showTypingDots(){
+  const dots = document.createElement("div");
+  dots.className="message bot";
+  dots.innerHTML='<span class="typing"></span><span class="typing"></span><span class="typing"></span>';
+  chatbox.appendChild(dots);
+  chatbox.scrollTop = chatbox.scrollHeight;
+  return dots;
+}
+
 async function sendMessage(){
   const query = userInput.value.trim();
   if(!query) return;
@@ -79,8 +93,12 @@ async function sendMessage(){
   userInput.value="";
 
   if(mode==="chat"){
-    const reply = getPersonalityResponse(query) || "🤔 Hmm, let's chat more about that!";
-    appendMessage("bot", reply);
+    const typingDots = showTypingDots();
+    setTimeout(()=>{
+      typingDots.remove();
+      const reply = getPersonalityResponse(query) || "🤔 Hmm, let's chat more about that! 💬✨";
+      appendMessage("bot", reply);
+    }, 1000 + Math.random()*1000); // random delay 1-2s
   } else {
     appendMessage("bot", `🤖 Searching for "${query}"...`);
     try{

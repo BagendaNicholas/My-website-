@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NicholasAI – Chat Search 🤖</title>
+  <title>NicholasAI – Mini Google Chat 🤖</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -14,14 +14,17 @@
       flex-direction: column;
       height: 100vh;
     }
+
     header {
-      background: #161b22;
+      background: linear-gradient(90deg, #00ffcc, #0077aa);
       padding: 15px;
       text-align: center;
       font-size: 22px;
       font-weight: bold;
       border-bottom: 2px solid #00ffcc;
+      box-shadow: 0 0 20px #00ffcc;
     }
+
     #chatbox {
       flex: 1;
       padding: 15px;
@@ -29,25 +32,37 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      scroll-behavior: smooth;
     }
+
     .message {
       max-width: 75%;
       padding: 10px 15px;
       border-radius: 15px;
       line-height: 1.4;
       word-wrap: break-word;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeIn 0.3s forwards;
     }
+
+    @keyframes fadeIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .user {
       align-self: flex-end;
       background: #00ffcc;
       color: #000;
       border-bottom-right-radius: 0;
     }
+
     .bot {
       align-self: flex-start;
       background: #2c2f33;
       border-bottom-left-radius: 0;
     }
+
     footer {
       display: flex;
       align-items: center;
@@ -55,6 +70,7 @@
       background: #161b22;
       border-top: 2px solid #00ffcc;
     }
+
     #userInput {
       flex: 1;
       padding: 10px 15px;
@@ -62,7 +78,10 @@
       border: none;
       outline: none;
       font-size: 16px;
+      background: #0d1117;
+      color: #fff;
     }
+
     button {
       background: #00ffcc;
       border: none;
@@ -71,31 +90,75 @@
       border-radius: 50%;
       cursor: pointer;
       font-size: 18px;
+      transition: background 0.3s;
     }
+
     button:hover {
       background: #00ccaa;
     }
+
+    .result-preview {
+      margin: 5px 0;
+    }
+
     .result-link {
       color: #00ccff;
       text-decoration: none;
-      display: block;
-      margin: 5px 0;
+      font-weight: bold;
     }
+
     .result-link:hover {
       text-decoration: underline;
+    }
+
+    .result-preview p {
+      margin: 3px 0;
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .result-preview img {
+      width: 100px;
+      height: auto;
+      margin-top: 5px;
+      border-radius: 5px;
+    }
+
+    .spinner {
+      border: 4px solid #2c2f33;
+      border-top: 4px solid #00ffcc;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+      margin-left: 10px;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    .footer-buttons {
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
   </style>
 </head>
 <body>
   <header>🌐 NicholasAI – Mini Google Chat</header>
+
   <div id="chatbox">
     <div class="message bot">👋 Hello! Ask me anything and I’ll search it for you!</div>
   </div>
 
   <footer>
     <input id="userInput" type="text" placeholder="Type your question...">
-    <button onclick="sendMessage()">➤</button>
-    <button onclick="startVoice()">🎤</button>
+    <div class="footer-buttons">
+      <button onclick="sendMessage()">➤</button>
+      <button onclick="startVoice()">🎤</button>
+      <button onclick="chatbox.innerHTML=''">🗑</button>
+    </div>
   </footer>
 
   <script>
@@ -116,26 +179,49 @@
       chatbox.scrollTop = chatbox.scrollHeight;
     }
 
+    function speak(text){
+      if('speechSynthesis' in window){
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = "en-US";
+        speechSynthesis.speak(utter);
+      }
+    }
+
     async function sendMessage() {
       const query = userInput.value.trim();
       if(!query) return;
       appendMessage("user", query);
       userInput.value = "";
-      appendMessage("bot", "🤖 Searching for \"" + query + "\"...");
+
+      // Spinner while searching
+      const spinner = document.createElement("div");
+      spinner.className = "spinner";
+      chatbox.appendChild(spinner);
+      chatbox.scrollTop = chatbox.scrollHeight;
 
       try {
         const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CX}&q=${encodeURIComponent(query)}`);
         const data = await res.json();
+        chatbox.removeChild(spinner);
+
         let results = "";
         if(data.items){
           data.items.slice(0,5).forEach(item => {
-            results += `<a class="result-link" href="${item.link}" target="_blank">${item.title}</a>`;
+            results += `<div class="result-preview">
+              <a class="result-link" href="${item.link}" target="_blank">${item.title}</a>
+              <p>${item.snippet}</p>
+              ${item.pagemap?.cse_thumbnail ? `<img src="${item.pagemap.cse_thumbnail[0].src}" />` : ""}
+            </div>`;
           });
         } else {
           results = "No results found.";
         }
+
         appendMessage("bot", results, true);
+        speak("Here are the top results for " + query);
+
       } catch(err){
+        chatbox.removeChild(spinner);
         appendMessage("bot", "⚠️ Error fetching results.");
         console.error(err);
       }
@@ -152,10 +238,10 @@
       recognition.onresult = function(event){
         const text = event.results[0][0].transcript;
         userInput.value = text;
+        sendMessage();
       };
     }
 
-    // Optional: press Enter to send
     userInput.addEventListener("keydown", function(e){
       if(e.key === "Enter") sendMessage();
     });

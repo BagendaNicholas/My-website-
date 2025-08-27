@@ -27,7 +27,7 @@ body {
   white-space: pre-wrap;
   text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff1493, 0 0 20px #ff69b4;
   color: #ff69b4;
-  line-height: 2.2rem;
+  line-height: 2.4rem;
 }
 
 /* Buttons */
@@ -107,20 +107,25 @@ body {
 .theme-dark { background: linear-gradient(135deg, #0f172a, #1e293b); color: #fff; }
 .theme-romantic { background: linear-gradient(135deg, #ec4899, #f472b6); color: #fff; }
 
-/* Rain and stars */
-.rain {
+/* Rain, stars, and hearts */
+.rain, .heart, .star {
   position: absolute;
+  z-index: 1;
+}
+
+.rain {
   width: 2px;
   background: #38bdf8;
   opacity: 0.7;
   top: 0;
   animation: fall linear infinite;
-  z-index: 1;
 }
-@keyframes fall { 0% { transform: translateY(0); } 100% { transform: translateY(100vh); } }
-
+.heart {
+  font-size: 1.5rem;
+  opacity: 0.8;
+  animation: drift linear infinite;
+}
 .star {
-  position: absolute;
   width: 2px;
   height: 2px;
   background: white;
@@ -128,7 +133,12 @@ body {
   opacity: 0.8;
   animation: twinkle infinite alternate;
 }
+
+/* Animations */
+@keyframes fall { 0% { transform: translateY(0); } 100% { transform: translateY(100vh); } }
+@keyframes drift { 0% { transform: translateY(0); } 100% { transform: translateY(100vh); } }
 @keyframes twinkle { from { opacity:0.3; } to { opacity:1; } }
+
 </style>
 </head>
 <body id="top" class="theme-dark">
@@ -161,7 +171,7 @@ body {
 <button id="scrollTopBtn" onclick="scrollToTop()">⬆️</button>
 
 <script>
-// Messages
+// Sweet messages with emojis
 const messages = [
   "✨ Welcome, my friend!",
   "💖 This is more than a page — it’s a story.",
@@ -169,7 +179,8 @@ const messages = [
   "🎶 With music, love, and light.",
   "🍫 Sweet moments and laughter.",
   "🌹 Love floating like stars.",
-  "🚀 Explore, feel, and enjoy every bit!"
+  "🚀 Explore, feel, and enjoy every bit!",
+  "💕 💞 ♥️ 🌧💥❤️‍🩹👀🏄🏄🚵‍♂️🛀🌿🍀⚘️🥀🌏💧💧💧💧💧🎗🎁🎎"
 ];
 
 const presentationDiv = document.getElementById("presentation");
@@ -218,8 +229,8 @@ window.onscroll = () => {
 function scrollToTop() { window.scrollTo({top:0, behavior:'smooth'}); }
 
 // Rain drops
-const scrollHeight = 5000; // taller for endless feel
-for(let i=0;i<150;i++){
+const scrollHeight = 5000;
+for(let i=0;i<100;i++){
   const rainDrop = document.createElement("div");
   rainDrop.classList.add("rain");
   rainDrop.style.left = Math.random()*100 + "vw";
@@ -231,7 +242,7 @@ for(let i=0;i<150;i++){
 }
 
 // Stars
-for(let i=0;i<100;i++){
+for(let i=0;i<80;i++){
   const star = document.createElement("div");
   star.classList.add("star");
   star.style.left = Math.random()*100 + "vw";
@@ -240,6 +251,20 @@ for(let i=0;i<100;i++){
   star.style.height = star.style.width;
   star.style.animationDuration = (1 + Math.random()*2) + "s";
   document.body.appendChild(star);
+}
+
+// Floating hearts with emojis
+const heartEmojis = ["💕","💞","♥️","💥","❤️‍🩹","👀","🏄","🚵‍♂️","🛀","🌿","🍀","⚘️","🥀","🌏","💧","🎗","🎁","🎎"];
+for(let i=0;i<50;i++){
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.textContent = heartEmojis[Math.floor(Math.random()*heartEmojis.length)];
+  heart.style.left = Math.random()*100 + "vw";
+  heart.style.fontSize = 12 + Math.random()*20 + "px";
+  heart.style.opacity = 0.5 + Math.random()*0.5;
+  heart.style.top = Math.random()*scrollHeight + "px";
+  heart.style.animationDuration = (4 + Math.random()*6) + "s";
+  document.body.appendChild(heart);
 }
 </script>
 

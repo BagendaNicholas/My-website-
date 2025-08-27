@@ -13,8 +13,9 @@ body {
   color: #fff;
   text-align: center;
   overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: auto; /* allow vertical scrolling */
   position: relative;
+  min-height: 100vh;
 }
 
 /* Neon glowing text */
@@ -22,7 +23,6 @@ body {
   margin-top: 50px;
   font-size: 2rem;
   font-weight: bold;
-  min-height: 150px;
   white-space: pre-wrap;
   text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff1493, 0 0 20px #ff69b4;
   color: #ff69b4;
@@ -92,16 +92,15 @@ body {
 .rain {
   position: absolute;
   width: 2px;
-  height: 15px;
   background: #38bdf8;
   opacity: 0.7;
-  top: -20px;
+  top: 0;
   animation: fall linear infinite;
   z-index: 1;
 }
 @keyframes fall {
-  0% { top: -20px; }
-  100% { top: 100vh; }
+  0% { transform: translateY(0); }
+  100% { transform: translateY(100vh); }
 }
 </style>
 </head>
@@ -182,7 +181,8 @@ document.body.addEventListener("click", () => {
   audio.play();
 });
 
-// Rain drops
+// Rain drops that scroll with content
+const scrollHeight = 3000; // approximate scrollable height
 for(let i=0;i<100;i++){
   const rainDrop = document.createElement("div");
   rainDrop.classList.add("rain");
@@ -190,6 +190,10 @@ for(let i=0;i<100;i++){
   rainDrop.style.animationDuration = (2 + Math.random()*3) + "s";
   rainDrop.style.opacity = 0.2 + Math.random()*0.8;
   rainDrop.style.height = 10 + Math.random()*20 + "px";
+  
+  // Random initial vertical position within scrollable area
+  rainDrop.style.top = Math.random()*scrollHeight + "px";
+  
   document.body.appendChild(rainDrop);
 }
 </script>

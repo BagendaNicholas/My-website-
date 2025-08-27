@@ -5,74 +5,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nichole Needs Hi Li 💖</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Georgia', serif;
-      background: radial-gradient(circle at center, #000015, #000);
+      background: radial-gradient(circle at center, #0a0015, #000);
       color: white;
       line-height: 1.6;
       scroll-behavior: smooth;
-      padding-bottom: 100px;
+      overflow-x: hidden;
+      padding-bottom: 150px;
     }
 
-    header {
-      background-color: #333;
-      padding: 1rem 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      text-align: center;
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin: 10px 0;
-    }
-
-    nav a {
-      color: #ffffff;
-      text-decoration: none;
-      padding-bottom: 4px;
-    }
-
-    nav a.active {
-      font-weight: bold;
-      border-bottom: 2px solid #00ffcc;
-    }
-
+    /* Galaxy + Stars */
     .galaxy {
       position: absolute;
       width: 100%;
       height: 100vh;
       background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/ESO_-_Milky_Way.jpg/1024px-ESO_-_Milky_Way.jpg') no-repeat center center;
       background-size: cover;
-      opacity: 0.1;
-      z-index: -1;
+      opacity: 0.15;
+      z-index: -2;
     }
 
-    .stars {
+    .stars, .hearts {
       position: absolute;
       width: 100%;
       height: 100vh;
-      z-index: 0;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .star, .falling-heart {
+      position: absolute;
+      opacity: 0.8;
+      animation-timing-function: linear;
     }
 
     .star {
-      position: absolute;
       background: white;
       border-radius: 50%;
       width: 2px;
       height: 2px;
-      opacity: 0.8;
       animation: twinkle 2s infinite ease-in-out;
     }
 
@@ -81,54 +58,45 @@
       50% { opacity: 1; }
     }
 
+    /* Floating love messages */
     .message {
       position: absolute;
-      color: #ff69b4;
-      font-size: 3rem;
+      font-size: 2.8rem;
       font-weight: bold;
       white-space: nowrap;
+      color: #ff69b4;
+      text-shadow: 0 0 10px #ff1493, 0 0 20px #ff69b4;
       animation: float 15s linear infinite;
       z-index: 2;
     }
 
     @keyframes float {
-      0% {
-        transform: translateX(100vw) translateY(0);
-        opacity: 0;
-      }
+      0% { transform: translateX(110vw) translateY(0); opacity: 0; }
       10% { opacity: 1; }
       50% { transform: translateX(-50vw) translateY(-20vh); }
       90% { opacity: 1; }
-      100% {
-        transform: translateX(-100vw) translateY(10vh);
-        opacity: 0;
-      }
+      100% { transform: translateX(-120vw) translateY(10vh); opacity: 0; }
     }
 
+    /* Spaceship */
     .spaceship {
       position: absolute;
       top: 80%;
       left: 100%;
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       animation: flyShip 25s linear infinite;
       z-index: 2;
-      white-space: nowrap;
     }
 
     @keyframes flyShip {
-      0% {
-        left: 100%;
-        transform: rotate(0deg);
-      }
-      100% {
-        left: -50%;
-        transform: rotate(360deg);
-      }
+      0% { left: 110%; transform: rotate(0deg); }
+      100% { left: -60%; transform: rotate(360deg); }
     }
 
     .spaceship span {
       display: inline-block;
       animation: rainbow 2s linear infinite;
+      font-weight: bold;
     }
 
     @keyframes rainbow {
@@ -142,6 +110,7 @@
       100% { color: red; }
     }
 
+    /* Central Love Box */
     .center-message {
       position: absolute;
       top: 45%;
@@ -150,88 +119,79 @@
       text-align: center;
       font-size: 2rem;
       background: rgba(0,0,0,0.5);
-      padding: 1rem 2rem;
+      padding: 1.2rem 2.5rem;
       border: 2px solid #ff69b4;
       border-radius: 20px;
+      box-shadow: 0 0 15px #ff69b4;
       z-index: 3;
-      color: white;
     }
 
+    /* Orbiting Heart */
     .orbit-heart {
       position: absolute;
-      top: 10vh;
+      top: 12vh;
       left: 50%;
-      transform: translateX(-50%);
-      animation: orbit 8s linear infinite;
       font-size: 2.5rem;
+      animation: orbit 6s linear infinite;
       color: #ff69b4;
+      text-shadow: 0 0 15px #ff1493;
       z-index: 2;
     }
 
     @keyframes orbit {
-      0% { transform: translateX(-50%) rotate(0deg) translateY(0); }
-      50% { transform: translateX(-50%) rotate(180deg) translateY(30px); }
-      100% { transform: translateX(-50%) rotate(360deg) translateY(0); }
+      0% { transform: rotate(0deg) translateX(80px) rotate(0deg); }
+      100% { transform: rotate(360deg) translateX(80px) rotate(-360deg); }
     }
 
-    button {
+    /* Buttons */
+    .fixed-buttons, .index2-1-btn {
       position: fixed;
-      bottom: 30px;
-      right: 30px;
-      padding: 10px 20px;
-      font-size: 1rem;
-      background: #ff69b4;
-      border: none;
-      border-radius: 10px;
-      color: white;
-      cursor: pointer;
-      z-index: 3;
-      box-shadow: 0 0 10px #ff69b4;
-    }
-
-    button:hover {
-      background: #ff85c1;
-    }
-
-    audio {
-      position: fixed;
-      bottom: 10px;
-      left: 10px;
-      z-index: 10;
-    }
-
-    .fixed-buttons {
-      position: fixed;
-      bottom: 30px;
-      left: 30px;
       display: flex;
       flex-direction: column;
       gap: 10px;
       z-index: 5;
     }
 
-    .fixed-buttons a {
+    .fixed-buttons { bottom: 30px; left: 30px; }
+    .index2-1-btn { bottom: 30px; right: 30px; }
+
+    .fixed-buttons a, .index2-1-btn a button {
       background: #ffffff22;
       color: white;
       padding: 10px 15px;
       border-radius: 6px;
       font-weight: bold;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-      text-align: center;
+      box-shadow: 0 0 10px rgba(255, 105, 180, 0.8);
       text-decoration: none;
+      transition: 0.3s;
+      border: none;
+      cursor: pointer;
     }
 
-    .fixed-buttons a:hover {
-      background: #ffffff44;
+    .fixed-buttons a:hover, .index2-1-btn a button:hover {
+      background: #ff69b4;
+      box-shadow: 0 0 20px #ff1493;
+    }
+
+    /* Falling hearts */
+    .falling-heart {
+      font-size: 1.5rem;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
     }
   </style>
 </head>
 <body>
 
-
   <div class="galaxy"></div>
   <div class="stars"></div>
+  <div class="hearts"></div>
 
+  <!-- Floating Love Messages -->
   <div class="message" style="top: 20vh; animation-delay: 0s;">I need you Hi Li 💖</div>
   <div class="message" style="top: 40vh; animation-delay: 5s;">You are my galaxy 🌌</div>
   <div class="message" style="top: 60vh; animation-delay: 10s;">My heart orbits yours 💫</div>
@@ -239,47 +199,40 @@
   <div class="orbit-heart">💗</div>
   <div class="spaceship">🚀 <span>Nichole’s Ship</span></div>
 
+  <!-- Central Love -->
   <div class="center-message">
     From Nichole to Hi Li 💕<br>
     In this galaxy and the next... <br>
     I will always be with you 🌌
   </div>
 
+  <!-- Music -->
   <audio id="loveAudio" autoplay muted loop>
     <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
     Your browser does not support the audio tag.
   </audio>
 
-  <button onclick="alert('💌 A cosmic love message has been sent to Hi Li!')">
-    Click to Send Love 💌
-  </button>
-
-  <div class="fixed-buttons">
-       <a href="#top">🔝 Top</a>
-     <a href="home.html">🏡 Home</a>
-  </div>
-   <!-- Navigation Buttons -->
+  <!-- Navigation -->
   <div class="fixed-buttons">
     <a href="#top">🔝 Top</a>
     <a href="home.html">🏡 Home</a>
   </div>
 
-  <div class="index2.1-btn">
-    <a href="index2.1.html">
-      <button>🚀 Index 2.1</button>
-         </a>
-    <button> https://ndikiryanicholas.github.io/Lillian-/index.html
-</button>
-  </a>
+  <div class="index2-1-btn">
+    <a href="index2.1.html"><button>🚀 Index 2.1</button></a>
+    <a href="https://ndikiryanicholas.github.io/Lillian-/index.html" target="_blank">
+      <button>🌍 Visit Lillian</button>
+    </a>
+    <button onclick="alert('💌 A cosmic love message has been sent to Hi Li!')">Click to Send Love 💌</button>
   </div>
 
-
   <script>
+    // Enable audio after load
     window.addEventListener('load', function () {
       const audio = document.getElementById("loveAudio");
       setTimeout(() => {
         audio.muted = false;
-        audio.play().catch(e => {
+        audio.play().catch(() => {
           console.log("Autoplay blocked. Waiting for user interaction.");
         });
       }, 1000);
@@ -291,6 +244,7 @@
       audio.play();
     }, { once: true });
 
+    // Generate stars
     const starsContainer = document.querySelector('.stars');
     for (let i = 0; i < 200; i++) {
       const star = document.createElement('div');
@@ -299,6 +253,19 @@
       star.style.left = `${Math.random() * 100}vw`;
       star.style.animationDuration = `${1 + Math.random() * 2}s`;
       starsContainer.appendChild(star);
+    }
+
+    // Falling hearts
+    const heartsContainer = document.querySelector('.hearts');
+    const heartSymbols = ["❤️","💖","💗","💕","💓"];
+    for (let i = 0; i < 30; i++) {
+      const heart = document.createElement('div');
+      heart.classList.add('falling-heart');
+      heart.textContent = heartSymbols[Math.floor(Math.random()*heartSymbols.length)];
+      heart.style.left = `${Math.random() * 100}vw`;
+      heart.style.animationDuration = `${4 + Math.random() * 6}s`;
+      heart.style.fontSize = `${1 + Math.random()*2}rem`;
+      heartsContainer.appendChild(heart);
     }
   </script>
 

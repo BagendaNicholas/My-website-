@@ -1,230 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nichole Needs Hi Li 💖</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nicholas Bagenda – Portfolio</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/framer-motion@10.12.16/dist/framer-motion.umd.js"></script>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
-      font-family: 'Georgia', serif;
-      background: radial-gradient(circle at center, #0a0015, #000);
+      background: linear-gradient(to right, #0f172a, #1e293b);
       color: white;
-      line-height: 1.6;
-      scroll-behavior: smooth;
-      overflow-x: hidden;
-      padding-bottom: 150px;
-      transition: background 0.5s ease, color 0.5s ease;
+      font-family: 'Poppins', sans-serif;
     }
-
-    /* THEMES */
-    .theme-dark { background: radial-gradient(circle at center, #0a0015, #000); color: white; }
-    .theme-light { background: #f1f5f9; color: #0f172a; }
-    .theme-colorful { background: linear-gradient(135deg, #1d4ed8, #9333ea, #f43f5e); color: white; }
-
-    /* Galaxy + Stars */
-    .galaxy {
-      position: absolute;
-      width: 100%;
-      height: 100vh;
-      background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/ESO_-_Milky_Way.jpg/1024px-ESO_-_Milky_Way.jpg') no-repeat center center;
-      background-size: cover;
-      opacity: 0.15;
-      z-index: -2;
+    .gear {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #1e293b;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: 0.3s;
     }
-    .stars, .hearts {
-      position: absolute; width: 100%; height: 100vh; top: 0; left: 0;
-      overflow: hidden; pointer-events: none; z-index: -1;
+    .gear:hover {
+      background: #334155;
     }
-    .star, .falling-heart { position: absolute; opacity: 0.8; animation-timing-function: linear; }
-    .star { background: white; border-radius: 50%; width: 2px; height: 2px; animation: twinkle 2s infinite ease-in-out; }
-    @keyframes twinkle { 0%,100% {opacity:0.1;} 50% {opacity:1;} }
-
-    /* Floating love messages */
-    .message {
-      position: absolute; font-size: 2.8rem; font-weight: bold; white-space: nowrap;
-      color: #ff69b4; text-shadow: 0 0 10px #ff1493, 0 0 20px #ff69b4;
-      animation: float 15s linear infinite; z-index: 2;
+    .theme-panel {
+      display: none;
+      position: fixed;
+      top: 60px;
+      right: 20px;
+      background: #1e293b;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
     }
-    @keyframes float {
-      0% { transform: translateX(110vw) translateY(0); opacity: 0; }
-      10% { opacity: 1; }
-      50% { transform: translateX(-50vw) translateY(-20vh); }
-      90% { opacity: 1; }
-      100% { transform: translateX(-120vw) translateY(10vh); opacity: 0; }
+    .theme-option {
+      margin: 5px 0;
+      padding: 8px;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
     }
-
-    /* Spaceship */
-    .spaceship {
-      position: absolute; top: 80%; left: 100%; font-size: 1.5rem;
-      animation: flyShip 25s linear infinite; z-index: 2;
+    .theme-option:hover {
+      background: #475569;
     }
-    @keyframes flyShip { 0%{left:110%;transform:rotate(0deg);} 100%{left:-60%;transform:rotate(360deg);} }
-    .spaceship span { display:inline-block; animation: rainbow 2s linear infinite; font-weight:bold; }
-    @keyframes rainbow {
-      0% { color: red; } 14% { color: orange; } 28% { color: yellow; }
-      42% { color: green; } 57% { color: cyan; } 71% { color: blue; }
-      85% { color: violet; } 100% { color: red; }
+    .typing {
+      font-size: 1.5rem;
+      border-right: 2px solid #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      animation: typing 3s steps(40, end) forwards, blink 0.7s step-end infinite;
     }
-
-    /* Central Love Box */
-    .center-message {
-      position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%);
-      text-align: center; font-size: 2rem; background: rgba(0,0,0,0.5);
-      padding: 1.2rem 2.5rem; border: 2px solid #ff69b4; border-radius: 20px;
-      box-shadow: 0 0 15px #ff69b4; z-index: 3;
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
     }
-
-    /* Orbiting Heart */
-    .orbit-heart {
-      position: absolute; top: 12vh; left: 50%; font-size: 2.5rem;
-      animation: orbit 6s linear infinite; color: #ff69b4;
-      text-shadow: 0 0 15px #ff1493; z-index: 2;
+    @keyframes blink {
+      50% { border-color: transparent; }
     }
-    @keyframes orbit {
-      0% { transform: rotate(0deg) translateX(80px) rotate(0deg); }
-      100% { transform: rotate(360deg) translateX(80px) rotate(-360deg); }
-    }
-
-    /* Buttons */
-    .fixed-buttons, .index2-1-btn {
-      position: fixed; display: flex; flex-direction: column; gap: 10px; z-index: 5;
-    }
-    .fixed-buttons { bottom: 30px; left: 30px; }
-    .index2-1-btn { bottom: 30px; right: 30px; }
-    .fixed-buttons a, .index2-1-btn a button {
-      background: #ffffff22; color: white; padding: 10px 15px;
-      border-radius: 6px; font-weight: bold; box-shadow: 0 0 10px rgba(255, 105, 180, 0.8);
-      text-decoration: none; transition: 0.3s; border: none; cursor: pointer;
-    }
-    .fixed-buttons a:hover, .index2-1-btn a button:hover {
-      background: #ff69b4; box-shadow: 0 0 20px #ff1493;
-    }
-
-    /* Falling hearts */
-    .falling-heart { font-size: 1.5rem; animation: fall linear infinite; }
-    @keyframes fall {
-      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-    }
-
-    /* LOGIN CARD */
-    .card { transition: all 0.3s ease; }
-    .card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
-
-    /* GEAR BUTTON */
-    .gear-btn {
-      position: fixed; bottom: 100px; right: 30px;
-      background: #0f172a; color: white; border-radius: 50%;
-      padding: 14px; font-size: 20px; cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4); transition: all 0.3s ease; z-index: 10;
-    }
-    .gear-btn:hover { transform: rotate(90deg); background: #1d4ed8; }
   </style>
 </head>
-<body class="theme-dark">
+<body class="flex flex-col items-center justify-center min-h-screen text-center p-6">
 
-  <div class="galaxy"></div>
-  <div class="stars"></div>
-  <div class="hearts"></div>
+  <!-- Gear button -->
+  <div class="gear" onclick="toggleThemePanel()">⚙️</div>
 
-  <!-- Floating Love Messages -->
-  <div class="message" style="top: 20vh; animation-delay: 0s;">I need you Hi Li 💖</div>
-  <div class="message" style="top: 40vh; animation-delay: 5s;">You are my galaxy 🌌</div>
-  <div class="message" style="top: 60vh; animation-delay: 10s;">My heart orbits yours 💫</div>
-
-  <div class="orbit-heart">💗</div>
-  <div class="spaceship">🚀 <span>Nichole’s Ship</span></div>
-
-  <!-- Central Love -->
-  <div class="center-message">
-    From Nichole to Hi Li 💕<br>
-    In this galaxy and the next... <br>
-    I will always be with you 🌌
+  <!-- Theme panel -->
+  <div class="theme-panel" id="themePanel">
+    <div class="theme-option" onclick="setTheme('dark')">🌑 Dark</div>
+    <div class="theme-option" onclick="setTheme('light')">🌕 Light</div>
+    <div class="theme-option" onclick="setTheme('blue')">🔵 Blue</div>
+    <div class="theme-option" onclick="setTheme('green')">🟢 Green</div>
   </div>
 
-  <!-- LOGIN CARD -->
-  <div class="flex items-center justify-center min-h-screen relative z-10">
-    <div class="card bg-white/10 backdrop-blur-lg p-8 rounded-2xl w-96 text-center shadow-xl">
-      <h1 class="text-2xl font-bold mb-6">Login Portal 🚀</h1>
-      <input type="text" placeholder="Email" class="w-full p-3 mb-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500"/>
-      <input type="password" placeholder="Password" class="w-full p-3 mb-6 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500"/>
-      <button class="w-full bg-pink-600 text-white p-3 rounded-lg font-semibold hover:bg-pink-700 transition">
-        Login
-      </button>
-      <p class="mt-4 text-sm">No account? <a href="#" class="text-pink-400 hover:underline">Sign up</a></p>
-    </div>
-  </div>
-
-  <!-- GEAR BUTTON -->
-  <button class="gear-btn" onclick="switchTheme()">⚙️</button>
-
-  <!-- Music -->
-  <audio id="loveAudio" autoplay muted loop>
-    <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
-    Your browser does not support the audio tag.
-  </audio>
-
-  <!-- Navigation -->
-  <div class="fixed-buttons">
-    <a href="#top">🔝 Top</a>
-    <a href="home.html">🏡 Home</a>
-  </div>
-
-  <div class="index2-1-btn">
-    <a href="index2.1.html"><button>🚀 Index 2.1</button></a>
-    <a href="https://ndikiryanicholas.github.io/Lillian-/index.html" target="_blank"><button>🌍 Visit Lillian</button></a>
-    <button onclick="alert('💌 A cosmic love message has been sent to Hi Li!')">Click to Send Love 💌</button>
-  </div>
+  <!-- Text presentation -->
+  <h1 id="introText" class="typing"></h1>
 
   <script>
-    // Enable audio after load
-    window.addEventListener('load', function () {
-      const audio = document.getElementById("loveAudio");
-      setTimeout(() => {
-        audio.muted = false;
-        audio.play().catch(() => console.log("Autoplay blocked. Waiting for user interaction."));
-      }, 1000);
-    });
-    document.addEventListener('click', () => {
-      const audio = document.getElementById("loveAudio");
-      audio.muted = false; audio.play();
-    }, { once: true });
-
-    // Generate stars
-    const starsContainer = document.querySelector('.stars');
-    for (let i = 0; i < 200; i++) {
-      const star = document.createElement('div');
-      star.classList.add('star');
-      star.style.top = `${Math.random() * 100}vh`;
-      star.style.left = `${Math.random() * 100}vw`;
-      star.style.animationDuration = `${1 + Math.random() * 2}s`;
-      starsContainer.appendChild(star);
+    const text = "Welcome to Nicholas Bagenda’s Professional Portfolio.";
+    let index = 0;
+    function typeEffect() {
+      if (index < text.length) {
+        document.getElementById("introText").textContent += text.charAt(index);
+        index++;
+        setTimeout(typeEffect, 100);
+      }
     }
+    window.onload = typeEffect;
 
-    // Falling hearts
-    const heartsContainer = document.querySelector('.hearts');
-    const heartSymbols = ["❤️","💖","💗","💕","💓"];
-    for (let i = 0; i < 30; i++) {
-      const heart = document.createElement('div');
-      heart.classList.add('falling-heart');
-      heart.textContent = heartSymbols[Math.floor(Math.random()*heartSymbols.length)];
-      heart.style.left = `${Math.random() * 100}vw`;
-      heart.style.animationDuration = `${4 + Math.random() * 6}s`;
-      heart.style.fontSize = `${1 + Math.random()*2}rem`;
-      heartsContainer.appendChild(heart);
+    function toggleThemePanel() {
+      const panel = document.getElementById("themePanel");
+      panel.style.display = (panel.style.display === "block") ? "none" : "block";
     }
-
-    // Theme switcher
-    let themes = ["theme-dark", "theme-light", "theme-colorful"];
-    let current = 0;
-    function switchTheme() {
-      document.body.classList.remove(themes[current]);
-      current = (current + 1) % themes.length;
-      document.body.classList.add(themes[current]);
+    function setTheme(theme) {
+      if (theme === "dark") {
+        document.body.style.background = "linear-gradient(to right, #0f172a, #1e293b)";
+        document.body.style.color = "white";
+      } else if (theme === "light") {
+        document.body.style.background = "#f8fafc";
+        document.body.style.color = "black";
+      } else if (theme === "blue") {
+        document.body.style.background = "linear-gradient(to right, #1e3a8a, #3b82f6)";
+        document.body.style.color = "white";
+      } else if (theme === "green") {
+        document.body.style.background = "linear-gradient(to right, #065f46, #10b981)";
+        document.body.style.color = "white";
+      }
     }
   </script>
 </body>
-  </html>
+</html>

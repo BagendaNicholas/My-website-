@@ -3,81 +3,149 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NicholasAI Search</title>
-  <script async src="https://cse.google.com/cse.js?cx=254199eb340f84c1b"></script>
+  <title>NicholasAI Search 🌍</title>
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom, #001f3f, #001a33);
-      color: white;
-      text-align: center;
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
       align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      background: #f8f9fa;
     }
-
-    /* Search box styling */
-    .gcse-search {
-      margin-top: 30px;
+    header {
+      margin: 20px 0;
+    }
+    header img {
+      max-width: 250px;
+    }
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 50px;
+      padding: 10px 20px;
       width: 90%;
       max-width: 600px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
-
-    /* App grid */
-    .app-grid {
+    .search-box input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 16px;
+    }
+    .search-box button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      margin-left: 10px;
+    }
+    .apps {
+      margin-top: 40px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
       gap: 20px;
-      margin-top: 50px;
       width: 90%;
-      max-width: 600px;
+      max-width: 700px;
     }
-
-    .app-icon {
-      background: #004080;
-      border-radius: 20px;
-      padding: 20px 10px;
+    .app {
       display: flex;
       flex-direction: column;
       align-items: center;
       text-decoration: none;
-      color: white;
-      font-size: 14px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      color: #333;
       transition: transform 0.2s ease;
     }
-
-    .app-icon:hover {
-      transform: translateY(-5px);
-      background: #0059b3;
+    .app:hover {
+      transform: scale(1.1);
     }
-
-    .emoji {
-      font-size: 30px;
+    .app img {
+      width: 60px;
+      height: 60px;
+      border-radius: 15px;
+      background: #eaeaea;
       margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   </style>
 </head>
 <body>
-  <h1>🌍 NicholasAI Global Search</h1>
+  <header>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="NicholasAI Search Logo">
+  </header>
 
-  <!-- Google Search -->
-  <div class="gcse-search"></div>
-
-  <!-- App-like Buttons -->
-  <div class="app-grid">
-    <a href="index.html" class="app-icon"><div class="emoji">🏡</div>Home</a>
-    <a href="index2.html" class="app-icon"><div class="emoji">📖</div>Books</a>
-    <a href="index3.html" class="app-icon"><div class="emoji">📹</div>Audio/Video</a>
-    <a href="index4.html" class="app-icon"><div class="emoji">✨</div>Inspiration</a>
-    <a href="index5.html" class="app-icon"><div class="emoji">🔗</div>Addiction Book</a>
-    <a href="index6.html" class="app-icon"><div class="emoji">🌿</div>Health</a>
-    <a href="index7.html" class="app-icon"><div class="emoji">🖋️</div>Portfolio</a>
-    <a href="index8.html" class="app-icon"><div class="emoji">📜</div>Sabbath</a>
-    <a href="index9.html" class="app-icon"><div class="emoji">⚡</div>More</a>
+  <!-- Search Box -->
+  <div class="search-box">
+    <script async src="https://cse.google.com/cse.js?cx=254199eb340f84c1b"></script>
+    <div class="gcse-searchbox-only"></div>
+    <button id="micBtn">🎤</button>
   </div>
+
+  <!-- Apps Grid -->
+  <div class="apps">
+    <a href="home.html" class="app">
+      <img src="https://img.icons8.com/fluency/96/home.png" alt="Home">
+      <span>Home</span>
+    </a>
+    <a href="index2.html" class="app">
+      <img src="https://img.icons8.com/fluency/96/open-book.png" alt="Index2">
+      <span>Index2</span>
+    </a>
+    <a href="index3.html" class="app">
+      <img src="https://img.icons8.com/fluency/96/video.png" alt="Index3">
+      <span>Index3</span>
+    </a>
+    <a href="index4.html" class="app">
+      <img src="https://img.icons8.com/fluency/96/sparkling.png" alt="Index4">
+      <span>Index4</span>
+    </a>
+    <a href="index5.html" class="app">
+      <img src="https://img.icons8.com/fluency/96/add-book.png" alt="Index5">
+      <span>Index5</span>
+    </a>
+    <a href="index6.html" class="app">
+      <img src="https://img.icons8.com/fluency/96/health-book.png" alt="Index6">
+      <span>Index6</span>
+    </a>
+    <a href="index7.html" class="app">
+      <img src="https://img.icons8.com/fluency/96/nature.png" alt="Index7">
+      <span>Index7</span>
+    </a>
+    <a href="index8.html" class="app">
+      <img src="https://img.icons8.com/fluency/96/sabbath.png" alt="Index8">
+      <span>Index8</span>
+    </a>
+    <a href="index9.html" class="app">
+      <img src="https://img.icons8.com/fluency/96/more-apps.png" alt="Index9">
+      <span>Index9</span>
+    </a>
+  </div>
+
+  <script>
+    // 🎤 Voice Search
+    const micBtn = document.getElementById('micBtn');
+    const recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (recognition) {
+      const recog = new recognition();
+      recog.lang = "en-US";
+      micBtn.addEventListener("click", () => {
+        recog.start();
+      });
+      recog.onresult = (event) => {
+        let transcript = event.results[0][0].transcript;
+        document.querySelector("input.gsc-input").value = transcript;
+        document.querySelector("input.gsc-search-button-v2").click();
+      };
+    } else {
+      micBtn.style.display = "none";
+    }
+  </script>
 </body>
-</html>
+  </html>

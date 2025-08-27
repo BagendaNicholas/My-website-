@@ -1,256 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Am The Creator – Index</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NicholasAI – Chat Search 🤖</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Georgia', serif;
-      overflow: hidden;
-      background: #87ceeb;
+      font-family: Arial, sans-serif;
+      background: #0d1117;
       color: #fff;
-      scroll-behavior: smooth;
-    }
-
-    header {
-      background-color: rgba(0, 0, 0, 0.6);
-      padding: 1rem 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      text-align: center;
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-
-    nav {
+      margin: 0;
       display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin: 10px 0;
+      flex-direction: column;
+      height: 100vh;
     }
-
-    nav a {
-      color: #ffffff;
-      text-decoration: none;
-      padding-bottom: 4px;
-    }
-
-    nav a.active {
+    header {
+      background: #161b22;
+      padding: 15px;
+      text-align: center;
+      font-size: 22px;
       font-weight: bold;
       border-bottom: 2px solid #00ffcc;
     }
-
-    .scene {
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      overflow: hidden;
-      background: linear-gradient(to top, #4ca1af, #c4e0e5);
-    }
-
-    .cloud, .bird, .animal, .lake, .mountain, .river {
-      position: absolute;
-      pointer-events: none;
-    }
-
-    .cloud {
-      width: 200px;
-      height: 100px;
-      background: #fff;
-      border-radius: 50%;
-      opacity: 0.6;
-      animation: floatCloud 60s linear infinite;
-    }
-
-    @keyframes floatCloud {
-      0% { left: -300px; top: 10vh; }
-      100% { left: 110%; top: 10vh; }
-    }
-
-    .mountain {
-      bottom: 0;
-      width: 100%;
-      height: 40vh;
-      background: linear-gradient(to top, #2c3e50, #34495e);
-      clip-path: polygon(0% 100%, 10% 60%, 20% 100%, 30% 65%, 40% 100%, 50% 60%, 60% 100%, 70% 50%, 80% 100%, 90% 70%, 100% 100%);
-      z-index: 1;
-    }
-
-    .river {
-      width: 100%;
-      height: 100px;
-      background: linear-gradient(to bottom, #1e90ff, #00bfff);
-      bottom: 0;
-      position: absolute;
-      z-index: 2;
-      opacity: 0.8;
-    }
-
-    .lake {
-      width: 200px;
-      height: 100px;
-      background: radial-gradient(circle, #00bfff, #1e90ff);
-      border-radius: 50%;
-      bottom: 10vh;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0.7;
-      z-index: 2;
-    }
-
-    .animal {
-      font-size: 2rem;
-      bottom: 5vh;
-      animation: walk 30s linear infinite;
-      z-index: 3;
-    }
-
-    @keyframes walk {
-      0% { left: -50px; }
-      100% { left: 110%; }
-    }
-
-    .bird {
-      font-size: 1.5rem;
-      top: 20vh;
-      animation: fly 40s linear infinite;
-      z-index: 4;
-    }
-
-    @keyframes fly {
-      0% { left: -50px; top: 20vh; }
-      100% { left: 110%; top: 15vh; }
-    }
-
-    .motorcycle {
-      position: absolute;
-      top: 70%;
-      left: 50%;
-      font-size: 80px;
-      transform: translate(-50%, -50%);
-      animation: spin 1s linear infinite, move 3s linear infinite;
-      z-index: 5;
-    }
-
-    @keyframes spin {
-      0% { transform: translate(-50%, -50%) rotate(0deg); }
-      100% { transform: translate(-50%, -50%) rotate(360deg); }
-    }
-
-    @keyframes move {
-      0% { left: -10%; }
-      50% { left: 110%; }
-      100% { left: -10%; }
-    }
-
-    .fixed-buttons {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
+    #chatbox {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      z-index: 999;
     }
-
-    .fixed-buttons a {
-      background: #ffffff22;
-      color: white;
+    .message {
+      max-width: 75%;
       padding: 10px 15px;
-      border-radius: 6px;
-      font-weight: bold;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-      text-align: center;
-      text-decoration: none;
+      border-radius: 15px;
+      line-height: 1.4;
+      word-wrap: break-word;
     }
-
-    .fixed-buttons a:hover {
-      background: #ffffff44;
-    }
-
-    .index9-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 999;
-    }
-
-    .index9-btn button {
-      padding: 12px 18px;
-      background-color: #00ffcc;
+    .user {
+      align-self: flex-end;
+      background: #00ffcc;
       color: #000;
-      border: none;
-      border-radius: 50px;
-      font-size: 16px;
-      box-shadow: 0 0 15px #00ffcc;
-      cursor: pointer;
+      border-bottom-right-radius: 0;
     }
-
-    .index9-btn button:hover {
-      background-color: #1affd5;
+    .bot {
+      align-self: flex-start;
+      background: #2c2f33;
+      border-bottom-left-radius: 0;
+    }
+    footer {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      background: #161b22;
+      border-top: 2px solid #00ffcc;
+    }
+    #userInput {
+      flex: 1;
+      padding: 10px 15px;
+      border-radius: 20px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+    }
+    button {
+      background: #00ffcc;
+      border: none;
+      padding: 10px 15px;
+      margin-left: 8px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+    }
+    button:hover {
+      background: #00ccaa;
+    }
+    .result-link {
+      color: #00ccff;
+      text-decoration: none;
+      display: block;
+      margin: 5px 0;
+    }
+    .result-link:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-
-  <!-- Motorcycle Animation -->
-  <div class="motorcycle">🏍️💨</div>
-
-  <!-- Nature Scene -->
-  <div class="scene">
-    <div class="cloud" style="animation-delay: 0s;"></div>
-    <div class="cloud" style="top: 20vh; animation-delay: 10s;"></div>
-    <div class="cloud" style="top: 30vh; animation-delay: 20s;"></div>
-
-    <div class="mountain"></div>
-    <div class="river"></div>
-    <div class="lake"></div>
-
-    <div class="animal" style="left: 0;">🦌</div>
-    <div class="animal" style="left: -150px; animation-delay: 10s;">🐘</div>
-    <div class="animal" style="left: -300px; animation-delay: 20s;">🐻</div>
-
-    <div class="bird" style="left: -100px;">🕊️</div>
-    <div class="bird" style="left: -200px; animation-delay: 15s;">🦅</div>
+  <header>🌐 NicholasAI – Mini Google Chat</header>
+  <div id="chatbox">
+    <div class="message bot">👋 Hello! Ask me anything and I’ll search it for you!</div>
   </div>
 
-  <!-- Navigation Buttons -->
-  <div class="fixed-buttons">
-    <a href="#top">🔝 Top</a>
-    <a href="home.html">🏡 Home</a>
-  </div>
-
-  <div class="index9-btn">
-    <a href="index9.html">
-      <button>🚀 Index 9</button>
-    </a>
-  </div>
-
-  <!-- Background Music -->
-  <audio id="loveAudio" autoplay muted loop>
-    <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
-    Your browser does not support the audio tag.
-  </audio>
+  <footer>
+    <input id="userInput" type="text" placeholder="Type your question...">
+    <button onclick="sendMessage()">➤</button>
+    <button onclick="startVoice()">🎤</button>
+  </footer>
 
   <script>
-    window.addEventListener('load', function () {
-      const audio = document.getElementById("loveAudio");
-      setTimeout(() => {
-        audio.muted = false;
-        audio.play().catch(e => {
-          console.log("Autoplay blocked. Waiting for user interaction.");
-        });
-      }, 1000);
-    });
+    const chatbox = document.getElementById("chatbox");
+    const userInput = document.getElementById("userInput");
+    const API_KEY = "AIzaSyAUgS04MqEYFxVCyqTDPUzPmrsS0nYArUI";
+    const CX = "254199eb340f84c1b";
 
-    document.addEventListener('click', () => {
-      const audio = document.getElementById("loveAudio");
-      audio.muted = false;
-      audio.play();
-    }, { once: true });
+    function appendMessage(sender, text, isHTML=false) {
+      const msg = document.createElement("div");
+      msg.className = "message " + sender;
+      if(isHTML){
+        msg.innerHTML = text;
+      } else {
+        msg.textContent = text;
+      }
+      chatbox.appendChild(msg);
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+
+    async function sendMessage() {
+      const query = userInput.value.trim();
+      if(!query) return;
+      appendMessage("user", query);
+      userInput.value = "";
+      appendMessage("bot", "🤖 Searching for \"" + query + "\"...");
+
+      try {
+        const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CX}&q=${encodeURIComponent(query)}`);
+        const data = await res.json();
+        let results = "";
+        if(data.items){
+          data.items.slice(0,5).forEach(item => {
+            results += `<a class="result-link" href="${item.link}" target="_blank">${item.title}</a>`;
+          });
+        } else {
+          results = "No results found.";
+        }
+        appendMessage("bot", results, true);
+      } catch(err){
+        appendMessage("bot", "⚠️ Error fetching results.");
+        console.error(err);
+      }
+    }
+
+    function startVoice() {
+      if(!('webkitSpeechRecognition' in window)){
+        alert("Voice recognition not supported.");
+        return;
+      }
+      const recognition = new webkitSpeechRecognition();
+      recognition.lang = "en-US";
+      recognition.start();
+      recognition.onresult = function(event){
+        const text = event.results[0][0].transcript;
+        userInput.value = text;
+      };
+    }
+
+    // Optional: press Enter to send
+    userInput.addEventListener("keydown", function(e){
+      if(e.key === "Enter") sendMessage();
+    });
   </script>
 </body>
 </html>

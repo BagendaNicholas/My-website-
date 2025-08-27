@@ -3,8 +3,8 @@
   "short_name": "Bagenda",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#000020",
-  "theme_color": "#00ffcc",
+  "background_color": "#0f172a",
+  "theme_color": "#1e293b",
   "icons": [
     {
       "src": "/icon-192.png",

@@ -3,37 +3,100 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Global Search | Bagenda</title>
+<title>Bagenda Global Search 🌎</title>
 <style>
   body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to bottom, #001d3d, #003566);
-    color: white;
+    font-family: 'Arial', sans-serif;
+    background: #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 50px;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
   }
 
-  h1 {
-    margin-bottom: 20px;
-    color: #ffd700;
-    text-shadow: 2px 2px 5px #000;
-  }
-
-  .gcse-search {
+  /* Google-style header */
+  .header {
     width: 100%;
     max-width: 800px;
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px 0;
+    gap: 15px;
   }
+
+  .header img {
+    width: 30px;
+    cursor: pointer;
+  }
+
+  /* Center search section */
+  .search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .search-logo {
+    width: 272px;
+    margin-bottom: 20px;
+  }
+
+  /* Make Google CSE search look like Google search bar */
+  .gcse-searchbox-only input.gsc-input {
+    width: 400px !important;
+    height: 45px !important;
+    font-size: 16px;
+    padding: 0 15px;
+    border-radius: 24px;
+    border: 1px solid #dcdcdc;
+    box-shadow: 0 1px 6px rgba(32,33,36,.28);
+    outline: none;
+  }
+
+  .gcse-searchbox-only input.gsc-search-button {
+    height: 45px !important;
+    border-radius: 0 24px 24px 0;
+    background: #f8f9fa;
+    border: 1px solid #dcdcdc;
+    cursor: pointer;
+  }
+
+  .gcse-searchbox-only .gsc-control-cse {
+    font-family: Arial, sans-serif;
+  }
+
+  /* Footer style */
+  footer {
+    position: absolute;
+    bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #5f6368;
+  }
+
 </style>
 </head>
 <body>
 
-<h1>Search the World 🌎</h1>
+<!-- Header with Google-style icons -->
+<div class="header">
+  <img src="https://img.icons8.com/color/48/000000/apps.png" alt="Apps">
+  <img src="https://img.icons8.com/color/48/000000/avatar.png" alt="Profile">
+</div>
 
-<!-- Google Custom Search -->
-<script async src="https://cse.google.com/cse.js?cx=254199eb340f84c1b"></script>
-<div class="gcse-search"></div>
+<!-- Search section -->
+<div class="search-container">
+  <img class="search-logo" src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" alt="Logo">
+  
+  <!-- Google Custom Search -->
+  <script async src="https://cse.google.com/cse.js?cx=254199eb340f84c1b"></script>
+  <div class="gcse-searchbox-only"></div>
+</div>
+
+<footer>© 2025 Bagenda Global Search</footer>
 
 </body>
 </html>

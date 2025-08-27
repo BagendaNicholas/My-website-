@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nichole Needs Hi Li 💖</title>
 <style>
-/* Body */
 body {
   margin: 0;
   padding: 0;
@@ -136,9 +135,8 @@ body {
 
 /* Animations */
 @keyframes fall { 0% { transform: translateY(0); } 100% { transform: translateY(100vh); } }
-@keyframes drift { 0% { transform: translateY(0); } 100% { transform: translateY(100vh); } }
+@keyframes drift { 0% { transform: translateY(0) translateX(0); } 100% { transform: translateY(100vh) translateX(50px); } }
 @keyframes twinkle { from { opacity:0.3; } to { opacity:1; } }
-
 </style>
 </head>
 <body id="top" class="theme-dark">
@@ -171,16 +169,40 @@ body {
 <button id="scrollTopBtn" onclick="scrollToTop()">⬆️</button>
 
 <script>
-// Sweet messages with emojis
+// Mega sweet messages
 const messages = [
-  "✨ Welcome, my friend!",
-  "💖 This is more than a page — it’s a story.",
-  "🌍 A journey of Nicholas and Hi Li.",
-  "🎶 With music, love, and light.",
-  "🍫 Sweet moments and laughter.",
-  "🌹 Love floating like stars.",
-  "🚀 Explore, feel, and enjoy every bit!",
-  "💕 💞 ♥️ 🌧💥❤️‍🩹👀🏄🏄🚵‍♂️🛀🌿🍀⚘️🥀🌏💧💧💧💧💧🎗🎁🎎"
+  "✨ Welcome, my dearest friend!",
+  "💖 This page is a universe of love, joy, and light.",
+  "🌍 Nicholas and Hi Li's journey is full of magic, laughter, and sweet memories.",
+  "🎶 Music flows, hearts glow, and smiles shine.",
+  "🍫 Chocolate moments, hugs, kisses, and gentle whispers.",
+  "🌹 Love floating like stars, petals, and endless dreams.",
+  "🚀 Explore, feel, and enjoy every beat of our cosmic hearts!",
+  "💕 💞 ♥️ 🌧💥❤️‍🩹👀🏄🏄🚵‍♂️🛀🌿🍀⚘️🥀🌏💧💧💧💧💧🎗🎁🎎",
+  "💌 Sweet whispers, cuddles, giggles, and starlit nights.",
+  "🌈 Magic moments, sparkling eyes, warm hugs, and endless love.",
+  "🌟 Hearts racing, hands holding, smiles lighting the universe.",
+  "🌺 Gentle rains, soft petals, cozy nights, and morning suns.",
+  "❤️ Every heartbeat, every sigh, every glance says 'I love you.'",
+  "✨ Forever together in thoughts, dreams, laughter, and love.",
+  "💫 Twinkling stars, floating hearts, laughter echoing across the cosmos.",
+  "🍀 Serendipity, sweet surprises, morning coffees, evening talks.",
+  "🎁 Gifts of love, little notes, playful winks, secret smiles.",
+  "⚘️ Petals falling, moonlight shining, your presence warming my soul.",
+  "🥀 Gentle touches, stolen glances, whispers under the night sky.",
+  "🌏 Love spanning worlds, oceans, and infinite galaxies.",
+  "💧 Tears of joy, droplets of hope, flowing endlessly.",
+  "🎎 Together in spirit, thought, dream, and heartbeats.",
+  "❤️‍🩹 Healing, growing, loving, learning together as one.",
+  "👀 Eyes meeting, hearts syncing, souls dancing in harmony.",
+  "🏄 Surfing the waves of laughter, climbing mountains of joy.",
+  "🛀 Cozy baths, warm candles, comfort, and serene peace.",
+  "🌿 Nature whispers love through trees, leaves, and rivers.",
+  "💥 Explosions of happiness, confetti of smiles, fireworks of hearts.",
+  "💞 Forever intertwined, every moment sparkling with affection.",
+  "💌 Every whisper, giggle, and heartbeat is a poem for you.",
+  "✨ Dancing in the rain, twirling with stars, smiling endlessly together.",
+  "🌈 Love brighter than rainbow skies, stronger than oceans, endless as the cosmos."
 ];
 
 const presentationDiv = document.getElementById("presentation");
@@ -192,14 +214,14 @@ function typeMessage() {
     if(charIndex < currentMessage.length) {
       presentationDiv.textContent += currentMessage.charAt(charIndex);
       charIndex++;
-      setTimeout(typeMessage, 50);
+      setTimeout(typeMessage, 40);
     } else {
       setTimeout(() => {
         presentationDiv.textContent += "\n\n";
         msgIndex++;
         charIndex = 0;
         typeMessage();
-      }, 1500);
+      }, 1200);
     }
   }
 }
@@ -229,8 +251,8 @@ window.onscroll = () => {
 function scrollToTop() { window.scrollTo({top:0, behavior:'smooth'}); }
 
 // Rain drops
-const scrollHeight = 5000;
-for(let i=0;i<100;i++){
+const scrollHeight = 8000;
+for(let i=0;i<120;i++){
   const rainDrop = document.createElement("div");
   rainDrop.classList.add("rain");
   rainDrop.style.left = Math.random()*100 + "vw";
@@ -242,7 +264,7 @@ for(let i=0;i<100;i++){
 }
 
 // Stars
-for(let i=0;i<80;i++){
+for(let i=0;i<100;i++){
   const star = document.createElement("div");
   star.classList.add("star");
   star.style.left = Math.random()*100 + "vw";
@@ -253,20 +275,21 @@ for(let i=0;i<80;i++){
   document.body.appendChild(star);
 }
 
-// Floating hearts with emojis
+// Floating hearts with emojis in wavy motion
 const heartEmojis = ["💕","💞","♥️","💥","❤️‍🩹","👀","🏄","🚵‍♂️","🛀","🌿","🍀","⚘️","🥀","🌏","💧","🎗","🎁","🎎"];
-for(let i=0;i<50;i++){
+for(let i=0;i<60;i++){
   const heart = document.createElement("div");
   heart.classList.add("heart");
   heart.textContent = heartEmojis[Math.floor(Math.random()*heartEmojis.length)];
   heart.style.left = Math.random()*100 + "vw";
-  heart.style.fontSize = 12 + Math.random()*20 + "px";
+  heart.style.fontSize = 12 + Math.random()*22 + "px";
   heart.style.opacity = 0.5 + Math.random()*0.5;
   heart.style.top = Math.random()*scrollHeight + "px";
-  heart.style.animationDuration = (4 + Math.random()*6) + "s";
+  heart.style.animationDuration = (5 + Math.random()*7) + "s";
+  heart.style.animationTimingFunction = "ease-in-out";
   document.body.appendChild(heart);
 }
 </script>
 
 </body>
-</html>
+  </html>

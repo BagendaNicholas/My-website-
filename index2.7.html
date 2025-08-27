@@ -11,15 +11,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    min-height: 100vh;
     margin: 0;
+    min-height: 100vh;
   }
 
-  /* Google-style header */
+  /* Header icons */
   .header {
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
     display: flex;
     justify-content: flex-end;
     padding: 20px 0;
@@ -31,12 +30,13 @@
     cursor: pointer;
   }
 
-  /* Center search section */
+  /* Search section */
   .search-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    width: 100%;
   }
 
   .search-logo {
@@ -44,7 +44,7 @@
     margin-bottom: 20px;
   }
 
-  /* Make Google CSE search look like Google search bar */
+  /* Google CSE search bar styling */
   .gcse-searchbox-only input.gsc-input {
     width: 400px !important;
     height: 45px !important;
@@ -64,15 +64,25 @@
     cursor: pointer;
   }
 
-  .gcse-searchbox-only .gsc-control-cse {
-    font-family: Arial, sans-serif;
+  /* Search results container */
+  .gcse-searchresults-only {
+    width: 100%;
+    max-width: 900px;
+    margin-top: 40px;
   }
 
-  /* Footer style */
-  footer {
+  /* Microphone icon */
+  .mic-icon {
     position: absolute;
-    bottom: 20px;
-    text-align: center;
+    right: 140px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 24px;
+  }
+
+  footer {
+    margin-top: 40px;
     font-size: 14px;
     color: #5f6368;
   }
@@ -81,22 +91,48 @@
 </head>
 <body>
 
-<!-- Header with Google-style icons -->
+<!-- Header -->
 <div class="header">
   <img src="https://img.icons8.com/color/48/000000/apps.png" alt="Apps">
   <img src="https://img.icons8.com/color/48/000000/avatar.png" alt="Profile">
 </div>
 
-<!-- Search section -->
+<!-- Search Section -->
 <div class="search-container">
   <img class="search-logo" src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" alt="Logo">
-  
-  <!-- Google Custom Search -->
-  <script async src="https://cse.google.com/cse.js?cx=254199eb340f84c1b"></script>
-  <div class="gcse-searchbox-only"></div>
+
+  <!-- Google CSE Search Box -->
+  <div style="position: relative;">
+    <script async src="https://cse.google.com/cse.js?cx=254199eb340f84c1b"></script>
+    <div class="gcse-searchbox-only"></div>
+    <img class="mic-icon" src="https://img.icons8.com/ios-filled/50/000000/microphone.png" alt="Voice Search" onclick="startVoiceSearch()">
+  </div>
+
+  <!-- Search Results -->
+  <div class="gcse-searchresults-only"></div>
 </div>
 
 <footer>© 2025 Bagenda Global Search</footer>
+
+<!-- Voice Search Script -->
+<script>
+function startVoiceSearch() {
+  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  recognition.lang = 'en-US';
+  recognition.start();
+
+  recognition.onresult = function(event) {
+    const transcript = event.results[0][0].transcript;
+    const input = document.querySelector('.gsc-input');
+    input.value = transcript;
+    document.querySelector('.gsc-search-button').click();
+  };
+
+  recognition.onerror = function(event) {
+    alert("Voice search failed. Try typing instead.");
+  };
+}
+</script>
 
 </body>
 </html>

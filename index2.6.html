@@ -1,1 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NicholasAI – Chat Search 🤖</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0d1117;
+      color: #fff;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    header {
+      background: #161b22;
+      padding: 15px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      border-bottom: 2px solid #00ffcc;
+    }
+    #chatbox {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .message {
+      max-width: 75%;
+      padding: 10px 15px;
+      border-radius: 15px;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+    .user {
+      align-self: flex-end;
+      background: #00ffcc;
+      color: #000;
+      border-bottom-right-radius: 0;
+    }
+    .bot {
+      align-self: flex-start;
+      background: #2c2f33;
+      border-bottom-left-radius: 0;
+    }
+    footer {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      background: #161b22;
+      border-top: 2px solid #00ffcc;
+    }
+    #userInput {
+      flex: 1;
+      padding: 10px 15px;
+      border-radius: 20px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+    }
+    button {
+      background: #00ffcc;
+      border: none;
+      padding: 10px 15px;
+      margin-left: 8px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+    }
+    button:hover {
+      background: #00ccaa;
+    }
+    .result-link {
+      color: #00ccff;
+      text-decoration: none;
+      display: block;
+      margin: 5px 0;
+    }
+    .result-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>🌐 NicholasAI – Mini Google Chat</header>
+  <div id="chatbox">
+    <div class="message bot">👋 Hello! Ask me anything and I’ll search it for you!</div>
+  </div>
 
+  <footer>
+    <input id="userInput" type="text" placeholder="Type your question...">
+    <button onclick="sendMessage()">➤</button>
+    <button onclick="startVoice()">🎤</button>
+  </footer>
+
+  <script>
+    const chatbox = document.getElementById("chatbox");
+    const userInput = document.getElementById("userInput");
+    const API_KEY = "AIzaSyAUgS04MqEYFxVCyqTDPUzPmrsS0nYArUI";
+    const CX = "254199eb340f84c1b";
+
+    function appendMessage(sender, text, isHTML=false) {
+      const msg = document.createElement("div");
+      msg.className = "message " + sender;
+      if(isHTML){
+        msg.innerHTML = text;
+      } else {
+        msg.textContent = text;
+      }
+      chatbox.appendChild(msg);
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+
+    async function sendMessage() {
+      const query = userInput.value.trim();
+      if(!query) return;
+      appendMessage("user", query);
+      userInput.value = "";
+      appendMessage("bot", "🤖 Searching for \"" + query + "\"...");
+
+      try {
+        const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CX}&q=${encodeURIComponent(query)}`);
+        const data = await res.json();
+        let results = "";
+        if(data.items){
+          data.items.slice(0,5).forEach(item => {
+            results += `<a class="result-link" href="${item.link}" target="_blank">${item.title}</a>`;
+          });
+        } else {
+          results = "No results found.";
+        }
+        appendMessage("bot", results, true);
+      } catch(err){
+        appendMessage("bot", "⚠️ Error fetching results.");
+        console.error(err);
+      }
+    }
+
+    function startVoice() {
+      if(!('webkitSpeechRecognition' in window)){
+        alert("Voice recognition not supported.");
+        return;
+      }
+      const recognition = new webkitSpeechRecognition();
+      recognition.lang = "en-US";
+      recognition.start();
+      recognition.onresult = function(event){
+        const text = event.results[0][0].transcript;
+        userInput.value = text;
+      };
+    }
+
+    // Optional: press Enter to send
+    userInput.addEventListener("keydown", function(e){
+      if(e.key === "Enter") sendMessage();
+    });
+  </script>
+</body>
+</html>

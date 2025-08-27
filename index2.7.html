@@ -3,149 +3,160 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NicholasAI Search 🌍</title>
+  <title>Nicholas Search 🌍</title>
   <style>
     body {
       margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
+      background: #f8f9fa;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
       min-height: 100vh;
-      background: #f8f9fa;
     }
+
     header {
-      margin: 20px 0;
+      margin-top: 50px;
+      text-align: center;
     }
-    header img {
-      max-width: 250px;
+
+    h1 {
+      font-size: 3rem;
+      color: #4285f4;
+      margin-bottom: 20px;
     }
-    .search-box {
+
+    .search-container {
       display: flex;
       align-items: center;
-      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      background: white;
       border: 1px solid #ddd;
       border-radius: 50px;
       padding: 10px 20px;
-      width: 90%;
-      max-width: 600px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
-    .search-box input {
-      flex: 1;
-      border: none;
-      outline: none;
-      font-size: 16px;
+
+    .gcse-search {
+      flex-grow: 1;
     }
-    .search-box button {
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 20px;
+
+    .mic {
       margin-left: 10px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
     }
+
     .apps {
       margin-top: 40px;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      grid-template-columns: repeat(3, 100px);
       gap: 20px;
-      width: 90%;
-      max-width: 700px;
+      justify-content: center;
     }
+
     .app {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      text-align: center;
       text-decoration: none;
       color: #333;
-      transition: transform 0.2s ease;
+      font-size: 0.9rem;
     }
-    .app:hover {
-      transform: scale(1.1);
-    }
+
     .app img {
-      width: 60px;
-      height: 60px;
-      border-radius: 15px;
-      background: #eaeaea;
+      width: 70px;
+      height: 70px;
+      border-radius: 20px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
       margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      transition: transform 0.2s;
+    }
+
+    .app img:hover {
+      transform: scale(1.1);
     }
   </style>
 </head>
 <body>
   <header>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="NicholasAI Search Logo">
+    <h1>Nicholas Search 🌍</h1>
   </header>
 
-  <!-- Search Box -->
-  <div class="search-box">
-    <script async src="https://cse.google.com/cse.js?cx=254199eb340f84c1b"></script>
-    <div class="gcse-searchbox-only"></div>
-    <button id="micBtn">🎤</button>
+  <!-- Search Bar -->
+  <div class="search-container">
+    <div class="gcse-search"></div>
+    <span class="mic" onclick="startDictation()">🎤</span>
   </div>
 
-  <!-- Apps Grid -->
+  <!-- Apps Section -->
   <div class="apps">
     <a href="home.html" class="app">
-      <img src="https://img.icons8.com/fluency/96/home.png" alt="Home">
-      <span>Home</span>
+      <img src="https://img.icons8.com/color/96/000000/home.png" alt="Home">
+      <div>Home</div>
     </a>
     <a href="index2.html" class="app">
-      <img src="https://img.icons8.com/fluency/96/open-book.png" alt="Index2">
-      <span>Index2</span>
+      <img src="https://img.icons8.com/color/96/000000/book.png" alt="Books">
+      <div>Books</div>
     </a>
     <a href="index3.html" class="app">
-      <img src="https://img.icons8.com/fluency/96/video.png" alt="Index3">
-      <span>Index3</span>
+      <img src="https://img.icons8.com/color/96/000000/video.png" alt="Videos">
+      <div>Videos</div>
     </a>
     <a href="index4.html" class="app">
-      <img src="https://img.icons8.com/fluency/96/sparkling.png" alt="Index4">
-      <span>Index4</span>
+      <img src="https://img.icons8.com/color/96/000000/idea.png" alt="Inspiration">
+      <div>Inspiration</div>
     </a>
     <a href="index5.html" class="app">
-      <img src="https://img.icons8.com/fluency/96/add-book.png" alt="Index5">
-      <span>Index5</span>
+      <img src="https://img.icons8.com/color/96/000000/handcuffs.png" alt="Addiction">
+      <div>Addiction</div>
     </a>
     <a href="index6.html" class="app">
-      <img src="https://img.icons8.com/fluency/96/health-book.png" alt="Index6">
-      <span>Index6</span>
+      <img src="https://img.icons8.com/color/96/000000/medical-doctor.png" alt="Health">
+      <div>Health</div>
     </a>
     <a href="index7.html" class="app">
-      <img src="https://img.icons8.com/fluency/96/nature.png" alt="Index7">
-      <span>Index7</span>
+      <img src="https://img.icons8.com/color/96/000000/mountain.png" alt="Nature">
+      <div>Nature</div>
     </a>
     <a href="index8.html" class="app">
-      <img src="https://img.icons8.com/fluency/96/sabbath.png" alt="Index8">
-      <span>Index8</span>
+      <img src="https://img.icons8.com/color/96/000000/scroll.png" alt="Sabbath">
+      <div>Sabbath</div>
     </a>
     <a href="index9.html" class="app">
-      <img src="https://img.icons8.com/fluency/96/more-apps.png" alt="Index9">
-      <span>Index9</span>
+      <img src="https://img.icons8.com/color/96/000000/settings.png" alt="Tools">
+      <div>Tools</div>
     </a>
   </div>
 
+  <!-- Google Search Script -->
+  <script async src="https://cse.google.com/cse.js?cx=254199eb340f84c1b"></script>
+
+  <!-- Voice Search -->
   <script>
-    // 🎤 Voice Search
-    const micBtn = document.getElementById('micBtn');
-    const recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (recognition) {
-      const recog = new recognition();
-      recog.lang = "en-US";
-      micBtn.addEventListener("click", () => {
-        recog.start();
-      });
-      recog.onresult = (event) => {
-        let transcript = event.results[0][0].transcript;
-        document.querySelector("input.gsc-input").value = transcript;
-        document.querySelector("input.gsc-search-button-v2").click();
-      };
-    } else {
-      micBtn.style.display = "none";
+    function startDictation() {
+      if ('webkitSpeechRecognition' in window) {
+        var recognition = new webkitSpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = "en-US";
+        recognition.start();
+
+        recognition.onresult = function(e) {
+          document.querySelector("input.gsc-input").value = e.results[0][0].transcript;
+          recognition.stop();
+          document.querySelector("button.gsc-search-button").click();
+        };
+
+        recognition.onerror = function(e) {
+          recognition.stop();
+        }
+      } else {
+        alert("Voice search not supported on this browser.");
+      }
     }
   </script>
 </body>
-  </html>
+</html>

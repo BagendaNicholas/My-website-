@@ -22,13 +22,11 @@ body {
   margin-top: 50px;
   font-size: 2rem;
   font-weight: bold;
-  min-height: 200px;
+  min-height: 150px;
   white-space: pre-wrap;
   text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff1493, 0 0 20px #ff69b4;
   color: #ff69b4;
   line-height: 2.2rem;
-  z-index: 5;
-  position: relative;
 }
 
 /* Buttons */
@@ -90,131 +88,20 @@ body {
 .theme-dark { background: linear-gradient(135deg, #0f172a, #1e293b); color: #fff; }
 .theme-romantic { background: linear-gradient(135deg, #ec4899, #f472b6); color: #fff; }
 
-/* Galaxy + Stars + Hearts + Raindrops */
-.stars, .hearts, .rain-container {
-  position: absolute;
-  width: 100%;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.star, .falling-heart, .rain {
-  position: absolute;
-  opacity: 0.8;
-  animation-timing-function: linear;
-  z-index: 1;
-}
-
-.star {
-  background: white;
-  border-radius: 50%;
-  width: 2px;
-  height: 2px;
-  animation: twinkle 2s infinite ease-in-out;
-}
-
-@keyframes twinkle {
-  0%, 100% { opacity: 0.1; }
-  50% { opacity: 1; }
-}
-
-.falling-heart {
-  font-size: 1.5rem;
-  animation: fallHearts linear infinite;
-}
-@keyframes fallHearts {
-  0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
-  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-}
-
+/* Raindrops */
 .rain {
+  position: absolute;
   width: 2px;
   height: 15px;
   background: #38bdf8;
   opacity: 0.7;
   top: -20px;
-  animation: fallRain linear infinite;
+  animation: fall linear infinite;
+  z-index: 1;
 }
-@keyframes fallRain {
+@keyframes fall {
   0% { top: -20px; }
   100% { top: 100vh; }
-}
-
-/* Floating messages */
-.message {
-  position: absolute;
-  font-size: 2.5rem;
-  font-weight: bold;
-  white-space: nowrap;
-  color: #ff69b4;
-  text-shadow: 0 0 10px #ff1493, 0 0 20px #ff69b4;
-  animation: float 15s linear infinite;
-  z-index: 3;
-}
-@keyframes float {
-  0% { transform: translateX(110vw) translateY(0); opacity: 0; }
-  10% { opacity: 1; }
-  50% { transform: translateX(-50vw) translateY(-20vh); }
-  90% { opacity: 1; }
-  100% { transform: translateX(-120vw) translateY(10vh); opacity: 0; }
-}
-
-/* Spaceship */
-.spaceship {
-  position: absolute;
-  top: 80%;
-  left: 100%;
-  font-size: 1.5rem;
-  animation: flyShip 25s linear infinite;
-  z-index: 3;
-}
-@keyframes flyShip {
-  0% { left: 110%; transform: rotate(0deg); }
-  100% { left: -60%; transform: rotate(360deg); }
-}
-.spaceship span {
-  display: inline-block;
-  animation: rainbow 2s linear infinite;
-  font-weight: bold;
-}
-@keyframes rainbow {
-  0% { color: red; } 14% { color: orange; } 28% { color: yellow; } 42% { color: green; } 
-  57% { color: cyan; } 71% { color: blue; } 85% { color: violet; } 100% { color: red; }
-}
-
-/* Central Love */
-.center-message {
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  font-size: 2rem;
-  background: rgba(0,0,0,0.5);
-  padding: 1.2rem 2.5rem;
-  border: 2px solid #ff69b4;
-  border-radius: 20px;
-  box-shadow: 0 0 15px #ff69b4;
-  z-index: 5;
-}
-
-/* Orbiting Heart */
-.orbit-heart {
-  position: absolute;
-  top: 12vh;
-  left: 50%;
-  font-size: 2.5rem;
-  animation: orbit 6s linear infinite;
-  color: #ff69b4;
-  text-shadow: 0 0 15px #ff1493;
-  z-index: 4;
-}
-@keyframes orbit {
-  0% { transform: rotate(0deg) translateX(80px) rotate(0deg); }
-  100% { transform: rotate(360deg) translateX(80px) rotate(-360deg); }
 }
 </style>
 </head>
@@ -225,22 +112,9 @@ body {
   <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
 </audio>
 
-<!-- Presentation text -->
+<h1>🌟 Welcome to Nicholas Presentation 🌟</h1>
+
 <div class="presentation-text" id="presentation"></div>
-
-<!-- Floating Messages -->
-<div class="message" style="top:20vh; animation-delay:0s;">I need you Hi Li 💖</div>
-<div class="message" style="top:40vh; animation-delay:5s;">You are my galaxy 🌌</div>
-<div class="message" style="top:60vh; animation-delay:10s;">My heart orbits yours 💫</div>
-
-<!-- Spaceship and Orbit -->
-<div class="orbit-heart">💗</div>
-<div class="spaceship">🚀 <span>Nichole’s Ship</span></div>
-<div class="center-message">
-  From Nichole to Hi Li 💕<br>
-  In this galaxy and the next... <br>
-  I will always be with you 🌌
-</div>
 
 <!-- Navigation Buttons -->
 <div class="fixed-buttons">
@@ -254,9 +128,71 @@ body {
   <button onclick="alert('💌 A cosmic love message has been sent to Hi Li!')">Click to Send Love 💌</button>
 </div>
 
+<!-- Gear -->
 <div class="gear" onclick="changeTheme()">⚙️</div>
 
-<!-- Effects Containers -->
-<div class="stars"></div>
-<div class="hearts"></div>
-<div class="rain-container"></div>
+<script>
+// Messages to display
+const messages = [
+  "✨ Welcome, my friend!",
+  "💖 This is more than a page — it’s a story.",
+  "🌍 A journey of Nicholas and Hi Li.",
+  "🎶 With music, love, and light.",
+  "🍫 Sweet moments and laughter.",
+  "🌹 Love floating like stars.",
+  "🚀 Explore, feel, and enjoy every bit!"
+];
+
+const presentationDiv = document.getElementById("presentation");
+let msgIndex = 0;
+let charIndex = 0;
+
+function typeMessage() {
+  if(msgIndex < messages.length) {
+    const currentMessage = messages[msgIndex];
+    if(charIndex < currentMessage.length) {
+      presentationDiv.textContent += currentMessage.charAt(charIndex);
+      charIndex++;
+      setTimeout(typeMessage, 50);
+    } else {
+      setTimeout(() => {
+        presentationDiv.textContent += "\n\n";
+        msgIndex++;
+        charIndex = 0;
+        typeMessage();
+      }, 1500);
+    }
+  }
+}
+typeMessage();
+
+// Theme changer
+const themes = ["theme-dark","theme-light","theme-romantic"];
+let currentTheme = 0;
+function changeTheme() {
+  document.body.classList.remove(themes[currentTheme]);
+  currentTheme = (currentTheme + 1) % themes.length;
+  document.body.classList.add(themes[currentTheme]);
+}
+
+// Unmute audio after user interaction
+document.body.addEventListener("click", () => {
+  const audio = document.getElementById("loveAudio");
+  audio.muted = false;
+  audio.play();
+});
+
+// Rain drops
+for(let i=0;i<100;i++){
+  const rainDrop = document.createElement("div");
+  rainDrop.classList.add("rain");
+  rainDrop.style.left = Math.random()*100 + "vw";
+  rainDrop.style.animationDuration = (2 + Math.random()*3) + "s";
+  rainDrop.style.opacity = 0.2 + Math.random()*0.8;
+  rainDrop.style.height = 10 + Math.random()*20 + "px";
+  document.body.appendChild(rainDrop);
+}
+</script>
+
+</body>
+</html>

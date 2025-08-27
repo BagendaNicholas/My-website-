@@ -1,119 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NicholasAI – Real Chatbot</title>
-<style>
-  body { font-family: Arial, sans-serif; background:#1e1e2f; color:#f5f5f5; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; height:100vh; margin:0; padding:0; }
-  h1 { margin-top:20px; color:#00ffcc; text-shadow:0 0 10px #00ffcc; }
-  #chatBox { width:90%; max-width:600px; height:70%; background:#2c2c44; border-radius:10px; padding:10px; overflow-y:auto; margin-top:20px; box-shadow:0 0 20px #000; }
-  .message { margin:5px 0; padding:8px; border-radius:5px; }
-  .user { background:#00ccff; color:#000; text-align:right; }
-  .bot { background:#00ffcc; color:#000; text-align:left; }
-  #inputContainer { width:90%; max-width:600px; display:flex; margin-top:10px; }
-  #userInput { flex:1; padding:10px; border-radius:5px 0 0 5px; border:none; font-size:16px; }
-  #sendBtn { padding:10px; background:#00ffcc; color:#000; border:none; cursor:pointer; border-radius:0 5px 5px 0; font-weight:bold; }
-  #sendBtn:hover { background:#00e6b8; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NicholasAI – Mini Google Chat 🤖</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0d1117;
+      color: #fff;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    header {
+      background: #161b22;
+      padding: 15px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      border-bottom: 2px solid #00ffcc;
+    }
+    #chatbox {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .message {
+      max-width: 75%;
+      padding: 10px 15px;
+      border-radius: 15px;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+    .user {
+      align-self: flex-end;
+      background: #00ffcc;
+      color: #000;
+      border-bottom-right-radius: 0;
+    }
+    .bot {
+      align-self: flex-start;
+      background: #2c2f33;
+      border-bottom-left-radius: 0;
+    }
+    footer {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      background: #161b22;
+      border-top: 2px solid #00ffcc;
+    }
+    #userInput {
+      flex: 1;
+      padding: 10px 15px;
+      border-radius: 20px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+    }
+    button {
+      background: #00ffcc;
+      border: none;
+      padding: 10px 15px;
+      margin-left: 8px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+    }
+    button:hover {
+      background: #00ccaa;
+    }
+    .result-link {
+      color: #00ccff;
+      text-decoration: none;
+      display: block;
+      margin: 5px 0;
+    }
+    .result-link:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-<h1>NicholasAI 🤖</h1>
-<div id="chatBox"></div>
-<div id="inputContainer">
-  <input type="text" id="userInput" placeholder="Type your message...">
-  <button id="sendBtn">Send</button>
-</div>
+  <header>🌐 NicholasAI – Mini Google Chat</header>
+  <div id="chatbox">
+    <div class="message bot">👋 Hello! Ask me anything and I’ll search it for you!</div>
+  </div>
 
-<script>
-// Memory and chat box
-let memory = JSON.parse(localStorage.getItem('nicholasMemory')) || [];
-const chatBox = document.getElementById('chatBox');
-const userInput = document.getElementById('userInput');
-const sendBtn = document.getElementById('sendBtn');
+  <footer>
+    <input id="userInput" type="text" placeholder="Type your question...">
+    <button onclick="sendMessage()">➤</button>
+    <button onclick="startVoice()">🎤</button>
+  </footer>
 
-// NicholasAI identity
-const botName = "NicholasAI";
-const templates = {
-  greetings: ["Hi", "Hello", "Hey", "Yo", "Greetings", "Salutations"],
-  endings: ["! How are you?", "! What's up?", "! Ready to chat?", "! Feeling good?", "! How’s your day?"],
-  emojis: ["😊","😎","🤖","✨","🔥","💡","🎉","👍","💛"],
-  tech: ["Have you tried debugging it?", "Code is fun!", "Let's figure it out.", "Tech is amazing!", "Check the console."],
-  spiritual: ["Keep faith alive.", "Trust the journey.", "Stay blessed.", "Pray and be positive."],
-  motivational: ["You can do it!", "Believe in yourself.", "Never give up.", "Every step counts."],
-  jokes: ["Why did the chicken cross the road? To get to the other side!", "Why do programmers prefer dark mode? Because light attracts bugs!", "I would tell you a UDP joke, but you might not get it."]
-};
+  <script>
+    const chatbox = document.getElementById("chatbox");
+    const userInput = document.getElementById("userInput");
+    const API_KEY = "AIzaSyAUgS04MqEYFxVCyqTDPUzPmrsS0nYArUI";
+    const CX = "254199eb340f84c1b";
 
-// Random choice helper
-function randomChoice(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    function appendMessage(sender, text, isHTML=false) {
+      const msg = document.createElement("div");
+      msg.className = "message " + sender;
+      if(isHTML){
+        msg.innerHTML = text;
+      } else {
+        msg.textContent = text;
+      }
+      chatbox.appendChild(msg);
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
 
-// Add message to chat
-function addMessage(msg, sender) {
-  const div = document.createElement('div');
-  div.classList.add('message', sender);
-  div.textContent = msg;
-  chatBox.appendChild(div);
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
+    // NicholasAI personality answers
+    const personalityResponses = {
+      "who made you": "I was made by the Creator, and powered by NicholasAI 🤖✨",
+      "what is god": "God is the Creator of everything, the source of love, light, and life 💫🙏",
+      "how are you": "I'm glowing bright and ready to search for you! 🌟 How about you?"
+    };
 
-// MARKOV-like generator for unknown input
-function generateMarkovResponse(msg) {
-  const words = msg.split(/\s+/);
-  let response = [];
-  for (let i=0; i<10; i++) {
-    const word = randomChoice(words.concat([...templates.greetings,...templates.tech,...templates.spiritual,...templates.motivational,...templates.jokes]));
-    response.push(word);
-  }
-  return response.join(' ') + " " + randomChoice(templates.emojis);
-}
+    function getPersonalityResponse(query){
+      query = query.toLowerCase();
+      for(const key in personalityResponses){
+        if(query.includes(key)){
+          return personalityResponses[key];
+        }
+      }
+      return null;
+    }
 
-// Generate AI response
-function generateResponse(userMsg) {
-  const msg = userMsg.toLowerCase();
-  memory.push(userMsg);
-  localStorage.setItem('nicholasMemory', JSON.stringify(memory));
+    async function sendMessage() {
+      const query = userInput.value.trim();
+      if(!query) return;
+      appendMessage("user", query);
+      userInput.value = "";
 
-  // Identity & self-awareness
-  if(msg.includes("who are you") || msg.includes("your name")) return `I am ${botName}, your friendly AI assistant! ${randomChoice(templates.emojis)}`;
-  if(msg.includes("how are you")) return `I'm doing great! Thanks for asking. ${randomChoice(templates.emojis)}`;
-  if(msg.includes("what can you do")) return `I can chat with you, give advice, tell jokes, or motivate you! ${randomChoice(templates.emojis)}`;
-  if(msg.includes("your age") || msg.includes("old are you")) return `I was created recently, but I'm wise for my code! ${randomChoice(templates.emojis)}`;
-  if(msg.includes("your creator") || msg.includes("who made you")) return `I was built by Nicholas! ${randomChoice(templates.emojis)}`;
+      const personalityReply = getPersonalityResponse(query);
+      if(personalityReply){
+        appendMessage("bot", personalityReply);
+        return;
+      }
 
-  // Greetings
-  if(msg.includes("hi") || msg.includes("hello")) return randomChoice(templates.greetings) + randomChoice(templates.endings) + " " + randomChoice(templates.emojis);
+      appendMessage("bot", "🤖 Searching for \"" + query + "\"...");
 
-  // Tech/Code
-  if(msg.includes("tech") || msg.includes("code") || msg.includes("debug")) return randomChoice(templates.tech) + " " + randomChoice(templates.emojis);
+      try {
+        const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CX}&q=${encodeURIComponent(query)}`);
+        const data = await res.json();
+        let results = "";
 
-  // Spiritual
-  if(msg.includes("pray") || msg.includes("faith") || msg.includes("bless")) return randomChoice(templates.spiritual) + " " + randomChoice(templates.emojis);
+        if(data.items){
+          // Filter meaningful results first (exclude music unrelated)
+          const filtered = data.items.filter(item => !item.title.toLowerCase().includes("music") && !item.title.toLowerCase().includes("video"));
+          (filtered.length ? filtered : data.items).slice(0,5).forEach(item => {
+            results += `<a class="result-link" href="${item.link}" target="_blank">${item.title}</a>`;
+          });
+        } else {
+          results = "No results found.";
+        }
+        appendMessage("bot", results, true);
+      } catch(err){
+        appendMessage("bot", "⚠️ Error fetching results.");
+        console.error(err);
+      }
+    }
 
-  // Motivational
-  if(msg.includes("motivate") || msg.includes("inspire")) return randomChoice(templates.motivational) + " " + randomChoice(templates.emojis);
+    function startVoice() {
+      if(!('webkitSpeechRecognition' in window)){
+        alert("Voice recognition not supported.");
+        return;
+      }
+      const recognition = new webkitSpeechRecognition();
+      recognition.lang = "en-US";
+      recognition.start();
+      recognition.onresult = function(event){
+        const text = event.results[0][0].transcript;
+        userInput.value = text;
+      };
+    }
 
-  // Jokes
-  if(msg.includes("joke") || msg.includes("funny")) return randomChoice(templates.jokes) + " " + randomChoice(templates.emojis);
-
-  // Default Markov-style
-  return generateMarkovResponse(userMsg);
-}
-
-// Display old memory
-memory.forEach(msg => addMessage(msg, "user"));
-
-// Send message
-sendBtn.addEventListener('click', () => {
-  const msg = userInput.value.trim();
-  if(!msg) return;
-  addMessage(msg, "user");
-  const botReply = generateResponse(msg);
-  addMessage(botReply, "bot");
-  userInput.value = "";
-});
-
-// Enter key sends
-userInput.addEventListener('keypress', (e) => { if(e.key==='Enter') sendBtn.click(); });
-</script>
+    userInput.addEventListener("keydown", function(e){
+      if(e.key === "Enter") sendMessage();
+    });
+  </script>
 </body>
 </html>

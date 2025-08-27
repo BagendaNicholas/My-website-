@@ -1,157 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NicholasAI Assistant</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0a0f29;
-      color: white;
-      margin: 0;
-      padding: 0;
-    }
-
-    /* Floating Button */
-    #chatButton {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #1e90ff;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      font-size: 28px;
-      cursor: pointer;
-      box-shadow: 0 0 15px #1e90ff;
-    }
-
-    /* Chat Window */
-    #chatWindow {
-      display: none;
-      position: fixed;
-      bottom: 90px;
-      right: 20px;
-      width: 300px;
-      height: 400px;
-      background: #121635;
-      border-radius: 15px;
-      box-shadow: 0 0 25px #1e90ff;
-      overflow: hidden;
-      flex-direction: column;
-    }
-
-    #chatHeader {
-      background: #1e90ff;
-      padding: 10px;
-      font-weight: bold;
-      text-align: center;
-    }
-
-    #chatMessages {
-      flex: 1;
-      padding: 10px;
-      overflow-y: auto;
-    }
-
-    #chatInput {
-      display: flex;
-      border-top: 1px solid #1e90ff;
-    }
-
-    #chatInput input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      outline: none;
-      background: #0a0f29;
-      color: white;
-    }
-
-    #chatInput button {
-      background: #1e90ff;
-      border: none;
-      color: white;
-      padding: 10px;
-      cursor: pointer;
-    }
-
-    .message {
-      margin: 5px 0;
-      padding: 8px;
-      border-radius: 10px;
-      max-width: 80%;
-    }
-
-    .user {
-      background: #1e90ff;
-      align-self: flex-end;
-      text-align: right;
-    }
-
-    .bot {
-      background: #2d325a;
-      align-self: flex-start;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NicholasAI – Chat & Search 🤖</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #0d1117;
+  color: #fff;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+header {
+  background: #161b22;
+  padding: 15px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  border-bottom: 2px solid #00ffcc;
+}
+#chatbox {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.message {
+  max-width: 75%;
+  padding: 10px 15px;
+  border-radius: 15px;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+.user {
+  align-self: flex-end;
+  background: #00ffcc;
+  color: #000;
+  border-bottom-right-radius: 0;
+}
+.bot {
+  align-self: flex-start;
+  background: #2c2f33;
+  border-bottom-left-radius: 0;
+}
+footer {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background: #161b22;
+  border-top: 2px solid #00ffcc;
+}
+#userInput {
+  flex: 1;
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+button {
+  background: #00ffcc;
+  border: none;
+  padding: 10px 15px;
+  margin-left: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+}
+button:hover {
+  background: #00ccaa;
+}
+.result-link {
+  color: #00ccff;
+  text-decoration: none;
+  display: inline-block;
+  margin: 3px 0;
+}
+.result-link:hover {
+  text-decoration: underline;
+}
+.summary {
+  margin-top: 5px;
+  font-style: italic;
+}
+</style>
 </head>
 <body>
-  <!-- Floating Button -->
-  <button id="chatButton">💬</button>
 
-  <!-- Chat Window -->
-  <div id="chatWindow">
-    <div id="chatHeader">🤖 NicholasAI</div>
-    <div id="chatMessages"></div>
-    <div id="chatInput">
-      <input type="text" id="userInput" placeholder="Type a message...">
-      <button onclick="sendMessage()">➤</button>
-    </div>
-  </div>
+<header>🌐 NicholasAI – Chat & Search 🤖</header>
 
-  <script>
-    const chatButton = document.getElementById('chatButton');
-    const chatWindow = document.getElementById('chatWindow');
-    const chatMessages = document.getElementById('chatMessages');
-    const userInput = document.getElementById('userInput');
+<div id="chatbox">
+  <div class="message bot">👋 Hey! Ask me anything, and I’ll give you a quick chatty summary plus useful links! 🔍</div>
+</div>
 
-    chatButton.addEventListener('click', () => {
-      chatWindow.style.display = chatWindow.style.display === 'flex' ? 'none' : 'flex';
-      chatWindow.style.flexDirection = 'column';
-    });
+<footer>
+  <input id="userInput" type="text" placeholder="Type your question...">
+  <button onclick="sendMessage()">➤</button>
+  <button onclick="startVoice()">🎤</button>
+</footer>
 
-    function sendMessage() {
-      const message = userInput.value.trim();
-      if (message === '') return;
+<script>
+const chatbox = document.getElementById("chatbox");
+const userInput = document.getElementById("userInput");
 
-      addMessage(message, 'user');
-      userInput.value = '';
+const API_KEY = "AIzaSyAUgS04MqEYFxVCyqTDPUzPmrsS0nYArUI";
+const CX = "254199eb340f84c1b";
 
-      setTimeout(() => {
-        const reply = getBotReply(message);
-        addMessage(reply, 'bot');
-      }, 600);
+function appendMessage(sender, text, isHTML=false){
+  const msg = document.createElement("div");
+  msg.className = "message " + sender;
+  if(isHTML) msg.innerHTML = text;
+  else msg.textContent = text;
+  chatbox.appendChild(msg);
+  chatbox.scrollTop = chatbox.scrollHeight;
+}
+
+async function sendMessage(){
+  const query = userInput.value.trim();
+  if(!query) return;
+  appendMessage("user", query);
+  userInput.value = "";
+  appendMessage("bot", `🤖 Hold on, I’m looking up "${query}" for you...`);
+
+  try {
+    const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CX}&q=${encodeURIComponent(query)}`);
+    const data = await res.json();
+    
+    if(data.items && data.items.length > 0){
+      let chatText = `💡 Here’s what I found about "<b>${query}</b>": `;
+      let linksHTML = "";
+      
+      data.items.slice(0,5).forEach((item, index)=>{
+        chatText += `\n• ${item.snippet} `;
+        linksHTML += `<a class="result-link" href="${item.link}" target="_blank">${index+1}. ${item.title}</a><br>`;
+      });
+      
+      appendMessage("bot", `${chatText}<div class="summary"><b>Useful links:</b><br>${linksHTML}</div>`, true);
+    } else {
+      appendMessage("bot", "⚠️ Hmm, I couldn’t find anything useful on that. Try asking differently!");
     }
+    
+  } catch(err){
+    appendMessage("bot", "⚠️ Oops! There was an error fetching info. 😅");
+    console.error(err);
+  }
+}
 
-    function addMessage(text, sender) {
-      const msg = document.createElement('div');
-      msg.classList.add('message', sender);
-      msg.innerText = text;
-      chatMessages.appendChild(msg);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
+function startVoice(){
+  if(!('webkitSpeechRecognition' in window)){
+    alert("Voice recognition not supported.");
+    return;
+  }
+  const recognition = new webkitSpeechRecognition();
+  recognition.lang = "en-US";
+  recognition.start();
+  recognition.onresult = function(event){
+    userInput.value = event.results[0][0].transcript;
+  };
+}
 
-    function getBotReply(message) {
-      const msg = message.toLowerCase();
-      if (msg.includes("hello")) return "Hello 👋, I’m NicholasAI! How can I help you today?";
-      if (msg.includes("verse")) return "📖 John 3:16 - For God so loved the world...";
-      if (msg.includes("who are you")) return "I’m NicholasAI, your personal assistant powered by Grayson 🤝.";
-      if (msg.includes("bye")) return "Goodbye 👋, may God bless you!";
-      return "Hmm 🤔, I’m still learning... but Grayson is helping me get smarter!";
-    }
-  </script>
+userInput.addEventListener("keydown", function(e){
+  if(e.key === "Enter") sendMessage();
+});
+</script>
+
 </body>
 </html>

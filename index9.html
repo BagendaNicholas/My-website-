@@ -3,112 +3,194 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nicholas Bagenda – Portfolio</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
-  <script src="https://cdn.jsdelivr.net/npm/framer-motion@10.12.16/dist/framer-motion.umd.js"></script>
+  <title>Nicholas Presentation</title>
   <style>
     body {
-      background: linear-gradient(to right, #0f172a, #1e293b);
-      color: white;
-      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #fff;
+      text-align: center;
+      overflow-x: hidden;
     }
-    .gear {
+
+    h1 {
+      margin-top: 50px;
+      font-size: 2.5rem;
+      color: #38bdf8;
+    }
+
+    .presentation-text {
+      margin-top: 30px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      min-height: 100px;
+      white-space: pre-wrap;
+    }
+
+    /* Fixed navigation buttons */
+    .fixed-buttons {
       position: fixed;
       top: 20px;
       right: 20px;
-      background: #1e293b;
-      padding: 10px;
-      border-radius: 50%;
-      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .fixed-buttons a {
+      text-decoration: none;
+      background: #38bdf8;
+      color: black;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: bold;
       transition: 0.3s;
     }
-    .gear:hover {
-      background: #334155;
+
+    .fixed-buttons a:hover {
+      background: #0ea5e9;
+      color: white;
     }
-    .theme-panel {
-      display: none;
-      position: fixed;
-      top: 60px;
-      right: 20px;
-      background: #1e293b;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+
+    /* Extra buttons */
+    .index2-1-btn {
+      margin-top: 50px;
     }
-    .theme-option {
-      margin: 5px 0;
-      padding: 8px;
-      border-radius: 5px;
+
+    .index2-1-btn button {
+      margin: 10px;
+      padding: 12px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 12px;
       cursor: pointer;
-      text-align: center;
+      font-weight: bold;
+      background: #38bdf8;
+      transition: 0.3s;
     }
-    .theme-option:hover {
-      background: #475569;
+
+    .index2-1-btn button:hover {
+      background: #0ea5e9;
+      color: white;
     }
-    .typing {
-      font-size: 1.5rem;
-      border-right: 2px solid #fff;
-      white-space: nowrap;
-      overflow: hidden;
-      width: 0;
-      animation: typing 3s steps(40, end) forwards, blink 0.7s step-end infinite;
+
+    /* Gear button */
+    .gear {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      font-size: 2rem;
+      cursor: pointer;
+      background: #38bdf8;
+      padding: 10px;
+      border-radius: 50%;
+      transition: 0.3s;
     }
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 100%; }
+
+    .gear:hover {
+      background: #0ea5e9;
+      color: white;
     }
-    @keyframes blink {
-      50% { border-color: transparent; }
+
+    /* Theme variations */
+    .theme-light {
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      color: #111;
+    }
+
+    .theme-dark {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #fff;
+    }
+
+    .theme-romantic {
+      background: linear-gradient(135deg, #ec4899, #f472b6);
+      color: #fff;
     }
   </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen text-center p-6">
+<body id="top" class="theme-dark">
 
-  <!-- Gear button -->
-  <div class="gear" onclick="toggleThemePanel()">⚙️</div>
+  <!-- Music -->
+  <audio id="loveAudio" autoplay muted loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
+    Your browser does not support the audio tag.
+  </audio>
 
-  <!-- Theme panel -->
-  <div class="theme-panel" id="themePanel">
-    <div class="theme-option" onclick="setTheme('dark')">🌑 Dark</div>
-    <div class="theme-option" onclick="setTheme('light')">🌕 Light</div>
-    <div class="theme-option" onclick="setTheme('blue')">🔵 Blue</div>
-    <div class="theme-option" onclick="setTheme('green')">🟢 Green</div>
+  <h1>🌟 Welcome to Nicholas Presentation 🌟</h1>
+
+  <div class="presentation-text" id="presentation"></div>
+
+  <!-- Navigation -->
+  <div class="fixed-buttons">
+    <a href="#top">🔝 Top</a>
+    <a href="home.html">🏡 Home</a>
   </div>
 
-  <!-- Text presentation -->
-  <h1 id="introText" class="typing"></h1>
+  <!-- Extra Buttons -->
+  <div class="index2-1-btn">
+    <a href="index2.1.html"><button>🚀 Index 2.1</button></a>
+    <a href="https://ndikiryanicholas.github.io/Lillian-/index.html" target="_blank"><button>🌍 Visit Lillian</button></a>
+    <button onclick="alert('💌 A cosmic love message has been sent to Hi Li!')">Click to Send Love 💌</button>
+  </div>
+
+  <!-- Gear button -->
+  <div class="gear" onclick="changeTheme()">⚙️</div>
 
   <script>
-    const text = "Welcome to Nicholas Bagenda’s Professional Portfolio.";
-    let index = 0;
-    function typeEffect() {
-      if (index < text.length) {
-        document.getElementById("introText").textContent += text.charAt(index);
-        index++;
-        setTimeout(typeEffect, 100);
-      }
-    }
-    window.onload = typeEffect;
+    // Messages to display
+    const messages = [
+      "✨ Welcome, my friend!",
+      "💖 This is more than a page — it’s a story.",
+      "🌍 A journey of Nicholas and Hi Li.",
+      "🎶 With music, love, and light.",
+      "🚀 Explore, feel, and enjoy!"
+    ];
 
-    function toggleThemePanel() {
-      const panel = document.getElementById("themePanel");
-      panel.style.display = (panel.style.display === "block") ? "none" : "block";
-    }
-    function setTheme(theme) {
-      if (theme === "dark") {
-        document.body.style.background = "linear-gradient(to right, #0f172a, #1e293b)";
-        document.body.style.color = "white";
-      } else if (theme === "light") {
-        document.body.style.background = "#f8fafc";
-        document.body.style.color = "black";
-      } else if (theme === "blue") {
-        document.body.style.background = "linear-gradient(to right, #1e3a8a, #3b82f6)";
-        document.body.style.color = "white";
-      } else if (theme === "green") {
-        document.body.style.background = "linear-gradient(to right, #065f46, #10b981)";
-        document.body.style.color = "white";
+    const presentationDiv = document.getElementById("presentation");
+    let msgIndex = 0;
+    let charIndex = 0;
+
+    function typeMessage() {
+      if (msgIndex < messages.length) {
+        const currentMessage = messages[msgIndex];
+        if (charIndex < currentMessage.length) {
+          presentationDiv.textContent += currentMessage.charAt(charIndex);
+          charIndex++;
+          setTimeout(typeMessage, 50); // typing speed
+        } else {
+          // After full message, wait 1.5s and go to next
+          setTimeout(() => {
+            presentationDiv.textContent += "\n\n";
+            msgIndex++;
+            charIndex = 0;
+            typeMessage();
+          }, 1500);
+        }
       }
     }
+
+    typeMessage();
+
+    // Theme changer
+    const themes = ["theme-dark", "theme-light", "theme-romantic"];
+    let currentTheme = 0;
+
+    function changeTheme() {
+      document.body.classList.remove(themes[currentTheme]);
+      currentTheme = (currentTheme + 1) % themes.length;
+      document.body.classList.add(themes[currentTheme]);
+    }
+
+    // Unmute audio after user interaction
+    document.body.addEventListener("click", () => {
+      const audio = document.getElementById("loveAudio");
+      audio.muted = false;
+      audio.play();
+    });
   </script>
 </body>
 </html>

@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Nicholas Bagenda – Login</title>
+  
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
 
   <link rel="manifest" href="/manifest.json">
@@ -15,7 +16,7 @@
   <link rel="shortcut icon" href="/icons/favicon.ico">
   <meta name="theme-color" content="#0d1b2a">
   <meta name="apple-mobile-web-app-title" content="NicholasAI">
-  
+
   <style>
     body {
       background: linear-gradient(to bottom, #0f172a, #1e293b);
@@ -192,39 +193,46 @@
 <body class="text-white min-h-screen flex items-center justify-center flex-col px-4 relative z-10">
   <div class="fog"></div>
   <div class="smoke"></div>
-  <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Bagenda Logo" class="w-32 h-auto mb-6 rounded-xl border-2 border-blue-400 bg-white bg-opacity-10 backdrop-blur-sm logo-glow" />
   
-  <div class="bg-white bg-opacity-10 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md border border-blue-500 z-20">
-    <h1 class="text-3xl font-bold mb-6 text-center glow-text">🌟  “I’m Nicholas Bagenda,a Ugandan self-taught web developer and digital dreamer. I don’t just build websites—I build stories. I believe in using tech with heart, and turning simple ideas into something that can inspire, uplift, and create purpose. Whether through a project, a message, or even a smile—my goal is to leave a mark that matters.”
- – Login</h1>
+  <main class="w-full max-w-md flex flex-col items-center">
+    <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Bagenda Logo" class="w-32 h-auto mb-6 rounded-xl border-2 border-blue-400 bg-white bg-opacity-10 backdrop-blur-sm logo-glow" />
     
-    <input id="email" type="email" placeholder="Email" class="w-full p-3 rounded-lg mb-4 text-black" aria-label="Email"/>
-    <input id="password" type="password" placeholder="Password" class="w-full p-3 rounded-lg mb-2 text-black" aria-label="Password"/>
+    <form class="bg-white bg-opacity-10 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md border border-blue-500 z-20" onsubmit="return false;">
+      <h1 class="text-3xl font-bold mb-6 text-center glow-text">
+        🌟 “I’m Nicholas Bagenda, a Ugandan self-taught web developer and digital dreamer. I don’t just build websites—I build stories. I believe in using tech with heart, and turning simple ideas into something that can inspire, uplift, and create purpose. Whether through a project, a message, or even a smile—my goal is to leave a mark that matters.” – Login
+      </h1>
+      
+      <label for="email" class="sr-only">Email</label>
+      <input id="email" type="email" placeholder="Email" class="w-full p-3 rounded-lg mb-4 text-black" />
+      
+      <label for="password" class="sr-only">Password</label>
+      <input id="password" type="password" placeholder="Password" class="w-full p-3 rounded-lg mb-2 text-black" />
 
-    <div id="error-message" class="error-message"></div>
-    
-    <div class="flex justify-between items-center text-sm text-white mb-4">
-      <label class="flex items-center">
-        <input type="checkbox" class="mr-2" /> Remember Me
-      </label>
-      <a href="#" class="hover:underline text-blue-300">Forgot Password?</a>
-    </div>
+      <div id="error-message" class="error-message"></div>
+      
+      <div class="flex justify-between items-center text-sm text-white mb-4">
+        <label class="flex items-center">
+          <input type="checkbox" class="mr-2" /> Remember Me
+        </label>
+        <a href="#" class="hover:underline text-blue-300">Forgot Password?</a>
+      </div>
 
-    <div class="flex justify-between gap-4">
-      <button id="signupBtn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl w-full" aria-label="Sign Up">Sign Up</button>
-      <button id="loginBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl w-full" aria-label="Sign In">Sign In</button>
-    </div>
+      <div class="flex justify-between gap-4">
+        <button id="signupBtn" type="button" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl w-full">Sign Up</button>
+        <button id="loginBtn" type="button" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl w-full">Sign In</button>
+      </div>
 
-    <div class="my-4 text-center">
-      <span class="text-gray-400">or</span>
-    </div>
+      <div class="my-4 text-center">
+        <span class="text-gray-400">or</span>
+      </div>
 
-    <button id="googleLoginBtn" class="google-btn" aria-label="Sign in with Google">
-      <span class="google-icon"></span>
-      Sign in with Google
-    </button>
-  </div>
-
+      <button id="googleLoginBtn" type="button" class="google-btn">
+        <span class="google-icon"></span>
+        Sign in with Google
+      </button>
+    </form>
+  </main>
+  
   <div id="unlockOverlay" class="overlay">
     <div class="padlock-icon">🔒</div>
     <div class="key-icon">🔑</div>
@@ -288,6 +296,8 @@
       welcomeAudio.play().catch(error => console.error("Audio playback failed:", error));
 
       setTimeout(() => {
+        // You might want to remove the lightning div here to clean up the DOM
+        document.body.removeChild(lightning);
         window.location.href = "home.html";
       }, 7000);
     }
@@ -296,6 +306,10 @@
     signupBtn.addEventListener("click", () => {
       const email = emailInput.value;
       const password = passwordInput.value;
+      if (!email || !password) {
+        displayError("Please enter both email and password.");
+        return;
+      }
       createUserWithEmailAndPassword(auth, email, password)
         .then(triggerSuccessAnimation)
         .catch(err => displayError(err.message));
@@ -304,6 +318,10 @@
     loginBtn.addEventListener("click", () => {
       const email = emailInput.value;
       const password = passwordInput.value;
+      if (!email || !password) {
+        displayError("Please enter both email and password.");
+        return;
+      }
       signInWithEmailAndPassword(auth, email, password)
         .then(triggerSuccessAnimation)
         .catch(err => displayError(err.message));
@@ -317,6 +335,7 @@
         .catch(err => displayError(err.message));
     });
 
+    // Raindrop animation
     document.addEventListener("DOMContentLoaded", () => {
       for (let i = 0; i < 100; i++) {
         const drop = document.createElement('div');

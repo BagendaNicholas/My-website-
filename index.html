@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Nicholas Bagenda – Login</title>
   
+  <meta name="description" content="I’m Nicholas Bagenda,a Ugandan self-taught web developer and digital dreamer. I don’t just build websites—I build stories. I believe in using tech with heart, and turning simple ideas into something that can inspire, uplift, and create purpose. Whether through a project, a message, or even a smile—my goal is to leave a mark that matters."/>
+  
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
 
   <link rel="manifest" href="/manifest.json">
@@ -296,7 +298,6 @@
       welcomeAudio.play().catch(error => console.error("Audio playback failed:", error));
 
       setTimeout(() => {
-        // You might want to remove the lightning div here to clean up the DOM
         document.body.removeChild(lightning);
         window.location.href = "home.html";
       }, 7000);

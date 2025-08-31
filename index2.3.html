@@ -17,6 +17,33 @@
          color: white;
       }
 
+      .card {
+         background: rgba(255, 255, 255, 0.08);
+         border-radius: 20px;
+         padding: 40px 30px;
+         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+         backdrop-filter: blur(15px);
+         -webkit-backdrop-filter: blur(15px);
+         border: 1px solid rgba(255, 255, 255, 0.2);
+         max-width: 400px;
+         width: 90%;
+         animation: fadeIn 1s ease-in-out;
+      }
+
+      h1 {
+         font-size: 2.2rem;
+         margin-bottom: 15px;
+         background: linear-gradient(135deg, #00c6ff, #007bff);
+         -webkit-background-clip: text;
+         -webkit-text-fill-color: transparent;
+      }
+
+      p {
+         font-size: 1rem;
+         margin-bottom: 25px;
+         opacity: 0.9;
+      }
+
       .download-btn {
          display: inline-flex;
          align-items: center;
@@ -40,22 +67,11 @@
       .download-btn:hover {
          background: linear-gradient(135deg, #0056b3, #0099cc);
          transform: scale(1.07) translateY(-2px);
-         box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+         box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
       }
 
       .download-btn:active {
-         transform: scale(0.98);
-      }
-
-      h1 {
-         font-size: 2.2rem;
-         margin-bottom: 20px;
-      }
-
-      p {
-         font-size: 1rem;
-         margin-bottom: 30px;
-         opacity: 0.85;
+         transform: scale(0.96);
       }
 
       @media (max-width: 600px) {
@@ -71,13 +87,18 @@
             width: 28px;
          }
       }
+
+      @keyframes fadeIn {
+         from { opacity: 0; transform: translateY(20px); }
+         to { opacity: 1; transform: translateY(0); }
+      }
    </style>
 </head>
 <body>
 
-   <div>
-      <h1>🚀 Download NicholasAI</h1>
-      <p>Get the latest APK version of NicholasAI and experience smart assistance anywhere.</p>
+   <div class="card">
+      <h1>🚀 NicholasAI</h1>
+      <p>Download the latest NicholasAI APK and unlock smart assistance today.</p>
       <a href="https://github.com/BagendaNicholas/My-website-/raw/main/NicholasAI%20(11).apk" download class="download-btn">
          <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="NicholasAI Logo">
          Download APK

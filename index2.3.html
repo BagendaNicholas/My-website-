@@ -8,16 +8,59 @@
       body {
          margin: 0;
          font-family: "Poppins", sans-serif;
-         background: linear-gradient(135deg, #1e3c72, #2a5298);
+         background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
          display: flex;
          justify-content: center;
          align-items: center;
          height: 100vh;
          text-align: center;
+         overflow: hidden;
          color: white;
       }
 
+      /* Particle Background */
+      .particles {
+         position: absolute;
+         width: 100%;
+         height: 100%;
+         overflow: hidden;
+         top: 0;
+         left: 0;
+         z-index: 0;
+      }
+
+      .particles span {
+         position: absolute;
+         display: block;
+         width: 8px;
+         height: 8px;
+         border-radius: 50%;
+         animation: float 12s linear infinite;
+         bottom: -10px;
+         filter: blur(1px);
+      }
+
+      /* Neon Colors */
+      .particles span:nth-child(1) { left: 10%; background: #00f7ff; animation-delay: 0s; }
+      .particles span:nth-child(2) { left: 20%; background: #ff00ff; animation-delay: 2s; width: 10px; height: 10px; }
+      .particles span:nth-child(3) { left: 30%; background: #00ffea; animation-delay: 4s; }
+      .particles span:nth-child(4) { left: 40%; background: #8a2be2; animation-delay: 1s; width: 12px; height: 12px; }
+      .particles span:nth-child(5) { left: 50%; background: #ff1493; animation-delay: 3s; }
+      .particles span:nth-child(6) { left: 60%; background: #00bfff; animation-delay: 5s; width: 9px; height: 9px; }
+      .particles span:nth-child(7) { left: 70%; background: #ff00aa; animation-delay: 7s; }
+      .particles span:nth-child(8) { left: 80%; background: #00ffcc; animation-delay: 6s; width: 11px; height: 11px; }
+      .particles span:nth-child(9) { left: 90%; background: #9932cc; animation-delay: 8s; }
+      .particles span:nth-child(10) { left: 95%; background: #39ff14; animation-delay: 9s; width: 10px; height: 10px; }
+
+      @keyframes float {
+         0% { transform: translateY(0) scale(1); opacity: 1; }
+         100% { transform: translateY(-110vh) scale(0.5); opacity: 0; }
+      }
+
+      /* Glass Card */
       .card {
+         position: relative;
+         z-index: 1;
          background: rgba(255, 255, 255, 0.08);
          border-radius: 20px;
          padding: 40px 30px;
@@ -33,7 +76,7 @@
       h1 {
          font-size: 2.2rem;
          margin-bottom: 15px;
-         background: linear-gradient(135deg, #00c6ff, #007bff);
+         background: linear-gradient(135deg, #00c6ff, #ff00ff);
          -webkit-background-clip: text;
          -webkit-text-fill-color: transparent;
       }
@@ -65,9 +108,9 @@
       }
 
       .download-btn:hover {
-         background: linear-gradient(135deg, #0056b3, #0099cc);
+         background: linear-gradient(135deg, #ff00ff, #0099cc);
          transform: scale(1.07) translateY(-2px);
-         box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+         box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
       }
 
       .download-btn:active {
@@ -96,6 +139,21 @@
 </head>
 <body>
 
+   <!-- Particle Background -->
+   <div class="particles">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+   </div>
+
+   <!-- Glass Card -->
    <div class="card">
       <h1>🚀 NicholasAI</h1>
       <p>Download the latest NicholasAI APK and unlock smart assistance today.</p>

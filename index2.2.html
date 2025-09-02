@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Advanced Secure Notebook</title>
+<title>Nk Advanced Secure Notebook</title>
 <style>
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -77,14 +77,14 @@
     padding: 12px 18px;
     margin: 0;
   }
-  #notesList {
+  #notesList, #recycleBinList {
     list-style: none;
     padding: 0;
     margin-top: 20px;
     max-height: 300px;
     overflow-y: auto;
   }
-  #notesList li {
+  #notesList li, #recycleBinList li {
     background: #34495e;
     padding: 12px;
     border-radius: 8px;
@@ -94,10 +94,10 @@
     align-items: center;
     transition: background 0.3s ease;
   }
-  #notesList li:hover {
+  #notesList li:hover, #recycleBinList li:hover {
     background: #465d75;
   }
-  #notesList li span {
+  #notesList li span, #recycleBinList li span {
     flex-grow: 1;
     cursor: pointer;
     white-space: nowrap;
@@ -118,6 +118,21 @@
     font-style: italic;
     color: #95a5a6;
   }
+  .recycle-bin-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(236, 240, 241, 0.1);
+  }
+  .recycle-bin-section h3 {
+    text-align: center;
+    color: #f1c40f;
+  }
+  .restore-btn {
+    background: #2ecc71;
+  }
+  .restore-btn:hover {
+    background: #27ae60;
+  }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
@@ -133,7 +148,7 @@
   </div>
   <div class="flex-row">
     <button class="delete-btn" onclick="deleteFolder()">🗑 Delete Folder</button>
-    </div>
+  </div>
 
   <input type="text" id="searchNotes" placeholder="🔍 Search notes..." oninput="filterNotes()">
 
@@ -160,6 +175,11 @@
   <p class="status-message" id="statusMessage"></p>
   
   <ul id="notesList"></ul>
+
+  <div class="recycle-bin-section">
+    <h3>🗑️ Recycle Bin</h3>
+    <ul id="recycleBinList"></ul>
+  </div>
 </div>
 
 <script>
@@ -178,7 +198,7 @@
       folderSelect.appendChild(opt);
     });
     if (Object.keys(data).length === 0) {
-      data["Default"] = { salt: CryptoJS.lib.WordArray.random(128/8).toString(), password: null, notes: [] };
+      data["Default"] = { salt: CryptoJS.lib.WordArray.random(128/8).toString(), password: null, notes: [], recycled: [] };
       saveData();
     }
     folderSelect.value = Object.keys(data)[0];
@@ -196,9 +216,8 @@
       return showStatus("Folder already exists!", "error");
     }
 
-    // No password prompt
     let salt = CryptoJS.lib.WordArray.random(128/8).toString();
-    data[folderName] = { salt: salt, password: null, notes: [] };
+    data[folderName] = { salt: salt, password: null, notes: [], recycled: [] };
     
     saveData();
     document.getElementById("newFolderName").value = "";
@@ -215,7 +234,7 @@
       return showStatus("Cannot delete the last folder.", "error");
     }
 
-    if (!confirm(`Are you sure you want to delete folder "${folder}" and all its notes?`)) {
+    if (!confirm(`Are you sure you want to delete folder "${folder}" and all its notes and recycled items? This is permanent.`)) {
       return;
     }
     
@@ -223,7 +242,7 @@
     saveData();
     activeFolderKey = null;
     init();
-    showStatus(`Folder "${folder}" and its notes have been permanently deleted.`);
+    showStatus(`Folder "${folder}" and its contents have been permanently deleted.`);
   }
 
   async function unlockFolder() {
@@ -232,13 +251,14 @@
 
     if (!folderData) {
       document.getElementById("notesList").innerHTML = "<li>No folder selected.</li>";
+      document.getElementById("recycleBinList").innerHTML = "";
       return;
     }
 
-    // No password needed, just derive the key
     activeFolderKey = await deriveKey("", folderData.salt);
     
     loadNotes();
+    loadRecycleBin();
     showStatus(`Folder "${folder}" unlocked.`);
   }
 
@@ -259,13 +279,7 @@
     }
 
     notes.forEach((encrypted, index) => {
-      let noteContent;
-      try {
-        let bytes = CryptoJS.AES.decrypt(encrypted, activeFolderKey);
-        noteContent = bytes.toString(CryptoJS.enc.Utf8) || "Unable to decrypt";
-      } catch {
-        noteContent = "Unable to decrypt";
-      }
+      let noteContent = decryptNote(encrypted);
       
       let li = document.createElement("li");
       let textSpan = document.createElement("span");
@@ -278,12 +292,73 @@
       delBtn.className = "delete-btn";
       delBtn.onclick = (e) => {
         e.stopPropagation();
-        deleteNote(index);
+        moveToRecycleBin(index);
       };
       li.appendChild(textSpan);
       li.appendChild(delBtn);
       list.appendChild(li);
     });
+  }
+
+  async function loadRecycleBin() {
+    let folder = document.getElementById("folderSelect").value;
+    let folderData = data[folder];
+    let recycledNotes = folderData.recycled || [];
+    let list = document.getElementById("recycleBinList");
+    list.innerHTML = "";
+    
+    if (!activeFolderKey) {
+      list.innerHTML = "<li>Please select and unlock a folder.</li>";
+      return;
+    }
+
+    if (recycledNotes.length === 0) {
+      list.innerHTML = "<li>Recycle Bin is empty.</li>";
+      return;
+    }
+
+    recycledNotes.forEach((encrypted, index) => {
+      let noteContent = decryptNote(encrypted);
+
+      let li = document.createElement("li");
+      let textSpan = document.createElement("span");
+      textSpan.textContent = noteContent;
+
+      let restoreBtn = document.createElement("button");
+      restoreBtn.textContent = "♻️ Restore";
+      restoreBtn.className = "restore-btn";
+      restoreBtn.onclick = (e) => {
+        e.stopPropagation();
+        restoreNote(index);
+      };
+
+      let permanentDelBtn = document.createElement("button");
+      permanentDelBtn.textContent = "Permanent 🗑️";
+      permanentDelBtn.className = "delete-btn";
+      permanentDelBtn.onclick = (e) => {
+        e.stopPropagation();
+        permanentDeleteNote(index);
+      };
+
+      let buttonContainer = document.createElement("div");
+      buttonContainer.style.display = "flex";
+      buttonContainer.style.gap = "5px";
+      buttonContainer.appendChild(restoreBtn);
+      buttonContainer.appendChild(permanentDelBtn);
+      
+      li.appendChild(textSpan);
+      li.appendChild(buttonContainer);
+      list.appendChild(li);
+    });
+  }
+
+  function decryptNote(encrypted) {
+      try {
+        let bytes = CryptoJS.AES.decrypt(encrypted, activeFolderKey);
+        return bytes.toString(CryptoJS.enc.Utf8) || "Unable to decrypt";
+      } catch {
+        return "Unable to decrypt";
+      }
   }
 
   async function filterNotes() {
@@ -299,13 +374,7 @@
     }
 
     folderData.notes.forEach((encrypted, index) => {
-      let noteContent;
-      try {
-        let bytes = CryptoJS.AES.decrypt(encrypted, activeFolderKey);
-        noteContent = bytes.toString(CryptoJS.enc.Utf8);
-      } catch {
-        noteContent = "Unable to decrypt";
-      }
+      let noteContent = decryptNote(encrypted);
       
       if (noteContent.toLowerCase().includes(searchTerm)) {
         let li = document.createElement("li");
@@ -319,7 +388,7 @@
         delBtn.className = "delete-btn";
         delBtn.onclick = (e) => {
           e.stopPropagation();
-          deleteNote(index);
+          moveToRecycleBin(index);
         };
         li.appendChild(textSpan);
         li.appendChild(delBtn);
@@ -357,17 +426,13 @@
         return;
     }
 
-    try {
-        let bytes = CryptoJS.AES.decrypt(folderData.notes[index], activeFolderKey);
-        let noteContent = bytes.toString(CryptoJS.enc.Utf8);
-        document.getElementById("noteArea").value = noteContent;
-        editIndex = index;
-    } catch {
-        showStatus("Failed to decrypt note.", "error");
-    }
+    let noteContent = decryptNote(folderData.notes[index]);
+    document.getElementById("noteArea").value = noteContent;
+    editIndex = index;
+    showStatus("Editing note. Press 'Save/Update' to save changes.");
   }
 
-  function deleteNote(index) {
+  function moveToRecycleBin(index) {
     let folder = document.getElementById("folderSelect").value;
 
     if (!activeFolderKey) {
@@ -375,14 +440,42 @@
         return;
     }
     
-    if (!confirm("Are you sure you want to delete this note?")) {
+    if (!confirm("Are you sure you want to move this note to the Recycle Bin?")) {
       return;
     }
 
-    data[folder].notes.splice(index, 1);
+    const [noteToMove] = data[folder].notes.splice(index, 1);
+    if (!data[folder].recycled) data[folder].recycled = [];
+    data[folder].recycled.unshift(noteToMove);
+
     saveData();
     loadNotes();
-    showStatus("Note deleted.");
+    loadRecycleBin();
+    showStatus("Note moved to Recycle Bin.");
+  }
+
+  function restoreNote(index) {
+    let folder = document.getElementById("folderSelect").value;
+    const [noteToRestore] = data[folder].recycled.splice(index, 1);
+    data[folder].notes.unshift(noteToRestore);
+
+    saveData();
+    loadNotes();
+    loadRecycleBin();
+    showStatus("Note restored successfully!");
+  }
+
+  function permanentDeleteNote(index) {
+    let folder = document.getElementById("folderSelect").value;
+
+    if (!confirm("Are you sure you want to permanently delete this note? This cannot be undone.")) {
+      return;
+    }
+
+    data[folder].recycled.splice(index, 1);
+    saveData();
+    loadRecycleBin();
+    showStatus("Note permanently deleted.");
   }
 
   function newNote() {
@@ -419,8 +512,6 @@
       showStatus("Recording stopped.");
     }
   }
-
-  // Removed handleFileUpload function
 
   function saveData() {
     localStorage.setItem("advancedNotebookData", JSON.stringify(data));
@@ -472,4 +563,3 @@
   
 </body>
 </html>
-

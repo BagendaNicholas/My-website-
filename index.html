@@ -186,6 +186,27 @@
       background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%234285F4" d="M22.56 12.238c0-.78-.068-1.54-.18-2.28h-10.377v4.286h5.812c-.276 1.487-1.077 2.768-2.28 3.666l3.435 2.657c2.012-1.854 3.17-4.57 3.17-7.83z"/><path fill="%2334A853" d="M12.002 23.99c2.95 0 5.41-1.042 7.21-2.827l-3.435-2.657c-.947.674-2.164 1.074-3.775 1.074-2.95 0-5.45-1.99-6.33-4.706H.007v2.748C1.867 21.658 6.643 23.99 12.002 23.99z"/><path fill="%23FBBC05" d="M5.672 13.916c-.234-.674-.366-1.39-.366-2.19s.132-1.516.366-2.19V6.848H2.036c-.724 1.438-1.14 3.098-1.14 4.88 0 1.782.416 3.442 1.14 4.88l3.636-2.912z"/><path fill="%23EA4335" d="M12.002 4.904c1.693 0 3.214.582 4.417 1.706l3.056-2.97c-1.8-1.66-4.26-2.67-7.47-2.67-5.358 0-10.134 2.332-11.994 6.27l3.636 2.912c.88-2.716 3.38-4.706 6.33-4.706z"/></svg>') no-repeat center;
       background-size: contain;
     }
+
+    /* New CSS for the video container */
+    .video-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: black;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 1s ease-in-out;
+    }
+    .video-container.visible {
+      opacity: 1;
+      visibility: visible;
+    }
   </style>
 
   <script>
@@ -250,6 +271,13 @@
     Your browser does not support the audio tag.
   </audio>
 
+  <div id="videoContainer" class="video-container hidden">
+    <video id="logoVideo" autoplay muted loop playsinline width="100%">
+      <source src="lv_0_20250902074712.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
     import {
@@ -290,19 +318,25 @@
       }, 5000);
     }
 
-    function triggerSuccessAnimation() {
+    // New Function to handle success flow
+    function handleSuccess() {
       const overlay = document.getElementById('unlockOverlay');
-      const lightning = document.createElement('div');
-      lightning.className = 'lightning';
-      document.body.appendChild(lightning);
-      
+      const videoContainer = document.getElementById('videoContainer');
+      const logoVideo = document.getElementById('logoVideo');
+
       overlay.style.display = 'flex';
       welcomeAudio.play().catch(error => console.error("Audio playback failed:", error));
 
       setTimeout(() => {
-        document.body.removeChild(lightning);
+        overlay.style.display = 'none';
+        videoContainer.classList.remove('hidden');
+        videoContainer.classList.add('visible');
+        logoVideo.play().catch(error => console.error("Video playback failed:", error));
+      }, 5000); // 5 seconds to let the 'Access Granted' animation play
+
+      setTimeout(() => {
         window.location.href = "home.html";
-      }, 7000);
+      }, 10000); // 10 seconds total: 5s for the overlay + 5s for the video
     }
 
     // Email/Password Authentication
@@ -314,7 +348,7 @@
         return;
       }
       createUserWithEmailAndPassword(auth, email, password)
-        .then(triggerSuccessAnimation)
+        .then(handleSuccess)
         .catch(err => displayError(err.message));
     });
 
@@ -326,7 +360,7 @@
         return;
       }
       signInWithEmailAndPassword(auth, email, password)
-        .then(triggerSuccessAnimation)
+        .then(handleSuccess)
         .catch(err => displayError(err.message));
     });
 
@@ -334,7 +368,7 @@
     googleLoginBtn.addEventListener("click", () => {
       const provider = new GoogleAuthProvider();
       signInWithPopup(auth, provider)
-        .then(triggerSuccessAnimation)
+        .then(handleSuccess)
         .catch(err => displayError(err.message));
     });
 

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nk Advanced Secure Notebook</title>
+<title>Advanced Secure Notebook</title>
 <style>
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -558,7 +558,8 @@
     statusDiv.style.color = type === "error" ? "#e74c3c" : "#2ecc71";
   }
 
-  init();
+  // THIS IS THE NEW LINE: Call init() when the page loads
+  document.addEventListener("DOMContentLoaded", init);
 </script>
   
 </body>

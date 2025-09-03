@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Website</title>
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
     /* Splash screen covers entire screen */
     #splash {
@@ -22,7 +26,7 @@
     #splash video {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* makes it fill the screen */
+      object-fit: cover;
     }
 
     /* Fade-out effect */
@@ -32,11 +36,15 @@
       pointer-events: none;
     }
 
-    /* Main content hidden until splash ends */
+    /* Main content */
     #content {
       display: none;
       text-align: center;
-      padding: 20px;
+      padding: 40px;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      min-height: 100vh;
+      color: white;
+      font-family: "Poppins", sans-serif;
     }
 
     #content.show {
@@ -49,26 +57,56 @@
       to { opacity: 1; }
     }
 
-    /* Menu buttons */
+    /* Menu container */
     .menu {
-      margin-top: 30px;
+      margin-top: 40px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
     }
 
+    /* Neon buttons with icons */
     .menu a {
-      display: inline-block;
-      margin: 10px;
-      padding: 14px 24px;
-      background: linear-gradient(135deg, #007BFF, #00C6FF);
-      color: white;
-      text-decoration: none;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, #00f2fe, #4facfe);
+      color: #fff;
+      font-size: 16px;
       font-weight: bold;
-      border-radius: 10px;
-      transition: transform 0.2s ease, background 0.3s ease;
+      text-decoration: none;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.6);
+    }
+
+    .menu a i {
+      font-size: 18px;
+    }
+
+    .menu a::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: skewX(-25deg);
+      transition: 0.5s;
+    }
+
+    .menu a:hover::before {
+      left: 100%;
     }
 
     .menu a:hover {
-      transform: scale(1.1);
-      background: linear-gradient(135deg, #0056b3, #0099cc);
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 0 25px rgba(79, 172, 254, 0.8);
     }
   </style>
 </head>
@@ -84,25 +122,25 @@
 
   <!-- Website Content -->
   <div id="content">
-    <h1>Welcome to My Website 🎉</h1>
+    <h1>🌟 Welcome to My Website 🌟</h1>
     <div class="menu">
-      <a href="home.html">Home</a>
-      <a href="index1.html">Index1</a>
-      <a href="index2.html">Index2</a>
-      <a href="index3.html">Index3</a>
-      <a href="index4.html">Index4</a>
-      <a href="index5.html">Index5</a>
-      <a href="index6.html">Index6</a>
-      <a href="index7.html">Index7</a>
-      <a href="index8.html">Index8</a>
-      <a href="index9.html">Index9</a>
-      <a href="index2.1.html">Index2.1</a>
-      <a href="index2.2.html">Index2.2</a>
-      <a href="index2.3.html">Index2.3</a>
-      <a href="index2.4.html">Index2.4</a>
-      <a href="index2.5.html">Index2.5</a>
-      <a href="index2.6.html">Index2.6</a>
-      <a href="index2.7.html">Index2.7</a>
+      <a href="home.html"><i class="fas fa-home"></i> Home</a>
+      <a href="index1.html"><i class="fas fa-book"></i> Index1</a>
+      <a href="index2.html"><i class="fas fa-layer-group"></i> Index2</a>
+      <a href="index3.html"><i class="fas fa-code"></i> Index3</a>
+      <a href="index4.html"><i class="fas fa-music"></i> Index4</a>
+      <a href="index5.html"><i class="fas fa-video"></i> Index5</a>
+      <a href="index6.html"><i class="fas fa-image"></i> Index6</a>
+      <a href="index7.html"><i class="fas fa-globe"></i> Index7</a>
+      <a href="index8.html"><i class="fas fa-star"></i> Index8</a>
+      <a href="index9.html"><i class="fas fa-heart"></i> Index9</a>
+      <a href="index2.1.html"><i class="fas fa-folder"></i> Index2.1</a>
+      <a href="index2.2.html"><i class="fas fa-file-alt"></i> Index2.2</a>
+      <a href="index2.3.html"><i class="fas fa-pen"></i> Index2.3</a>
+      <a href="index2.4.html"><i class="fas fa-cog"></i> Index2.4</a>
+      <a href="index2.5.html"><i class="fas fa-bolt"></i> Index2.5</a>
+      <a href="index2.6.html"><i class="fas fa-leaf"></i> Index2.6</a>
+      <a href="index2.7.html"><i class="fas fa-sun"></i> Index2.7</a>
     </div>
   </div>
 
@@ -111,7 +149,6 @@
     const splash = document.getElementById("splash");
     const content = document.getElementById("content");
 
-    // When video ends, fade out splash and show menu
     video.addEventListener("ended", () => {
       splash.classList.add("hidden");
       setTimeout(() => {

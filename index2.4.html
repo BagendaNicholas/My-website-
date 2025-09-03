@@ -15,12 +15,15 @@ body {
   height: 100vh;
 }
 header {
-  background: #161b22;
+  background: linear-gradient(90deg, #0d1117, #161b22);
   padding: 15px;
   text-align: center;
   font-size: 22px;
   font-weight: bold;
   border-bottom: 2px solid #00ffcc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 #chatbox {
   flex: 1;
@@ -32,10 +35,12 @@ header {
 }
 .message {
   max-width: 75%;
-  padding: 10px 15px;
-  border-radius: 15px;
+  padding: 12px 16px;
+  border-radius: 18px;
   line-height: 1.4;
   word-wrap: break-word;
+  animation: fadeIn 0.3s ease;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.3);
 }
 .user {
   align-self: flex-end;
@@ -52,7 +57,7 @@ footer {
   display: flex;
   align-items: center;
   padding: 10px;
-  background: #161b22;
+  background: linear-gradient(90deg, #161b22, #0d1117);
   border-top: 2px solid #00ffcc;
 }
 #userInput {
@@ -71,9 +76,27 @@ button {
   border-radius: 50%;
   cursor: pointer;
   font-size: 18px;
+  transition: 0.2s;
 }
 button:hover {
   background: #00ccaa;
+}
+#micBtn.listening {
+  background: red;
+  color: #fff;
+}
+#deleteBtn {
+  font-size: 16px;
+  border-radius: 8px;
+  padding: 5px 12px;
+  margin-left: 10px;
+  background: #ff4444;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+#deleteBtn.holding {
+  background: #cc0000;
 }
 .result-link {
   color: #00ccff;
@@ -88,28 +111,55 @@ button:hover {
   margin-top: 5px;
   font-style: italic;
 }
+.loading {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 3px solid #00ffcc;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 </style>
 </head>
 <body>
 
-<header>🌐 NicholasAI – Chat & Search 🤖</header>
+<header>
+  🌐 NicholasAI – Chat & Search 🤖
+  <button id="deleteBtn">🗑️</button>
+</header>
 
-<div id="chatbox">
-  <div class="message bot">👋 Hey! Ask me anything, and I’ll give you a quick chatty summary plus useful links! 🔍</div>
-</div>
+<div id="chatbox"></div>
 
 <footer>
   <input id="userInput" type="text" placeholder="Type your question...">
   <button onclick="sendMessage()">➤</button>
-  <button onclick="startVoice()">🎤</button>
+  <button id="micBtn" onclick="startVoice()">🎤</button>
 </footer>
 
 <script>
 const chatbox = document.getElementById("chatbox");
 const userInput = document.getElementById("userInput");
+const micBtn = document.getElementById("micBtn");
+const deleteBtn = document.getElementById("deleteBtn");
 
 const API_KEY = "AIzaSyAUgS04MqEYFxVCyqTDPUzPmrsS0nYArUI";
 const CX = "254199eb340f84c1b";
+
+// Load chat history
+let messages = JSON.parse(localStorage.getItem("chatHistory")) || [];
+messages.forEach(msg => appendMessage(msg.sender, msg.text, msg.isHTML));
+
+function saveMessages() {
+  localStorage.setItem("chatHistory", JSON.stringify(messages));
+}
 
 function appendMessage(sender, text, isHTML=false){
   const msg = document.createElement("div");
@@ -118,6 +168,12 @@ function appendMessage(sender, text, isHTML=false){
   else msg.textContent = text;
   chatbox.appendChild(msg);
   chatbox.scrollTop = chatbox.scrollHeight;
+
+  // Save new message
+  messages.push({ sender, text, isHTML });
+  saveMessages();
+
+  return msg;
 }
 
 async function sendMessage(){
@@ -125,18 +181,21 @@ async function sendMessage(){
   if(!query) return;
   appendMessage("user", query);
   userInput.value = "";
-  appendMessage("bot", `🤖 Hold on, I’m looking up "${query}" for you...`);
+
+  const loadingMsg = appendMessage("bot", `<div class="loading"></div>`, true);
 
   try {
     const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CX}&q=${encodeURIComponent(query)}`);
     const data = await res.json();
+    loadingMsg.remove();
     
     if(data.items && data.items.length > 0){
       let chatText = `💡 Here’s what I found about "<b>${query}</b>": `;
       let linksHTML = "";
       
       data.items.slice(0,5).forEach((item, index)=>{
-        chatText += `\n• ${item.snippet} `;
+        let snippet = item.snippet.length > 120 ? item.snippet.slice(0,120) + "..." : item.snippet;
+        chatText += `\n• ${snippet} `;
         linksHTML += `<a class="result-link" href="${item.link}" target="_blank">${index+1}. ${item.title}</a><br>`;
       });
       
@@ -146,6 +205,7 @@ async function sendMessage(){
     }
     
   } catch(err){
+    loadingMsg.remove();
     appendMessage("bot", "⚠️ Oops! There was an error fetching info. 😅");
     console.error(err);
   }
@@ -159,13 +219,43 @@ function startVoice(){
   const recognition = new webkitSpeechRecognition();
   recognition.lang = "en-US";
   recognition.start();
+  micBtn.classList.add("listening");
+
   recognition.onresult = function(event){
     userInput.value = event.results[0][0].transcript;
+    micBtn.classList.remove("listening");
   };
+  recognition.onend = () => micBtn.classList.remove("listening");
 }
 
 userInput.addEventListener("keydown", function(e){
   if(e.key === "Enter") sendMessage();
+});
+
+// Autofocus input when page loads
+window.onload = () => {
+  if(messages.length === 0){
+    appendMessage("bot", "👋 Hey! Ask me anything, and I’ll give you a quick chatty summary plus useful links! 🔍");
+  }
+  userInput.focus();
+};
+
+// Hold-to-delete messages
+let holdTimeout;
+deleteBtn.addEventListener("mousedown", () => {
+  deleteBtn.classList.add("holding");
+  holdTimeout = setTimeout(() => {
+    messages = [];
+    localStorage.removeItem("chatHistory");
+    chatbox.innerHTML = "";
+    appendMessage("bot", "🗑️ Chat history cleared!");
+    deleteBtn.classList.remove("holding");
+  }, 2000); // Hold for 2 seconds
+});
+
+deleteBtn.addEventListener("mouseup", () => {
+  clearTimeout(holdTimeout);
+  deleteBtn.classList.remove("holding");
 });
 </script>
 

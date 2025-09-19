@@ -33,7 +33,13 @@
     color: #3498db;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
   }
-  select, input, textarea, button {
+  label {
+    font-size: 15px;
+    margin-bottom: 3px;
+    color: #8fc5f9;
+    display: block;
+  }
+  select, input[type="text"], input[type="password"], textarea, button {
     width: 100%;
     padding: 12px;
     margin: 8px 0;
@@ -68,7 +74,7 @@
     gap: 10px;
     align-items: center;
   }
-  .flex-row input {
+  .flex-row input, .flex-row select {
     flex-grow: 1;
     margin: 0;
   }
@@ -138,47 +144,48 @@
 </head>
 <body>
 
-<div class="notebook-container">
+<div class="notebook-container" aria-label="Secure Notebook">
   <h2>🔒 Simple Notebook</h2>
   
   <div class="flex-row">
-    <select id="folderSelect"></select>
-    <input type="text" id="newFolderName" placeholder="New folder name">
-    <button onclick="createFolder()">➕</button>
+    <label for="folderSelect" aria-label="Select folder" style="flex-basis: 25%;">Folder</label>
+    <select id="folderSelect" aria-label="Select folder"></select>
+    <input type="text" id="newFolderName" placeholder="New folder name" aria-label="New folder name">
+    <button id="createFolderBtn" type="button" title="Create Folder">➕</button>
   </div>
   <div class="flex-row">
-    <button class="delete-btn" onclick="deleteFolder()">🗑 Delete Folder</button>
+    <input type="password" id="folderPassword" placeholder="Folder password (for unlock/create)" aria-label="Folder password">
+    <button class="delete-btn" id="deleteFolderBtn" type="button" title="Delete Folder">🗑 Delete Folder</button>
   </div>
 
-  <input type="text" id="searchNotes" placeholder="🔍 Search notes..." oninput="filterNotes()">
+  <input type="text" id="searchNotes" placeholder="🔍 Search notes..." aria-label="Search notes" oninput="filterNotes()">
 
-  <textarea id="noteArea" placeholder="Write your note here..."></textarea>
+  <label for="noteArea" aria-label="Note area" style="margin-bottom:0">Note</label>
+  <textarea id="noteArea" placeholder="Write your note here..." aria-label="Note text area"></textarea>
   
   <div class="action-buttons">
-    <button onclick="saveNote()">💾 Save/Update</button>
-    <button onclick="newNote()">🆕 New Note</button>
+    <button id="saveBtn" type="button">💾 Save/Update</button>
+    <button id="newNoteBtn" type="button">🆕 New Note</button>
   </div>
 
   <div class="action-buttons">
-    <button onclick="startRecording()">🎤 Start Recording</button>
-    <button onclick="stopRecording()">⏹ Stop Recording</button>
+    <button id="startRecBtn" type="button">🎤 Start Recording</button>
+    <button id="stopRecBtn" type="button">⏹ Stop Recording</button>
   </div>
   
   <div class="action-buttons">
-    <button onclick="exportData()">Export Notes</button>
-    <label for="importFile" class="action-buttons" style="flex-grow: 1;">
-      <input type="file" id="importFile" style="display: none;" onchange="importData(event)">
-      <button type="button" onclick="document.getElementById('importFile').click()" style="width: 100%;">Import Notes</button>
-    </label>
+    <button id="exportBtn" type="button">Export Notes</button>
+    <input type="file" id="importFile" style="display: none;" onchange="importData(event)">
+    <button id="importBtn" type="button">Import Notes</button>
   </div>
 
   <p class="status-message" id="statusMessage"></p>
   
-  <ul id="notesList"></ul>
+  <ul id="notesList" aria-label="Notes list"></ul>
 
   <div class="recycle-bin-section">
     <h3>🗑️ Recycle Bin</h3>
-    <ul id="recycleBinList"></ul>
+    <ul id="recycleBinList" aria-label="Recycle Bin list"></ul>
   </div>
 </div>
 
@@ -187,9 +194,25 @@
   let data = JSON.parse(localStorage.getItem("advancedNotebookData")) || {};
   let editIndex = null;
   let activeFolderKey = null;
+  let lastPassword = "";
 
-  function init() {
-    let folderSelect = document.getElementById("folderSelect");
+  function saveData() {
+    localStorage.setItem("advancedNotebookData", JSON.stringify(data));
+  }
+
+  // Utility: derive key from password and salt
+  async function deriveKey(password, salt) {
+    return CryptoJS.PBKDF2(password, salt, { keySize: 256/32, iterations: 1000 }).toString();
+  }
+
+  function showStatus(message, type = "success") {
+    const statusDiv = document.getElementById("statusMessage");
+    statusDiv.textContent = message;
+    statusDiv.style.color = type === "error" ? "#e74c3c" : "#2ecc71";
+  }
+
+  function updateFolderSelect() {
+    const folderSelect = document.getElementById("folderSelect");
     folderSelect.innerHTML = "";
     Object.keys(data).forEach(folder => {
       let opt = document.createElement("option");
@@ -197,18 +220,50 @@
       opt.textContent = folder;
       folderSelect.appendChild(opt);
     });
-    if (Object.keys(data).length === 0) {
-      data["Default"] = { salt: CryptoJS.lib.WordArray.random(128/8).toString(), password: null, notes: [], recycled: [] };
-      saveData();
-    }
-    folderSelect.value = Object.keys(data)[0];
-    unlockFolder();
-    document.getElementById("folderSelect").onchange = () => {
-      activeFolderKey = null;
-      loadNotes();
-    };
   }
 
+  async function promptForPassword(isCreation = false) {
+    // Prefer field value, fallback to prompt
+    let pwdInput = document.getElementById("folderPassword").value;
+    if (pwdInput) return pwdInput;
+    let msg = isCreation
+      ? "Set a password for this folder (can leave blank for no password):"
+      : "Enter the folder password (leave blank if not set):";
+    return prompt(msg, "");
+  }
+
+  function clearPasswordField() {
+    document.getElementById("folderPassword").value = "";
+  }
+
+  function getCurrentFolder() {
+    return document.getElementById("folderSelect").value;
+  }
+
+  // Initialization
+  async function init() {
+    if (Object.keys(data).length === 0) {
+      // Create default folder
+      let salt = CryptoJS.lib.WordArray.random(128/8).toString();
+      data["Default"] = { salt: salt, notes: [], recycled: [] };
+      saveData();
+    }
+    updateFolderSelect();
+    document.getElementById("folderSelect").value = Object.keys(data)[0];
+    await unlockFolder();
+    // Handlers
+    document.getElementById("folderSelect").onchange = unlockFolder;
+    document.getElementById("createFolderBtn").onclick = createFolder;
+    document.getElementById("deleteFolderBtn").onclick = deleteFolder;
+    document.getElementById("saveBtn").onclick = saveNote;
+    document.getElementById("newNoteBtn").onclick = newNote;
+    document.getElementById("startRecBtn").onclick = startRecording;
+    document.getElementById("stopRecBtn").onclick = stopRecording;
+    document.getElementById("exportBtn").onclick = exportData;
+    document.getElementById("importBtn").onclick = () => document.getElementById('importFile').click();
+  }
+
+  // Create Folder with password prompt
   async function createFolder() {
     let folderName = document.getElementById("newFolderName").value.trim();
     if (!folderName) return showStatus("Please enter a folder name.", "error");
@@ -217,172 +272,90 @@
     }
 
     let salt = CryptoJS.lib.WordArray.random(128/8).toString();
-    data[folderName] = { salt: salt, password: null, notes: [], recycled: [] };
-    
+    let password = await promptForPassword(true);
+    data[folderName] = { salt: salt, notes: [], recycled: [] };
     saveData();
-    document.getElementById("newFolderName").value = "";
-    init();
+    updateFolderSelect();
     document.getElementById("folderSelect").value = folderName;
-    unlockFolder();
+    document.getElementById("newFolderName").value = "";
+    clearPasswordField();
+    lastPassword = password || "";
+    await unlockFolder();
     showStatus(`Folder "${folderName}" created.`);
   }
 
+  // Delete folder
   function deleteFolder() {
-    let folder = document.getElementById("folderSelect").value;
-    
+    let folder = getCurrentFolder();
     if (Object.keys(data).length <= 1) {
       return showStatus("Cannot delete the last folder.", "error");
     }
-
     if (!confirm(`Are you sure you want to delete folder "${folder}" and all its notes and recycled items? This is permanent.`)) {
       return;
     }
-    
     delete data[folder];
     saveData();
     activeFolderKey = null;
-    init();
+    updateFolderSelect();
+    document.getElementById("folderSelect").value = Object.keys(data)[0];
+    clearPasswordField();
+    unlockFolder();
     showStatus(`Folder "${folder}" and its contents have been permanently deleted.`);
   }
 
+  // Unlock folder (with password)
   async function unlockFolder() {
-    let folder = document.getElementById("folderSelect").value;
+    let folder = getCurrentFolder();
     let folderData = data[folder];
-
     if (!folderData) {
       document.getElementById("notesList").innerHTML = "<li>No folder selected.</li>";
       document.getElementById("recycleBinList").innerHTML = "";
       return;
     }
-
-    activeFolderKey = await deriveKey("", folderData.salt);
-    
+    let pwd = document.getElementById("folderPassword").value || lastPassword || "";
+    if (!activeFolderKey || folder !== window._lastFolderUnlocked) {
+      // Only prompt if not already unlocked with the same password
+      if (!pwd && folderData.notes.length > 0) {
+        pwd = await promptForPassword();
+      }
+      lastPassword = pwd || "";
+      activeFolderKey = await deriveKey(pwd, folderData.salt);
+      window._lastFolderUnlocked = folder;
+    }
+    clearPasswordField();
     loadNotes();
     loadRecycleBin();
     showStatus(`Folder "${folder}" unlocked.`);
   }
 
-  async function deriveKey(password, salt) {
-    return CryptoJS.PBKDF2(password, salt, { keySize: 256/32, iterations: 1000 }).toString();
-  }
-
-  async function loadNotes() {
-    let folder = document.getElementById("folderSelect").value;
-    let folderData = data[folder];
-    let notes = folderData.notes || [];
-    let list = document.getElementById("notesList");
-    list.innerHTML = "";
-    
-    if (!activeFolderKey) {
-      list.innerHTML = "<li>Please select and unlock a folder.</li>";
-      return;
-    }
-
-    notes.forEach((encrypted, index) => {
-      let noteContent = decryptNote(encrypted);
-      
-      let li = document.createElement("li");
-      let textSpan = document.createElement("span");
-      
-      textSpan.textContent = noteContent;
-      textSpan.onclick = () => editNote(index);
-
-      let delBtn = document.createElement("button");
-      delBtn.textContent = "🗑";
-      delBtn.className = "delete-btn";
-      delBtn.onclick = (e) => {
-        e.stopPropagation();
-        moveToRecycleBin(index);
-      };
-      li.appendChild(textSpan);
-      li.appendChild(delBtn);
-      list.appendChild(li);
-    });
-  }
-
-  async function loadRecycleBin() {
-    let folder = document.getElementById("folderSelect").value;
-    let folderData = data[folder];
-    let recycledNotes = folderData.recycled || [];
-    let list = document.getElementById("recycleBinList");
-    list.innerHTML = "";
-    
-    if (!activeFolderKey) {
-      list.innerHTML = "<li>Please select and unlock a folder.</li>";
-      return;
-    }
-
-    if (recycledNotes.length === 0) {
-      list.innerHTML = "<li>Recycle Bin is empty.</li>";
-      return;
-    }
-
-    recycledNotes.forEach((encrypted, index) => {
-      let noteContent = decryptNote(encrypted);
-
-      let li = document.createElement("li");
-      let textSpan = document.createElement("span");
-      textSpan.textContent = noteContent;
-
-      let restoreBtn = document.createElement("button");
-      restoreBtn.textContent = "♻️ Restore";
-      restoreBtn.className = "restore-btn";
-      restoreBtn.onclick = (e) => {
-        e.stopPropagation();
-        restoreNote(index);
-      };
-
-      let permanentDelBtn = document.createElement("button");
-      permanentDelBtn.textContent = "Permanent 🗑️";
-      permanentDelBtn.className = "delete-btn";
-      permanentDelBtn.onclick = (e) => {
-        e.stopPropagation();
-        permanentDeleteNote(index);
-      };
-
-      let buttonContainer = document.createElement("div");
-      buttonContainer.style.display = "flex";
-      buttonContainer.style.gap = "5px";
-      buttonContainer.appendChild(restoreBtn);
-      buttonContainer.appendChild(permanentDelBtn);
-      
-      li.appendChild(textSpan);
-      li.appendChild(buttonContainer);
-      list.appendChild(li);
-    });
-  }
-
+  // Decrypt note
   function decryptNote(encrypted) {
-      try {
-        let bytes = CryptoJS.AES.decrypt(encrypted, activeFolderKey);
-        return bytes.toString(CryptoJS.enc.Utf8) || "Unable to decrypt";
-      } catch {
-        return "Unable to decrypt";
-      }
+    try {
+      let bytes = CryptoJS.AES.decrypt(encrypted, activeFolderKey);
+      return bytes.toString(CryptoJS.enc.Utf8) || "Unable to decrypt";
+    } catch {
+      return "Unable to decrypt";
+    }
   }
 
-  async function filterNotes() {
+  // List/Filter notes
+  function filterNotes() {
     let searchTerm = document.getElementById("searchNotes").value.toLowerCase();
-    let folder = document.getElementById("folderSelect").value;
+    let folder = getCurrentFolder();
     let folderData = data[folder];
     let list = document.getElementById("notesList");
     list.innerHTML = "";
-
     if (!activeFolderKey) {
-        list.innerHTML = "<li>Please select and unlock a folder.</li>";
-        return;
+      list.innerHTML = "<li>Please select and unlock a folder.</li>";
+      return;
     }
-
-    folderData.notes.forEach((encrypted, index) => {
+    (folderData.notes || []).forEach((encrypted, index) => {
       let noteContent = decryptNote(encrypted);
-      
       if (noteContent.toLowerCase().includes(searchTerm)) {
         let li = document.createElement("li");
         let textSpan = document.createElement("span");
-
         textSpan.textContent = noteContent;
         textSpan.onclick = () => editNote(index);
-
         let delBtn = document.createElement("button");
         delBtn.textContent = "🗑";
         delBtn.className = "delete-btn";
@@ -397,12 +370,87 @@
     });
   }
 
-  async function saveNote() {
-    let folder = document.getElementById("folderSelect").value;
+  // Load all notes
+  function loadNotes() {
+    let folder = getCurrentFolder();
+    let folderData = data[folder];
+    let notes = folderData.notes || [];
+    let list = document.getElementById("notesList");
+    list.innerHTML = "";
+    if (!activeFolderKey) {
+      list.innerHTML = "<li>Please select and unlock a folder.</li>";
+      return;
+    }
+    notes.forEach((encrypted, index) => {
+      let noteContent = decryptNote(encrypted);
+      let li = document.createElement("li");
+      let textSpan = document.createElement("span");
+      textSpan.textContent = noteContent;
+      textSpan.onclick = () => editNote(index);
+      let delBtn = document.createElement("button");
+      delBtn.textContent = "🗑";
+      delBtn.className = "delete-btn";
+      delBtn.onclick = (e) => {
+        e.stopPropagation();
+        moveToRecycleBin(index);
+      };
+      li.appendChild(textSpan);
+      li.appendChild(delBtn);
+      list.appendChild(li);
+    });
+  }
+
+  // Load recycle bin
+  function loadRecycleBin() {
+    let folder = getCurrentFolder();
+    let folderData = data[folder];
+    let recycledNotes = folderData.recycled || [];
+    let list = document.getElementById("recycleBinList");
+    list.innerHTML = "";
+    if (!activeFolderKey) {
+      list.innerHTML = "<li>Please select and unlock a folder.</li>";
+      return;
+    }
+    if (recycledNotes.length === 0) {
+      list.innerHTML = "<li>Recycle Bin is empty.</li>";
+      return;
+    }
+    recycledNotes.forEach((encrypted, index) => {
+      let noteContent = decryptNote(encrypted);
+      let li = document.createElement("li");
+      let textSpan = document.createElement("span");
+      textSpan.textContent = noteContent;
+      let restoreBtn = document.createElement("button");
+      restoreBtn.textContent = "♻️ Restore";
+      restoreBtn.className = "restore-btn";
+      restoreBtn.onclick = (e) => {
+        e.stopPropagation();
+        restoreNote(index);
+      };
+      let permanentDelBtn = document.createElement("button");
+      permanentDelBtn.textContent = "Permanent 🗑️";
+      permanentDelBtn.className = "delete-btn";
+      permanentDelBtn.onclick = (e) => {
+        e.stopPropagation();
+        permanentDeleteNote(index);
+      };
+      let buttonContainer = document.createElement("div");
+      buttonContainer.style.display = "flex";
+      buttonContainer.style.gap = "5px";
+      buttonContainer.appendChild(restoreBtn);
+      buttonContainer.appendChild(permanentDelBtn);
+      li.appendChild(textSpan);
+      li.appendChild(buttonContainer);
+      list.appendChild(li);
+    });
+  }
+
+  // Save note
+  function saveNote() {
+    let folder = getCurrentFolder();
     let note = document.getElementById("noteArea").value.trim();
     if (!note) return showStatus("Write something before saving!", "error");
     if (!activeFolderKey) return showStatus("Please unlock the folder first!", "error");
-
     let encryptedNote = CryptoJS.AES.encrypt(note, activeFolderKey).toString();
     if (editIndex !== null) {
       data[folder].notes[editIndex] = encryptedNote;
@@ -410,85 +458,82 @@
     } else {
       data[folder].notes.unshift(encryptedNote);
     }
-    
     saveData();
     document.getElementById("noteArea").value = "";
     loadNotes();
     showStatus("Note saved successfully!");
   }
 
+  // Edit note
   function editNote(index) {
-    let folder = document.getElementById("folderSelect").value;
+    let folder = getCurrentFolder();
     let folderData = data[folder];
-
     if (!activeFolderKey) {
-        showStatus("Please unlock the folder first!", "error");
-        return;
+      showStatus("Please unlock the folder first!", "error");
+      return;
     }
-
     let noteContent = decryptNote(folderData.notes[index]);
     document.getElementById("noteArea").value = noteContent;
     editIndex = index;
     showStatus("Editing note. Press 'Save/Update' to save changes.");
   }
 
+  // Move note to recycle bin
   function moveToRecycleBin(index) {
-    let folder = document.getElementById("folderSelect").value;
-
+    let folder = getCurrentFolder();
     if (!activeFolderKey) {
-        showStatus("Please unlock the folder first!", "error");
-        return;
+      showStatus("Please unlock the folder first!", "error");
+      return;
     }
-    
     if (!confirm("Are you sure you want to move this note to the Recycle Bin?")) {
       return;
     }
-
     const [noteToMove] = data[folder].notes.splice(index, 1);
     if (!data[folder].recycled) data[folder].recycled = [];
     data[folder].recycled.unshift(noteToMove);
-
     saveData();
     loadNotes();
     loadRecycleBin();
     showStatus("Note moved to Recycle Bin.");
   }
 
+  // Restore note from recycle bin
   function restoreNote(index) {
-    let folder = document.getElementById("folderSelect").value;
+    let folder = getCurrentFolder();
     const [noteToRestore] = data[folder].recycled.splice(index, 1);
     data[folder].notes.unshift(noteToRestore);
-
     saveData();
     loadNotes();
     loadRecycleBin();
     showStatus("Note restored successfully!");
   }
 
+  // Permanently delete note from recycle bin
   function permanentDeleteNote(index) {
-    let folder = document.getElementById("folderSelect").value;
-
+    let folder = getCurrentFolder();
     if (!confirm("Are you sure you want to permanently delete this note? This cannot be undone.")) {
       return;
     }
-
     data[folder].recycled.splice(index, 1);
     saveData();
     loadRecycleBin();
     showStatus("Note permanently deleted.");
   }
 
+  // New note
   function newNote() {
     document.getElementById("noteArea").value = "";
     editIndex = null;
     showStatus("New note sheet created.");
   }
 
+  // Speech-to-text recording
   function startRecording() {
-    if (!('webkitSpeechRecognition' in window)) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
       return showStatus("Your browser doesn't support speech recognition.", "error");
     }
-    recognition = new webkitSpeechRecognition();
+    recognition = new SpeechRecognition();
     recognition.lang = "en-US";
     recognition.interimResults = true;
     recognition.continuous = true;
@@ -513,10 +558,7 @@
     }
   }
 
-  function saveData() {
-    localStorage.setItem("advancedNotebookData", JSON.stringify(data));
-  }
-
+  // Export notes
   function exportData() {
     const dataStr = JSON.stringify(data, null, 2);
     const blob = new Blob([dataStr], { type: 'application/json' });
@@ -531,10 +573,10 @@
     showStatus("Notebook data exported as JSON file.");
   }
 
+  // Import notes
   function importData(event) {
     const file = event.target.files[0];
     if (!file) return;
-
     const reader = new FileReader();
     reader.onload = function(e) {
       try {
@@ -552,13 +594,6 @@
     reader.readAsText(file);
   }
 
-  function showStatus(message, type = "success") {
-    const statusDiv = document.getElementById("statusMessage");
-    statusDiv.textContent = message;
-    statusDiv.style.color = type === "error" ? "#e74c3c" : "#2ecc71";
-  }
-
-  // THIS IS THE NEW LINE: Call init() when the page loads
   document.addEventListener("DOMContentLoaded", init);
 </script>
   

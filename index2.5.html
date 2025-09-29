@@ -40,7 +40,7 @@
       display: none;
       text-align: center;
       min-height: 100vh;
-      padding: 40px;
+      padding: 30px 15px;
       background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
       font-family: "Poppins", sans-serif;
       color: white;
@@ -57,8 +57,8 @@
     }
 
     h1 {
-      margin-top: 40px;
-      font-size: 2.5em;
+      margin: 20px 0;
+      font-size: 2.2em;
       text-shadow: 0 0 15px #00f2fe, 0 0 25px #4facfe;
       animation: glow 2s infinite alternate;
     }
@@ -68,60 +68,44 @@
       to { text-shadow: 0 0 25px #00f2fe, 0 0 40px #4facfe; }
     }
 
-    /* Menu grid */
+    /* App-style menu grid */
     .menu {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
-      padding: 40px;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 25px;
       margin-top: 30px;
     }
 
-    /* Neon buttons */
-    .menu a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      padding: 25px 15px;
-      background: rgba(0, 0, 0, 0.4);
-      border: 2px solid transparent;
-      border-radius: 18px;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
+    .app-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 25px;
+      padding: 25px 10px;
+      text-align: center;
       text-decoration: none;
-      position: relative;
-      transition: 0.3s ease;
-      box-shadow: 0 0 12px rgba(79, 172, 254, 0.5);
-      overflow: hidden;
-    }
-
-    .menu a i {
-      font-size: 28px;
-      margin-bottom: 8px;
-    }
-
-    .menu a::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, #00f2fe, #4facfe, #00f2fe);
-      border-radius: 18px;
-      transform: scale(0);
-      transition: 0.4s ease;
-      z-index: -1;
-    }
-
-    .menu a:hover::before {
-      transform: scale(1);
-    }
-
-    .menu a:hover {
       color: #fff;
-      border-color: #00f2fe;
-      box-shadow: 0 0 25px rgba(0, 242, 254, 0.8), 0 0 40px rgba(79, 172, 254, 0.9);
-      transform: translateY(-5px);
+      transition: 0.3s ease;
+      box-shadow: 0 8px 20px rgba(0, 242, 254, 0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .app-btn i {
+      font-size: 32px;
+      margin-bottom: 12px;
+      color: #00f2fe;
+      text-shadow: 0 0 12px rgba(0, 242, 254, 0.8);
+    }
+
+    .app-btn span {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .app-btn:hover {
+      transform: translateY(-6px) scale(1.05);
+      background: linear-gradient(135deg, #00f2fe, #4facfe);
+      box-shadow: 0 12px 28px rgba(0, 242, 254, 0.5);
     }
 
     /* Floating back button */
@@ -143,99 +127,9 @@
       transform: scale(1.1);
       box-shadow: 0 0 30px rgba(221, 36, 118, 1);
     }
-
-    /* Marquee */
-    .marquee-wrap {
-      overflow: hidden;
-      background: #111;
-      padding: 10px 0;
-    }
-
-    .marquee {
-      display: flex;
-      gap: 50px;
-      animation: scroll 15s linear infinite;
-    }
-
-    .shining-name {
-      font-size: 1.2em;
-      font-weight: bold;
-      color: gold;
-      text-shadow: 0 0 10px #ff0, 0 0 20px #f0f;
-    }
-
-    @keyframes scroll {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
-
-    /* Hero section */
-    .hero {
-      text-align: center;
-      padding: 40px 20px;
-    }
-
-    .profile-pic {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      border: 4px solid #4facfe;
-      box-shadow: 0 0 20px rgba(79, 172, 254, 0.8);
-      margin-bottom: 20px;
-    }
-
-    .sparkle {
-      font-size: 1.2em;
-    }
-
-    /* Quick links */
-    .quick-links {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin: 30px auto;
-      flex-wrap: wrap;
-    }
-
-    .quick-card {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      border-radius: 15px;
-      text-align: center;
-      text-decoration: none;
-      color: #fff;
-      width: 200px;
-      transition: 0.3s ease;
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-    }
-
-    .quick-card:hover {
-      transform: scale(1.05);
-      background: linear-gradient(135deg, #00f2fe, #4facfe);
-    }
-
-    .icon {
-      font-size: 2em;
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    .heart {
-      display: block;
-      margin-top: 8px;
-    }
   </style>
 </head>
 <body>
-
-  <!-- Marquee -->
-  <div class="marquee-wrap">
-    <div class="marquee">
-      <span class="shining-name">✨️💛💖 Nicholas Bagenda ✨️💛💖</span>
-      <span class="shining-name">✨️💛💖 Nicholas Bagenda ✨️💛💖</span>
-      <span class="shining-name">✨️💛💖 Nicholas Bagenda ✨️💛💖</span>
-    </div>
-  </div>
 
   <!-- Splash Video -->
   <div id="splash">
@@ -245,55 +139,25 @@
     </video>
   </div>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <img src="https://i.postimg.cc/W3kM7rgd/20250518-101215.jpg" class="profile-pic" alt="Nicholas Bagenda" />
-    <h1>
-      <span class="sparkle">✨️</span> Nicholas Bagenda <span class="sparkle">💛</span> <span class="sparkle">💖</span>
-    </h1>
-    <p>
-      Ugandan web developer, digital dreamer, and storyteller.<br>
-      <em>
-        <span class="sparkle">✨️</span>
-        “I don’t chase success—I create value, and success follows quietly.”
-        <span class="sparkle">💛</span>
-      </em>
-    </p>
-  </section>
-
-  <!-- About Section -->
-  <section id="about-me" class="about-me-section-dark">
-    <h2><span class="sparkle">💚</span> About Me <span class="sparkle">💚</span></h2>
-    <p>
-      “I’m Nicholas Bagenda, a Ugandan self-taught web developer and digital dreamer. I don’t just build websites—I build stories. I believe in using tech with heart, and turning simple ideas into something that can inspire, uplift, and create purpose.”
-    </p>
-    <p>
-      <span class="sparkle">✨️</span>
-      Driven by curiosity and a passion for learning, I enjoy exploring new technologies and creative ways to solve real-world problems. My journey is fueled by faith, hope, and the desire to help others grow.
-      <span class="sparkle">💖</span>
-    </p>
-  </section>
-
-  
   <!-- Website Content -->
   <div id="content">
     <h1>⚡ Main Menu ⚡</h1>
     <div class="menu">
-      <a href="home.html"><i class="fas fa-home"></i> 🏡 Home</a>
-      <a href="index2.html"><i class="fas fa-layer-group"></i> 🌍 Am The Creator</a>
-      <a href="index3.html"><i class="fas fa-code"></i> 🎧📽 Audio & Video</a>
-      <a href="index4.html"><i class="fas fa-music"></i> ✨ Inspiration</a>
-      <a href="index5.html"><i class="fas fa-video"></i> ⛓ Breaking The Chains</a>
-      <a href="index6.html"><i class="fas fa-image"></i> 🕵️ Hidden Truth</a>
-      <a href="index7.html"><i class="fas fa-globe"></i> 🏛 Out Of Babylon</a>
-      <a href="index8.html"><i class="fas fa-star"></i> 🌙 The Sabbath</a>
-      <a href="index9.html"><i class="fas fa-heart"></i> ❤️ Presentation</a>
-      <a href="index2.1.html"><i class="fas fa-folder"></i> 📸 3D Buttons</a>
-      <a href="index2.2.html"><i class="fas fa-file-alt"></i> 📒 Note Book</a>
-      <a href="index2.3.html"><i class="fas fa-pen"></i> 🤖 NicholasAI App</a>
-      <a href="index2.4.html"><i class="fas fa-cog"></i> 🔍 Chat & Search</a>
-      <a href="index2.6.html"><i class="fas fa-leaf"></i> 💬 Google Chat</a>
-      <a href="index2.7.html"><i class="fas fa-sun"></i> 🌐 NicholasSearch</a>
+      <a href="home.html" class="app-btn"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="index2.html" class="app-btn"><i class="fas fa-layer-group"></i><span>Am The Creator</span></a>
+      <a href="index3.html" class="app-btn"><i class="fas fa-code"></i><span>Audio & Video</span></a>
+      <a href="index4.html" class="app-btn"><i class="fas fa-music"></i><span>Inspiration</span></a>
+      <a href="index5.html" class="app-btn"><i class="fas fa-video"></i><span>Breaking Chains</span></a>
+      <a href="index6.html" class="app-btn"><i class="fas fa-image"></i><span>Hidden Truth</span></a>
+      <a href="index7.html" class="app-btn"><i class="fas fa-globe"></i><span>Out Of Babylon</span></a>
+      <a href="index8.html" class="app-btn"><i class="fas fa-star"></i><span>The Sabbath</span></a>
+      <a href="index9.html" class="app-btn"><i class="fas fa-heart"></i><span>Presentation</span></a>
+      <a href="index2.1.html" class="app-btn"><i class="fas fa-folder"></i><span>3D Buttons</span></a>
+      <a href="index2.2.html" class="app-btn"><i class="fas fa-file-alt"></i><span>Note Book</span></a>
+      <a href="index2.3.html" class="app-btn"><i class="fas fa-pen"></i><span>NicholasAI</span></a>
+      <a href="index2.4.html" class="app-btn"><i class="fas fa-cog"></i><span>Chat & Search</span></a>
+      <a href="index2.6.html" class="app-btn"><i class="fas fa-leaf"></i><span>Google Chat</span></a>
+      <a href="index2.7.html" class="app-btn"><i class="fas fa-sun"></i><span>NicholasSearch</span></a>
     </div>
 
     <!-- Back button -->

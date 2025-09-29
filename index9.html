@@ -1,295 +1,422 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nichole Needs Hi Li 💖</title>
-<style>
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Poppins", sans-serif;
-  background: linear-gradient(135deg, #0f172a, #1e293b);
-  color: #fff;
-  text-align: center;
-  overflow-x: hidden;
-  overflow-y: auto;
-  position: relative;
-  min-height: 100vh;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nichole Needs Hi Li 💖</title>
+  <!-- Google Fonts for a clean, modern look -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #38bdf8;
+      --primary-dark: #0ea5e9;
+      --romantic1: #ec4899;
+      --romantic2: #f472b6;
+      --dark-bg1: #0f172a;
+      --dark-bg2: #1e293b;
+      --light-bg1: #f8fafc;
+      --light-bg2: #e2e8f0;
+      --header-glow: #ff69b4;
+      --header-glow-strong: #ff1493;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --card-bg-light: rgba(255,255,255,0.8);
+      --border-radius: 18px;
+      --transition: 0.3s cubic-bezier(.77,0,.18,1);
+      --shadow: 0 4px 32px rgba(0,0,0,0.18);
+    }
 
-/* Neon glowing text */
-.presentation-text {
-  margin-top: 50px;
-  font-size: 2rem;
-  font-weight: bold;
-  white-space: pre-wrap;
-  text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff1493, 0 0 20px #ff69b4;
-  color: #ff69b4;
-  line-height: 2.4rem;
-}
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, var(--dark-bg1), var(--dark-bg2));
+      color: #fff;
+      text-align: center;
+      overflow-x: hidden;
+      min-height: 100vh;
+      transition: background 0.5s, color 0.5s;
+    }
 
-/* Buttons */
-.fixed-buttons {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 10;
-}
+    /* Header */
+    h1 {
+      margin-top: 40px;
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: #fff;
+      text-shadow: 0 0 12px var(--header-glow), 0 0 32px var(--header-glow-strong);
+      background: linear-gradient(90deg, var(--primary), var(--header-glow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+      filter: drop-shadow(0 2px 8px #1115);
+      margin-bottom: 0.5em;
+    }
 
-.fixed-buttons a {
-  text-decoration: none;
-  background: #38bdf8;
-  color: black;
-  padding: 8px 12px;
-  border-radius: 12px;
-  font-size: 1rem;
-  font-weight: bold;
-  transition: 0.3s;
-}
-.fixed-buttons a:hover { background: #0ea5e9; color: white; }
+    /* Neon glowing text */
+    .presentation-text {
+      max-width: 700px;
+      margin: 40px auto 0 auto;
+      font-size: 1.25rem;
+      font-weight: 600;
+      white-space: pre-wrap;
+      text-shadow: 0 0 8px var(--header-glow), 0 0 14px var(--header-glow-strong);
+      color: var(--header-glow);
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 2rem 2.5rem;
+      line-height: 2.2rem;
+      letter-spacing: 0.03em;
+    }
 
-.index2-1-btn {
-  margin-top: 50px;
-}
-.index2-1-btn button {
-  margin: 10px;
-  padding: 12px 20px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: bold;
-  background: #38bdf8;
-  transition: 0.3s;
-}
-.index2-1-btn button:hover { background: #0ea5e9; color: white; }
+    /* Card for main content */
+    .main-card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin: 40px auto 0 auto;
+      max-width: 650px;
+      padding: 30px 24px 24px 24px;
+      transition: background var(--transition), color var(--transition);
+    }
 
-/* Gear */
-.gear {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  font-size: 2rem;
-  cursor: pointer;
-  background: #38bdf8;
-  padding: 10px;
-  border-radius: 50%;
-  transition: 0.3s;
-  z-index: 10;
-}
-.gear:hover { background: #0ea5e9; color: white; }
+    /* Buttons */
+    .fixed-buttons {
+      position: fixed;
+      top: 24px;
+      right: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 20;
+    }
 
-/* Scroll to top button */
-#scrollTopBtn {
-  display: none;
-  position: fixed;
-  bottom: 80px;
-  right: 20px;
-  font-size: 2rem;
-  background: #38bdf8;
-  color: black;
-  border: none;
-  border-radius: 50%;
-  padding: 10px;
-  cursor: pointer;
-  z-index: 10;
-  transition: 0.3s;
-}
-#scrollTopBtn:hover { background: #0ea5e9; color: white; }
+    .fixed-buttons a {
+      text-decoration: none;
+      background: var(--primary);
+      color: #111;
+      padding: 9px 16px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      box-shadow: 0 2px 8px #2221;
+      transition: background var(--transition), color var(--transition), transform 0.15s;
+      border: none;
+      outline: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+    .fixed-buttons a:hover {
+      background: var(--primary-dark);
+      color: #fff;
+      transform: translateY(-2px) scale(1.07);
+    }
 
-/* Themes */
-.theme-light { background: linear-gradient(135deg, #f8fafc, #e2e8f0); color: #111; }
-.theme-dark { background: linear-gradient(135deg, #0f172a, #1e293b); color: #fff; }
-.theme-romantic { background: linear-gradient(135deg, #ec4899, #f472b6); color: #fff; }
+    .index2-1-btn {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin: 32px auto 0 auto;
+    }
+    .index2-1-btn a,
+    .index2-1-btn button {
+      all: unset;
+      display: inline-block;
+      background: var(--primary);
+      color: #111;
+      padding: 13px 28px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition), box-shadow var(--transition);
+      margin: 0 5px;
+      box-shadow: 0 2px 10px #2222;
+      border: none;
+      outline: none;
+      user-select: none;
+      text-align: center;
+    }
+    .index2-1-btn button:hover,
+    .index2-1-btn a:hover {
+      background: var(--primary-dark);
+      color: #fff;
+      box-shadow: 0 4px 16px #2225;
+    }
 
-/* Rain, stars, and hearts */
-.rain, .heart, .star {
-  position: absolute;
-  z-index: 1;
-}
+    /* Gear */
+    .gear {
+      position: fixed;
+      bottom: 24px;
+      right: 32px;
+      font-size: 2.2rem;
+      cursor: pointer;
+      background: var(--primary);
+      color: #111;
+      padding: 12px;
+      border-radius: 50%;
+      transition: background var(--transition), color var(--transition), transform 0.15s;
+      box-shadow: 0 2px 10px #2222;
+      z-index: 30;
+      border: none;
+      outline: none;
+    }
+    .gear:hover {
+      background: var(--primary-dark);
+      color: #fff;
+      transform: rotate(40deg) scale(1.09);
+    }
 
-.rain {
-  width: 2px;
-  background: #38bdf8;
-  opacity: 0.7;
-  top: 0;
-  animation: fall linear infinite;
-}
-.heart {
-  font-size: 1.5rem;
-  opacity: 0.8;
-  animation: drift linear infinite;
-}
-.star {
-  width: 2px;
-  height: 2px;
-  background: white;
-  border-radius: 50%;
-  opacity: 0.8;
-  animation: twinkle infinite alternate;
-}
+    /* Scroll to top button */
+    #scrollTopBtn {
+      display: none;
+      position: fixed;
+      bottom: 96px;
+      right: 36px;
+      font-size: 2rem;
+      background: var(--primary);
+      color: #111;
+      border: none;
+      border-radius: 50%;
+      padding: 12px;
+      cursor: pointer;
+      z-index: 20;
+      transition: background var(--transition), color var(--transition), transform 0.15s;
+      box-shadow: 0 2px 10px #2222;
+      outline: none;
+    }
+    #scrollTopBtn:hover {
+      background: var(--primary-dark);
+      color: #fff;
+      transform: scale(1.09);
+    }
 
-/* Animations */
-@keyframes fall { 0% { transform: translateY(0); } 100% { transform: translateY(100vh); } }
-@keyframes drift { 0% { transform: translateY(0) translateX(0); } 100% { transform: translateY(100vh) translateX(50px); } }
-@keyframes twinkle { from { opacity:0.3; } to { opacity:1; } }
-</style>
+    /* Themes */
+    .theme-light {
+      background: linear-gradient(135deg, var(--light-bg1), var(--light-bg2));
+      color: #111;
+    }
+    .theme-light .main-card,
+    .theme-light .presentation-text {
+      background: var(--card-bg-light);
+      color: #111;
+      box-shadow: 0 2px 16px #bbb4;
+    }
+    .theme-romantic {
+      background: linear-gradient(135deg, var(--romantic1), var(--romantic2));
+      color: #fff;
+    }
+    .theme-romantic .main-card,
+    .theme-romantic .presentation-text {
+      background: rgba(236, 72, 153, 0.89);
+      color: #fff;
+      box-shadow: 0 2px 16px #de2ba1a0;
+    }
+
+    /* Floating Effects */
+    .rain, .heart, .star {
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+    .rain {
+      width: 2px;
+      background: var(--primary);
+      opacity: 0.7;
+      top: 0;
+      animation: fall linear infinite;
+      border-radius: 1px;
+    }
+    .heart {
+      font-size: 1.5rem;
+      opacity: 0.8;
+      animation: drift linear infinite;
+      will-change: transform;
+    }
+    .star {
+      width: 2px;
+      height: 2px;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0.82;
+      animation: twinkle infinite alternate;
+    }
+
+    @keyframes fall { 0% { transform: translateY(0); } 100% { transform: translateY(100vh); } }
+    @keyframes drift { 0% { transform: translateY(0) translateX(0); } 100% { transform: translateY(100vh) translateX(50px); } }
+    @keyframes twinkle { from { opacity:0.3; } to { opacity:1; } }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      h1 { font-size: 1.4rem; }
+      .main-card, .presentation-text { padding: 1rem; font-size: 1rem; }
+      .fixed-buttons { right: 10px; top: 12px; gap: 6px; }
+      .gear { right: 12px; bottom: 16px; font-size: 1.5rem; padding: 9px; }
+      #scrollTopBtn { right: 14px; bottom: 60px; font-size: 1.5rem; padding: 8px; }
+      .index2-1-btn { gap: 8px; }
+      .index2-1-btn a, .index2-1-btn button { padding: 9px 13px; font-size: 0.97rem; }
+    }
+  </style>
 </head>
 <body id="top" class="theme-dark">
 
-<!-- Music -->
-<audio id="loveAudio" autoplay muted loop>
-  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
-</audio>
+  <!-- Music -->
+  <audio id="loveAudio" autoplay muted loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
+  </audio>
 
-<h1>🌟 Welcome to Nicholas Presentation 🌟</h1>
+  <h1>🌟 Welcome to Nicholas Presentation 🌟</h1>
 
-<div class="presentation-text" id="presentation"></div>
+  <div class="presentation-text" id="presentation"></div>
 
-<!-- Navigation Buttons -->
-<div class="fixed-buttons">
-  <a href="#top">🔝 Top</a>
-  <a href="home.html">🏡 Home</a>
-</div>
+  <!-- Navigation Buttons -->
+  <div class="fixed-buttons">
+    <a href="#top">🔝 Top</a>
+    <a href="home.html">🏡 Home</a>
+  </div>
 
-<div class="index2-1-btn">
-  <a href="index2.1.html"><button>🚀 Index 2.1</button></a>
-  <a href="https://ndikiryanicholas.github.io/Lillian-/index.html" target="_blank"><button>🌍 Visit Lillian</button></a>
-  <button onclick="alert('💌 A cosmic love message has been sent to Hi Li!')">Click to Send Love 💌</button>
-</div>
+  <div class="main-card">
+    <div class="index2-1-btn">
+      <a href="index2.1.html">🚀 Index 2.1</a>
+      <a href="https://ndikiryanicholas.github.io/Lillian-/index.html" target="_blank">🌍 Visit Lillian</a>
+      <button onclick="alert('💌 A cosmic love message has been sent to Hi Li!')">Click to Send Love 💌</button>
+    </div>
+  </div>
 
-<!-- Gear -->
-<div class="gear" onclick="changeTheme()">⚙️</div>
+  <!-- Gear -->
+  <button class="gear" onclick="changeTheme()" title="Change Theme">⚙️</button>
 
-<!-- Scroll to top -->
-<button id="scrollTopBtn" onclick="scrollToTop()">⬆️</button>
+  <!-- Scroll to top -->
+  <button id="scrollTopBtn" onclick="scrollToTop()" title="Back to top">⬆️</button>
 
-<script>
-// Mega sweet messages
-const messages = [
-  "✨ Welcome, my dearest friend!",
-  "💖 This page is a universe of love, joy, and light.",
-  "🌍 Nicholas and Hi Li's journey is full of magic, laughter, and sweet memories.",
-  "🎶 Music flows, hearts glow, and smiles shine.",
-  "🍫 Chocolate moments, hugs, kisses, and gentle whispers.",
-  "🌹 Love floating like stars, petals, and endless dreams.",
-  "🚀 Explore, feel, and enjoy every beat of our cosmic hearts!",
-  "💕 💞 ♥️ 🌧💥❤️‍🩹👀🏄🏄🚵‍♂️🛀🌿🍀⚘️🥀🌏💧💧💧💧💧🎗🎁🎎",
-  "💌 Sweet whispers, cuddles, giggles, and starlit nights.",
-  "🌈 Magic moments, sparkling eyes, warm hugs, and endless love.",
-  "🌟 Hearts racing, hands holding, smiles lighting the universe.",
-  "🌺 Gentle rains, soft petals, cozy nights, and morning suns.",
-  "❤️ Every heartbeat, every sigh, every glance says 'I love you.'",
-  "✨ Forever together in thoughts, dreams, laughter, and love.",
-  "💫 Twinkling stars, floating hearts, laughter echoing across the cosmos.",
-  "🍀 Serendipity, sweet surprises, morning coffees, evening talks.",
-  "🎁 Gifts of love, little notes, playful winks, secret smiles.",
-  "⚘️ Petals falling, moonlight shining, your presence warming my soul.",
-  "🥀 Gentle touches, stolen glances, whispers under the night sky.",
-  "🌏 Love spanning worlds, oceans, and infinite galaxies.",
-  "💧 Tears of joy, droplets of hope, flowing endlessly.",
-  "🎎 Together in spirit, thought, dream, and heartbeats.",
-  "❤️‍🩹 Healing, growing, loving, learning together as one.",
-  "👀 Eyes meeting, hearts syncing, souls dancing in harmony.",
-  "🏄 Surfing the waves of laughter, climbing mountains of joy.",
-  "🛀 Cozy baths, warm candles, comfort, and serene peace.",
-  "🌿 Nature whispers love through trees, leaves, and rivers.",
-  "💥 Explosions of happiness, confetti of smiles, fireworks of hearts.",
-  "💞 Forever intertwined, every moment sparkling with affection.",
-  "💌 Every whisper, giggle, and heartbeat is a poem for you.",
-  "✨ Dancing in the rain, twirling with stars, smiling endlessly together.",
-  "🌈 Love brighter than rainbow skies, stronger than oceans, endless as the cosmos."
-];
+  <script>
+    // Mega sweet messages
+    const messages = [
+      "✨ Welcome, my dearest friend!",
+      "💖 This page is a universe of love, joy, and light.",
+      "🌍 Nicholas and Hi Li's journey is full of magic, laughter, and sweet memories.",
+      "🎶 Music flows, hearts glow, and smiles shine.",
+      "🍫 Chocolate moments, hugs, kisses, and gentle whispers.",
+      "🌹 Love floating like stars, petals, and endless dreams.",
+      "🚀 Explore, feel, and enjoy every beat of our cosmic hearts!",
+      "💕 💞 ♥️ 🌧💥❤️‍🩹👀🏄🏄🚵‍♂️🛀🌿🍀⚘️🥀🌏💧💧💧💧💧🎗🎁🎎",
+      "💌 Sweet whispers, cuddles, giggles, and starlit nights.",
+      "🌈 Magic moments, sparkling eyes, warm hugs, and endless love.",
+      "🌟 Hearts racing, hands holding, smiles lighting the universe.",
+      "🌺 Gentle rains, soft petals, cozy nights, and morning suns.",
+      "❤️ Every heartbeat, every sigh, every glance says 'I love you.'",
+      "✨ Forever together in thoughts, dreams, laughter, and love.",
+      "💫 Twinkling stars, floating hearts, laughter echoing across the cosmos.",
+      "🍀 Serendipity, sweet surprises, morning coffees, evening talks.",
+      "🎁 Gifts of love, little notes, playful winks, secret smiles.",
+      "⚘️ Petals falling, moonlight shining, your presence warming my soul.",
+      "🥀 Gentle touches, stolen glances, whispers under the night sky.",
+      "🌏 Love spanning worlds, oceans, and infinite galaxies.",
+      "💧 Tears of joy, droplets of hope, flowing endlessly.",
+      "🎎 Together in spirit, thought, dream, and heartbeats.",
+      "❤️‍🩹 Healing, growing, loving, learning together as one.",
+      "👀 Eyes meeting, hearts syncing, souls dancing in harmony.",
+      "🏄 Surfing the waves of laughter, climbing mountains of joy.",
+      "🛀 Cozy baths, warm candles, comfort, and serene peace.",
+      "🌿 Nature whispers love through trees, leaves, and rivers.",
+      "💥 Explosions of happiness, confetti of smiles, fireworks of hearts.",
+      "💞 Forever intertwined, every moment sparkling with affection.",
+      "💌 Every whisper, giggle, and heartbeat is a poem for you.",
+      "✨ Dancing in the rain, twirling with stars, smiling endlessly together.",
+      "🌈 Love brighter than rainbow skies, stronger than oceans, endless as the cosmos."
+    ];
 
-const presentationDiv = document.getElementById("presentation");
-let msgIndex = 0;
-let charIndex = 0;
-function typeMessage() {
-  if(msgIndex < messages.length) {
-    const currentMessage = messages[msgIndex];
-    if(charIndex < currentMessage.length) {
-      presentationDiv.textContent += currentMessage.charAt(charIndex);
-      charIndex++;
-      setTimeout(typeMessage, 40);
-    } else {
-      setTimeout(() => {
-        presentationDiv.textContent += "\n\n";
-        msgIndex++;
-        charIndex = 0;
-        typeMessage();
-      }, 1200);
+    const presentationDiv = document.getElementById("presentation");
+    let msgIndex = 0;
+    let charIndex = 0;
+    function typeMessage() {
+      if(msgIndex < messages.length) {
+        const currentMessage = messages[msgIndex];
+        if(charIndex < currentMessage.length) {
+          presentationDiv.textContent += currentMessage.charAt(charIndex);
+          charIndex++;
+          setTimeout(typeMessage, 32);
+        } else {
+          setTimeout(() => {
+            presentationDiv.textContent += "\n\n";
+            msgIndex++;
+            charIndex = 0;
+            typeMessage();
+          }, 900);
+        }
+      }
     }
-  }
-}
-typeMessage();
+    typeMessage();
 
-// Theme changer
-const themes = ["theme-dark","theme-light","theme-romantic"];
-let currentTheme = 0;
-function changeTheme() {
-  document.body.classList.remove(themes[currentTheme]);
-  currentTheme = (currentTheme + 1) % themes.length;
-  document.body.classList.add(themes[currentTheme]);
-}
+    // Theme changer
+    const themes = ["theme-dark","theme-light","theme-romantic"];
+    let currentTheme = 0;
+    function changeTheme() {
+      document.body.classList.remove(themes[currentTheme]);
+      currentTheme = (currentTheme + 1) % themes.length;
+      document.body.classList.add(themes[currentTheme]);
+    }
 
-// Unmute audio after interaction
-document.body.addEventListener("click", () => {
-  const audio = document.getElementById("loveAudio");
-  audio.muted = false;
-  audio.play();
-});
+    // Unmute audio after interaction
+    document.body.addEventListener("click", () => {
+      const audio = document.getElementById("loveAudio");
+      audio.muted = false;
+      audio.play();
+    }, { once: true });
 
-// Scroll to top button logic
-const scrollTopBtn = document.getElementById("scrollTopBtn");
-window.onscroll = () => {
-  scrollTopBtn.style.display = (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) ? "block" : "none";
-};
-function scrollToTop() { window.scrollTo({top:0, behavior:'smooth'}); }
+    // Scroll to top button logic
+    const scrollTopBtn = document.getElementById("scrollTopBtn");
+    window.addEventListener('scroll', () => {
+      scrollTopBtn.style.display = (window.scrollY > 300) ? "block" : "none";
+    });
+    function scrollToTop() { window.scrollTo({top:0, behavior:'smooth'}); }
 
-// Rain drops
-const scrollHeight = 8000;
-for(let i=0;i<120;i++){
-  const rainDrop = document.createElement("div");
-  rainDrop.classList.add("rain");
-  rainDrop.style.left = Math.random()*100 + "vw";
-  rainDrop.style.animationDuration = (2 + Math.random()*3) + "s";
-  rainDrop.style.opacity = 0.2 + Math.random()*0.8;
-  rainDrop.style.height = 10 + Math.random()*20 + "px";
-  rainDrop.style.top = Math.random()*scrollHeight + "px";
-  document.body.appendChild(rainDrop);
-}
+    // Rain drops
+    const scrollHeight = 8000;
+    for(let i=0;i<100;i++){
+      const rainDrop = document.createElement("div");
+      rainDrop.classList.add("rain");
+      rainDrop.style.left = Math.random()*100 + "vw";
+      rainDrop.style.animationDuration = (2 + Math.random()*3) + "s";
+      rainDrop.style.opacity = 0.2 + Math.random()*0.8;
+      rainDrop.style.height = 10 + Math.random()*20 + "px";
+      rainDrop.style.top = Math.random()*scrollHeight + "px";
+      document.body.appendChild(rainDrop);
+    }
 
-// Stars
-for(let i=0;i<100;i++){
-  const star = document.createElement("div");
-  star.classList.add("star");
-  star.style.left = Math.random()*100 + "vw";
-  star.style.top = Math.random()*scrollHeight + "px";
-  star.style.width = 1 + Math.random()*3 + "px";
-  star.style.height = star.style.width;
-  star.style.animationDuration = (1 + Math.random()*2) + "s";
-  document.body.appendChild(star);
-}
+    // Stars
+    for(let i=0;i<80;i++){
+      const star = document.createElement("div");
+      star.classList.add("star");
+      star.style.left = Math.random()*100 + "vw";
+      star.style.top = Math.random()*scrollHeight + "px";
+      let size = 1 + Math.random()*3;
+      star.style.width = size + "px";
+      star.style.height = size + "px";
+      star.style.animationDuration = (1 + Math.random()*2) + "s";
+      document.body.appendChild(star);
+    }
 
-// Floating hearts with emojis in wavy motion
-const heartEmojis = ["💕","💞","♥️","💥","❤️‍🩹","👀","🏄","🚵‍♂️","🛀","🌿","🍀","⚘️","🥀","🌏","💧","🎗","🎁","🎎"];
-for(let i=0;i<60;i++){
-  const heart = document.createElement("div");
-  heart.classList.add("heart");
-  heart.textContent = heartEmojis[Math.floor(Math.random()*heartEmojis.length)];
-  heart.style.left = Math.random()*100 + "vw";
-  heart.style.fontSize = 12 + Math.random()*22 + "px";
-  heart.style.opacity = 0.5 + Math.random()*0.5;
-  heart.style.top = Math.random()*scrollHeight + "px";
-  heart.style.animationDuration = (5 + Math.random()*7) + "s";
-  heart.style.animationTimingFunction = "ease-in-out";
-  document.body.appendChild(heart);
-}
-</script>
+    // Floating hearts with emojis in wavy motion
+    const heartEmojis = ["💕","💞","♥️","💥","❤️‍🩹","👀","🏄","🚵‍♂️","🛀","🌿","🍀","⚘️","🥀","🌏","💧","🎗","🎁","🎎"];
+    for(let i=0;i<40;i++){
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.textContent = heartEmojis[Math.floor(Math.random()*heartEmojis.length)];
+      heart.style.left = Math.random()*100 + "vw";
+      heart.style.fontSize = 16 + Math.random()*16 + "px";
+      heart.style.opacity = 0.5 + Math.random()*0.5;
+      heart.style.top = Math.random()*scrollHeight + "px";
+      heart.style.animationDuration = (6 + Math.random()*7) + "s";
+      heart.style.animationTimingFunction = "ease-in-out";
+      document.body.appendChild(heart);
+    }
+  </script>
 
 </body>
-  </html>
+    </html>

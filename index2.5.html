@@ -3,87 +3,196 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Background with Controls</title>
+  <title>Menu ⚡</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
-    }
-    video {
+    /* Splash screen */
+    #splash {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    #splash video {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
+    }
+
+    #splash.hidden {
+      opacity: 0;
+      transition: opacity 1s ease;
+      pointer-events: none;
+    }
+
+    /* Main content */
+    #content {
+      display: none;
+      text-align: center;
+      min-height: 100vh;
+      padding: 40px;
+      background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
+      font-family: "Poppins", sans-serif;
+      color: white;
+    }
+
+    #content.show {
+      display: block;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    h1 {
+      margin-top: 40px;
+      font-size: 2.5em;
+      text-shadow: 0 0 15px #00f2fe, 0 0 25px #4facfe;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #00f2fe, 0 0 20px #4facfe; }
+      to { text-shadow: 0 0 25px #00f2fe, 0 0 40px #4facfe; }
+    }
+
+    /* Menu grid */
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      padding: 40px;
+      margin-top: 30px;
+    }
+
+    /* Neon buttons */
+    .menu a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 25px 15px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 2px solid transparent;
+      border-radius: 18px;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      text-decoration: none;
+      position: relative;
+      transition: 0.3s ease;
+      box-shadow: 0 0 12px rgba(79, 172, 254, 0.5);
+      overflow: hidden;
+    }
+
+    .menu a i {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .menu a::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #00f2fe, #4facfe, #00f2fe);
+      border-radius: 18px;
+      transform: scale(0);
+      transition: 0.4s ease;
       z-index: -1;
     }
-    .controls-container {
-      position: absolute;
-      top: 20px;
+
+    .menu a:hover::before {
+      transform: scale(1);
+    }
+
+    .menu a:hover {
+      color: #fff;
+      border-color: #00f2fe;
+      box-shadow: 0 0 25px rgba(0, 242, 254, 0.8), 0 0 40px rgba(79, 172, 254, 0.9);
+      transform: translateY(-5px);
+    }
+
+    /* Floating back button */
+    .back-btn {
+      position: fixed;
+      bottom: 20px;
       right: 20px;
-      display: flex;
-      gap: 10px;
-    }
-    .controls {
-      background: rgba(0, 0, 0, 0.5);
-      border: none;
-      padding: 12px 18px;
-      font-size: 20px;
+      background: linear-gradient(135deg, #ff512f, #dd2476);
+      padding: 14px 20px;
+      border-radius: 50px;
       color: white;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s;
+      text-decoration: none;
+      font-size: 18px;
+      box-shadow: 0 0 20px rgba(221, 36, 118, 0.8);
+      transition: 0.3s ease;
     }
-    .controls:hover {
-      background: rgba(0, 0, 0, 0.8);
+
+    .back-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 30px rgba(221, 36, 118, 1);
     }
   </style>
 </head>
 <body>
 
-  <!-- Background video -->
-  <video id="bgVideo" autoplay loop muted playsinline>
-    <source src="your-video.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <!-- Splash Video -->
+  <div id="splash">
+    <video id="logoVideo" autoplay muted playsinline>
+      <source src="https://github.com/BagendaNicholas/My-website-/raw/main/lv_0_20250902074712.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
 
-  <!-- Control buttons -->
-  <div class="controls-container">
-    <button class="controls" id="soundBtn">🔇</button>
-    <button class="controls" id="playBtn">⏯️</button>
+  <!-- Website Content -->
+  <div id="content">
+    <h1>⚡ Main Menu ⚡</h1>
+    <div class="menu">
+      <a href="home.html"><i class="fas fa-home"></i> 🏡 Home</a>
+      <a href="index2.html"><i class="fas fa-layer-group"></i> 🌍 Am The Creator</a>
+      <a href="index3.html"><i class="fas fa-code"></i> 🎧📽 Audio & Video</a>
+      <a href="index4.html"><i class="fas fa-music"></i> ✨ Inspiration</a>
+      <a href="index5.html"><i class="fas fa-video"></i> ⛓ Breaking The Chains</a>
+      <a href="index6.html"><i class="fas fa-image"></i> 🕵️ Hidden Truth</a>
+      <a href="index7.html"><i class="fas fa-globe"></i> 🏛 Out Of Babylon</a>
+      <a href="index8.html"><i class="fas fa-star"></i> 🌙 The Sabbath</a>
+      <a href="index9.html"><i class="fas fa-heart"></i> ❤️ Presentation</a>
+      <a href="index2.1.html"><i class="fas fa-folder"></i> 📸 3D Buttons</a>
+      <a href="index2.2.html"><i class="fas fa-file-alt"></i> 📒 Note Book</a>
+      <a href="index2.3.html"><i class="fas fa-pen"></i> 🤖 NicholasAI App</a>
+      <a href="index2.4.html"><i class="fas fa-cog"></i> 🔍 Chat & Search</a>
+      <a href="index2.6.html"><i class="fas fa-leaf"></i> 💬 Google Chat</a>
+      <a href="index2.7.html"><i class="fas fa-sun"></i> 🌐 NicholasSearch</a>
+    </div>
+
+    <!-- Back button -->
+    <a href="index2.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back</a>
   </div>
 
   <script>
-    const video = document.getElementById("bgVideo");
-    const soundBtn = document.getElementById("soundBtn");
-    const playBtn = document.getElementById("playBtn");
+    const video = document.getElementById("logoVideo");
+    const splash = document.getElementById("splash");
+    const content = document.getElementById("content");
 
-    // Toggle sound
-    soundBtn.addEventListener("click", () => {
-      if (video.muted) {
-        video.muted = false;
-        soundBtn.textContent = "🔊";
-      } else {
-        video.muted = true;
-        soundBtn.textContent = "🔇";
-      }
-    });
-
-    // Toggle play/pause
-    playBtn.addEventListener("click", () => {
-      if (video.paused) {
-        video.play();
-        playBtn.textContent = "⏯️"; // play symbol
-      } else {
-        video.pause();
-        playBtn.textContent = "⏸️"; // pause symbol
-      }
+    video.addEventListener("ended", () => {
+      splash.classList.add("hidden");
+      setTimeout(() => {
+        splash.style.display = "none";
+        content.classList.add("show");
+      }, 1000);
     });
   </script>
 
 </body>
-</html>
+                                                                          </html>

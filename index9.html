@@ -334,24 +334,63 @@
     const presentationDiv = document.getElementById("presentation");
     let msgIndex = 0;
     let charIndex = 0;
+
+    function speakMessage(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel(); // Stop previous speech
+      const utter = new window.SpeechSynthesisUtterance(text);
+      utter.rate = 1.01;
+      utter.pitch = 1.1;
+      utter.volume = 1;
+      // Optionally, set the voice here, e.g.,
+      // utter.voice = speechSynthesis.getVoices().find(v => v.lang.startsWith('en'));
+      window.speechSynthesis.speak(utter);
+    }
+
     function typeMessage() {
       if(msgIndex < messages.length) {
         const currentMessage = messages[msgIndex];
         if(charIndex < currentMessage.length) {
           presentationDiv.textContent += currentMessage.charAt(charIndex);
           charIndex++;
-          setTimeout(typeMessage, 32);
+          setTimeout(typeMessage, 40);
         } else {
+          // Speak the message when fully typed
+          speakMessage(currentMessage);
           setTimeout(() => {
             presentationDiv.textContent += "\n\n";
             msgIndex++;
             charIndex = 0;
-            typeMessage();
-          }, 900);
+            // Wait until speech ends, then type next message
+            waitForSpeechEnd(typeMessage);
+          }, 1200);
         }
       }
     }
+
+    // Wait for speech synthesis to finish before proceeding
+    function waitForSpeechEnd(callback) {
+      if (!('speechSynthesis' in window)) {
+        callback();
+        return;
+      }
+      // If not speaking, proceed immediately
+      if (!speechSynthesis.speaking) {
+        callback();
+        return;
+      }
+      // Otherwise, check every 250ms
+      const interval = setInterval(() => {
+        if (!speechSynthesis.speaking) {
+          clearInterval(interval);
+          callback();
+        }
+      }, 250);
+    }
+
     typeMessage();
+
+    // --- All your other code below (theme changer, rain, hearts, etc) ---
 
     // Theme changer
     const themes = ["theme-dark","theme-light","theme-romantic"];
@@ -419,4 +458,4 @@
   </script>
 
 </body>
-    </html>
+  </html>

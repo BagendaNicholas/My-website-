@@ -195,6 +195,10 @@
   let editIndex = null;
   let activeFolderKey = null;
   let lastPassword = "";
+  // Drafts stored per folder (encrypted) to restore on reload
+  // Structure in localStorage: { folderName: "<encryptedDraft>" }
+  const DRAFTS_KEY = "advancedNotebookDrafts";
+  const LAST_FOLDER_KEY = "advancedNotebookLastFolder";
 
   function saveData() {
     localStorage.setItem("advancedNotebookData", JSON.stringify(data));
@@ -240,6 +244,57 @@
     return document.getElementById("folderSelect").value;
   }
 
+  // Draft helpers (encrypted with activeFolderKey)
+  function loadDraftsMap() {
+    try {
+      return JSON.parse(localStorage.getItem(DRAFTS_KEY)) || {};
+    } catch {
+      return {};
+    }
+  }
+  function saveDraftsMap(map) {
+    localStorage.setItem(DRAFTS_KEY, JSON.stringify(map));
+  }
+  function saveDraftForCurrentFolder() {
+    if (!activeFolderKey) return; // can't encrypt without key
+    const folder = getCurrentFolder();
+    const text = document.getElementById("noteArea").value;
+    if (!text) {
+      // remove empty draft
+      const map = loadDraftsMap();
+      delete map[folder];
+      saveDraftsMap(map);
+      return;
+    }
+    try {
+      const encrypted = CryptoJS.AES.encrypt(text, activeFolderKey).toString();
+      const map = loadDraftsMap();
+      map[folder] = encrypted;
+      saveDraftsMap(map);
+      // no status to avoid spam
+    } catch (e) {
+      console.warn("Failed to save draft:", e);
+    }
+  }
+  function restoreDraftForFolder(folder) {
+    if (!activeFolderKey) return; // need key to decrypt
+    const map = loadDraftsMap();
+    const encrypted = map[folder];
+    if (!encrypted) return false;
+    try {
+      const bytes = CryptoJS.AES.decrypt(encrypted, activeFolderKey);
+      const draft = bytes.toString(CryptoJS.enc.Utf8);
+      if (draft) {
+        document.getElementById("noteArea").value = draft;
+        showStatus("Restored draft for folder.");
+        return true;
+      }
+    } catch (e) {
+      console.warn("Failed to restore draft:", e);
+    }
+    return false;
+  }
+
   // Initialization
   async function init() {
     if (Object.keys(data).length === 0) {
@@ -249,8 +304,17 @@
       saveData();
     }
     updateFolderSelect();
-    document.getElementById("folderSelect").value = Object.keys(data)[0];
+
+    // try to restore last-selected folder
+    const last = localStorage.getItem(LAST_FOLDER_KEY);
+    if (last && data[last]) {
+      document.getElementById("folderSelect").value = last;
+    } else {
+      document.getElementById("folderSelect").value = Object.keys(data)[0];
+    }
+
     await unlockFolder();
+
     // Handlers
     document.getElementById("folderSelect").onchange = unlockFolder;
     document.getElementById("createFolderBtn").onclick = createFolder;
@@ -261,6 +325,22 @@
     document.getElementById("stopRecBtn").onclick = stopRecording;
     document.getElementById("exportBtn").onclick = exportData;
     document.getElementById("importBtn").onclick = () => document.getElementById('importFile').click();
+
+    // Draft autosave: save draft on input (debounced)
+    let draftTimeout = null;
+    document.getElementById("noteArea").addEventListener("input", () => {
+      if (draftTimeout) clearTimeout(draftTimeout);
+      draftTimeout = setTimeout(() => {
+        saveDraftForCurrentFolder();
+      }, 800); // 800ms debounce
+    });
+
+    // Save some state on unload (if unlocked)
+    window.addEventListener("beforeunload", () => {
+      if (activeFolderKey) {
+        try { saveDraftForCurrentFolder(); } catch {}
+      }
+    });
   }
 
   // Create Folder with password prompt
@@ -294,6 +374,11 @@
       return;
     }
     delete data[folder];
+    // remove any draft for that folder
+    const map = loadDraftsMap();
+    delete map[folder];
+    saveDraftsMap(map);
+
     saveData();
     activeFolderKey = null;
     updateFolderSelect();
@@ -321,10 +406,14 @@
       lastPassword = pwd || "";
       activeFolderKey = await deriveKey(pwd, folderData.salt);
       window._lastFolderUnlocked = folder;
+      // persist last selected folder so reload restores selection
+      localStorage.setItem(LAST_FOLDER_KEY, folder);
     }
     clearPasswordField();
     loadNotes();
     loadRecycleBin();
+    // Try to restore a draft for this folder (if any)
+    restoreDraftForFolder(folder);
     showStatus(`Folder "${folder}" unlocked.`);
   }
 
@@ -459,6 +548,11 @@
       data[folder].notes.unshift(encryptedNote);
     }
     saveData();
+    // remove saved draft for folder after a successful save
+    const map = loadDraftsMap();
+    delete map[folder];
+    saveDraftsMap(map);
+
     document.getElementById("noteArea").value = "";
     loadNotes();
     showStatus("Note saved successfully!");
@@ -524,6 +618,8 @@
   function newNote() {
     document.getElementById("noteArea").value = "";
     editIndex = null;
+    // remove saved draft for this folder
+    saveDraftForCurrentFolder();
     showStatus("New note sheet created.");
   }
 
@@ -546,6 +642,8 @@
           interim_transcript += event.results[i][0].transcript;
         }
       }
+      // autosave transcript draft
+      saveDraftForCurrentFolder();
     };
     recognition.start();
     showStatus("Recording started. Speak now...");

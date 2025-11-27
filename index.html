@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
     <meta name="google-site-verification" content="_fuLs7ujw7KmQmXrSOffFmMLakhUERuxcJ061DokHGI" />
+    <meta charset="UTF-8" />
+    <meta name="description" content="Explore the creativity, skills, and digital work of Bagenda Nicholas.">
     <meta property="og:title" content="Bagenda Nicholas - Portfolio">
     <meta property="og:description" content="Explore the creativity, skills, and digital work of Bagenda Nicholas.">
     <meta property="og:image" content="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png">
     <meta property="og:url" content="https://nicholasbagenda.netlify.app/">
-    <meta property="og:url" content="https://bagendanicholas.github.io/My-website-/">
     <meta name="twitter:card" content="summary_large_image">
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nicholas Bagenda – Home</title>
     <link rel="icon" href="/favicon.ico" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -69,7 +69,6 @@
             padding: 0 13px;
             filter: drop-shadow(0 0 8px #41ff41cc);
             font-weight: 900;
-            /* fallback for non-webkit browsers */
             color: #29d829;
         }
         @keyframes shineText {
@@ -500,172 +499,196 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2816278854816808"
          crossorigin="anonymous"></script>
     <script>
+        // Guarded audio playback (only run if element exists)
         window.addEventListener('load', function () {
             const audio = document.getElementById("loveAudio");
+            if (!audio) return;
             setTimeout(() => {
                 audio.muted = false;
                 audio.play().catch(e => {
-                    console.log("Autoplay blocked. Waiting for user interaction.");
+                    console.log("Autoplay blocked or no source. Waiting for user interaction.", e);
                 });
             }, 1000);
         });
 
         document.addEventListener('click', () => {
             const audio = document.getElementById("loveAudio");
+            if (!audio) return;
             audio.muted = false;
-            audio.play();
+            audio.play().catch(() => {});
         }, { once: true });
     </script>
 </head>
 <body>
     <div class="marquee-wrap">
-        <div class="marquee">
+        <div class="marquee" aria-hidden="true">
             <span class="shining-name">✨️💛💖 Nicholas Bagenda ✨️💛💖</span>
             <span class="shining-name">✨️💛💖 Nicholas Bagenda ✨️💛💖</span>
             <span class="shining-name">✨️💛💖 Nicholas Bagenda ✨️💛💖</span>
         </div>
     </div>
 
-    <nav>
+    <nav role="navigation" aria-label="Main navigation">
         <span class="logo">Nicholas Bagenda</span>
         <a href="index.html" class="active">Home</a>
-        <a href="index2.html">Documents & Books</a>
-        <a href="index3.html">Audio & Video</a>
+        <a href="index2.html">Documents &amp; Books</a>
+        <a href="index3.html">Audio &amp; Video</a>
         <a href="index4.html">Inspiration</a>
         <a href="#contact">Contact</a>
-       <a href="https://github.com/BagendaNicholas/My-website-/raw/main/NicholasAI%20(1).apk" download
-   style="
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      padding: 16px 32px;
-      font-size: 18px;
-      font-weight: 600;
-      color: #fff;
-      background: linear-gradient(135deg, #007bff, #00c6ff);
-      text-decoration: none;
-      border-radius: 14px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-      transition: all 0.3s ease;
-   "
-   onmouseover="this.style.background='linear-gradient(135deg, #ff00ff, #0099cc)'; this.style.transform='scale(1.07) translateY(-2px)'; this.style.boxShadow='0 12px 28px rgba(0,0,0,0.45)'"
-   onmouseout="this.style.background='linear-gradient(135deg, #007bff, #00c6ff)'; this.style.transform='scale(1)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.25)'">
-   <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" 
-        alt="NicholasAI Logo" 
-        style="height: 32px; width: 32px;">
-   Download NicholasAI APK
-       </a>
+        <a href="https://github.com/BagendaNicholas/My-website-/raw/main/NicholasAI%20(1).apk" download
+           target="_blank" rel="noopener"
+           style="
+              display: inline-flex;
+              align-items: center;
+              gap: 12px;
+              padding: 16px 32px;
+              font-size: 18px;
+              font-weight: 600;
+              color: #fff;
+              background: linear-gradient(135deg, #007bff, #00c6ff);
+              text-decoration: none;
+              border-radius: 14px;
+              box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+              transition: all 0.3s ease;
+           "
+           onmouseover="this.style.background='linear-gradient(135deg, #ff00ff, #0099cc)'; this.style.transform='scale(1.07) translateY(-2px)'; this.style.boxShadow='0 12px 28px rgba(0,0,0,0.45)'"
+           onmouseout="this.style.background='linear-gradient(135deg, #007bff, #00c6ff)'; this.style.transform='scale(1)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.25)'">
+           <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png"
+                alt="NicholasAI Logo"
+                style="height: 32px; width: 32px;">
+           Download NicholasAI APK
+        </a>
     </nav>
 
-    <section class="hero">
-        <img src="https://i.postimg.cc/W3kM7rgd/20250518-101215.jpg" class="profile-pic" alt="Nicholas Bagenda" />
-        <h1>
-            <span class="sparkle">✨️</span> Nicholas Bagenda <span class="sparkle">💛</span> <span class="sparkle">💖</span>
-        </h1>
-        <p>
-            Ugandan web developer, digital dreamer, and storyteller.<br>
-            <em>
-                <span class="sparkle">✨️</span>
-                Explore the futuristic writings, gospel insights, and creative projects of Nicholas Bagenda — where faith meets technology, and every word carries a prophetic spark.
-                “I don’t chase success—I create value, and success follows quietly.”
-                <span class="sparkle">💛</span>
-            </em>
-        </p>
-    </section>
- 
-    <section id="about-me" class="about-me-section-dark">
-        <h2>
-            <span class="sparkle">💚</span> About Me <span class="sparkle">💚</span>
-        </h2>
-        <p>
-            “I’m Nicholas Bagenda,a Ugandan self-taught web developer and digital dreamer. I don’t just build websites—I build stories. I believe in using tech with heart, and turning simple ideas into something that can inspire, uplift, and create purpose. Whether through a project, a message, or even a smile—my goal is to leave a mark that matters.”
-        </p>
-        <p>
-            <span class="sparkle">✨️</span>
-            Driven by curiosity and a passion for learning, I enjoy exploring new technologies and creative ways to solve real-world problems. My journey is fueled by faith, hope, and the desire to help others grow.
-            <span class="sparkle">💖</span>
-        </p>
-    </section>
+    <main>
+        <section class="hero" aria-labelledby="hero-heading">
+            <img src="https://i.postimg.cc/W3kM7rgd/20250518-101215.jpg" class="profile-pic" alt="Nicholas Bagenda" />
+            <h1 id="hero-heading">
+                <span class="sparkle" aria-hidden="true">✨️</span> Nicholas Bagenda <span class="sparkle" aria-hidden="true">💛</span> <span class="sparkle" aria-hidden="true">💖</span>
+            </h1>
+            <p>
+                Ugandan web developer, digital dreamer, and storyteller.<br>
+                <em>
+                    <span class="sparkle" aria-hidden="true">✨️</span>
+                    Explore the futuristic writings, gospel insights, and creative projects of Nicholas Bagenda — where faith meets technology, and every word carries a prophetic spark.
+                    “I don’t chase success—I create value, and success follows quietly.”
+                    <span class="sparkle" aria-hidden="true">💛</span>
+                </em>
+            </p>
+        </section>
 
-    <div class="quick-links">
-        <a href="index2.html" class="quick-card" title="Documents & Books">
-            <span class="icon">📚</span>
-            Documents & Books
-            <span class="heart">💖</span>
-            <span style="font-size:0.9em;font-weight:400;color:#ffd70099;">PDFs, guides, & more</span>
-        </a>
-        <a href="index3.html" class="quick-card" title="Audio & Video">
-            <span class="icon">🎧</span>
-            Audio & Video
-            <span class="heart">💛</span>
-            <span style="font-size:0.9em;font-weight:400;color:#ffd70099;">Listen & Watch</span>
-        </a>
-        <a href="index4.html" class="quick-card" title="Inspiration">
-            <span class="icon">✨️</span>
-            Inspiration
-            <span class="heart">💖</span>
-            <span style="font-size:0.9em;font-weight:400;color:#ffd70099;">Faith & Motivation</span>
-        </a>
+        <section id="about-me" class="about-me-section-dark" aria-labelledby="about-heading">
+            <h2 id="about-heading">
+                <span class="sparkle" aria-hidden="true">💚</span> About Me <span class="sparkle" aria-hidden="true">💚</span>
+            </h2>
+            <p>
+                “I’m Nicholas Bagenda, a Ugandan self-taught web developer and digital dreamer. I don’t just build websites—I build stories. I believe in using tech with heart, and turning simple ideas into something that can inspire, uplift, and create purpose. Whether through a project, a message, or even a smile—my goal is to leave a mark that matters.”
+            </p>
+            <p>
+                <span class="sparkle" aria-hidden="true">✨️</span>
+                Driven by curiosity and a passion for learning, I enjoy exploring new technologies and creative ways to solve real-world problems. My journey is fueled by faith, hope, and the desire to help others grow.
+                <span class="sparkle" aria-hidden="true">💖</span>
+            </p>
+        </section>
+
+        <div class="quick-links" role="navigation" aria-label="Quick links">
+            <a href="index2.html" class="quick-card" title="Documents & Books">
+                <span class="icon" aria-hidden="true">📚</span>
+                Documents &amp; Books
+                <span class="heart" aria-hidden="true">💖</span>
+                <span style="font-size:0.9em;font-weight:400;color:#ffd70099;">PDFs, guides, &amp; more</span>
+            </a>
+            <a href="index3.html" class="quick-card" title="Audio & Video">
+                <span class="icon" aria-hidden="true">🎧</span>
+                Audio &amp; Video
+                <span class="heart" aria-hidden="true">💛</span>
+                <span style="font-size:0.9em;font-weight:400;color:#ffd70099;">Listen &amp; Watch</span>
+            </a>
+            <a href="index4.html" class="quick-card" title="Inspiration">
+                <span class="icon" aria-hidden="true">✨️</span>
+                Inspiration
+                <span class="heart" aria-hidden="true">💖</span>
+                <span style="font-size:0.9em;font-weight:400;color:#ffd70099;">Faith &amp; Motivation</span>
+            </a>
+        </div>
+
+        <section class="contact-info" id="contact" aria-labelledby="contact-heading">
+            <strong id="contact-heading">
+                <span class="sparkle" aria-hidden="true">✨️</span>
+                Contact
+                <span class="sparkle" aria-hidden="true">💛</span>
+            </strong><br>
+            📞 Call or WhatsApp:
+            <a href="tel:+256742367077">+256 742 367 077</a> /
+            <a href="tel:+256766435379">+256 766 435 379</a>
+            <br>
+            ✉️ Email:
+            <a href="mailto:bagendanicholas@gmail.com">bagendanicholas@gmail.com</a>
+            <span class="sparkle" aria-hidden="true">💖</span>
+        </section>
+
+        <section class="contact-form-section" aria-labelledby="form-heading">
+            <h3 id="form-heading">
+                <span class="sparkle" aria-hidden="true">✨️</span>
+                Send me a message
+                <span class="sparkle" aria-hidden="true">💛</span>
+            </h3>
+            <form id="contact-form">
+                <label for="from_name">Your Name</label>
+                <input type="text" name="from_name" id="from_name" required>
+                <label for="reply_to">Your Email</label>
+                <input type="email" name="reply_to" id="reply_to" required>
+                <label for="message">Your Message</label>
+                <textarea name="message" id="message" rows="5" required></textarea>
+                <button type="submit">
+                    <span class="sparkle" aria-hidden="true">✨️</span> Send <span class="sparkle" aria-hidden="true">💛</span>
+                </button>
+                <div id="form-status" role="status" aria-live="polite"></div>
+            </form>
+        </section>
+
+        <footer>
+            <a href="privacy-policy.html">Privacy Policy</a>
+            <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+            <a href="disclaimer.html">Disclaimer</a>
+            <span class="footer-sparkle" aria-hidden="true">✨️</span>
+            &copy; 2025 Nicholas Bagenda. All rights reserved.
+            <span class="footer-sparkle" aria-hidden="true">💛</span><br>
+            <span style="font-size:0.98em;color:#ffd70077;">
+                A simple website that shares truth, healing, and hope.
+                <span class="footer-sparkle" aria-hidden="true">💖</span>
+            </span>
+        </footer>
+    </main>
+
+    <!-- Placeholder audio element; add a real source if you want background audio.
+         Example: <audio id="loveAudio" src="assets/audio/background.mp3" preload="auto" loop muted></audio> -->
+    <audio id="loveAudio" preload="auto" loop muted aria-hidden="true"></audio>
+
+    <!-- Sign-out button moved inside body so Firebase module can find it -->
+    <div class="text-center mt-10" style="text-align:center;margin:28px 0;">
+        <button id="signOutBtn"
+                class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-2xl shadow-lg transition duration-300 transform hover:scale-105"
+                style="background:#d9534f;border:none;color:#fff;padding:12px 20px;border-radius:14px;cursor:pointer;">
+            🔓 Sign Out
+        </button>
     </div>
-
-    <section class="contact-info" id="contact">
-        <strong>
-            <span class="sparkle">✨️</span>
-            Contact
-            <span class="sparkle">💛</span>
-        </strong><br>
-        📞 Call or WhatsApp: 
-        <a href="tel:+256742367077">+256 742 367 077</a> / 
-        <a href="tel:+256766435379">+256 766 435 379</a>
-        <br>
-        ✉️ Email: 
-        <a href="mailto:bagendanicholas@gmail.com">bagendanicholas@gmail.com</a>
-        <span class="sparkle">💖</span>
-    </section>
-
-    <section class="contact-form-section">
-        <h3>
-            <span class="sparkle">✨️</span>
-            Send me a message
-            <span class="sparkle">💛</span>
-        </h3>
-        <form id="contact-form">
-            <label for="from_name">Your Name</label>
-            <input type="text" name="from_name" id="from_name" required>
-            <label for="reply_to">Your Email</label>
-            <input type="email" name="reply_to" id="reply_to" required>
-            <label for="message">Your Message</label>
-            <textarea name="message" id="message" required></textarea>
-            <button type="submit">
-                <span class="sparkle">✨️</span> Send <span class="sparkle">💛</span>
-            </button>
-            <div id="form-status"></div>
-        </form>
-    </section>
- 
-    <footer>
-        <a href="privacy-policy.html">Privacy Policy</a>
-        <a href="terms-and-conditions.html">Terms & Conditions</a>
-        <a href="disclaimer.html">Disclaimer</a>
-        <span class="footer-sparkle">✨️</span>
-        &copy; 2025 Nicholas Bagenda. All rights reserved.
-        <span class="footer-sparkle">💛</span><br>
-        <span style="font-size:0.98em;color:#ffd70077;">
-            A simple website that shares truth, healing, and hope.
-            <span class="footer-sparkle">💖</span>
-        </span>
-    </footer>
 
     <script>
         window.addEventListener('load', () => {
             document.body.classList.add('loaded');
-            // Make marquee seamless by duplicating content
+            // Make marquee seamless by duplicating content (only once)
             const marquee = document.querySelector('.marquee');
-            marquee.innerHTML += marquee.innerHTML;
+            if (marquee && marquee.innerHTML.indexOf('data-duplicated') === -1) {
+                marquee.innerHTML += marquee.innerHTML;
+                marquee.setAttribute('data-duplicated', 'true');
+            }
         });
 
         // EmailJS init (replace with your own user ID)
-        emailjs.init('7rDjOLguEcDWzn3X1'); // Replace with your EmailJS USER ID
+        if (typeof emailjs !== 'undefined' && emailjs.init) {
+            emailjs.init('7rDjOLguEcDWzn3X1'); // Replace with your EmailJS USER ID
+        }
 
         document.getElementById('contact-form').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -673,6 +696,11 @@
             const statusDiv = document.getElementById('form-status');
             statusDiv.textContent = '';
             statusDiv.className = '';
+            if (typeof emailjs === 'undefined' || !emailjs.sendForm) {
+                statusDiv.textContent = 'Email service not available. Please try again later.';
+                statusDiv.className = 'form-error';
+                return;
+            }
             emailjs.sendForm('service_8q8dc7h', 'template_t76v6a4', form) // Replace with your service and template IDs!
                 .then(function() {
                     statusDiv.textContent = 'Message sent successfully! ✨️💛';
@@ -681,67 +709,69 @@
                 }, function(error) {
                     statusDiv.textContent = 'Failed to send message. Please try again. 💖';
                     statusDiv.className = 'form-error';
+                    console.error('EmailJS error:', error);
                 });
         });
     </script>
-</body>
-<div class="text-center mt-10">
-    <button id="signOutBtn"
-            class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-2xl shadow-lg transition duration-300 transform hover:scale-105">
-        🔓 Sign Out
-    </button>
-</div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+    <script type="module">
+        // Firebase (kept as provided). Replace config values if needed.
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
-        authDomain: "my-website-357cb.firebaseapp.com",
-        projectId: "my-website-357cb",
-        storageBucket: "my-website-357cb.appspot.com",
-        messagingSenderId: "759627961944",
-        appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d",
-        measurementId: "G-MK9ZP12G83"
-    };
+        const firebaseConfig = {
+            apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
+            authDomain: "my-website-357cb.firebaseapp.com",
+            projectId: "my-website-357cb",
+            storageBucket: "my-website-357cb.appspot.com",
+            messagingSenderId: "759627961944",
+            appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d",
+            measurementId: "G-MK9ZP12G83"
+        };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-    // Track signed-in users
-    onAuthStateChanged(auth, async (user) => {
-        if (user) {
-            const userRef = doc(db, "users", user.uid);
-            const userSnap = await getDoc(userRef);
+        // Track signed-in users
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                try {
+                    const userRef = doc(db, "users", user.uid);
+                    const userSnap = await getDoc(userRef);
 
-            if (!userSnap.exists()) {
-                await setDoc(userRef, {
-                    email: user.email,
-                    createdAt: new Date().toISOString()
-                });
-                console.log("🆕 New user saved:", user.email);
+                    if (!userSnap.exists()) {
+                        await setDoc(userRef, {
+                            email: user.email,
+                            createdAt: new Date().toISOString()
+                        });
+                        console.log("🆕 New user saved:", user.email);
+                    } else {
+                        console.log("✅ Existing user:", user.email);
+                    }
+                } catch (err) {
+                    console.error("Error accessing Firestore:", err);
+                }
             } else {
-                console.log("✅ Existing user:", user.email);
-            }
-        } else {
-            // Not signed in, redirect to login
-            window.location.href = "index.html";
-        }
-    });
-
-    // Sign out
-    const signOutBtn = document.getElementById("signOutBtn");
-    signOutBtn.addEventListener("click", () => {
-        signOut(auth)
-            .then(() => {
+                // Not signed in, redirect to login
                 window.location.href = "index.html";
-            })
-            .catch((error) => {
-                console.error("❌ Sign-out error:", error);
+            }
+        });
+
+        // Sign out
+        const signOutBtn = document.getElementById("signOutBtn");
+        if (signOutBtn) {
+            signOutBtn.addEventListener("click", () => {
+                signOut(auth)
+                    .then(() => {
+                        window.location.href = "index.html";
+                    })
+                    .catch((error) => {
+                        console.error("❌ Sign-out error:", error);
+                    });
             });
-    });
-</script>
-  </html>
+        }
+    </script>
+</body>
+</html>

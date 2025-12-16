@@ -731,6 +731,7 @@
         // Track signed-in users
         onAuthStateChanged(auth, async (user) => {
             if (user) {
+                // User is Signed In
                 const userRef = doc(db, "users", user.uid);
                 const userSnap = await getDoc(userRef);
 
@@ -744,8 +745,17 @@
                     console.log("✅ Existing user:", user.email);
                 }
             } else {
-                // Not signed in, redirect to login (Comment this line out if this is your index/home page and should be accessible when logged out)
-                // window.location.href = "index.html"; 
+                // User is NOT Signed In: Enforce Redirection
+                console.log("🚫 User logged out or not signed in. Checking page location...");
+                
+                // Get the current page file name
+                const currentPage = window.location.pathname.split("/").pop();
+
+                // Redirect only if the user is not already on the login page (index.html)
+                if (currentPage !== "index.html" && currentPage !== "") {
+                    window.location.href = "index.html"; 
+                }
+                
                 console.log("User logged out or not signed in.");
             }
         });
@@ -756,7 +766,7 @@
             signOutBtn.addEventListener("click", () => {
                 signOut(auth)
                     .then(() => {
-                        window.location.href = "index.html";
+                        window.location.href = "index.html"; // Redirect to index.html after sign-out
                     })
                     .catch((error) => {
                         console.error("❌ Sign-out error:", error);

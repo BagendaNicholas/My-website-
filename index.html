@@ -688,7 +688,7 @@
         });
 
         // EmailJS init (replace with your own user ID)
-        emailjs.init('7rDjOLguEcDWzn3X1'); // Replace with your EmailJS USER ID
+        emailjs.init('7rDjOLguEcDWzn3X2'); // Updated to the correct EmailJS public/user key
 
         document.getElementById('contact-form').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -696,12 +696,17 @@
             const statusDiv = document.getElementById('form-status');
             statusDiv.textContent = '';
             statusDiv.className = '';
-            emailjs.sendForm('service_8q8dc7h', 'template_t76v6a4', form) // Replace with your service and template IDs!
+
+            // Use the public key as the 4th argument to ensure authentication works reliably
+            emailjs.sendForm('service_8q8dc7h', 'template_t76v6a4', form, '7rDjOLguEcDWzn3X2')
                 .then(function() {
                     statusDiv.textContent = 'Message sent successfully! ✨️💛';
                     statusDiv.className = 'form-success';
                     form.reset();
-                }, function(error) {
+                })
+                .catch(function(error) {
+                    // Log detailed error info so you can debug (check Console & Network)
+                    console.error('EmailJS sendForm error:', error);
                     statusDiv.textContent = 'Failed to send message. Please try again. 💖';
                     statusDiv.className = 'form-error';
                 });

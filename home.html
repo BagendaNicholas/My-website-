@@ -746,15 +746,10 @@
                 }
             } else {
                 // User is NOT Signed In: Enforce Redirection
-                console.log("🚫 User logged out or not signed in. Checking page location...");
+                console.log("🚫 User logged out or not signed in. Redirecting to public site...");
                 
-                // Get the current page file name
-                const currentPage = window.location.pathname.split("/").pop();
-
-                // Redirect only if the user is not already on the login page (index.html)
-                if (currentPage !== "nicholasbagenda.netlify.app  && currentPage !== "") {
-                    window.location.href = "nicholasbagenda.netlify.app ; 
-                }
+                // Redirect to the public landing page
+                window.location.href = "https://nicholasbagenda.netlify.app";
                 
                 console.log("User logged out or not signed in.");
             }
@@ -766,7 +761,7 @@
             signOutBtn.addEventListener("click", () => {
                 signOut(auth)
                     .then(() => {
-                        window.location.href = "nicholasbagenda.netlify.app "; // Redirect to index.html after sign-out
+                        window.location.href = "https://nicholasbagenda.netlify.app"; // Redirect to public site after sign-out
                     })
                     .catch((error) => {
                         console.error("❌ Sign-out error:", error);

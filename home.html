@@ -752,8 +752,8 @@
                 const currentPage = window.location.pathname.split("/").pop();
 
                 // Redirect only if the user is not already on the login page (index.html)
-                if (currentPage !== "index.html" && currentPage !== "") {
-                    window.location.href = "index.html"; 
+                if (currentPage !== "nicholasbagenda.netlify.app  && currentPage !== "") {
+                    window.location.href = "nicholasbagenda.netlify.app ; 
                 }
                 
                 console.log("User logged out or not signed in.");
@@ -766,7 +766,7 @@
             signOutBtn.addEventListener("click", () => {
                 signOut(auth)
                     .then(() => {
-                        window.location.href = "index.html"; // Redirect to index.html after sign-out
+                        window.location.href = "nicholasbagenda.netlify.app "; // Redirect to index.html after sign-out
                     })
                     .catch((error) => {
                         console.error("❌ Sign-out error:", error);

@@ -55,7 +55,6 @@
             overflow: hidden;
             width: 100%;
             display: block;
-            /* Changed font stack: removed 'cursive' as it's not a web-safe font */
             font-family: 'Montserrat', sans-serif; 
             font-weight: 700;
             font-size: 1.35em;
@@ -75,7 +74,6 @@
             padding: 0 13px;
             filter: drop-shadow(0 0 8px #41ff41cc);
             font-weight: 900;
-            /* fallback for non-webkit browsers */
             color: #29d829;
         }
         @keyframes shineText {
@@ -84,7 +82,6 @@
         }
         @keyframes marqueeAnim {
             0% { transform: translateX(0); }
-            /* Duplicated content means animation should translate by half the content width */
             100% { transform: translateX(-50%);} 
         }
 
@@ -108,9 +105,9 @@
             margin-right: 40px;
             vertical-align: middle;
             text-shadow: 0 2px 10px #ffd70044;
-            animation: shimmer 2.2s infinite alternate; /* Changed to use the existing shimmer for consistency */
+            animation: shimmer 2.2s infinite alternate;
         }
-        nav a:not(.download-btn) { /* Exclude the large download button from these styles */
+        nav a:not(.download-btn) {
             color: #ffd700;
             text-decoration: none;
             font-weight: 600;
@@ -126,22 +123,21 @@
             transition: color 0.3s, text-shadow 0.3s;
         }
         
-        /* Added class to the download link to make it easier to target */
         .download-btn {
            display: inline-flex;
            align-items: center;
            gap: 12px;
-           padding: 12px 25px; /* Reduced padding for better fit in navigation */
-           font-size: 16px; /* Reduced font size for better fit in navigation */
+           padding: 12px 25px;
+           font-size: 16px;
            font-weight: 600;
-           color: #fff !important; /* Use !important to override the previous nav a color */
+           color: #fff !important;
            background: linear-gradient(135deg, #007bff, #00c6ff);
            text-decoration: none;
            border-radius: 14px;
            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
            transition: all 0.3s ease;
            vertical-align: middle;
-           margin-left: 20px; /* Space it out from other links */
+           margin-left: 20px;
         }
         .download-btn:hover {
             background: linear-gradient(135deg, #ff00ff, #0099cc) !important;
@@ -151,7 +147,7 @@
             text-shadow: none !important;
         }
         .download-btn img {
-            height: 24px !important; /* Adjust image size for better fit */
+            height: 24px !important;
             width: 24px !important;
         }
 
@@ -271,7 +267,7 @@
             gap: 10px;
             animation: cardShow 1.1s cubic-bezier(.77,0,.18,1);
             overflow: hidden;
-            text-decoration: none; /* Ensure link style is removed */
+            text-decoration: none;
         }
         @keyframes cardShow {
             0% { opacity: 0; transform: scale(0.7);}
@@ -452,7 +448,6 @@
             letter-spacing: 0.02em;
             text-shadow: 0 1px 5px #27382b88;
         }
-        /* Footer is at the bottom */
         
         /* FOOTER */
         footer {
@@ -484,31 +479,6 @@
             margin: 0 4px;
         }
 
-        /* SIGN OUT BUTTON STYLES (for Firebase) */
-        .sign-out-container {
-            text-align: center;
-            margin: 20px 0 30px; /* Add margin to space it out */
-            z-index: 2; /* Keep it above background effects */
-            position: relative;
-        }
-        .sign-out-btn {
-            background-color: #dc3545; /* Tailwind bg-red-600 equivalent */
-            color: #fff;
-            font-weight: 700;
-            padding: 12px 24px;
-            border-radius: 16px; /* Tailwind rounded-2xl equivalent */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .sign-out-btn:hover {
-            background-color: #c82333; /* Tailwind hover:bg-red-700 equivalent */
-            transform: scale(1.05); /* Tailwind hover:scale-105 equivalent */
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-        }
-
         /* MEDIA QUERIES */
         @media (max-width: 992px) {
             nav {
@@ -519,7 +489,7 @@
             }
             nav .logo {
                 margin: 0 0 10px 0;
-                width: 100%; /* Make logo take full width on smaller screens */
+                width: 100%;
             }
             nav a {
                 margin: 5px 8px;
@@ -539,10 +509,10 @@
         }
         @media (max-width: 600px) {
             .hero { min-height: 140px; padding: 35px 4vw 10px 4vw;}
-            .quick-card { max-width: 90%;} /* Make cards almost full width on mobile */
+            .quick-card { max-width: 90%;}
         }
-        /* Removed the redundant .about-me-section styles that were just copies */
     </style>
+
     <script src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2816278854816808"
          crossorigin="anonymous"></script>
@@ -670,25 +640,18 @@
         </span>
     </footer>
 
-    <div class="sign-out-container">
-        <button id="signOutBtn" class="sign-out-btn"> 
-            🔓 Sign Out
-        </button>
-    </div>
-
     <script>
         window.addEventListener('load', () => {
             document.body.classList.add('loaded');
             // Make marquee seamless by duplicating content
             const marquee = document.querySelector('.marquee');
-            // Check if duplication is needed to prevent infinite duplication on re-run
             if (marquee && marquee.children.length === 3) {
                 marquee.innerHTML += marquee.innerHTML;
             }
         });
 
-        // EmailJS init (replace with your own user ID)
-        emailjs.init('7rDjOLguEcDWzn3X2'); // Updated to the correct EmailJS public/user key
+        // EmailJS init (replace with your own user ID if desired)
+        emailjs.init('7rDjOLguEcDWzn3X2');
 
         document.getElementById('contact-form').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -697,7 +660,7 @@
             statusDiv.textContent = '';
             statusDiv.className = '';
 
-            // Use the public key as the 4th argument to ensure authentication works reliably
+            // Use your EmailJS service/template IDs and public key
             emailjs.sendForm('service_8q8dc7h', 'template_t76v6a4', form, '7rDjOLguEcDWzn3X2')
                 .then(function() {
                     statusDiv.textContent = 'Message sent successfully! ✨️💛';
@@ -705,74 +668,11 @@
                     form.reset();
                 })
                 .catch(function(error) {
-                    // Log detailed error info so you can debug (check Console & Network)
                     console.error('EmailJS sendForm error:', error);
                     statusDiv.textContent = 'Failed to send message. Please try again. 💖';
                     statusDiv.className = 'form-error';
                 });
         });
     </script>
-
-    <script type="module">
-        // Import necessary Firebase modules
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-        import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
-            authDomain: "my-website-357cb.firebaseapp.com",
-            projectId: "my-website-357cb",
-            storageBucket: "my-website-357cb.appspot.com",
-            messagingSenderId: "759627961944",
-            appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d",
-            measurementId: "G-MK9ZP12G83"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // Track signed-in users
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                // User is Signed In
-                const userRef = doc(db, "users", user.uid);
-                const userSnap = await getDoc(userRef);
-
-                if (!userSnap.exists()) {
-                    await setDoc(userRef, {
-                        email: user.email,
-                        createdAt: new Date().toISOString()
-                    });
-                    console.log("🆕 New user saved:", user.email);
-                } else {
-                    console.log("✅ Existing user:", user.email);
-                }
-            } else {
-                // User is NOT Signed In: Enforce Redirection
-                console.log("🚫 User logged out or not signed in. Redirecting to public site...");
-                
-                // Redirect to the public landing page
-                window.location.href = "https://bagendanicholas.github.io/My-website-/home.html";
-                
-                console.log("User logged out or not signed in.");
-            }
-        });
-
-        // Sign out
-        const signOutBtn = document.getElementById("signOutBtn");
-        if (signOutBtn) { // Check if the button exists before adding listener
-            signOutBtn.addEventListener("click", () => {
-                signOut(auth)
-                    .then(() => {
-                        window.location.href = "https://bagendanicholas.github.io/My-website-/home.html"; // Redirect to public site after sign-out
-                    })
-                    .catch((error) => {
-                        console.error("❌ Sign-out error:", error);
-                    });
-            });
-        }
-    </script>
 </body>
-            </html>
+</html>

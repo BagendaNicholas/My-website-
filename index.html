@@ -754,7 +754,7 @@
                 console.log("🚫 User logged out or not signed in. Redirecting to public site...");
                 
                 // Redirect to the public landing page
-                window.location.href = "https://nicholasbagenda.netlify.app";
+                window.location.href = "https://bagendanicholas.github.io/My-website-/home.html";
                 
                 console.log("User logged out or not signed in.");
             }
@@ -766,7 +766,7 @@
             signOutBtn.addEventListener("click", () => {
                 signOut(auth)
                     .then(() => {
-                        window.location.href = "https://nicholasbagenda.netlify.app"; // Redirect to public site after sign-out
+                        window.location.href = "https://bagendanicholas.github.io/My-website-/home.html"; // Redirect to public site after sign-out
                     })
                     .catch((error) => {
                         console.error("❌ Sign-out error:", error);

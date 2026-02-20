@@ -1,349 +1,216 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voices from the Future: The Year the Prophecy Spoke</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        /* CSS Variables for easy theme changes */
-        :root {
-            --primary-color: #2c3e50;
-            --accent-color: #c0392b;
-            --background-start: #fdfcfb;
-            --background-end: #f0f4f7;
-            --paper-color: #ffffff;
-            --border-color: #e0e6eb;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voices from the Future | Nicholas Bagenda</title>
 
-        /* 1. Global Styles and Background */
-        body {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.15em;
-            line-height: 1.8;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, var(--background-start) 0%, var(--background-end) 100%);
-            color: var(--primary-color);
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 900px;
-            width: 95%;
-            margin-top: 50px;
-            margin-bottom: 50px;
-            padding: 40px;
-            background-color: var(--paper-color);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            border-radius: 8px;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
 
-        /* 2. Typography and Headings */
-        h1, h2, h3 {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--accent-color);
-            text-align: center;
-            margin-top: 40px;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-        
-        h1 {
-            font-size: 2.5em;
-            color: var(--primary-color);
-            border-bottom: 3px solid var(--accent-color);
-            padding-bottom: 15px;
-            text-transform: uppercase;
-        }
-        
-        h2 {
-            font-size: 1.8em;
-            color: var(--accent-color);
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-        }
+<style>
 
-        h3 {
-            font-size: 1.4em;
-        }
+:root{
+    --dark-bg:#0f172a;
+    --card-bg:#111827;
+    --accent:#00f5ff;
+    --gold:#facc15;
+    --text:#e5e7eb;
+    --soft:#9ca3af;
+}
 
-        header {
-            padding: 20px;
-            max-width: 900px;
-            margin: auto;
-        }
+/* GLOBAL */
+body{
+    margin:0;
+    font-family:'Cormorant Garamond',serif;
+    background: radial-gradient(circle at top, #1e293b, #0f172a);
+    color:var(--text);
+    line-height:1.9;
+}
 
-        header nav {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
+.container{
+    max-width:950px;
+    margin:auto;
+    padding:40px 20px;
+}
 
-        header nav a {
-            color: #ffffff;
-            text-decoration: none;
-            padding: 8px 12px;
-            transition: 0.3s;
-        }
+/* FIXED NAV */
+.fixed-header-nav{
+    position:fixed;
+    top:0;
+    width:100%;
+    background:rgba(15,23,42,0.95);
+    backdrop-filter:blur(8px);
+    padding:10px 0;
+    text-align:center;
+    z-index:1000;
+    border-bottom:1px solid #1f2937;
+}
 
-        header nav a:hover {
-            text-shadow: 0 0 8px #fff176;
-        }
+.home-button{
+    background:var(--accent);
+    color:#000;
+    padding:8px 18px;
+    border-radius:25px;
+    font-family:'Montserrat',sans-serif;
+    font-weight:700;
+    text-decoration:none;
+    transition:0.3s;
+}
 
-        header nav a.active {
-            font-weight: bold;
-            border-bottom: 2px solid #00ffcc;
-        }
+.home-button:hover{
+    background:var(--gold);
+    box-shadow:0 0 12px var(--gold);
+}
 
-        /* 3. Book-Specific Elements */
-        blockquote {
-            background: var(--background-end);
-            border-left: 5px solid var(--accent-color);
-            margin: 2em 0;
-            padding: 1.5em 25px;
-            font-style: italic;
-            font-size: 1.1em;
-            color: #555;
-            border-radius: 4px;
-        }
-        
-        blockquote p {
-            margin: 0;
-            line-height: 1.6;
-        }
+/* HERO */
+.hero{
+    margin-top:90px;
+    text-align:center;
+    padding:60px 20px;
+}
 
-        .author-info, .copyright-page {
-            text-align: center;
-            margin: 30px 0;
-            padding: 20px;
-            border: 1px dashed var(--border-color);
-            border-radius: 4px;
-            background-color: #fcfcfc;
-        }
+.hero h1{
+    font-family:'Montserrat',sans-serif;
+    font-size:2.8rem;
+    font-weight:800;
+    color:var(--accent);
+    text-shadow:0 0 15px var(--accent);
+}
 
-        .author-info p, .copyright-page p {
-            margin: 8px 0;
-        }
-        
-        .prophetic-parallel table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin: 25px 0;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-        
-        .prophetic-parallel th, .prophetic-parallel td {
-            border: 1px solid var(--border-color);
-            padding: 12px;
-            text-align: left;
-            transition: background-color 0.3s;
-        }
-        
-        .prophetic-parallel th {
-            background-color: var(--primary-color);
-            color: white;
-            font-family: 'Montserrat', sans-serif;
-            border: none;
-        }
-        
-        .prophetic-parallel tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
+.hero p{
+    font-size:1.2rem;
+    color:var(--soft);
+    margin-top:20px;
+}
 
-        /* 4. Navigation (Home Button and Chapter Nav) */
-        
-        /* Fixed Header Bar */
-        .fixed-header-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            padding: 10px 0;
-            z-index: 1000;
-            text-align: center;
-        }
+/* LIBRARY NAV */
+.library-nav{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+    margin:40px 0;
+}
 
-        .home-button {
-            display: inline-block;
-            padding: 8px 15px;
-            background-color: var(--accent-color);
-            color: white;
-            text-decoration: none;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            border-radius: 5px;
-            transition: background-color 0.3s, transform 0.1s;
-        }
+.library-nav a{
+    text-decoration:none;
+    color:var(--text);
+    font-family:'Montserrat',sans-serif;
+    padding:8px 14px;
+    border-radius:20px;
+    border:1px solid #334155;
+    transition:0.3s;
+}
 
-        .home-button:hover {
-            background-color: #e74c3c;
-            transform: translateY(-1px);
-        }
-        
-        /* Chapter Navigation Styling */
-        .chapter-nav {
-            margin: 40px 0 20px 0;
-            padding: 15px 0;
-            border-top: 2px solid var(--border-color);
-            border-bottom: 2px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.95em;
-            font-family: 'Montserrat', sans-serif;
-        }
-        
-        .chapter-nav a {
-            padding: 8px 15px;
-            background-color: #f4f4f4;
-            color: var(--primary-color);
-            text-decoration: none;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-        }
-        
-        .chapter-nav a:hover {
-            background-color: var(--accent-color);
-            color: white;
-            border-color: var(--accent-color);
-        }
-        
-        .nav-center {
-            text-align: center;
-            flex-grow: 1;
-        }
-        
-        .nav-center a {
-            background-color: transparent;
-            border: none;
-            color: var(--primary-color);
-            font-weight: 700;
-        }
+.library-nav a:hover{
+    background:var(--accent);
+    color:#000;
+}
 
-        .nav-center a:hover {
-            text-decoration: underline;
-            background-color: transparent;
-            color: var(--accent-color);
-        }
-        
-        /* Other text elements */
-        a {
-            color: var(--accent-color);
-            text-decoration: none;
-        }
+/* CONTENT CARD */
+.content-card{
+    background:var(--card-bg);
+    padding:40px;
+    border-radius:15px;
+    box-shadow:0 0 25px rgba(0,0,0,0.4);
+}
 
-        a:hover {
-            text-decoration: underline;
-        }
-        
-        li p {
-            margin: 0;
-        }
-        
-        hr {
-            border: 0;
-            height: 1px;
-            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
-            margin: 50px 0;
-        }
+/* HEADINGS */
+h2{
+    font-family:'Montserrat',sans-serif;
+    color:var(--gold);
+    border-bottom:1px solid #334155;
+    padding-bottom:10px;
+    margin-top:40px;
+}
 
-        /* Table of Contents */
-        .table-of-contents {
-            margin: 30px 0;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 4px;
-        }
+/* BLOCKQUOTE */
+blockquote{
+    border-left:4px solid var(--accent);
+    padding:20px;
+    background:#0f1a2c;
+    margin:30px 0;
+    font-style:italic;
+    border-radius:8px;
+}
 
-        .table-of-contents ol {
-            padding-left: 25px;
-        }
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin:30px 0;
+}
 
-        .table-of-contents li {
-            margin: 10px 0;
-            line-height: 1.6;
-        }
+th, td{
+    padding:12px;
+    border:1px solid #334155;
+}
 
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
-            border-top: 1px solid var(--border-color);
-            color: #666;
-            font-size: 0.9em;
-        }
+th{
+    background:var(--accent);
+    color:#000;
+}
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-                margin-top: 70px;
-            }
+/* CHAPTER NAV */
+.chapter-nav{
+    display:flex;
+    justify-content:space-between;
+    margin-top:50px;
+    font-family:'Montserrat',sans-serif;
+}
 
-            h1 {
-                font-size: 1.8em;
-            }
+.chapter-nav a{
+    text-decoration:none;
+    color:var(--accent);
+}
 
-            h2 {
-                font-size: 1.4em;
-            }
+.chapter-nav a:hover{
+    color:var(--gold);
+}
 
-            header nav {
-                gap: 1rem;
-            }
+footer{
+    text-align:center;
+    margin-top:80px;
+    color:var(--soft);
+    font-size:0.9rem;
+}
 
-            .chapter-nav {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .chapter-nav a {
-                width: 100%;
-                text-align: center;
-            }
-        }
-
-    </style>
+</style>
 </head>
+
 <body>
 
-    <div class="fixed-header-nav">
-        <a href="home.html" class="home-button">🏠 Home</a>
+<div class="fixed-header-nav">
+    <a href="home.html" class="home-button">🏠 Home</a>
+</div>
+
+<div class="container">
+
+    <section class="hero">
+        <h1>Voices From The Future</h1>
+        <p>The Year the Prophecy Spoke</p>
+    </section>
+
+    <div class="library-nav">
+        <a href="index2.9.html">📘 The Sabbath</a>
+        <a href="#">📗 Voices From The Future (Active)</a>
+        <a href="index9.html">📕 Presentation</a>
+        <a href="index2.html">📙 Am The Creator</a>
     </div>
 
-    <div class="container">
-        <header>
-            <div class="library-title" style="text-align: center; font-size: 24px; margin-bottom: 20px; color: var(--primary-color);">
-                📚 Library
-            </div>
-            <nav>
-                <a href="index7.html">📗 The Sabbath</a>
-                <a href="index2.9.html" class="active">📘 Voices From The Future</a>
-                <a href="index9.html">📕 Presentation</a>
-                <a href="index2.html">📗 Am The Creator</a>
-            </nav>
-        </header>
+    <div class="content-card">
 
-        <!-- Content goes here - Add your chapters and content below -->
+        <h2>Chapter 1 – When Time Whispered</h2>
 
-    </div>
+        <blockquote>
+            “For dust you are, and to dust you shall return.” — Genesis 3:19
+        </blockquote>
 
-    <footer>
-        © 2025 Bagenda Nicholas | The Voice of the Creator
-    </footer>
+        <p>
+            Insert your powerful prophetic opening paragraph here...
+        </p>
 
-</body>
-</html> 
+        <h2>Prophetic Parallel</h2>
             <h1>✍️ Voices from the future: The Year the Prophecy Spoke</h1>
             
             <blockquote>

@@ -8,19 +8,19 @@
     <style>
         /* CSS Variables for easy theme changes */
         :root {
-            --primary-color: #2c3e50; /* Dark blue/grey for text */
-            --accent-color: #c0392b; /* Deep red for emphasis/links */
-            --background-start: #fdfcfb; /* Very light, almost white */
-            --background-end: #f0f4f7; /* Very light blue/grey */
-            --paper-color: #ffffff; /* Inner content background */
+            --primary-color: #2c3e50;
+            --accent-color: #c0392b;
+            --background-start: #fdfcfb;
+            --background-end: #f0f4f7;
+            --paper-color: #ffffff;
             --border-color: #e0e6eb;
         }
 
         /* 1. Global Styles and Background */
         body {
-            font-family: 'Cormorant Garamond', serif; /* Elegant, readable serif font */
-            font-size: 1.15em; /* Increased base font size for better readability */
-            line-height: 1.8; /* Increased line-height for better readability */
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15em;
+            line-height: 1.8;
             margin: 0;
             padding: 0;
             background: linear-gradient(135deg, var(--background-start) 0%, var(--background-end) 100%);
@@ -33,17 +33,17 @@
         .container {
             max-width: 900px;
             width: 95%;
-            margin-top: 50px; /* Space for the fixed nav bar */
+            margin-top: 50px;
             margin-bottom: 50px;
             padding: 40px;
             background-color: var(--paper-color);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* Soft shadow for book effect */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             border-radius: 8px;
         }
 
         /* 2. Typography and Headings */
         h1, h2, h3 {
-            font-family: 'Montserrat', sans-serif; /* Clean, modern sans-serif for headings */
+            font-family: 'Montserrat', sans-serif;
             color: var(--accent-color);
             text-align: center;
             margin-top: 40px;
@@ -65,6 +65,11 @@
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 10px;
         }
+
+        h3 {
+            font-size: 1.4em;
+        }
+
         header {
             padding: 20px;
             max-width: 900px;
@@ -75,35 +80,25 @@
             display: flex;
             justify-content: center;
             gap: 2rem;
+            flex-wrap: wrap;
         }
 
-        h1, h2, h3, h4 {
-            font-family: Georgia, 'Times New Roman', Times, serif;
-            color: #5efcff;
-            text-shadow: 0 0 8px #5efcff;
-            border-bottom: 1px solid #00cfff;
-            padding-bottom: 0.3rem;
-        }
-
-        a {
-            color: #fffb96;
+        header nav a {
+            color: #ffffff;
             text-decoration: none;
+            padding: 8px 12px;
+            transition: 0.3s;
         }
 
-        a:hover {
+        header nav a:hover {
             text-shadow: 0 0 8px #fff176;
         }
 
-        ul.toc {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 2rem;
+        header nav a.active {
+            font-weight: bold;
+            border-bottom: 2px solid #00ffcc;
         }
 
-        ul.toc li {
-            margin: 0.5rem 0;
-        }
-     
         /* 3. Book-Specific Elements */
         blockquote {
             background: var(--background-end);
@@ -128,6 +123,10 @@
             border: 1px dashed var(--border-color);
             border-radius: 4px;
             background-color: #fcfcfc;
+        }
+
+        .author-info p, .copyright-page p {
+            margin: 8px 0;
         }
         
         .prophetic-parallel table {
@@ -159,13 +158,13 @@
 
         /* 4. Navigation (Home Button and Chapter Nav) */
         
-        /* Fixed Header Bar for Home Button */
+        /* Fixed Header Bar */
         .fixed-header-nav {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background-color: rgba(255, 255, 255, 0.95); /* Semi-transparent white */
+            background-color: rgba(255, 255, 255, 0.95);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             padding: 10px 0;
             z-index: 1000;
@@ -241,6 +240,7 @@
             color: var(--accent-color);
             text-decoration: none;
         }
+
         a:hover {
             text-decoration: underline;
         }
@@ -256,30 +256,94 @@
             margin: 50px 0;
         }
 
+        /* Table of Contents */
+        .table-of-contents {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+
+        .table-of-contents ol {
+            padding-left: 25px;
+        }
+
+        .table-of-contents li {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--border-color);
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin-top: 70px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            h2 {
+                font-size: 1.4em;
+            }
+
+            header nav {
+                gap: 1rem;
+            }
+
+            .chapter-nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .chapter-nav a {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
     </style>
 </head>
 <body>
 
     <div class="fixed-header-nav">
-        <a href="home.html" class="home-button">🏠 Home </a>
+        <a href="home.html" class="home-button">🏠 Home</a>
     </div>
 
     <div class="container">
         <header>
-            <header>
-        <div class="library-title" style="text-align: center; font-size: 24px; margin-bottom: 20px; color: #5efcff;">
-            📚 Library
-        </div>
-        <nav>
-           <a href="index2.9.html" style="color: #ffffff; text-decoration: none;">📘 The Sabbath</a>
-            <a href="index2.9.html" style="color: #ffffff; font-weight: bold; text-decoration: none; border-bottom: 2px solid #00ffcc;">
-                📗 Voices  From The Future (Active)
-            </a>
-            <a href="index9.html" style="color: #ffffff; text-decoration: none;">📕 Presentation</a>
-            <a href="index2.html" style="color: #ffffff; text-decoration: none;">📗 Am The Creator</a>
-        </nav>
-    </header>
- 
+            <div class="library-title" style="text-align: center; font-size: 24px; margin-bottom: 20px; color: var(--primary-color);">
+                📚 Library
+            </div>
+            <nav>
+                <a href="index7.html">📗 The Sabbath</a>
+                <a href="index2.9.html" class="active">📘 Voices From The Future</a>
+                <a href="index9.html">📕 Presentation</a>
+                <a href="index2.html">📗 Am The Creator</a>
+            </nav>
+        </header>
+
+        <!-- Content goes here - Add your chapters and content below -->
+
+    </div>
+
+    <footer>
+        © 2025 Bagenda Nicholas | The Voice of the Creator
+    </footer>
+
+</body>
+</html> 
             <h1>✍️ Voices from the future: The Year the Prophecy Spoke</h1>
             
             <blockquote>

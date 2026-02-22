@@ -4,14 +4,15 @@
     <meta name="google-site-verification" content="_fuLs7ujw7KmQmXrSOffFmMLakhUERuxcJ061DokHGI" />  
     <meta property="og:title" content="Bagenda Nicholas - Portfolio">  
     <meta property="og:description" content="Explore the creativity, skills, and digital work of Bagenda Nicholas.">  
-   <meta property="og:image" content="https://i.postimg.cc/G25cqyqW/IMG_20260219_WA0026.jpg">  
+    <meta property="og:image" content="https://i.postimg.cc/G25cqyqW/IMG_20260219_WA0026.jpg">  
     <meta property="og:image" content="https://i.postimg.cc/VNzL61JD/IMG_20260219_WA0022.jpg">  
-   <meta property="og:image" content="https://i.postimg.cc/g0GkJdxq/IMG_20260219_WA0023.jpg">  
+    <meta property="og:image" content="https://i.postimg.cc/g0GkJdxq/IMG_20260219_WA0023.jpg">  
     <meta property="og:image" content="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png">  
     <meta property="og:url" content="https://nicholasbagenda.netlify.app/">  
-    <meta name="twitter:card" content="summary_large_image">  <meta charset="UTF-8" />  
-<meta name="viewport" content="width=device-width, initial-scale=1" />  
-<title>Nicholas Bagenda – Home</title>  
+    <meta name="twitter:card" content="summary_large_image">  
+    <meta charset="UTF-8" />  
+    <meta name="viewport" content="width=device-width, initial-scale=1" />  
+    <title>Nicholas Bagenda – Home</title>  
     <link rel="icon" href="/favicon.ico" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -19,14 +20,14 @@
         html, body {
             margin: 0;
             padding: 0;
-            box-sizing: border-box; /* Set once here for the body/html */
+            box-sizing: border-box;
             font-family: 'Open Sans', Arial, sans-serif;
             background: linear-gradient(120deg, #23294a 0%, #181d2f 100%);
             color: #fff;
             min-height: 100vh;
         }
         *, *::before, *::after {
-            box-sizing: inherit; /* Inherit box-sizing globally */
+            box-sizing: inherit;
         }
 
         /* BODY LOAD TRANSITION */
@@ -41,7 +42,7 @@
             transition: opacity 1.7s cubic-bezier(.23,1,.32,1), filter 2.2s cubic-bezier(.23,1,.32,1);
         }
 
-        /* MARQUEE */
+        /* TEXT MARQUEE */
         .marquee-wrap {
             overflow: hidden;
             background: linear-gradient(90deg, #ffd700 40%, #ffb5ff 100%);
@@ -64,11 +65,41 @@
             text-shadow: 0 2px 10px #ffd700ad, 0 0 8px #ffb5ff77;
             animation: marqueeAnim 16s linear infinite;
             padding: 7px 0;
-        }  
-        .marquee { width: 100%; overflow: hidden; margin-bottom: 1.5rem; border-radius: 16px; box-shadow: 0 2px 8px #ffd6e3; background: #fff7fb; padding: 0.5rem 0; }
-        .marquee-track { display: flex; gap: 1rem; animation: marqueeScroll 20s linear infinite; }
-        .marquee-track img { height: 120px; border-radius: 12px; object-fit: cover; }
-        @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        }
+
+        /* IMAGE CAROUSEL MARQUEE */
+        .image-marquee {
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px #ffd6e3;
+            background: #fff7fb;
+            padding: 0.5rem 0;
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 1rem;
+            animation: marqueeScroll 20s linear infinite;
+        }
+
+        .marquee-track img {
+            height: 120px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        @keyframes marqueeScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @keyframes marqueeAnim {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%);} 
+        }
 
         .shining-name {
             background: linear-gradient(92deg, #41ff41 30%, #04e004 60%, #41ff41 90%);
@@ -85,10 +116,6 @@
         @keyframes shineText {
             0% { background-position: 0% 50%; }
             100% { background-position: 100% 50%; }
-        }
-        @keyframes marqueeAnim {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%);} 
         }
 
         /* NAVIGATION */
@@ -241,8 +268,7 @@
             transition: color 0.3s;
         }
         timeline { margin-top:20px; text-align:left; max-width:500px; margin-left:auto; margin-right:auto; }
-        .timeline li { margin-bottom:12px; color:#ffd700;
-        }
+        .timeline li { margin-bottom:12px; color:#ffd700; }
         
         /* QUICK NAV CARDS */
         .quick-links {
@@ -525,8 +551,9 @@
     <script src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2816278854816808"
          crossorigin="anonymous"></script>
-    </head>
+</head>
 <body>
+    <!-- TEXT MARQUEE SECTION -->
     <div class="marquee-wrap">
         <div class="marquee">
             <span class="shining-name">✨️💛💖 Bagenda Nicholas ✨️💛💖</span>
@@ -534,13 +561,19 @@
             <span class="shining-name">✨️💛💖 Bagenda Nicholas ✨️💛💖</span>
         </div>
     </div>
-          <div class="marquee">
-      <div class="marquee-track">
-        <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Image 1">
-        <img src="https://i.postimg.cc/g0GkJdxq/IMG_20260219_WA0023.jpg" alt="Image 2">
-        <img src="https://i.postimg.cc/VNzL61JD/IMG_20260219_WA0022.jpg" alt="Image 3">
-        <!-- repeat as needed for marquee effect -->
-      </div>
+
+    <!-- IMAGE CAROUSEL MARQUEE SECTION -->
+    <div class="image-marquee">
+        <div class="marquee-track">
+            <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Image 1">
+            <img src="https://i.postimg.cc/g0GkJdxq/IMG_20260219_WA0023.jpg" alt="Image 2">
+            <img src="https://i.postimg.cc/VNzL61JD/IMG_20260219_WA0022.jpg" alt="Image 3">
+            <!-- Duplicate images for seamless loop -->
+            <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Image 1">
+            <img src="https://i.postimg.cc/g0GkJdxq/IMG_20260219_WA0023.jpg" alt="Image 2">
+            <img src="https://i.postimg.cc/VNzL61JD/IMG_20260219_WA0022.jpg" alt="Image 3">
+        </div>
+    </div>
     
     <nav>
         <span class="logo">Bagenda Nicholas</span>
@@ -567,7 +600,7 @@
             Ugandan web developer, digital dreamer, and storyteller.<br>
             <em>
                 <span class="sparkle">✨️</span>
-                “I don’t chase success—I create value, and success follows quietly.”
+                "I don't chase success—I create value, and success follows quietly."
                 <span class="sparkle">💛</span>
             </em>
         </p>
@@ -578,18 +611,18 @@
             <span class="sparkle">💚</span> About Me <span class="sparkle">💚</span>
         </h2>
         <p>
-            Self-taught web developer, digital dreamer, and storyteller. I merge technology with purpose to create meaningful projects that inspire and uplift.”
+            Self-taught web developer, digital dreamer, and storyteller. I merge technology with purpose to create meaningful projects that inspire and uplift.
         </p>
         <p>
             <span class="sparkle">✨️</span>
             Driven by curiosity, faith, and a desire to help others grow. My journey blends tech, creativity, and vision into actionable projects.
             <span class="sparkle">💖</span>
         </p>
-           <ul class="timeline">
+        <ul class="timeline">
             <li>2023 – Started NicholasAI project</li>
             <li>2024 – Published first book</li>
             <li>2025 – Deployed multiple web and AI projects</li>
-           </ul>
+        </ul>
     </section>
 
     <div class="quick-links">
@@ -631,7 +664,7 @@
     <section class="contact-form-section">
         <h3>
             <span class="sparkle">✨️</span>
-            Let’s Build Together 
+            Let's Build Together 
             <span class="sparkle">💛</span>
         </h3>
         <form id="contact-form">
@@ -664,14 +697,14 @@
     <script>
         window.addEventListener('load', () => {
             document.body.classList.add('loaded');
-            // Make marquee seamless by duplicating content
+            // Make text marquee seamless by duplicating content
             const marquee = document.querySelector('.marquee');
             if (marquee && marquee.children.length === 3) {
                 marquee.innerHTML += marquee.innerHTML;
             }
         });
 
-        // EmailJS init (replace with your own user ID if desired)
+        // EmailJS init
         emailjs.init('7rDjOLguEcDWzn3X2');
 
         document.getElementById('contact-form').addEventListener('submit', function(event) {

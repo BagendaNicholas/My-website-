@@ -1,1 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bagenda Nicholas – Projects</title>
+<link rel="icon" href="/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+    /* BASE STYLES */
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Open Sans', Arial, sans-serif;
+        background: linear-gradient(120deg, #23294a 0%, #181d2f 100%);
+        color: #fff;
+        min-height: 100vh;
+    }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
+    h1, h2 { font-family: 'Montserrat', sans-serif; }
+    h1 { font-size: 2.5em; color: #ffd700; text-align: center; margin-bottom: 15px; }
+    h2 { font-size: 1.9em; color: #41ff41; margin-bottom: 10px; }
+    p.intro { text-align: center; font-size: 1.15em; color: #eaffea; margin-bottom: 40px; }
 
+    /* PROJECT CARDS */
+    .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+    }
+    .project-card {
+        background: linear-gradient(120deg, #23294a 70%, #ffd70022 100%);
+        border-radius: 15px;
+        box-shadow: 0 4px 20px #ffd70022;
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+        display: flex;
+        flex-direction: column;
+    }
+    .project-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 8px 30px #ffd70055;
+    }
+    .project-card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-bottom: 2px solid #ffd70044;
+    }
+    .project-card-content {
+        padding: 18px 15px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .project-card-content h2 { font-size: 1.45em; margin: 0 0 8px 0; color: #ffd700; }
+    .project-card-content p { font-size: 1em; color: #eaffea; line-height: 1.5; margin-bottom: 12px; }
+    .tech-badges {
+        margin-bottom: 12px;
+    }
+    .tech-badge {
+        display: inline-block;
+        font-size: 0.85em;
+        padding: 4px 9px;
+        margin: 2px;
+        border-radius: 6px;
+        background: #41ff41aa;
+        color: #23294a;
+        font-weight: 600;
+    }
+    .live-btn {
+        display: inline-block;
+        padding: 9px 18px;
+        background: linear-gradient(135deg, #007bff, #00c6ff);
+        color: #fff;
+        font-weight: 600;
+        border-radius: 10px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    .live-btn:hover {
+        background: linear-gradient(135deg, #ff00ff, #0099cc);
+        transform: scale(1.05) translateY(-2px);
+        color: #fffbe7;
+    }
+
+    /* NAVIGATION */
+    nav {
+        background: #181d2f;
+        padding: 18px 0;
+        text-align: center;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-bottom: 2px solid #ffd70022;
+    }
+    nav .logo { font-family: 'Montserrat', sans-serif; font-size: 1.55em; color: #ffd700; font-weight: 700; margin-right: 40px; }
+    nav a { color: #ffd700; margin: 0 15px; font-weight: 600; transition: 0.3s; }
+    nav a:hover, nav a.active { color: #fffbe7; }
+
+    /* FOOTER */
+    footer {
+        background: #23294a;
+        text-align: center;
+        padding: 22px 7px 15px;
+        font-family: 'Montserrat', sans-serif;
+        color: #ffd700bb;
+        margin-top: 40px;
+    }
+    footer a { color: #ffd700; margin: 0 6px; }
+    footer a:hover { color: #fffbe7; text-decoration: underline; }
+
+    /* MEDIA QUERIES */
+    @media (max-width: 600px) {
+        h1 { font-size: 2em; }
+        .project-card img { height: 140px; }
+    }
+</style>
+</head>
+<body>
+
+<nav>
+    <span class="logo">Bagenda Nicholas</span>
+    <a href="index.html">Home</a>
+    <a href="project.html" class="active">Projects</a>
+    <a href="index2.html">Documents & Books</a>
+    <a href="index3.html">Audio & Video</a>
+    <a href="index4.html">Inspiration</a>
+</nav>
+
+<div class="container">
+    <h1>🚀 Featured Digital Projects</h1>
+    <p class="intro">These are some of the digital platforms and creative projects I have built. Each project reflects my passion for technology, problem-solving, and building tools that serve real communities.</p>
+
+    <div class="projects-grid">
+        <!-- Project 1 -->
+        <div class="project-card">
+            <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="St Paul Learning Centre">
+            <div class="project-card-content">
+                <h2>🏫 St Paul Learning Centre</h2>
+                <p>A modern school website supporting digital learning, student management, and online applications.</p>
+                <div class="tech-badges">
+                    <span class="tech-badge">HTML</span>
+                    <span class="tech-badge">CSS</span>
+                    <span class="tech-badge">JavaScript</span>
+                    <span class="tech-badge">Firebase</span>
+                </div>
+                <a href="https://st-paul-learning-centre.vercel.app" target="_blank" class="live-btn">Live Demo</a>
+            </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project-card">
+            <img src="https://i.postimg.cc/g0GkJdxq/IMG_20260219_WA0023.jpg" alt="School Project Website">
+            <div class="project-card-content">
+                <h2>🎓 School Project Website</h2>
+                <p>An academic project demonstrating responsive layouts, structured content, and interactive features for education.</p>
+                <div class="tech-badges">
+                    <span class="tech-badge">HTML</span>
+                    <span class="tech-badge">CSS</span>
+                    <span class="tech-badge">JavaScript</span>
+                </div>
+                <a href="https://bayonaedith.github.io/My-school-project" target="_blank" class="live-btn">Live Demo</a>
+            </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="project-card">
+            <img src="https://i.postimg.cc/L68qhtqX/Gemini_Generated_Image_j24si8j24si8j24s.png" alt="Lillian & NK Website">
+            <div class="project-card-content">
+                <h2>🌐 Lillian & NK</h2>
+                <p>A creative digital space exploring technology, storytelling, and personal vision.</p>
+                <div class="tech-badges">
+                    <span class="tech-badge">HTML</span>
+                    <span class="tech-badge">CSS</span>
+                    <span class="tech-badge">JavaScript</span>
+                    <span class="tech-badge">UI Design</span>
+                </div>
+                <a href="https://bagenda.netlify.app" target="_blank" class="live-btn">Live Demo</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    &copy; 2025 Nicholas Bagenda. All rights reserved. <br>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms-and-conditions.html">Terms & Conditions</a>
+    <a href="disclaimer.html">Disclaimer</a>
+</footer>
+
+</body>
+  </html>

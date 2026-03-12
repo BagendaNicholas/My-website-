@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | Bagenda Nicholas</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<script src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
+<style>
+body{margin:0;font-family:'Poppins',sans-serif;background:#f4f6f9;color:#333;}
+.topbar{background:#002147;color:white;padding:15px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1000;}
+.menu-btn{font-size:22px;cursor:pointer;}
+.topbar .logo{font-weight:700;font-size:1.3em;}
+.sidebar{position:fixed;left:-260px;top:0;width:250px;height:100%;background:#001b3d;color:white;transition:0.3s;padding-top:60px;z-index:1000;}
+.sidebar.active{left:0;}
+.sidebar a{display:block;padding:15px 20px;color:white;text-decoration:none;font-weight:500;transition:0.3s;}
+.sidebar a:hover{background:#004aad;}
+.sidebar i{margin-right:10px;}
+.overlay{position:fixed;display:none;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:900;}
+.overlay.active{display:block;}
+.contact-form-section{max-width:470px;margin:80px auto;padding:25px;background:#fff;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+.contact-form-section h3{text-align:center;color:#002147;margin-bottom:15px;}
+.contact-form-section label{display:block;margin-top:10px;font-weight:500;color:#002147;}
+.contact-form-section input,
+.contact-form-section textarea{width:100%;padding:10px;margin-top:5px;border:1px solid #ccc;border-radius:6px;font-family:inherit;font-size:1em;box-sizing:border-box;}
+.contact-form-section button{margin-top:15px;width:100%;padding:12px;background:#002147;color:white;border:none;border-radius:6px;font-weight:600;cursor:pointer;transition:0.3s;}
+.contact-form-section button:hover{background:#004aad;}
+.form-success{color:green;margin-top:10px;}
+.form-error{color:red;margin-top:10px;}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <span class="logo">Bagenda Nicholas</span>
+  <i class="fas fa-bars menu-btn" onclick="toggleSidebar()"></i>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <a href="index.html"><i class="fas fa-home"></i> Home</a>
+  <a href="index2.html"><i class="fas fa-book"></i> Documents & Books</a>
+  <a href="index3.html"><i class="fas fa-headphones"></i> Audio & Video</a>
+  <a href="project.html"><i class="fas fa-rocket"></i> Projects</a>
+  <a href="message.html"><i class="fas fa-envelope"></i> Contact</a>
+</div>
+
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- CONTACT FORM -->
+<section class="contact-form-section" id="contact">
+  <h3>Let's Build Together</h3>
+  <form id="contact-form">
+    <label for="from_name">Your Name</label>
+    <input type="text" name="from_name" id="from_name" required>
+    <label for="reply_to">Your Email</label>
+    <input type="email" name="reply_to" id="reply_to" required>
+    <label for="message">Your Message</label>
+    <textarea name="message" id="message" required></textarea>
+    <button type="submit">Send Message</button>
+    <div id="form-status"></div>
+  </form>
+</section>
+
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('active');
+  document.getElementById('overlay').classList.toggle('active');
+}
+
+// EmailJS initialization
+emailjs.init('7rDjOLguEcDWzn3X2');
+
+document.getElementById('contact-form').addEventListener('submit', function(event){
+  event.preventDefault();
+  const form = this;
+  const statusDiv = document.getElementById('form-status');
+  statusDiv.textContent='';
+  statusDiv.className='';
+
+  emailjs.sendForm('service_8q8dc7h','template_t76v6a4', form,'7rDjOLguEcDWzn3X2')
+  .then(function(){
+    statusDiv.textContent='Message sent successfully! ✨️💛';
+    statusDiv.className='form-success';
+    form.reset();
+  }).catch(function(error){
+    console.error('EmailJS error:', error);
+    statusDiv.textContent='Failed to send message. Please try again. 💖';
+    statusDiv.className='form-error';
+  });
+});
+</script>
+
+</body>
+    </html>

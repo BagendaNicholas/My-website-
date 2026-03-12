@@ -3,18 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="google-site-verification" content="_fuLs7ujw7KmQmXrSOffFmMLakhUERuxcJ061DokHGI" />  
-<meta property="og:title" content="Bagenda Nicholas - Portfolio">  
-<meta property="og:description" content="Explore the creativity, skills, and digital work of Bagenda Nicholas.">  
-<meta property="og:image" content="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png">  
-<meta property="og:url" content="https://nicholasbagenda.netlify.app/">  
-<meta name="twitter:card" content="summary_large_image">
-<title>Nicholas Bagenda – Home</title>  
+<title>Nicholas Bagenda | Portfolio</title>
 <link rel="icon" href="/favicon.ico" />
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+<!-- SEO Images -->
+<img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Bagenda Nicholas" style="display:none;">
+<img src="https://i.postimg.cc/g0GkJdxq/IMG_20260219_WA0023.jpg" alt="Bagenda Nicholas" style="display:none;">
+<img src="https://i.postimg.cc/L68qhtqX/Gemini_Generated_Image_j24si8j24si8j24s.png" alt="BagendaNicholas" style="display:none;">
+<img src="https://i.postimg.cc/bNwGdxGG/20250518_101224.jpg" alt="BagendaNicholas" style="display:none;">
+<img src="https://i.postimg.cc/W1m7jmxt/20251207-100134.jpg" alt="BagendaNicholas" style="display:none;">
+<img src="https://i.postimg.cc/VNzL61JD/IMG_20260219_WA0022.jpg" alt="Bagenda Nicholas" style="display:none;">
+
 <style>
-body{margin:0;font-family:'Montserrat','Open Sans',sans-serif;background:#f4f6f9;color:#333;}
+body {margin:0;font-family:'Poppins',sans-serif;color:#fff;}
 .topbar{background:#002147;color:white;padding:15px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1000;}
 .menu-btn{font-size:22px;cursor:pointer;}
 .topbar .logo{font-weight:700;font-size:1.3em;}
@@ -25,24 +28,54 @@ body{margin:0;font-family:'Montserrat','Open Sans',sans-serif;background:#f4f6f9
 .sidebar i{margin-right:10px;}
 .overlay{position:fixed;display:none;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:900;}
 .overlay.active{display:block;}
-.hero{text-align:center;padding:80px 20px 40px 20px;background:#e1f0ff;}
-.hero img{width:140px;border-radius:50%;margin-bottom:15px;}
-.hero h1{font-size:2em;margin:10px 0;color:#002147;}
-.hero p{font-size:1em;max-width:500px;margin:0 auto;color:#333;}
-.about-me-section-dark{background:#001b3d;color:white;padding:50px 20px;}
-.about-me-section-dark h2{font-size:1.8em;text-align:center;margin-bottom:20px;}
-.about-me-section-dark p{max-width:700px;margin:15px auto;line-height:1.6;}
-.about-me-section-dark ul.timeline{max-width:700px;margin:20px auto;padding-left:20px;list-style-type:disc;}
-.quick-links{display:flex;flex-wrap:wrap;justify-content:center;margin:30px 0;}
-.quick-card{background:#002147;color:white;text-align:center;margin:10px;padding:20px;width:200px;border-radius:12px;text-decoration:none;transition:0.3s;display:flex;flex-direction:column;align-items:center;gap:5px;}
-.quick-card:hover{background:#004aad;}
-.quick-card .icon{font-size:2em;}
-.quick-card .heart{font-size:1.2em;}
-.sparkle{animation: sparkle 1.5s infinite;}
-@keyframes sparkle{
-  0%,100%{opacity:1;}
-  50%{opacity:0.5;}
+
+/* Section Styling */
+section {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 80px 20px;
+    color: white;
+    text-align: center;
 }
+section::before {
+    content: '';
+    position: absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    background: rgba(0,0,0,0.45);
+    z-index:0;
+}
+section > * {position: relative; z-index:1;}
+
+/* Assign background images */
+.hero { background-image: url('https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png'); }
+.about-me-section-dark { background-image: url('https://i.postimg.cc/g0GkJdxq/IMG_20260219_WA0023.jpg'); }
+.documents-section { background-image: url('https://i.postimg.cc/L68qhtqX/Gemini_Generated_Image_j24si8j24si8j24s.png'); }
+.audio-video-section { background-image: url('https://i.postimg.cc/bNwGdxGG/20250518_101224.jpg'); }
+.inspiration-section { background-image: url('https://i.postimg.cc/W1m7jmxt/20251207-100134.jpg'); }
+.projects-section { background-image: url('https://i.postimg.cc/VNzL61JD/IMG_20260219_WA0022.jpg'); }
+
+/* Hero & About Me text */
+.hero img.profile-pic {width:140px;border-radius:50%;margin-bottom:15px;}
+.hero h1 {font-size:2em;margin:10px 0;color:#fff;}
+.hero p {font-size:1em;max-width:500px;margin:0 auto;color:#fff;}
+.about-me-section-dark p {max-width:700px;margin:10px auto;}
+ul.timeline {list-style:none;padding:0;margin-top:20px;}
+ul.timeline li {margin:10px 0;}
+
+/* Quick Links */
+.quick-links {display:flex;flex-wrap:wrap;justify-content:center;margin:40px 0;gap:20px;}
+.quick-card {display:flex;flex-direction:column;align-items:center;background:rgba(0,0,0,0.5);padding:20px;border-radius:10px;text-decoration:none;color:white;width:180px;transition:0.3s;}
+.quick-card:hover {background:rgba(0,0,0,0.7);}
+.quick-card .icon {font-size:2em;margin-bottom:10px;}
+.quick-card .heart {font-size:1.3em;margin:5px 0;}
+
+/* Footer */
+footer {text-align:center;padding:20px;background:#001b3d;color:white;margin-top:40px;}
+footer a {color:#ffd700;text-decoration:none;margin:0 8px;}
+footer .footer-sparkle {margin:0 5px;}
 </style>
 </head>
 <body>
@@ -61,7 +94,6 @@ body{margin:0;font-family:'Montserrat','Open Sans',sans-serif;background:#f4f6f9
   <a href="project.html"><i class="fas fa-rocket"></i> Projects</a>
   <a href="message.html"><i class="fas fa-envelope"></i> Contact</a>
 </div>
-
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
 <!-- HERO SECTION -->
@@ -104,49 +136,41 @@ body{margin:0;font-family:'Montserrat','Open Sans',sans-serif;background:#f4f6f9
   </ul>
 </section>
 
-<!-- QUICK LINKS -->
-<div class="quick-links">
-  <a href="index2.html" class="quick-card" title="Documents & Books">
+<!-- QUICK LINKS SECTION -->
+<section class="documents-section">
+  <div class="quick-links">
+    <a href="index2.html" class="quick-card" title="Documents & Books">
       <span class="icon">📚</span>
       Documents & Books
       <span class="heart">💖</span>
       <span style="font-size:0.9em;font-weight:400;color:#ffd70099;">PDFs, guides, & more</span>
-  </a>
-  <a href="index3.html" class="quick-card" title="Audio & Video">
+    </a>
+    <a href="index3.html" class="quick-card" title="Audio & Video">
       <span class="icon">🎧</span>
       Audio & Video
       <span class="heart">💛</span>
       <span style="font-size:0.9em;font-weight:400;color:#ffd70099;">Listen & Watch</span>
-  </a>
-  <a href="index4.html" class="quick-card" title="Inspiration">
+    </a>
+    <a href="index4.html" class="quick-card" title="Inspiration">
       <span class="icon">✨️</span>
       Inspiration
       <span class="heart">💖</span>
       <span style="font-size:0.9em;font-weight:400;color:#ffd70099;">Faith & Motivation</span>
-  </a>
-  <a href="project.html" class="quick-card" title="🚀 Featured Digital Projects">
+    </a>
+    <a href="project.html" class="quick-card" title="🚀 Featured Digital Projects">
       <span class="icon">👷‍♀️</span>
       Projects
       <span class="heart">🌍</span>
       <span style="font-size:0.9em;font-weight:400;color:#ffd70099;">Modern school Web, Biometric System, & more</span>
-  </a>
-</div>
-
-<!-- Invisible SEO Images for Google -->
-<div style="display:none;">
-    <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Bagenda Nicholas">
-    <img src="https://i.postimg.cc/g0GkJdxq/IMG_20260219_WA0023.jpg" alt="Bagenda Nicholas">
-    <img src="https://i.postimg.cc/L68qhtqX/Gemini_Generated_Image_j24si8j24si8j24s.png" alt="BagendaNicholas">
-    <img src="https://i.postimg.cc/bNwGdxGG/20250518_101224.jpg" alt="BagendaNicholas">
-    <img src="https://i.postimg.cc/W1m7jmxt/20251207-100134.jpg" alt="BagendaNicholas">
-    <img src="https://i.postimg.cc/VNzL61JD/IMG_20260219_WA0022.jpg" alt="Bagenda Nicholas">
-</div>
+    </a>
+  </div>
+</section>
 
 <!-- FOOTER -->
-<footer style="background:#001b3d;color:white;text-align:center;padding:30px 20px;font-family:'Montserrat','Open Sans',sans-serif;">
-    <a href="privacy-policy.html" style="color:#ffd700;margin:0 10px;text-decoration:none;">Privacy Policy</a>
-    <a href="terms-and-conditions.html" style="color:#ffd700;margin:0 10px;text-decoration:none;">Terms & Conditions</a>
-    <a href="disclaimer.html" style="color:#ffd700;margin:0 10px;text-decoration:none;">Disclaimer</a>
+<footer>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms-and-conditions.html">Terms & Conditions</a>
+    <a href="disclaimer.html">Disclaimer</a>
     <span class="footer-sparkle">✨️</span>
     &copy; 2025 Nicholas Bagenda. All rights reserved.
     <span class="footer-sparkle">💛</span><br>

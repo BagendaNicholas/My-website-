@@ -1,4 +1,3 @@
-<!-- grayson.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,11 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Grayson AI</title>
   <style>
-    body, html { margin:0; padding:0; height:100%; }
-    iframe { width:100%; height:100%; border:none; }
+    /* Dark, modern aesthetic for Grayson AI */
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #050505;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #e0e0e0;
+    }
+
+    .card {
+      text-align: center;
+      padding: 40px;
+      border: 1px solid #333;
+      border-radius: 16px;
+      background: #111;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      background: linear-gradient(to right, #10a37f, #4a90e2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 14px 28px;
+      background-color: #10a37f; /* OpenAI green */
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #0d8a6a;
+    }
   </style>
 </head>
 <body>
-  <iframe src="https://chat.openai.com/"></iframe>
+
+  <div class="card">
+    <h1>Grayson AI</h1>
+    <p>External AI interfaces cannot be embedded directly for security.</p>
+    <a href="https://chat.openai.com/" target="_blank" class="btn">
+      Continue to Chat
+    </a>
+  </div>
+
 </body>
 </html>

@@ -139,15 +139,12 @@
   .restore-btn:hover {
     background: #27ae60;
   }
-</style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-<!-- Firebase (compat version for easier integration with old code) -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <script>
-  // Firebase config
+  // 1. Firebase Configuration
   const firebaseConfig = {
     apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
     authDomain: "my-website-357cb.firebaseapp.com",
@@ -156,74 +153,52 @@
     appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d"
   };
 
-  // Initialize Firebase
+  // 2. Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
   const db = firebase.database();
 
-  // Anonymous login
-  auth.signInAnonymously().catch(error => {
+  // 3. Anonymous Login (Handles connectivity)
+  auth.signInAnonymously().then(() => {
+    console.log("Authenticated with Firebase anonymously.");
+  }).catch(error => {
     console.error("Firebase Auth Error:", error);
-    showStatus("Failed to connect Firebase.", "error");
+    showStatus("Cloud Sync Unavailable.", "error");
   });
 
-  // Save a note to Firebase
-  async function saveNoteFirebase(folder, encryptedNote) {
+  // 4. Firebase Sync Helper: Save
+  async function syncNoteToFirebase(folder, encryptedNote) {
     if (!auth.currentUser) return;
     const uid = auth.currentUser.uid;
-    db.ref(`users/${uid}/folders/${folder}`).push({
-      note: encryptedNote,
-      timestamp: Date.now()
-    });
+    try {
+      await db.ref(`users/${uid}/folders/${folder}`).push({
+        note: encryptedNote,
+        timestamp: Date.now()
+      });
+    } catch (e) {
+      console.error("Firebase Sync Error:", e);
+    }
   }
 
-  // Load notes from Firebase for a folder
-  async function loadNotesFirebase(folder) {
+  // 5. Firebase Sync Helper: Load
+  async function syncNotesFromFirebase(folder) {
     if (!auth.currentUser) return;
     const uid = auth.currentUser.uid;
     const snapshot = await db.ref(`users/${uid}/folders/${folder}`).once('value');
     const folderData = snapshot.val();
-    if (!folderData) return;
-
-    const localNotes = data[folder].notes || [];
-    Object.values(folderData).forEach(item => {
-      if (!localNotes.includes(item.note)) localNotes.push(item.note);
-    });
-    data[folder].notes = localNotes;
-    saveData();
-    loadNotes(); // your existing function to render notes
-  }
-
-  // Wrap existing saveNote to also sync to Firebase
-  const oldSaveNote = saveNote;
-  saveNote = async function() {
-    let folder = getCurrentFolder();
-    let note = document.getElementById("noteArea").value.trim();
-    if (!note) return showStatus("Write something before saving!", "error");
-    if (!activeFolderKey) return showStatus("Please unlock the folder first!", "error");
-
-    let encryptedNote = CryptoJS.AES.encrypt(note, activeFolderKey).toString();
-    if (editIndex !== null) {
-      data[folder].notes[editIndex] = encryptedNote;
-      editIndex = null;
-    } else {
-      data[folder].notes.unshift(encryptedNote);
+    
+    if (folderData) {
+      const localNotes = data[folder].notes || [];
+      Object.values(folderData).forEach(item => {
+        // Only add if not already in local storage to prevent duplicates
+        if (!localNotes.includes(item.note)) {
+          localNotes.push(item.note);
+        }
+      });
+      data[folder].notes = localNotes;
+      saveData();
+      loadNotes(); // Refresh UI
     }
-
-    saveData();
-    saveDraftForCurrentFolder();
-    document.getElementById("noteArea").value = "";
-    loadNotes();
-    showStatus("Note saved successfully!");
-    await saveNoteFirebase(folder, encryptedNote); // Firebase sync
-  }
-
-  // Wrap unlockFolder to also load notes from Firebase
-  const oldUnlockFolder = unlockFolder;
-  unlockFolder = async function() {
-    await oldUnlockFolder();
-    const folder = getCurrentFolder();
-    await loadNotesFirebase(folder);
   }
 </script>
 </head>

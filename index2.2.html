@@ -5,68 +5,163 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>📔 Advanced Secure Notebook</title>
 <style>
-  /* All your original CSS preserved */
-  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #2c3e50; color: #ecf0f1; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
-  .notebook-container { background: rgba(44, 62, 80, 0.9); padding: 30px; border-radius: 15px; width: 100%; max-width: 600px; box-shadow: 0 10px 25px rgba(0,0,0,0.25); backdrop-filter: blur(8px); border: 1px solid rgba(236, 240, 241, 0.1); }
-  h2 { text-align: center; margin-bottom: 20px; color: #3498db; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
-  label { font-size: 15px; margin-bottom: 3px; color: #8fc5f9; display: block; }
-  select, input[type="text"], input[type="password"], textarea, button { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #34495e; border-radius: 8px; box-sizing: border-box; background: #34495e; color: #ecf0f1; font-size: 16px; }
-  textarea { min-height: 150px; resize: vertical; }
-  button { background: #3498db; cursor: pointer; transition: background 0.3s ease; font-weight: bold; border: none; }
-  button:hover { background: #2980b9; }
-  .delete-btn { background: #e74c3c; }
-  .flex-row { display: flex; gap: 10px; align-items: center; }
-  .flex-row input, .flex-row select { flex-grow: 1; margin: 0; }
-  .flex-row button { width: auto; padding: 12px 18px; margin: 0; }
-  #notesList, #recycleBinList { list-style: none; padding: 0; margin-top: 20px; max-height: 300px; overflow-y: auto; }
-  #notesList li, #recycleBinList li { background: #34495e; padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-  .action-buttons { display: flex; gap: 10px; margin-top: 10px; }
-  .action-buttons button { flex-grow: 1; }
-  .status-message { text-align: center; margin-top: 10px; font-style: italic; color: #95a5a6; }
-  .recycle-bin-section { margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(236, 240, 241, 0.1); }
-  .recycle-bin-section h3 { text-align: center; color: #f1c40f; }
-  .restore-btn { background: #2ecc71; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #2c3e50;
+    color: #ecf0f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .notebook-container {
+    background: rgba(44, 62, 80, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(236, 240, 241, 0.1);
+  }
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #3498db;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+  }
+  label {
+    font-size: 15px;
+    margin-bottom: 3px;
+    color: #8fc5f9;
+    display: block;
+  }
+  select, input[type="text"], input[type="password"], textarea, button {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #34495e;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background: #34495e;
+    color: #ecf0f1;
+    font-size: 16px;
+  }
+  textarea {
+    min-height: 150px;
+    resize: vertical;
+  }
+  button {
+    background: #3498db;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-weight: bold;
+  }
+  button:hover {
+    background: #2980b9;
+  }
+  .delete-btn {
+    background: #e74c3c;
+  }
+  .delete-btn:hover {
+    background: #c0392b;
+  }
+  .flex-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .flex-row input, .flex-row select {
+    flex-grow: 1;
+    margin: 0;
+  }
+  .flex-row button {
+    width: auto;
+    padding: 12px 18px;
+    margin: 0;
+  }
+  #notesList, #recycleBinList {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  #notesList li, #recycleBinList li {
+    background: #34495e;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s ease;
+  }
+  #notesList li:hover, #recycleBinList li:hover {
+    background: #465d75;
+  }
+  #notesList li span, #recycleBinList li span {
+    flex-grow: 1;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .action-buttons button {
+    flex-grow: 1;
+  }
+  .status-message {
+    text-align: center;
+    margin-top: 10px;
+    font-style: italic;
+    color: #95a5a6;
+  }
+  .recycle-bin-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(236, 240, 241, 0.1);
+  }
+  .recycle-bin-section h3 {
+    text-align: center;
+    color: #f1c40f;
+  }
+  .restore-btn {
+    background: #2ecc71;
+  }
+  .restore-btn:hover {
+    background: #27ae60;
+  }
 </style>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
-<script>
-  // Firebase initialization
-  const firebaseConfig = {
-    apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
-    authDomain: "my-website-357cb.firebaseapp.com",
-    databaseURL: "https://my-website-357cb-default-rtdb.firebaseio.com",
-    projectId: "my-website-357cb",
-    appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const db = firebase.database();
-
-  auth.signInAnonymously().catch(e => console.error("Firebase Auth Error", e));
-</script>
 </head>
 <body>
 
-<div class="notebook-container">
+<div class="notebook-container" aria-label="Secure Notebook">
   <h2>🔒 Simple Notebook📔</h2>
   
   <div class="flex-row">
-    <select id="folderSelect"></select>
-    <input type="text" id="newFolderName" placeholder="New folder name">
-    <button id="createFolderBtn" type="button">➕</button>
+    <label for="folderSelect" aria-label="Select folder" style="flex-basis: 25%;">Folder</label>
+    <select id="folderSelect" aria-label="Select folder"></select>
+    <input type="text" id="newFolderName" placeholder="New folder name" aria-label="New folder name">
+    <button id="createFolderBtn" type="button" title="Create Folder">➕</button>
   </div>
   <div class="flex-row">
-    <input type="password" id="folderPassword" placeholder="Folder password">
-    <button class="delete-btn" id="deleteFolderBtn" type="button">🗑 Delete Folder</button>
+    <input type="password" id="folderPassword" placeholder="Folder password (for unlock/create)" aria-label="Folder password">
+    <button class="delete-btn" id="deleteFolderBtn" type="button" title="Delete Folder">🗑 Delete Folder</button>
   </div>
 
-  <input type="text" id="searchNotes" placeholder="🔍 Search notes..." oninput="filterNotes()">
+  <input type="text" id="searchNotes" placeholder="🔍 Search notes..." aria-label="Search notes" oninput="filterNotes()">
 
-  <textarea id="noteArea" placeholder="Write your note here..."></textarea>
+  <label for="noteArea" aria-label="Note area" style="margin-bottom:0">Note</label>
+  <textarea id="noteArea" placeholder="Write your note here..." aria-label="Note text area"></textarea>
   
   <div class="action-buttons">
     <button id="saveBtn" type="button">💾 Save/Update</button>
@@ -79,32 +174,37 @@
   </div>
   
   <div class="action-buttons">
-    <button id="exportBtn" type="button">Export</button>
+    <button id="exportBtn" type="button">Export Notes</button>
     <input type="file" id="importFile" style="display: none;" onchange="importData(event)">
-    <button id="importBtn" type="button">Import</button>
+    <button id="importBtn" type="button">Import Notes</button>
   </div>
 
   <p class="status-message" id="statusMessage"></p>
-  <ul id="notesList"></ul>
+  
+  <ul id="notesList" aria-label="Notes list"></ul>
 
   <div class="recycle-bin-section">
     <h3>🗑️ Recycle Bin</h3>
-    <ul id="recycleBinList"></ul>
+    <ul id="recycleBinList" aria-label="Recycle Bin list"></ul>
   </div>
 </div>
 
 <script>
-  // YOUR ORIGINAL LOGIC
   let recognition;
   let data = JSON.parse(localStorage.getItem("advancedNotebookData")) || {};
   let editIndex = null;
   let activeFolderKey = null;
   let lastPassword = "";
+  // Drafts stored per folder (encrypted) to restore on reload
+  // Structure in localStorage: { folderName: "<encryptedDraft>" }
   const DRAFTS_KEY = "advancedNotebookDrafts";
   const LAST_FOLDER_KEY = "advancedNotebookLastFolder";
 
-  function saveData() { localStorage.setItem("advancedNotebookData", JSON.stringify(data)); }
+  function saveData() {
+    localStorage.setItem("advancedNotebookData", JSON.stringify(data));
+  }
 
+  // Utility: derive key from password and salt
   async function deriveKey(password, salt) {
     return CryptoJS.PBKDF2(password, salt, { keySize: 256/32, iterations: 1000 }).toString();
   }
@@ -115,47 +215,331 @@
     statusDiv.style.color = type === "error" ? "#e74c3c" : "#2ecc71";
   }
 
-  // --- FIREBASE SYNC HELPERS ---
-  async function syncToFirebase(folder, encryptedNote) {
-    if (!auth.currentUser) return;
-    db.ref(`users/${auth.currentUser.uid}/folders/${folder}`).push({
-      note: encryptedNote, timestamp: Date.now()
+  function updateFolderSelect() {
+    const folderSelect = document.getElementById("folderSelect");
+    folderSelect.innerHTML = "";
+    Object.keys(data).forEach(folder => {
+      let opt = document.createElement("option");
+      opt.value = folder;
+      opt.textContent = folder;
+      folderSelect.appendChild(opt);
     });
   }
 
-  async function syncFromFirebase(folder) {
-    if (!auth.currentUser) return;
-    const snapshot = await db.ref(`users/${auth.currentUser.uid}/folders/${folder}`).once('value');
-    const cloudData = snapshot.val();
-    if (!cloudData) return;
-    const localNotes = data[folder].notes || [];
-    Object.values(cloudData).forEach(item => {
-      if (!localNotes.includes(item.note)) localNotes.push(item.note);
-    });
-    data[folder].notes = localNotes;
-    saveData(); loadNotes();
+  async function promptForPassword(isCreation = false) {
+    // Prefer field value, fallback to prompt
+    let pwdInput = document.getElementById("folderPassword").value;
+    if (pwdInput) return pwdInput;
+    let msg = isCreation
+      ? "Set a password for this folder (can leave blank for no password):"
+      : "Enter the folder password (leave blank if not set):";
+    return prompt(msg, "");
   }
 
-  // --- MODIFIED ORIGINAL FUNCTIONS ---
+  function clearPasswordField() {
+    document.getElementById("folderPassword").value = "";
+  }
+
+  function getCurrentFolder() {
+    return document.getElementById("folderSelect").value;
+  }
+
+  // Draft helpers (encrypted with activeFolderKey)
+  function loadDraftsMap() {
+    try {
+      return JSON.parse(localStorage.getItem(DRAFTS_KEY)) || {};
+    } catch {
+      return {};
+    }
+  }
+  function saveDraftsMap(map) {
+    localStorage.setItem(DRAFTS_KEY, JSON.stringify(map));
+  }
+  function saveDraftForCurrentFolder() {
+    if (!activeFolderKey) return; // can't encrypt without key
+    const folder = getCurrentFolder();
+    const text = document.getElementById("noteArea").value;
+    if (!text) {
+      // remove empty draft
+      const map = loadDraftsMap();
+      delete map[folder];
+      saveDraftsMap(map);
+      return;
+    }
+    try {
+      const encrypted = CryptoJS.AES.encrypt(text, activeFolderKey).toString();
+      const map = loadDraftsMap();
+      map[folder] = encrypted;
+      saveDraftsMap(map);
+      // no status to avoid spam
+    } catch (e) {
+      console.warn("Failed to save draft:", e);
+    }
+  }
+  function restoreDraftForFolder(folder) {
+    if (!activeFolderKey) return; // need key to decrypt
+    const map = loadDraftsMap();
+    const encrypted = map[folder];
+    if (!encrypted) return false;
+    try {
+      const bytes = CryptoJS.AES.decrypt(encrypted, activeFolderKey);
+      const draft = bytes.toString(CryptoJS.enc.Utf8);
+      if (draft) {
+        document.getElementById("noteArea").value = draft;
+        showStatus("Restored draft for folder.");
+        return true;
+      }
+    } catch (e) {
+      console.warn("Failed to restore draft:", e);
+    }
+    return false;
+  }
+
+  // Initialization
+  async function init() {
+    if (Object.keys(data).length === 0) {
+      // Create default folder
+      let salt = CryptoJS.lib.WordArray.random(128/8).toString();
+      data["Default"] = { salt: salt, notes: [], recycled: [] };
+      saveData();
+    }
+    updateFolderSelect();
+
+    // try to restore last-selected folder
+    const last = localStorage.getItem(LAST_FOLDER_KEY);
+    if (last && data[last]) {
+      document.getElementById("folderSelect").value = last;
+    } else {
+      document.getElementById("folderSelect").value = Object.keys(data)[0];
+    }
+
+    await unlockFolder();
+
+    // Handlers
+    document.getElementById("folderSelect").onchange = unlockFolder;
+    document.getElementById("createFolderBtn").onclick = createFolder;
+    document.getElementById("deleteFolderBtn").onclick = deleteFolder;
+    document.getElementById("saveBtn").onclick = saveNote;
+    document.getElementById("newNoteBtn").onclick = newNote;
+    document.getElementById("startRecBtn").onclick = startRecording;
+    document.getElementById("stopRecBtn").onclick = stopRecording;
+    document.getElementById("exportBtn").onclick = exportData;
+    document.getElementById("importBtn").onclick = () => document.getElementById('importFile').click();
+
+    // Draft autosave: save draft on input (debounced)
+    let draftTimeout = null;
+    document.getElementById("noteArea").addEventListener("input", () => {
+      if (draftTimeout) clearTimeout(draftTimeout);
+      draftTimeout = setTimeout(() => {
+        saveDraftForCurrentFolder();
+      }, 800); // 800ms debounce
+    });
+
+    // Save some state on unload (if unlocked)
+    window.addEventListener("beforeunload", () => {
+      if (activeFolderKey) {
+        try { saveDraftForCurrentFolder(); } catch {}
+      }
+    });
+  }
+
+  // Create Folder with password prompt
+  async function createFolder() {
+    let folderName = document.getElementById("newFolderName").value.trim();
+    if (!folderName) return showStatus("Please enter a folder name.", "error");
+    if (data[folderName]) {
+      return showStatus("Folder already exists!", "error");
+    }
+
+    let salt = CryptoJS.lib.WordArray.random(128/8).toString();
+    let password = await promptForPassword(true);
+    data[folderName] = { salt: salt, notes: [], recycled: [] };
+    saveData();
+    updateFolderSelect();
+    document.getElementById("folderSelect").value = folderName;
+    document.getElementById("newFolderName").value = "";
+    clearPasswordField();
+    lastPassword = password || "";
+    await unlockFolder();
+    showStatus(`Folder "${folderName}" created.`);
+  }
+
+  // Delete folder
+  function deleteFolder() {
+    let folder = getCurrentFolder();
+    if (Object.keys(data).length <= 1) {
+      return showStatus("Cannot delete the last folder.", "error");
+    }
+    if (!confirm(`Are you sure you want to delete folder "${folder}" and all its notes and recycled items? This is permanent.`)) {
+      return;
+    }
+    delete data[folder];
+    // remove any draft for that folder
+    const map = loadDraftsMap();
+    delete map[folder];
+    saveDraftsMap(map);
+
+    saveData();
+    activeFolderKey = null;
+    updateFolderSelect();
+    document.getElementById("folderSelect").value = Object.keys(data)[0];
+    clearPasswordField();
+    unlockFolder();
+    showStatus(`Folder "${folder}" and its contents have been permanently deleted.`);
+  }
+
+  // Unlock folder (with password)
   async function unlockFolder() {
-    let folder = document.getElementById("folderSelect").value;
-    if (!data[folder]) return;
+    let folder = getCurrentFolder();
+    let folderData = data[folder];
+    if (!folderData) {
+      document.getElementById("notesList").innerHTML = "<li>No folder selected.</li>";
+      document.getElementById("recycleBinList").innerHTML = "";
+      return;
+    }
     let pwd = document.getElementById("folderPassword").value || lastPassword || "";
-    activeFolderKey = await deriveKey(pwd, data[folder].salt);
-    lastPassword = pwd;
-    localStorage.setItem(LAST_FOLDER_KEY, folder);
+    if (!activeFolderKey || folder !== window._lastFolderUnlocked) {
+      // Only prompt if not already unlocked with the same password
+      if (!pwd && folderData.notes.length > 0) {
+        pwd = await promptForPassword();
+      }
+      lastPassword = pwd || "";
+      activeFolderKey = await deriveKey(pwd, folderData.salt);
+      window._lastFolderUnlocked = folder;
+      // persist last selected folder so reload restores selection
+      localStorage.setItem(LAST_FOLDER_KEY, folder);
+    }
+    clearPasswordField();
     loadNotes();
     loadRecycleBin();
+    // Try to restore a draft for this folder (if any)
     restoreDraftForFolder(folder);
-    showStatus(`Folder unlocked.`);
-    await syncFromFirebase(folder); // New cloud sync
+    showStatus(`Folder "${folder}" unlocked.`);
   }
 
-  async function saveNote() {
-    let folder = document.getElementById("folderSelect").value;
+  // Decrypt note
+  function decryptNote(encrypted) {
+    try {
+      let bytes = CryptoJS.AES.decrypt(encrypted, activeFolderKey);
+      return bytes.toString(CryptoJS.enc.Utf8) || "Unable to decrypt";
+    } catch {
+      return "Unable to decrypt";
+    }
+  }
+
+  // List/Filter notes
+  function filterNotes() {
+    let searchTerm = document.getElementById("searchNotes").value.toLowerCase();
+    let folder = getCurrentFolder();
+    let folderData = data[folder];
+    let list = document.getElementById("notesList");
+    list.innerHTML = "";
+    if (!activeFolderKey) {
+      list.innerHTML = "<li>Please select and unlock a folder.</li>";
+      return;
+    }
+    (folderData.notes || []).forEach((encrypted, index) => {
+      let noteContent = decryptNote(encrypted);
+      if (noteContent.toLowerCase().includes(searchTerm)) {
+        let li = document.createElement("li");
+        let textSpan = document.createElement("span");
+        textSpan.textContent = noteContent;
+        textSpan.onclick = () => editNote(index);
+        let delBtn = document.createElement("button");
+        delBtn.textContent = "🗑";
+        delBtn.className = "delete-btn";
+        delBtn.onclick = (e) => {
+          e.stopPropagation();
+          moveToRecycleBin(index);
+        };
+        li.appendChild(textSpan);
+        li.appendChild(delBtn);
+        list.appendChild(li);
+      }
+    });
+  }
+
+  // Load all notes
+  function loadNotes() {
+    let folder = getCurrentFolder();
+    let folderData = data[folder];
+    let notes = folderData.notes || [];
+    let list = document.getElementById("notesList");
+    list.innerHTML = "";
+    if (!activeFolderKey) {
+      list.innerHTML = "<li>Please select and unlock a folder.</li>";
+      return;
+    }
+    notes.forEach((encrypted, index) => {
+      let noteContent = decryptNote(encrypted);
+      let li = document.createElement("li");
+      let textSpan = document.createElement("span");
+      textSpan.textContent = noteContent;
+      textSpan.onclick = () => editNote(index);
+      let delBtn = document.createElement("button");
+      delBtn.textContent = "🗑";
+      delBtn.className = "delete-btn";
+      delBtn.onclick = (e) => {
+        e.stopPropagation();
+        moveToRecycleBin(index);
+      };
+      li.appendChild(textSpan);
+      li.appendChild(delBtn);
+      list.appendChild(li);
+    });
+  }
+
+  // Load recycle bin
+  function loadRecycleBin() {
+    let folder = getCurrentFolder();
+    let folderData = data[folder];
+    let recycledNotes = folderData.recycled || [];
+    let list = document.getElementById("recycleBinList");
+    list.innerHTML = "";
+    if (!activeFolderKey) {
+      list.innerHTML = "<li>Please select and unlock a folder.</li>";
+      return;
+    }
+    if (recycledNotes.length === 0) {
+      list.innerHTML = "<li>Recycle Bin is empty.</li>";
+      return;
+    }
+    recycledNotes.forEach((encrypted, index) => {
+      let noteContent = decryptNote(encrypted);
+      let li = document.createElement("li");
+      let textSpan = document.createElement("span");
+      textSpan.textContent = noteContent;
+      let restoreBtn = document.createElement("button");
+      restoreBtn.textContent = "♻️ Restore";
+      restoreBtn.className = "restore-btn";
+      restoreBtn.onclick = (e) => {
+        e.stopPropagation();
+        restoreNote(index);
+      };
+      let permanentDelBtn = document.createElement("button");
+      permanentDelBtn.textContent = "Permanent 🗑️";
+      permanentDelBtn.className = "delete-btn";
+      permanentDelBtn.onclick = (e) => {
+        e.stopPropagation();
+        permanentDeleteNote(index);
+      };
+      let buttonContainer = document.createElement("div");
+      buttonContainer.style.display = "flex";
+      buttonContainer.style.gap = "5px";
+      buttonContainer.appendChild(restoreBtn);
+      buttonContainer.appendChild(permanentDelBtn);
+      li.appendChild(textSpan);
+      li.appendChild(buttonContainer);
+      list.appendChild(li);
+    });
+  }
+
+  // Save note
+  function saveNote() {
+    let folder = getCurrentFolder();
     let note = document.getElementById("noteArea").value.trim();
-    if (!note || !activeFolderKey) return showStatus("Unlock folder first!", "error");
-    
+    if (!note) return showStatus("Write something before saving!", "error");
+    if (!activeFolderKey) return showStatus("Please unlock the folder first!", "error");
     let encryptedNote = CryptoJS.AES.encrypt(note, activeFolderKey).toString();
     if (editIndex !== null) {
       data[folder].notes[editIndex] = encryptedNote;
@@ -164,118 +548,152 @@
       data[folder].notes.unshift(encryptedNote);
     }
     saveData();
+    // remove saved draft for folder after a successful save
+    const map = loadDraftsMap();
+    delete map[folder];
+    saveDraftsMap(map);
+
     document.getElementById("noteArea").value = "";
     loadNotes();
-    showStatus("Note saved!");
-    await syncToFirebase(folder, encryptedNote); // New cloud sync
+    showStatus("Note saved successfully!");
   }
 
-  // --- REST OF YOUR ORIGINAL FUNCTIONS ---
-  function decryptNote(encrypted) {
-    try {
-      let bytes = CryptoJS.AES.decrypt(encrypted, activeFolderKey);
-      return bytes.toString(CryptoJS.enc.Utf8) || "Unable to decrypt";
-    } catch { return "Unable to decrypt"; }
+  // Edit note
+  function editNote(index) {
+    let folder = getCurrentFolder();
+    let folderData = data[folder];
+    if (!activeFolderKey) {
+      showStatus("Please unlock the folder first!", "error");
+      return;
+    }
+    let noteContent = decryptNote(folderData.notes[index]);
+    document.getElementById("noteArea").value = noteContent;
+    editIndex = index;
+    showStatus("Editing note. Press 'Save/Update' to save changes.");
   }
 
-  function loadNotes() {
-    let folder = document.getElementById("folderSelect").value;
-    let list = document.getElementById("notesList");
-    list.innerHTML = "";
-    if (!activeFolderKey) return;
-    (data[folder].notes || []).forEach((enc, i) => {
-      let li = document.createElement("li");
-      li.innerHTML = `<span onclick="editNote(${i})">${decryptNote(enc)}</span><button class="delete-btn" onclick="moveToRecycleBin(${i})">🗑</button>`;
-      list.appendChild(li);
-    });
-  }
-
-  window.editNote = (i) => {
-    let folder = document.getElementById("folderSelect").value;
-    document.getElementById("noteArea").value = decryptNote(data[folder].notes[i]);
-    editIndex = i;
-  };
-
-  window.moveToRecycleBin = (i) => {
-    let folder = document.getElementById("folderSelect").value;
+  // Move note to recycle bin
+  function moveToRecycleBin(index) {
+    let folder = getCurrentFolder();
+    if (!activeFolderKey) {
+      showStatus("Please unlock the folder first!", "error");
+      return;
+    }
+    if (!confirm("Are you sure you want to move this note to the Recycle Bin?")) {
+      return;
+    }
+    const [noteToMove] = data[folder].notes.splice(index, 1);
     if (!data[folder].recycled) data[folder].recycled = [];
-    data[folder].recycled.unshift(data[folder].notes.splice(i, 1)[0]);
-    saveData(); loadNotes(); loadRecycleBin();
-  };
-
-  function loadRecycleBin() {
-    let folder = document.getElementById("folderSelect").value;
-    let list = document.getElementById("recycleBinList");
-    list.innerHTML = "";
-    if (!data[folder]?.recycled) return;
-    data[folder].recycled.forEach((enc, i) => {
-      let li = document.createElement("li");
-      li.innerHTML = `<span>${decryptNote(enc)}</span><button class="restore-btn" onclick="restoreNote(${i})">♻️</button>`;
-      list.appendChild(li);
-    });
+    data[folder].recycled.unshift(noteToMove);
+    saveData();
+    loadNotes();
+    loadRecycleBin();
+    showStatus("Note moved to Recycle Bin.");
   }
 
-  window.restoreNote = (i) => {
-    let folder = document.getElementById("folderSelect").value;
-    data[folder].notes.unshift(data[folder].recycled.splice(i, 1)[0]);
-    saveData(); loadNotes(); loadRecycleBin();
-  };
+  // Restore note from recycle bin
+  function restoreNote(index) {
+    let folder = getCurrentFolder();
+    const [noteToRestore] = data[folder].recycled.splice(index, 1);
+    data[folder].notes.unshift(noteToRestore);
+    saveData();
+    loadNotes();
+    loadRecycleBin();
+    showStatus("Note restored successfully!");
+  }
 
+  // Permanently delete note from recycle bin
+  function permanentDeleteNote(index) {
+    let folder = getCurrentFolder();
+    if (!confirm("Are you sure you want to permanently delete this note? This cannot be undone.")) {
+      return;
+    }
+    data[folder].recycled.splice(index, 1);
+    saveData();
+    loadRecycleBin();
+    showStatus("Note permanently deleted.");
+  }
+
+  // New note
+  function newNote() {
+    document.getElementById("noteArea").value = "";
+    editIndex = null;
+    // remove saved draft for this folder
+    saveDraftForCurrentFolder();
+    showStatus("New note sheet created.");
+  }
+
+  // Speech-to-text recording
   function startRecording() {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) return showStatus("Browser not supported", "error");
+    if (!SpeechRecognition) {
+      return showStatus("Your browser doesn't support speech recognition.", "error");
+    }
     recognition = new SpeechRecognition();
+    recognition.lang = "en-US";
+    recognition.interimResults = true;
     recognition.continuous = true;
-    recognition.onresult = (e) => {
-      document.getElementById("noteArea").value += e.results[e.results.length-1][0].transcript + " ";
+    recognition.onresult = function(event) {
+      let interim_transcript = '';
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          document.getElementById("noteArea").value += event.results[i][0].transcript + " ";
+        } else {
+          interim_transcript += event.results[i][0].transcript;
+        }
+      }
+      // autosave transcript draft
+      saveDraftForCurrentFolder();
     };
     recognition.start();
-    showStatus("Recording...");
+    showStatus("Recording started. Speak now...");
   }
 
-  function restoreDraftForFolder(folder) {
-    const map = JSON.parse(localStorage.getItem(DRAFTS_KEY)) || {};
-    if (map[folder]) {
+  function stopRecording() {
+    if (recognition) {
+      recognition.stop();
+      showStatus("Recording stopped.");
+    }
+  }
+
+  // Export notes
+  function exportData() {
+    const dataStr = JSON.stringify(data, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `notebook_backup_${new Date().toISOString()}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showStatus("Notebook data exported as JSON file.");
+  }
+
+  // Import notes
+  function importData(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
       try {
-        const bytes = CryptoJS.AES.decrypt(map[folder], activeFolderKey);
-        document.getElementById("noteArea").value = bytes.toString(CryptoJS.enc.Utf8);
-      } catch(e) {}
-    }
-  }
-
-  function init() {
-    if (Object.keys(data).length === 0) {
-      data["Default"] = { salt: CryptoJS.lib.WordArray.random(16).toString(), notes: [], recycled: [] };
-      saveData();
-    }
-    const select = document.getElementById("folderSelect");
-    Object.keys(data).forEach(f => {
-      let opt = document.createElement("option"); opt.value = f; opt.textContent = f;
-      select.appendChild(opt);
-    });
-
-    document.getElementById("saveBtn").onclick = saveNote;
-    document.getElementById("folderSelect").onchange = unlockFolder;
-    document.getElementById("createFolderBtn").onclick = () => {
-      let n = document.getElementById("newFolderName").value.trim();
-      if(n) {
-        data[n] = { salt: CryptoJS.lib.WordArray.random(16).toString(), notes: [], recycled: [] };
-        saveData(); location.reload();
+        const importedData = JSON.parse(e.target.result);
+        if (confirm("Importing will overwrite all existing notebook data. Are you sure?")) {
+          data = importedData;
+          saveData();
+          init();
+          showStatus("Notebook data imported successfully!");
+        }
+      } catch (err) {
+        showStatus("Failed to import file. Please ensure it's a valid JSON.", "error");
       }
     };
-    document.getElementById("startRecBtn").onclick = startRecording;
-    document.getElementById("stopRecBtn").onclick = () => recognition?.stop();
-    document.getElementById("exportBtn").onclick = () => {
-        const blob = new Blob([JSON.stringify(data)], {type: 'application/json'});
-        const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-        a.download = 'backup.json'; a.click();
-    };
-    document.getElementById("newNoteBtn").onclick = () => { document.getElementById("noteArea").value = ""; editIndex = null; };
-
-    unlockFolder();
+    reader.readAsText(file);
   }
 
   document.addEventListener("DOMContentLoaded", init);
 </script>
+  
 </body>
 </html>

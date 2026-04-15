@@ -1,57 +1,179 @@
 <!DOCTYPE html>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2816278854816808"
-     crossorigin="anonymous"></script>
-<header style="background-color: #333; padding: 1rem 0; position: sticky; top: 0; z-index: 100;">
-  <div style="text-align: center; color: #ffffff; font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">
-    📚 Library
-  </div>
-  <nav style="display: flex; justify-content: center; gap: 2rem;">
-    <a href="index2.html" style="color: #ffffff; text-decoration: none;">
-      📗 Am The Creator
-    </a>
-    <a href="index5.html" style="color: #ffffff; font-weight: bold; text-decoration: none; border-bottom: 2px solid #00ffcc;">
-      📘 Breaking Chains (Active)
-    </a>
-    <a href="index6.html" style="color: #ffffff; text-decoration: none;">
-      📕 Hidden Truth
-    </a>
-    <a href="index7.html" style="color: #ffffff; text-decoration: none;">
-      📗 Out of Babylon
-    </a>
-  </nav>
-</header>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Breaking the Chains</title>
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2816278854816808"
+     crossorigin="anonymous"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
-    body { margin:0; font-family: Georgia, serif; background: linear-gradient(to right, #1a1a2e, #16213e, #0f3460); color:#f1f1f1; padding:20px; scroll-behavior:smooth; }
-    header, section { max-width:900px; margin:auto; padding:20px; background:rgba(255,255,255,0.05); border-radius:8px; margin-bottom:40px; box-shadow:0 0 10px rgba(0,0,0,0.3); }
+    body {
+      margin:0;
+      font-family: Georgia, serif;
+      background: linear-gradient(to right, #1a1a2e, #16213e, #0f3460);
+      color:#f1f1f1;
+      padding:20px;
+      scroll-behavior:smooth;
+    }
+
+    header, section {
+      max-width:900px;
+      margin:auto;
+      padding:20px;
+      background:rgba(255,255,255,0.05);
+      border-radius:8px;
+      margin-bottom:40px;
+    }
+
     h1,h2 { color: #ffffff; }
+
     a { color:#00d4ff; text-decoration: none; }
     a:hover { text-decoration: underline; }
-    ol { list-style:none; padding-left:0; }
-    li { margin-bottom:8px; }
-    .fixed-buttons { position:fixed; bottom:20px; left:20px; display:flex; flex-direction:column; gap:10px; }
-    .fixed-buttons a { background:#ffffff22; color:white; padding:10px 15px; border-radius:6px; font-weight:bold; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.3); }
-    .fixed-buttons a:hover { background:#ffffff44; }
-    .chapter-download { margin-top:2rem; text-align:center; }
-    .download-btn { display:inline-block; background:#28a745; color:#fff; padding:10px 20px; font-weight:bold; border-radius:8px; text-decoration:none; transition:background 0.3s ease; }
-    .download-btn:hover { background:#1e7e34; }
-    footer { text-align:center; margin-top:60px; padding:20px 0; }
-    footer img { width:100px; height:auto; }
-    footer p { font-size:12px; color:#999; }
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      left: -260px;
+      top: 0;
+      width: 250px;
+      height: 100%;
+      background: #001b3d;
+      transition: 0.3s;
+      padding-top: 60px;
+      z-index: 1100;
+    }
+
+    .sidebar.active { left: 0; }
+
+    .sidebar a {
+      display: block;
+      padding: 12px 20px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .sidebar a:hover { background: #004aad; }
+
+    .sidebar i { margin-right: 10px; }
+
+    /* OVERLAY */
+    .overlay {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      z-index: 1000;
+    }
+
+    .overlay.active { display: block; }
+
+    /* MENU BUTTON */
+    .menu-btn {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      font-size: 22px;
+      cursor: pointer;
+      z-index: 1200;
+      color: white;
+    }
+
+    /* FLOAT BUTTONS */
+    .fixed-buttons {
+      position:fixed;
+      bottom:20px;
+      left:20px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .fixed-buttons a {
+      background:#ffffff22;
+      color:white;
+      padding:10px;
+      border-radius:6px;
+      font-weight:bold;
+      text-align:center;
+    }
+
+    footer {
+      text-align:center;
+      margin-top:60px;
+      padding:20px 0;
+    }
   </style>
 </head>
-<body>
-  <body>
-  
-  <div class="fixed-buttons">
-    <a href="#top">🔝 Top</a>
-    <a href="home.html">🏡 Home</a>
+
+<body id="top">
+
+<!-- MENU BUTTON -->
+<div class="menu-btn" onclick="toggleSidebar()">
+  <i class="fas fa-bars"></i>
+</div>
+
+ <!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <a href="index.html"><i class="fas fa-home"></i> Home</a>
+
+  <a href="creator.html"><i class="fas fa-book"></i> Am The Creator</a>
+  <a href="chains.html"><i class="fas fa-link"></i> Breaking Chains</a>
+  <a href="truth.html"><i class="fas fa-eye"></i> Hidden Truth</a>
+  <a href="sabbath.html"><i class="fas fa-calendar"></i> The Sabbath</a>
+
+  <a href="voices.html"><i class="fas fa-microphone"></i> Voices From The Future</a>
+  <a href="babylon.html"><i class="fas fa-city"></i> Babylon</a>
+  <a href="chosen.html"><i class="fas fa-star"></i> Chosen For The Final Hour</a>
+
+  <a href="https://bagenda.netlify.app/shadow.html"><i class="fas fa-heart"></i> In Love With The Shadow</a>
+  <a href="https://bagenda.netlify.app/uptown.html"><i class="fas fa-building"></i> Uptown Girl</a>
+  <a href="https://bagenda.netlify.app/feel.html"><i class="fas fa-feather"></i> Now I Feel</a>
+
+  <a href="project.html"><i class="fas fa-rocket"></i> Projects</a>
+  <a href="message.html"><i class="fas fa-envelope"></i> Contact</a>
+
+  <a href="https://github.com/BagendaNicholas/My-website-/raw/main/NicholasAI%20(1).apk" download>
+    <i class="fas fa-download"></i> Download Guardian APK
+  </a>
+</div>
+
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- HEADER -->
+<header style="background-color: #333; text-align:center;">
+  <div style="color: #ffffff; font-size: 1.5rem; font-weight: bold;">
+    📚 Breaking The Chains 
   </div>
 
+  <nav style="display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap;">
+  </nav>
+</header>
+
+<!-- FLOAT BUTTONS -->
+<div class="fixed-buttons">
+  <a href="#top">🔝 Top</a>
+  <a href="home.html">🏡 Home</a>
+</div>
+
+<!-- SCRIPT -->
+<script>
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("active");
+  document.getElementById("overlay").classList.toggle("active");
+}
+</script>
+
+</body>
+</html>
   <header id="top">
        <img src="https://i.postimg.cc/x8T3kdzn/IMG-202508225-201941440.jpg" alt="Chapter 1 Illustration" style="display:block;margin:1.2em auto 1.7em auto;max-width:90%;border-radius:12px;box-shadow:0 2px 12px #e0c3fc55;">
     <h1>📘 Breaking the Chains</h1>

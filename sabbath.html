@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Sabbath | By Bagenda Nicholas</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
         body {
             font-family: 'Times New Roman', Times, serif;
@@ -15,7 +19,7 @@
             color: #e0e8ff;
             scroll-behavior: smooth;
         }
-        
+
         header {
             padding: 20px;
             max-width: 900px;
@@ -29,7 +33,6 @@
         }
 
         h1, h2, h3, h4 {
-            font-family: Georgia, 'Times New Roman', Times, serif;
             color: #5efcff;
             text-shadow: 0 0 8px #5efcff;
             border-bottom: 1px solid #00cfff;
@@ -45,50 +48,56 @@
             text-shadow: 0 0 8px #fff176;
         }
 
-        ul.toc {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 2rem;
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            left: -260px;
+            top: 0;
+            width: 250px;
+            height: 100%;
+            background: #001b3d;
+            transition: 0.3s;
+            padding-top: 60px;
+            z-index: 1100;
         }
 
-        ul.toc li {
-            margin: 0.5rem 0;
+        .sidebar.active { left: 0; }
+
+        .sidebar a {
+            display: block;
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
         }
 
-        .container {
-            max-width: 900px;
-            margin: auto;
-            padding: 1.5rem;
+        .sidebar a:hover { background: #004aad; }
+
+        .sidebar i { margin-right: 10px; }
+
+        /* OVERLAY */
+        .overlay {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 1000;
         }
 
-        .chapter {
-            margin-bottom: 40px;
+        .overlay.active { display: block; }
+
+        /* MENU BUTTON */
+        .menu-btn {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 1200;
+            color: #5efcff;
         }
 
-        .poetic-reflection, .dedication, .acknowledgements, .introduction, .epilogue, .conclusion {
-            font-style: italic;
-            border-left: 3px solid #00cfff;
-            padding-left: 15px;
-            margin-bottom: 20px;
-        }
-
-        .author-info, .copyright-page {
-            font-size: 0.9em;
-            color: #e0e8ff;
-        }
-
-        .table-of-contents {
-            margin-bottom: 40px;
-        }
-
-        .table-of-contents ol {
-            padding-left: 20px;
-        }
-
-        .table-of-contents li {
-            margin-bottom: 5px;
-        }
-
+        /* FLOAT BUTTONS */
         .fixed-buttons {
             position: fixed;
             bottom: 20px;
@@ -104,43 +113,8 @@
             color: #5efcff;
             padding: 10px 15px;
             border-radius: 50px;
-            box-shadow: 0 0 10px #00eaff, 0 0 20px #0088aa;
+            box-shadow: 0 0 10px #00eaff;
             text-align: center;
-            font-size: 18px;
-            transition: 0.3s;
-        }
-
-        .fixed-buttons a:hover {
-            background: #00eaff;
-            color: #0a1a2f;
-            box-shadow: 0 0 20px #00eaff, 0 0 40px #00cfff;
-        }
-
-        .floating-nav {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 1000;
-        }
-
-        .floating-nav a {
-            background: rgba(17, 42, 75, 0.5);
-            color: #5efcff;
-            padding: 10px 15px;
-            border-radius: 50px;
-            box-shadow: 0 0 10px #00eaff, 0 0 20px #0088aa;
-            text-align: center;
-            font-size: 18px;
-            transition: 0.3s;
-        }
-
-        .floating-nav a:hover {
-            background: #00eaff;
-            color: #0a1a2f;
-            box-shadow: 0 0 20px #00eaff, 0 0 40px #00cfff;
         }
 
         footer {
@@ -149,23 +123,67 @@
             margin-top: 3rem;
             background: #091426;
             color: #5efcff;
-            font-size: 0.9rem;
         }
     </style>
 </head>
+
+<body id="top">
+
+<!-- MENU BUTTON -->
+<div class="menu-btn" onclick="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+</div>
+
+    <!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <a href="index.html"><i class="fas fa-home"></i> Home</a>
+
+  <a href="creator.html"><i class="fas fa-book"></i> Am The Creator</a>
+  <a href="chains.html"><i class="fas fa-link"></i> Breaking Chains</a>
+  <a href="truth.html"><i class="fas fa-eye"></i> Hidden Truth</a>
+  <a href="sabbath.html"><i class="fas fa-calendar"></i> The Sabbath</a>
+
+  <a href="voices.html"><i class="fas fa-microphone"></i> Voices From The Future</a>
+  <a href="babylon.html"><i class="fas fa-city"></i> Babylon</a>
+  <a href="chosen.html"><i class="fas fa-star"></i> Chosen For The Final Hour</a>
+
+  <a href="https://bagenda.netlify.app/shadow.html"><i class="fas fa-heart"></i> In Love With The Shadow</a>
+  <a href="https://bagenda.netlify.app/uptown.html"><i class="fas fa-building"></i> Uptown Girl</a>
+  <a href="https://bagenda.netlify.app/feel.html"><i class="fas fa-feather"></i> Now I Feel</a>
+
+  <a href="project.html"><i class="fas fa-rocket"></i> Projects</a>
+  <a href="message.html"><i class="fas fa-envelope"></i> Contact</a>
+
+  <a href="https://github.com/BagendaNicholas/My-website-/raw/main/NicholasAI%20(1).apk" download>
+    <i class="fas fa-download"></i> Download Guardian APK
+  </a>
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- FLOAT BUTTONS -->
+<div class="fixed-buttons">
+    <a href="#top">🔝</a>
+    <a href="home.html">🏡</a>
+</div>
+
+<!-- SCRIPT -->
+<script>
+function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("active");
+    document.getElementById("overlay").classList.toggle("active");
+}
+</script>
+
+</body>
+</html>
 <body id="top">
     <header>
         <div class="library-title" style="text-align: center; font-size: 24px; margin-bottom: 20px; color: #5efcff;">
-            📚 Library
+            📚 Sabbath 
         </div>
         <nav>
-            <a href="index7.html" style="color: #ffffff; font-weight: bold; text-decoration: none; border-bottom: 2px solid #00ffcc;">
-                📗 The Sabbath (Active)
-            </a>
-            <a href="index2.9.html" style="color: #ffffff; text-decoration: none;">📘 Voices From The Future</a>
-            <a href="index9.html" style="color: #ffffff; text-decoration: none;">📕 Presentation</a>
-            <a href="index8.html" style="color: #ffffff; text-decoration: none;">📗 Getting Out Babylon</a>
-        </nav>
     </header>
 
     <div class="container">

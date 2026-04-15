@@ -1,67 +1,109 @@
 <!DOCTYPE html>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2816278854816808"
-     crossorigin="anonymous"></script>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Getting Out of Babylon – Bagenda Nicholas</title>
+
+  <!-- ADS -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2816278854816808"
+     crossorigin="anonymous"></script>
+
+  <!-- ICONS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
+
     body {
       background-color: #1a1a1a;
       color: #ffffff;
-      font-family: 'Arial', sans-serif;
+      font-family: Arial, sans-serif;
       line-height: 1.6;
       margin: 0;
-      padding: 0;
     }
 
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      left: -260px;
+      top: 0;
+      width: 250px;
+      height: 100%;
+      background: #001b3d;
+      transition: 0.3s;
+      padding-top: 60px;
+      z-index: 2000;
+    }
+
+    .sidebar.active { left: 0; }
+
+    .sidebar a {
+      display: block;
+      padding: 12px 20px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .sidebar a:hover { background: #004aad; }
+
+    /* OVERLAY */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      z-index: 1500;
+    }
+
+    .overlay.active { display: block; }
+
+    /* MENU BUTTON */
+    .menu-btn {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      font-size: 22px;
+      cursor: pointer;
+      z-index: 3000;
+      color: #00ffcc;
+    }
+
+    /* HEADER */
     header {
       background-color: #333;
       padding: 1rem 0;
       position: sticky;
       top: 0;
       z-index: 100;
+      text-align: center;
     }
 
     nav {
       display: flex;
       justify-content: center;
       gap: 2rem;
+      margin-top: 0.5rem;
     }
 
     nav a {
-      color: #ffffff;
+      color: white;
       text-decoration: none;
       font-weight: bold;
-      padding: 0.5rem;
-      border-bottom: 2px solid transparent;
-    }
-
-    nav a:hover {
-      border-bottom: 2px solid #00ffcc;
     }
 
     nav a.active {
       border-bottom: 2px solid #00ffcc;
     }
 
-    h1, h2, h3 {
-      color: #00ffcc;
-    }
-
-    a {
-      color: #00ffcc;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
     section {
       padding: 1rem 2rem;
     }
+
+    h1, h2, h3 { color: #00ffcc; }
 
     .toc {
       display: block;
@@ -69,23 +111,7 @@
       padding-left: 2rem;
     }
 
-    footer {
-      background-color: #333;
-      padding: 1rem;
-      text-align: center;
-      color: #aaa;
-      font-size: 0.9rem;
-      margin-top: 2rem;
-    }
-    
-    li {
-      margin-bottom: 8px;
-    }
-    .nav-buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 30px;
-    }
+    /* FLOAT BUTTONS */
     .fixed-buttons {
       position: fixed;
       bottom: 20px;
@@ -94,43 +120,67 @@
       flex-direction: column;
       gap: 10px;
     }
+
     .fixed-buttons a {
       background: #ffffff22;
       color: white;
-      padding: 10px 15px;
+      padding: 10px;
       border-radius: 6px;
-      font-weight: bold;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
       text-align: center;
     }
-    .fixed-buttons a:hover {
-      background: #ffffff44;
-    }
+
   </style>
 </head>
+
 <body>
- 
-  </div>
-  <div class="fixed-buttons">
-    <a href="#top">🔝 Top</a>
-    <a href="home.html">🏡 Home</a>
-  </div>
-  </style>
-</head>
-<body>
+
+<!-- MENU BUTTON -->
+<div class="menu-btn" onclick="toggleSidebar()">
+  <i class="fas fa-bars"></i>
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <a href="index.html"><i class="fas fa-home"></i> Home</a>
+
+  <a href="creator.html"><i class="fas fa-book"></i> Am The Creator</a>
+  <a href="chains.html"><i class="fas fa-link"></i> Breaking Chains</a>
+  <a href="truth.html"><i class="fas fa-eye"></i> Hidden Truth</a>
+  <a href="sabbath.html"><i class="fas fa-calendar"></i> The Sabbath</a>
+
+  <a href="voices.html"><i class="fas fa-microphone"></i> Voices From The Future</a>
+  <a href="babylon.html"><i class="fas fa-city"></i> Babylon</a>
+  <a href="chosen.html"><i class="fas fa-star"></i> Chosen For The Final Hour</a>
+
+  <a href="project.html"><i class="fas fa-rocket"></i> Projects</a>
+  <a href="message.html"><i class="fas fa-envelope"></i> Contact</a>
+</div>
+
+<!-- FLOAT BUTTONS -->
+<div class="fixed-buttons">
+  <a href="#top">🔝 Top</a>
+  <a href="home.html">🏡 Home</a>
+</div>
 
 <header>
-  <div style="text-align: center; color: #00ffcc; font-size: 1.5rem; font-weight: bold;">
-    📚 Library
+  <div style="color:#00ffcc; font-size:1.5rem; font-weight:bold;">
+    📚 Babylon 
   </div>
-  <nav style="margin-top: 0.5rem;">
-    <a href="choosen.html">📗 Chosen for the Final Hour</a>
-    <a href="index5.html">📘 Breaking Chains</a>
-    <a href="index6.html">📕 Hidden Truth</a>
-    <a href="index8.html" class="active">📗 Out of Babylon (Active)</a>
-  </nav>
-</header>
+  <header>
 
+<!-- SCRIPT -->
+<script>
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("active");
+  document.getElementById("overlay").classList.toggle("active");
+}
+</script>
+
+</body>
+</html>
 <main>
   <section>
     <h1 id="top">Getting Out of Babylon: Understanding Suffering and the Power of God</h1>

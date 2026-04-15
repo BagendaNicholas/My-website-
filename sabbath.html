@@ -120,6 +120,32 @@ a:hover {
     border-radius: 50px;
     box-shadow: 0 0 10px #00eaff;
 }
+ .floating-nav {    
+        position: fixed;    
+        bottom: 20px;    
+        right: 20px;    
+        display: flex;    
+        flex-direction: column;    
+        gap: 10px;    
+        z-index: 1000;    
+    }    
+
+    .floating-nav a {    
+        background: rgba(17, 42, 75, 0.5);    
+        color: #5efcff;    
+        padding: 10px 15px;    
+        border-radius: 50px;    
+        box-shadow: 0 0 10px #00eaff, 0 0 20px #0088aa;    
+        text-align: center;    
+        font-size: 18px;    
+        transition: 0.3s;    
+    }    
+
+    .floating-nav a:hover {    
+        background: #00eaff;    
+        color: #0a1a2f;    
+        box-shadow: 0 0 20px #00eaff, 0 0 40px #00cfff;    
+    }    
 
 footer {
     text-align: center;

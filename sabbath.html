@@ -1,130 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Sabbath | By Bagenda Nicholas</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Sabbath | By Bagenda Nicholas</title>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <style>
-        body {
-            font-family: 'Times New Roman', Times, serif;
-            line-height: 1.6;
-            margin: 0 auto;
-            max-width: 900px;
-            padding: 20px;
-            background: #0a1a2f;
-            color: #e0e8ff;
-            scroll-behavior: smooth;
-        }
+<style>
+body {
+    font-family: 'Times New Roman', Times, serif;
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 900px;
+    padding: 20px;
+    background: #0a1a2f;
+    color: #e0e8ff;
+    scroll-behavior: smooth;
+}
 
-        header {
-            padding: 20px;
-            max-width: 900px;
-            margin: auto;
-        }
+/* SIDEBAR */
+.sidebar {
+    position: fixed;
+    left: -260px;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background: #001b3d;
+    transition: 0.3s;
+    padding-top: 60px;
+    z-index: 2000;
+}
 
-        header nav {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-        }
+.sidebar.active {
+    left: 0;
+}
 
-        h1, h2, h3, h4 {
-            color: #5efcff;
-            text-shadow: 0 0 8px #5efcff;
-            border-bottom: 1px solid #00cfff;
-            padding-bottom: 0.3rem;
-        }
+.sidebar a {
+    display: block;
+    padding: 12px 20px;
+    color: #5efcff;
+    text-decoration: none;
+}
 
-        a {
-            color: #fffb96;
-            text-decoration: none;
-        }
+.sidebar a:hover {
+    background: #004aad;
+}
 
-        a:hover {
-            text-shadow: 0 0 8px #fff176;
-        }
+/* OVERLAY */
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    z-index: 1500;
+}
 
-        /* SIDEBAR */
-        .sidebar {
-            position: fixed;
-            left: -260px;
-            top: 0;
-            width: 250px;
-            height: 100%;
-            background: #001b3d;
-            transition: 0.3s;
-            padding-top: 60px;
-            z-index: 1100;
-        }
+.overlay.active {
+    display: block;
+}
 
-        .sidebar.active { left: 0; }
+/* MENU BUTTON */
+.menu-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    font-size: 22px;
+    cursor: pointer;
+    z-index: 2500;
+    color: #5efcff;
+}
 
-        .sidebar a {
-            display: block;
-            padding: 12px 20px;
-            color: white;
-            text-decoration: none;
-        }
+/* EXISTING DESIGN */
+header {
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+}
 
-        .sidebar a:hover { background: #004aad; }
+header nav {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
 
-        .sidebar i { margin-right: 10px; }
+h1, h2, h3, h4 {
+    font-family: Georgia;
+    color: #5efcff;
+    text-shadow: 0 0 8px #5efcff;
+    border-bottom: 1px solid #00cfff;
+    padding-bottom: 0.3rem;
+}
 
-        /* OVERLAY */
-        .overlay {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            display: none;
-            z-index: 1000;
-        }
+a {
+    color: #fffb96;
+    text-decoration: none;
+}
 
-        .overlay.active { display: block; }
+a:hover {
+    text-shadow: 0 0 8px #fff176;
+}
 
-        /* MENU BUTTON */
-        .menu-btn {
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            font-size: 22px;
-            cursor: pointer;
-            z-index: 1200;
-            color: #5efcff;
-        }
+.fixed-buttons {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
-        /* FLOAT BUTTONS */
-        .fixed-buttons {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            z-index: 999;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+.fixed-buttons a {
+    background: rgba(17, 42, 75, 0.5);
+    color: #5efcff;
+    padding: 10px 15px;
+    border-radius: 50px;
+    box-shadow: 0 0 10px #00eaff;
+}
 
-        .fixed-buttons a {
-            background: rgba(17, 42, 75, 0.5);
-            color: #5efcff;
-            padding: 10px 15px;
-            border-radius: 50px;
-            box-shadow: 0 0 10px #00eaff;
-            text-align: center;
-        }
+footer {
+    text-align: center;
+    padding: 1rem;
+    margin-top: 3rem;
+    background: #091426;
+    color: #5efcff;
+}
+</style>
+</head>
 
-        footer {
-            text-align: center;
-            padding: 1rem;
-            margin-top: 3rem;
-            background: #091426;
-            color: #5efcff;
-        }
-    </style>
+<body id="top">
+
+<!-- MENU BUTTON -->
+<div class="menu-btn" onclick="toggleSidebar()">
+  <i class="fas fa-bars"></i>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <a href="index.html"><i class="fas fa-home"></i> Home</a>
+  <a href="index2.html"><i class="fas fa-book"></i> Am The Creator</a>
+  <a href="index5.html"><i class="fas fa-link"></i> Breaking Chains</a>
+  <a href="index6.html"><i class="fas fa-eye"></i> Hidden Truth</a>
+  <a href="index7.html"><i class="fas fa-calendar"></i> The Sabbath</a>
+  <a href="project.html"><i class="fas fa-rocket"></i> Projects</a>
+  <a href="message.html"><i class="fas fa-envelope"></i> Contact</a>
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- HEADER -->
+<header>
+  <h1 style="text-align:center;">📖 The Sabbath</h1>
+</header>
+
+<!-- FLOAT BUTTONS -->
+<div class="fixed-buttons">
+  <a href="#top">🔝</a>
+  <a href="home.html">🏡</a>
+</div>
+
+<!-- SCRIPT -->
+<script>
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("active");
+  document.getElementById("overlay").classList.toggle("active");
+}
+</script>
+
+</body>
+</html>
 </head>
 
 <body id="top">

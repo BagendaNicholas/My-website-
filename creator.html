@@ -78,10 +78,32 @@
       border-radius: 6px;
       color: #fff;
     }
+  .sidebar{position:fixed;left:-260px;top:0;width:250px;height:100%;background:#001b3d;color:white;transition:0.3s;padding-top:60px;z-index:1000;}
+.sidebar.active{left:0;}
+.sidebar a{display:block;padding:15px 20px;color:white;text-decoration:none;font-weight:500;transition:0.3s;}
+.sidebar a:hover{background:#004aad;}
+.sidebar i{margin-right:10px;}
   </style>
 </head>
 <body>
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <a href="index.html"><i class="fas fa-home"></i> Home</a>
+  <a href="creator.html"><i class="fas fa-book"></i> Documents & Books</a>
+  <a href="audio&video.html"><i class="fas fa-headphones"></i> Audio & Video</a>
+  <a href="project.html"><i class="fas fa-rocket"></i> Projects</a>
+  <a href="message.html"><i class="fas fa-envelope"></i> Contact</a>
+  <a href="https://github.com/BagendaNicholas/My-website-/raw/main/NicholasAI%20(1).apk" download
+           class="download-btn">
+            <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" 
+                alt="Guardian Logo" 
+                style="height: 32px; width: 32px;">
+            Download Guardian APK
+        </a>
+</div>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
+     
 <header style="background-color: #333; padding: 1rem 0; position: sticky; top: 0; z-index: 100;">
   <div style="text-align: center; color: #ffffff; font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">
     📚 Library
@@ -2886,7 +2908,14 @@
   <a href="https://github.com/BagendaNicholas/My-website-/raw/main/Am%20The%20Creator.docx" download class="download-btn">
     📥 Download “Am The Creator” (.docx)
   </a>
-    <footer style="background-color: #f1f1f1; padding: 2rem 1rem; text-align: center; border-top: 1px solid #ddd; margin-top: 3rem;">
+   <script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('active');
+  document.getElementById('overlay').classList.toggle('active');
+}
+</script>
+
+     <footer style="background-color: #f1f1f1; padding: 2rem 1rem; text-align: center; border-top: 1px solid #ddd; margin-top: 3rem;">
   <div style="max-width: 600px; margin: 0 auto;">
     
     <!-- Clickable Logo -->

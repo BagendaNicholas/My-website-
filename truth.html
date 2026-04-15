@@ -4,6 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>The Hidden Truth – Bagenda Nicholas</title>
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2816278854816808"
+     crossorigin="anonymous"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
     body {
       background-color: #1a1a1a;
@@ -47,47 +55,20 @@
       color: #00ffcc;
     }
 
-    a {
-      color: #00ffcc;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
     section {
       padding: 1rem 2rem;
-    }
-
-    ol {
-      padding-left: 1.5rem;
-    }
-
-    ul {
-      padding-left: 1.2rem;
-    }
-
-    li {
-      margin-bottom: 8px;
     }
 
     footer {
       background-color: #f1f1f1;
       padding: 2rem 1rem;
       text-align: center;
-      border-top: 1px solid #ddd;
       margin-top: 3rem;
       color: #999;
       font-size: 0.85rem;
     }
 
-    .nav-buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 30px;
-    }
-    
+    /* FIXED BUTTONS */
     .fixed-buttons {
       position: fixed;
       bottom: 20px;
@@ -97,6 +78,7 @@
       gap: 10px;
       z-index: 1000;
     }
+
     .fixed-buttons a {
       background: #ffffff22;
       color: white;
@@ -104,35 +86,121 @@
       border-radius: 6px;
       font-weight: bold;
       text-decoration: none;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
       text-align: center;
     }
-    .fixed-buttons a:hover {
-      background: #ffffff44;
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      left: -260px;
+      top: 0;
+      width: 250px;
+      height: 100%;
+      background: #001b3d;
+      color: white;
+      transition: 0.3s;
+      padding-top: 60px;
+      z-index: 1100;
     }
-</style>
 
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 15px 20px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .sidebar a:hover {
+      background: #004aad;
+    }
+
+    .sidebar i {
+      margin-right: 10px;
+    }
+
+    /* OVERLAY */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      z-index: 1000;
+    }
+
+    .overlay.active {
+      display: block;
+    }
+
+    /* MENU BUTTON */
+    .menu-btn {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      font-size: 22px;
+      cursor: pointer;
+      z-index: 1200;
+      color: white;
+    }
+  </style>
 </head>
+
 <body>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2816278854816808"
-     crossorigin="anonymous"></script>
- 
-  <div class="fixed-buttons">
-    <a href="#top">🔝 Top</a>
-    <a href="home.html">🏡 Home</a>
-  </div>
 
+<!-- MENU BUTTON -->
+<div class="menu-btn" onclick="toggleSidebar()">
+  <i class="fas fa-bars"></i>
+</div>
 
-  <header>
-    <div style="color: #00ffcc; font-size: 1.5rem; font-weight: bold;">📚 Library</div>
-    <nav>
-      <a href="index2.html">📗 Am The Creator</a>
-      <a href="index5.html">📘 Breaking Chains</a>
-      <a href="index6.html" class="active">📕 Hidden Truth (Active)</a>
-      <a href="index7.html">📗 Out of Babylon</a>
-    </nav>
-  </header>
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <a href="index.html"><i class="fas fa-home"></i> Home</a>
+  <a href="creator.html"><i class="fas fa-book"></i> Documents & Books</a>
+  <a href="audio&video.html"><i class="fas fa-headphones"></i> Audio & Video</a>
+  <a href="project.html"><i class="fas fa-rocket"></i> Projects</a>
+  <a href="message.html"><i class="fas fa-envelope"></i> Contact</a>
 
+  <a href="https://github.com/BagendaNicholas/My-website-/raw/main/NicholasAI%20(1).apk" download>
+    <i class="fas fa-download"></i> Download Guardian APK
+  </a>
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- FLOATING BUTTONS -->
+<div class="fixed-buttons">
+  <a href="#top">🔝 Top</a>
+  <a href="home.html">🏡 Home</a>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div style="color: #00ffcc; font-size: 1.5rem; font-weight: bold;">📚 Library</div>
+  <nav>
+    <a href="index2.html">📗 Am The Creator</a>
+    <a href="index5.html">📘 Breaking Chains</a>
+    <a href="index6.html" class="active">📕 Hidden Truth (Active)</a>
+    <a href="index7.html">📗 Out of Babylon</a>
+  </nav>
+</header>
+
+<!-- SCRIPT -->
+<script>
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("active");
+  document.getElementById("overlay").classList.toggle("active");
+}
+</script>
+
+</body>
+</html>
   <main>
     <section>
       <img src="https://i.postimg.cc/DzX8y4YY/IMG-202508235-123928401.png" alt="Chapter 1 Illustration" style="display:block;margin:1.2em auto 1.7em auto;max-width:90%;border-radius:12px;box-shadow:0 2px 12px #e0c3fc55;">

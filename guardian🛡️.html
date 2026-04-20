@@ -6,7 +6,6 @@
     <meta name="description" content="Guardian Dashboard - Your smart assistant for weather, news, movies, and daily motivation">
     <title>Guardian Dashboard 🛡️</title>
     <style>
-        /* [EXISTING DASHBOARD STYLES] */
         * {
             margin: 0;
             padding: 0;
@@ -25,6 +24,7 @@
             padding: 20px;
         }
 
+        /* HEADER */
         .header {
             text-align: center;
             margin-bottom: 40px;
@@ -38,6 +38,7 @@
             letter-spacing: 1px;
         }
 
+        /* DASHBOARD GRID */
         .dashboard {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -46,6 +47,7 @@
             margin: 0 auto;
         }
 
+        /* CARD STYLES */
         .card {
             background: rgba(255, 255, 255, 0.08);
             border-radius: 16px;
@@ -58,7 +60,7 @@
         }
 
         .card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-5px);
             background: rgba(255, 255, 255, 0.12);
         }
 
@@ -68,81 +70,120 @@
             font-weight: 600;
         }
 
-        .card-content {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        /* BUTTON STYLES */
-        button {
-            width: 100%;
-            padding: 12px 20px;
-            border-radius: 10px;
-            border: none;
-            background: linear-gradient(135deg, #00c6ff, #0072ff);
-            color: white;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        /* MOVIE SPECIFIC STYLES */
+        /* MOVIE GRID STYLES */
         .movie-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            gap: 12px;
             margin-top: 15px;
             max-height: 400px;
             overflow-y: auto;
             padding-right: 5px;
         }
 
-        /* Custom scrollbar for movie grid */
-        .movie-grid::-webkit-scrollbar {
-            width: 5px;
-        }
-        .movie-grid::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-        }
-
         .movie-item {
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 8px;
             text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .movie-item:hover {
+            transform: scale(1.03);
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .movie-item img {
             width: 100%;
-            border-radius: 6px;
+            border-radius: 8px;
             margin-bottom: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
         .movie-item h4 {
-            font-size: 0.75rem;
-            opacity: 0.9;
+            font-size: 0.8rem;
+            margin-bottom: 4px;
+            height: 2.4em;
+            overflow: hidden;
         }
 
-        /* Shared Components */
+        .play-tag {
+            font-size: 0.7rem;
+            color: #00c6ff;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* VIDEO MODAL */
+        #videoModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 900px;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 198, 255, 0.3);
+        }
+
+        .close-btn {
+            margin-bottom: 15px;
+            background: #ff4b2b;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* SHARED UI COMPONENTS */
         input {
             width: 100%;
-            padding: 12px 16px;
+            padding: 12px;
             border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             background: rgba(255, 255, 255, 0.1);
             color: white;
+            margin-bottom: 10px;
         }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover { opacity: 0.9; transform: scale(1.02); }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .error-message {
             color: #ff6b6b;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            margin-top: 8px;
             display: none;
         }
-
-        .error-message.show { display: block; }
 
         @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -152,101 +193,122 @@
 
     <div class="header">
         <h1>🛡️ Guardian Dashboard</h1>
-        <p>Your smart assistant</p>
+        <p>Your smart assistant for 2026</p>
     </div>
 
     <div class="dashboard">
         <div class="card">
             <h2>🌦️ Weather</h2>
-            <div class="card-content">
-                <input type="text" id="cityInput" placeholder="Enter city name...">
-                <button onclick="getWeatherByCity(event)">Search</button>
-                <div id="weatherResult"></div>
-                <div id="weatherError" class="error-message"></div>
-            </div>
+            <input type="text" id="cityInput" placeholder="Enter city...">
+            <button onclick="getWeather(event)">Check Weather</button>
+            <div id="weatherResult" style="margin-top:15px;"></div>
         </div>
 
         <div class="card">
-            <h2>📰 News</h2>
-            <div class="card-content">
-                <button onclick="getNews(event)">Load News</button>
-                <div id="news"></div>
-            </div>
+            <h2>📰 News Feed</h2>
+            <button onclick="getNews(event)">Refresh News</button>
+            <div id="news" style="margin-top:15px;"></div>
         </div>
 
         <div class="card">
             <h2>🎬 Trending Movies</h2>
-            <div class="card-content">
-                <button onclick="getMovies(event)">Show Today's Hits</button>
-                <div id="movies" class="movie-grid"></div>
-                <div id="movieError" class="error-message"></div>
-            </div>
+            <button onclick="getMovies(event)">Load Trending</button>
+            <div id="movies" class="movie-grid"></div>
+            <div id="movieError" class="error-message"></div>
         </div>
 
         <div class="card">
             <h2>💬 Motivation</h2>
-            <div class="card-content">
-                <button onclick="getQuote(event)">New Quote</button>
-                <div id="quote" style="font-style: italic; margin-top: 10px;">Click for motivation...</div>
-                <div id="author" style="opacity: 0.7; font-size: 0.9rem;"></div>
+            <button onclick="getQuote(event)">Inspire Me</button>
+            <div style="margin-top:15px; border-left: 3px solid #00c6ff; padding-left: 10px;">
+                <p id="quote">Click for a dose of wisdom...</p>
+                <p id="author" style="opacity: 0.6; font-size: 0.9rem; margin-top: 5px;"></p>
             </div>
         </div>
     </div>
 
+    <div id="videoModal">
+        <button class="close-btn" onclick="closeModal()">CLOSE ✖</button>
+        <div class="modal-content" id="videoContainer"></div>
+    </div>
+
     <script>
         const CONFIG = {
-            WEATHER_API: "https://api.openweathermap.org/data/2.5/weather",
             WEATHER_KEY: "f00c597effd4755170baf386159832f8",
-            MOVIE_API: "https://api.themoviedb.org/3/trending/movie/day",
             MOVIE_KEY: "2a76ab20531de6848483abb62c0f0c50",
+            MOVIE_BASE: "https://api.themoviedb.org/3",
             QUOTE_API: "https://api.allorigins.win/get?url=" + encodeURIComponent("https://zenquotes.io/api/random")
         };
 
-        // --- MOVIES LOGIC ---
+        // --- MOVIE LOGIC ---
         async function getMovies(e) {
             const btn = e.target;
             const container = document.getElementById("movies");
             btn.disabled = true;
-            btn.textContent = "Fetching...";
+            btn.textContent = "Loading...";
 
             try {
-                const res = await fetch(`${CONFIG.MOVIE_API}?api_key=${CONFIG.MOVIE_KEY}`);
-                if (!res.ok) throw new Error("Failed to load movies");
+                const res = await fetch(`${CONFIG.MOVIE_BASE}/trending/movie/day?api_key=${CONFIG.MOVIE_KEY}`);
                 const data = await res.json();
                 
                 container.innerHTML = data.results.map(movie => `
-                    <div class="movie-item">
+                    <div class="movie-item" onclick="playTrailer(${movie.id})">
                         <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" alt="${movie.title}">
                         <h4>${movie.title}</h4>
+                        <span class="play-tag">▶ Play Trailer</span>
                     </div>
                 `).join("");
-
             } catch (err) {
-                document.getElementById("movieError").textContent = "Could not load movies.";
-                document.getElementById("movieError").classList.add("show");
+                document.getElementById("movieError").style.display = "block";
             } finally {
                 btn.disabled = false;
-                btn.textContent = "Update Movies";
+                btn.textContent = "Refresh Movies";
             }
         }
 
-        // --- EXISTING WEATHER LOGIC ---
-        async function getWeatherByCity(e) {
-            const city = document.getElementById("cityInput").value.trim();
-            if (!city) return;
+        async function playTrailer(movieId) {
             try {
-                const res = await fetch(`${CONFIG.WEATHER_API}?q=${city}&appid=${CONFIG.WEATHER_KEY}&units=metric`);
+                const res = await fetch(`${CONFIG.MOVIE_BASE}/movie/${movieId}/videos?api_key=${CONFIG.MOVIE_KEY}`);
                 const data = await res.json();
-                document.getElementById("weatherResult").innerHTML = `
-                    <div style="margin-top:10px; background:rgba(255,255,255,0.1); padding:10px; border-radius:8px;">
-                        <h3>${data.name}</h3>
-                        <p>${Math.round(data.main.temp)}°C - ${data.weather[0].main}</p>
-                    </div>`;
-            } catch (err) { console.log("Weather error"); }
+                const trailer = data.results.find(v => v.type === 'Trailer' && v.site === 'YouTube');
+
+                if (trailer) {
+                    document.getElementById("videoContainer").innerHTML = `
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/${trailer.key}?autoplay=1" 
+                        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    `;
+                    document.getElementById("videoModal").style.display = "flex";
+                } else {
+                    alert("Sorry, no trailer found for this movie.");
+                }
+            } catch (err) {
+                alert("Error fetching trailer.");
+            }
         }
 
-        // --- EXISTING QUOTE LOGIC ---
-        async function getQuote(e) {
+        function closeModal() {
+            document.getElementById("videoModal").style.display = "none";
+            document.getElementById("videoContainer").innerHTML = "";
+        }
+
+        // --- WEATHER LOGIC ---
+        async function getWeather() {
+            const city = document.getElementById("cityInput").value;
+            if (!city) return;
+            const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${CONFIG.WEATHER_KEY}&units=metric`);
+            const data = await res.json();
+            if(data.main) {
+                document.getElementById("weatherResult").innerHTML = `
+                    <div style="background:rgba(255,255,255,0.1); padding:15px; border-radius:10px;">
+                        <h3 style="color:#00c6ff;">${data.name}</h3>
+                        <p style="font-size:1.5rem; font-weight:bold;">${Math.round(data.main.temp)}°C</p>
+                        <p>${data.weather[0].description}</p>
+                    </div>`;
+            }
+        }
+
+        // --- QUOTE LOGIC ---
+        async function getQuote() {
             try {
                 const res = await fetch(CONFIG.QUOTE_API);
                 const data = await res.json();
@@ -254,25 +316,28 @@
                 document.getElementById("quote").textContent = `"${quoteObj.q}"`;
                 document.getElementById("author").textContent = `— ${quoteObj.a}`;
             } catch (err) {
-                document.getElementById("quote").textContent = "Keep pushing forward.";
+                document.getElementById("quote").textContent = "Action is the foundational key to all success.";
             }
         }
 
-        // --- EXISTING NEWS LOGIC (Simulated) ---
-        function getNews(e) {
-            const newsItems = [
-                { title: "Tech Trends 2026", desc: "AI continues to evolve." },
-                { title: "Space X Update", desc: "Mars mission on track." }
+        // --- NEWS LOGIC ---
+        function getNews() {
+            const news = [
+                { t: "The 2026 Tech Summit", d: "Leading experts gather to discuss AI ethics." },
+                { t: "New Clean Energy Record", d: "Solar efficiency hits an all-time high." }
             ];
-            document.getElementById("news").innerHTML = newsItems.map(n => `
-                <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; margin-top:10px;">
-                    <h4>${n.title}</h4>
-                    <p style="font-size:0.8rem;">${n.desc}</p>
+            document.getElementById("news").innerHTML = news.map(n => `
+                <div style="margin-bottom:10px; background:rgba(255,255,255,0.05); padding:10px; border-radius:8px;">
+                    <h4 style="font-size:0.9rem;">${n.t}</h4>
+                    <p style="font-size:0.75rem; opacity:0.7;">${n.d}</p>
                 </div>
             `).join("");
         }
 
-        window.onload = () => getQuote();
+        window.onload = () => {
+            getQuote();
+            getNews();
+        };
     </script>
 </body>
 </html>

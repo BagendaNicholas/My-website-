@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guardian Dashboard🛡️</title>
+    <title>Guardian Dashboard Pro 🛡️</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
             color: #f8fafc;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             min-height: 100vh;
             padding: 20px;
         }
 
-        .header { text-align: center; margin-bottom: 30px; }
+        .header { text-align: center; margin-bottom: 30px; animation: fadeIn 1s; }
         .dashboard {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -26,224 +26,215 @@
         .card {
             background: rgba(30, 41, 59, 0.7);
             border-radius: 20px;
-            padding: 20px;
+            padding: 24px;
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            flex-direction: column;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
 
-        h2 { margin-bottom: 15px; font-size: 1.4rem; display: flex; align-items: center; gap: 10px; }
+        h2 { margin-bottom: 20px; font-size: 1.4rem; color: #60a5fa; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
 
-        /* UI ELEMENTS */
         input, select {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            margin-bottom: 10px;
+            width: 100%; padding: 12px; border-radius: 8px; border: none;
+            background: rgba(255, 255, 255, 0.1); color: white; margin-bottom: 10px;
         }
 
         button {
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            background: #3b82f6;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
+            width: 100%; padding: 12px; border-radius: 8px; border: none;
+            background: #3b82f6; color: white; font-weight: 600; cursor: pointer; transition: 0.3s;
         }
-        button:hover { background: #2563eb; }
+        button:hover { background: #2563eb; transform: translateY(-2px); }
 
-        /* NEWS STYLES */
-        #newsContent { max-height: 400px; overflow-y: auto; padding-right: 5px; }
+        /* NEWS LIST */
+        #newsContent { max-height: 400px; overflow-y: auto; }
         .news-item {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            transition: 0.3s;
-            border-left: 4px solid transparent;
+            background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 12px;
+            margin-bottom: 12px; text-decoration: none; color: inherit; display: block;
+            transition: 0.3s; border-left: 4px solid transparent;
         }
-        .news-item:hover { background: rgba(255, 255, 255, 0.1); border-left-color: #3b82f6; transform: translateX(5px); }
-        .news-item h4 { font-size: 0.95rem; margin-bottom: 5px; color: #60a5fa; }
-        .news-item span { font-size: 0.7rem; color: #94a3b8; }
+        .news-item:hover { background: rgba(255, 255, 255, 0.15); border-left-color: #60a5fa; }
+        .news-item h4 { font-size: 0.95rem; margin-bottom: 5px; line-height: 1.4; }
+        .news-item span { font-size: 0.75rem; color: #94a3b8; }
 
         /* MOVIE GRID */
-        .movie-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; max-height: 400px; overflow-y: auto; }
-        .movie-item { background: rgba(0,0,0,0.2); padding: 5px; border-radius: 8px; cursor: pointer; text-align: center; }
-        .movie-item img { width: 100%; border-radius: 5px; }
+        .movie-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 15px; max-height: 400px; overflow-y: auto; }
+        .movie-item { background: rgba(0,0,0,0.25); border-radius: 10px; cursor: pointer; overflow: hidden; text-align: center; transition: 0.3s; }
+        .movie-item:hover { transform: scale(1.05); background: rgba(0,0,0,0.4); }
+        .movie-item img { width: 100%; display: block; }
+        .movie-item p { padding: 8px; font-size: 0.75rem; font-weight: 500; }
 
         /* MODAL */
-        #videoModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-inner { width: 90%; max-width: 800px; position: relative; }
-        .close-btn { position: absolute; top: -45px; right: 0; background: #ef4444; color: white; padding: 8px 16px; border-radius: 5px; cursor: pointer; border: none; }
+        #videoModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center; }
+        .modal-inner { width: 95%; max-width: 900px; position: relative; }
+        .close-btn { position: absolute; top: -50px; right: 0; background: #ef4444; color: white; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
 
-        .insight-line { margin-top: 15px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; color: #94a3b8; font-style: italic; }
+        .insight { margin-top: 20px; padding: 12px; background: rgba(59, 130, 246, 0.1); border-radius: 10px; font-size: 0.85rem; color: #94a3b8; border-left: 4px solid #3b82f6; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div class="header">
         <h1>🛡️ Guardian Dashboard</h1>
-        <p id="locationDisplay">Syncing with your location...</p>
+        <p id="locationDisplay">Locating your base of operations...</p>
     </div>
 
     <div class="dashboard">
         <div class="card">
-            <h2>🌦️ Local Weather</h2>
-            <div id="weatherContent">Searching for satellite signal...</div>
+            <h2>🌦️ Local Forecast</h2>
+            <div id="weatherContent">Scanning local atmosphere...</div>
         </div>
 
         <div class="card">
-            <h2>📰 Global News</h2>
+            <h2>📰 Intelligence Feed</h2>
             <select id="newsCategory" onchange="getNews()">
-                <option value="World">World News</option>
                 <option value="Technology">Technology</option>
-                <option value="Business">Business</option>
                 <option value="Science">Science</option>
+                <option value="Business">Business</option>
+                <option value="World">World</option>
             </select>
-            <div id="newsContent">Refreshing feed...</div>
+            <div id="newsContent">Initializing feed...</div>
         </div>
 
         <div class="card">
-            <h2>🎬 Movie Finder</h2>
-            <input type="text" id="movieSearch" placeholder="Search movies..." onkeyup="if(event.key === 'Enter') searchMovies()">
+            <h2>🎬 Movie Database</h2>
+            <input type="text" id="movieSearch" placeholder="Search film archives..." onkeyup="if(event.key === 'Enter') searchMovies()">
             <button onclick="searchMovies()">Search</button>
             <div id="movieResults" class="movie-grid"></div>
         </div>
 
         <div class="card">
-            <h2>💬 Daily Motivation</h2>
+            <h2>💬 Daily Wisdom</h2>
             <div id="quoteArea">
-                <p id="quoteText" style="font-size: 1.1rem; line-height: 1.4;"></p>
-                <p id="quoteAuthor" style="color: #3b82f6; margin-top: 5px;"></p>
-                <div id="quoteInsight" class="insight-line"></div>
+                <p id="quoteText" style="font-size: 1.1rem; line-height: 1.5; font-style: italic;"></p>
+                <p id="quoteAuthor" style="color: #60a5fa; margin-top: 10px; font-weight: 600;"></p>
+                <div id="quoteInsight" class="insight"></div>
             </div>
-            <button onclick="getQuote()" style="margin-top: 15px;">New Wisdom</button>
+            <button onclick="getQuote()" style="margin-top: 20px;">Next Quote</button>
         </div>
     </div>
 
     <div id="videoModal">
         <div class="modal-inner">
-            <button class="close-btn" onclick="closeModal()">CLOSE ✖</button>
+            <button class="close-btn" onclick="closeModal()">CLOSE ARCHIVE ✖</button>
             <div id="videoPlayer" style="aspect-ratio: 16/9;"></div>
         </div>
     </div>
 
     <script>
-        const API_KEY_MOVIE = "2a76ab20531de6848483abb62c0f0c50";
-        const API_KEY_WEATHER = "f00c597effd4755170baf386159832f8";
+        const API_MOVIE = "2a76ab20531de6848483abb62c0f0c50";
+        const API_WEATHER = "f00c597effd4755170baf386159832f8";
 
-        // --- 1. IMPROVED WEATHER (With Fallback) ---
-        async function fetchWeather(lat, lon, cityName = null) {
+        // --- CORE: LOCATION & WEATHER ---
+        async function initDashboard() {
             try {
-                const url = cityName 
-                    ? `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY_WEATHER}&units=metric`
-                    : `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY_WEATHER}&units=metric`;
-                
+                // Try high-accuracy Geolocation first
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (pos) => getWeatherData(pos.coords.latitude, pos.coords.longitude),
+                        () => useIPLocation() // Fallback to IP if GPS denied
+                    );
+                } else {
+                    useIPLocation();
+                }
+            } catch (err) {
+                fallbackToDefault();
+            }
+        }
+
+        async function useIPLocation() {
+            try {
+                // Get location via IP (No permissions needed)
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                getWeatherData(data.latitude, data.longitude, data.city);
+            } catch (e) {
+                fallbackToDefault();
+            }
+        }
+
+        async function getWeatherData(lat, lon, city = null) {
+            try {
+                const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_WEATHER}&units=metric`;
                 const res = await fetch(url);
                 const data = await res.json();
                 
-                document.getElementById("locationDisplay").textContent = `📍 Currently in ${data.name}`;
+                document.getElementById("locationDisplay").innerHTML = `📍 Active in <strong>${data.name}</strong>`;
                 document.getElementById("weatherContent").innerHTML = `
-                    <div style="text-align:center;">
-                        <h3 style="font-size:2.8rem; margin:10px 0;">${Math.round(data.main.temp)}°C</h3>
-                        <p style="text-transform:capitalize; color:#60a5fa;">${data.weather[0].description}</p>
-                        <p style="font-size:0.9rem; opacity:0.7; margin-top:10px;">Humidity: ${data.main.humidity}% | Wind: ${data.wind.speed} m/s</p>
+                    <div style="text-align:center; padding: 10px;">
+                        <h3 style="font-size:3rem; margin-bottom:5px;">${Math.round(data.main.temp)}°C</h3>
+                        <p style="text-transform:uppercase; letter-spacing:1px; color:#60a5fa;">${data.weather[0].description}</p>
+                        <div style="margin-top:15px; display:flex; justify-content:space-around; opacity:0.8; font-size:0.9rem;">
+                            <span>💧 ${data.main.humidity}%</span>
+                            <span>💨 ${data.wind.speed}m/s</span>
+                        </div>
                     </div>`;
-            } catch (e) {
-                document.getElementById("weatherContent").textContent = "Weather service unavailable.";
-            }
+            } catch (e) { fallbackToDefault(); }
         }
 
-        function initWeather() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (pos) => fetchWeather(pos.coords.latitude, pos.coords.longitude),
-                    () => fetchWeather(null, null, "London") // Fallback to London if blocked
-                );
-            } else {
-                fetchWeather(null, null, "New York");
-            }
+        function fallbackToDefault() {
+            getWeatherData(40.7128, -74.0060, "New York"); // Final safety fallback
         }
 
-        // --- 2. STABLE NEWS FETCH ---
+        // --- INTELLIGENCE: NEWS ---
         async function getNews() {
-            const category = document.getElementById("newsCategory").value;
+            const cat = document.getElementById("newsCategory").value;
             const content = document.getElementById("newsContent");
-            content.innerHTML = "<p style='text-align:center; opacity:0.5;'>Scanning global headlines...</p>";
+            content.innerHTML = "<p style='opacity:0.5; text-align:center;'>Accessing secure news servers...</p>";
 
             try {
-                const rssUrl = `https://news.google.com/rss/search?q=${category}&hl=en-US&gl=US&ceid=US:en`;
-                // Switching to a more reliable proxy format
-                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
-                
-                const response = await fetch(proxyUrl);
-                if (!response.ok) throw new Error("Proxy error");
-                const data = await response.json();
+                const rss = `https://news.google.com/rss/search?q=${cat}&hl=en-US&gl=US&ceid=US:en`;
+                const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(rss)}`);
+                const data = await res.json();
                 
                 const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(data.contents, "text/xml");
-                const items = xmlDoc.querySelectorAll("item");
+                const xml = parser.parseFromString(data.contents, "text/xml");
+                const items = Array.from(xml.querySelectorAll("item")).slice(0, 10);
 
-                if (items.length === 0) throw new Error("No news found");
-
-                let html = "";
-                for (let i = 0; i < 12; i++) {
-                    const item = items[i];
-                    if (!item) break;
+                content.innerHTML = items.map(item => {
                     const title = item.querySelector("title").textContent;
                     const link = item.querySelector("link").textContent;
                     const date = new Date(item.querySelector("pubDate").textContent).toLocaleDateString();
-
-                    html += `
+                    return `
                         <a href="${link}" target="_blank" class="news-item">
                             <h4>${title}</h4>
                             <span>📅 ${date}</span>
                         </a>`;
-                }
-                content.innerHTML = html;
-            } catch (err) {
-                content.innerHTML = "<p style='color:#f87171;'>Live news blocked by provider. Refreshing...</p>";
-                setTimeout(getNews, 5000); // Auto-retry
+                }).join("");
+            } catch (e) {
+                content.innerHTML = "<p style='color:#f87171;'>News uplink failed. Check connection.</p>";
             }
         }
 
-        // --- 3. MOVIE SEARCH (Trending by Default) ---
+        // --- CINEMA: MOVIES ---
         async function searchMovies() {
             const query = document.getElementById("movieSearch").value;
             const url = query 
-                ? `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY_MOVIE}&query=${query}`
-                : `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY_MOVIE}`;
+                ? `https://api.themoviedb.org/3/search/movie?api_key=${API_MOVIE}&query=${query}`
+                : `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_MOVIE}`;
             
             try {
                 const res = await fetch(url);
                 const data = await res.json();
-                document.getElementById("movieResults").innerHTML = data.results.slice(0, 16).map(m => `
+                document.getElementById("movieResults").innerHTML = data.results.slice(0, 10).map(m => `
                     <div class="movie-item" onclick="playTrailer(${m.id})">
-                        <img src="${m.poster_path ? 'https://image.tmdb.org/t/p/w200'+m.poster_path : 'https://via.placeholder.com/200x300?text=No+Poster'}" alt="${m.title}">
-                        <p style="padding:5px; font-size:0.75rem;">${m.title}</p>
+                        <img src="${m.poster_path ? 'https://image.tmdb.org/t/p/w200'+m.poster_path : 'https://via.placeholder.com/200x300?text=No+Data'}" alt="Poster">
+                        <p>${m.title}</p>
                     </div>`).join("");
-            } catch (e) { console.error("Movie Error"); }
+            } catch (e) { console.log("Movie archive error"); }
         }
 
         async function playTrailer(id) {
-            const res = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY_MOVIE}`);
-            const data = await res.json();
-            const trailer = data.results.find(v => v.type === 'Trailer' && v.site === 'YouTube');
-            if(trailer) {
-                document.getElementById("videoPlayer").innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${trailer.key}?autoplay=1" frameborder="0" allowfullscreen></iframe>`;
-                document.getElementById("videoModal").style.display = "flex";
-            } else {
-                alert("Trailer currently unavailable for this title.");
-            }
+            try {
+                const res = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_MOVIE}`);
+                const data = await res.json();
+                const trailer = data.results.find(v => v.type === 'Trailer');
+                if(trailer) {
+                    document.getElementById("videoPlayer").innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${trailer.key}?autoplay=1" frameborder="0" allowfullscreen></iframe>`;
+                    document.getElementById("videoModal").style.display = "flex";
+                } else { alert("Operational video not found in archives."); }
+            } catch (e) { alert("Uplink failed."); }
         }
 
         function closeModal() {
@@ -251,29 +242,29 @@
             document.getElementById("videoPlayer").innerHTML = "";
         }
 
-        // --- 4. MOTIVATION ---
+        // --- WISDOM: QUOTES ---
         async function getQuote() {
             try {
-                const res = await fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("https://zenquotes.io/api/random"));
-                const json = await res.json();
-                const quote = JSON.parse(json.contents)[0];
+                const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent('https://zenquotes.io/api/random')}`);
+                const data = await res.json();
+                const quote = JSON.parse(data.contents)[0];
                 document.getElementById("quoteText").textContent = `"${quote.q}"`;
                 document.getElementById("quoteAuthor").textContent = `— ${quote.a}`;
                 
                 const insights = [
-                    "This suggests that true success is a marathon of mindset, not a sprint of luck.",
-                    "An important reminder that your current situation is not your final destination.",
-                    "This highlights the power of persistence over perfection.",
-                    "A prompt to focus on what you can control rather than what you cannot."
+                    "Success is a result of preparation meeting opportunity.",
+                    "Your mindset determines your trajectory more than your circumstances.",
+                    "Focus on high-leverage actions to maximize your output.",
+                    "Knowledge is only power when applied with discipline."
                 ];
-                document.getElementById("quoteInsight").textContent = "🤔 Insight: " + insights[Math.floor(Math.random() * insights.length)];
+                document.getElementById("quoteInsight").innerHTML = `<strong>🤔 Analysis:</strong> ${insights[Math.floor(Math.random() * insights.length)]}`;
             } catch (e) {
-                document.getElementById("quoteText").textContent = "The best way to predict the future is to create it.";
+                document.getElementById("quoteText").textContent = "The code you write today is the foundation for tomorrow.";
             }
         }
 
         window.onload = () => {
-            initWeather();
+            initDashboard();
             getNews();
             searchMovies();
             getQuote();

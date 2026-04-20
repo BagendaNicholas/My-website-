@@ -74,6 +74,11 @@
             cursor: pointer;
             font-size: 0.8rem;
             text-align: center;
+            transition: 0.2s;
+        }
+        .movie-item:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: scale(1.05);
         }
         .movie-item img { width: 100%; border-radius: 5px; margin-bottom: 5px; }
 
@@ -88,52 +93,92 @@
         /* NEWS MODAL */
         #newsModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.95); z-index: 1000; justify-content: center; align-items: center;
+            overflow-y: auto;
         }
         .news-modal-inner {
-            width: 90%; max-width: 700px; background: rgba(30, 41, 59, 0.95);
+            width: 90%; max-width: 800px; background: rgba(30, 41, 59, 0.98);
             border-radius: 20px; padding: 30px; position: relative;
-            max-height: 80vh; overflow-y: auto;
+            margin: 20px auto;
         }
-        .close-news-btn { position: absolute; top: 15px; right: 20px; background: red; padding: 8px 15px; }
+        .close-news-btn { position: absolute; top: 15px; right: 20px; background: red; padding: 8px 15px; border-radius: 8px; cursor: pointer; }
+        .news-modal-img { width: 100%; border-radius: 12px; margin-bottom: 20px; max-height: 400px; object-fit: cover; }
 
         /* NEWS ITEMS */
         .news-item {
             background: rgba(255,255,255,0.05);
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 10px;
+            border-radius: 12px;
+            margin-top: 15px;
             cursor: pointer;
             transition: 0.3s;
             border-left: 4px solid #3b82f6;
+            overflow: hidden;
+            display: flex;
+            gap: 12px;
         }
         .news-item:hover {
             background: rgba(59, 130, 246, 0.15);
-            transform: translateX(5px);
+            transform: translateX(8px);
         }
-        .news-item h4 { margin-bottom: 5px; color: #3b82f6; }
-        .news-item p { font-size: 0.85rem; opacity: 0.8; margin-bottom: 5px; }
-        .news-item .source { font-size: 0.75rem; color: #94a3b8; }
+        .news-item-img {
+            width: 100px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+        .news-item-content {
+            padding: 12px;
+            flex: 1;
+        }
+        .news-item h4 { margin-bottom: 5px; color: #3b82f6; font-size: 0.95rem; }
+        .news-item p { font-size: 0.8rem; opacity: 0.8; margin-bottom: 5px; line-height: 1.3; }
+        .news-item .source { font-size: 0.7rem; color: #94a3b8; }
 
-        /* QUOTE INSIGHT */
-        .insight-line {
-            margin-top: 15px;
-            padding-top: 10px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            font-size: 0.85rem;
-            color: #94a3b8;
+        /* QUOTE SECTION */
+        .quote-container {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        #quoteText {
+            font-size: 1.15rem;
+            line-height: 1.5;
             font-style: italic;
+            margin-bottom: 10px;
+        }
+        #quoteAuthor {
+            color: #3b82f6;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        /* QUOTE EXPLANATION */
+        .quote-explanation {
+            background: rgba(255,255,255,0.05);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+            border-left: 3px solid #10b981;
+        }
+        .quote-explanation-title {
+            font-size: 0.85rem;
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .quote-explanation-text {
+            font-size: 0.8rem;
+            line-height: 1.4;
+            opacity: 0.85;
         }
 
-        /* WEATHER INPUT */
-        .weather-input-group {
-            display: flex; gap: 8px; margin-top: 10px;
-        }
-        .weather-input-group input {
-            flex: 1; margin-bottom: 0;
-        }
-        .weather-input-group button {
-            flex: 0 0 auto; padding: 8px 12px;
+        /* NEWS GRID */
+        .news-grid {
+            max-height: 600px;
+            overflow-y: auto;
         }
     </style>
 </head>
@@ -141,19 +186,10 @@
 
     <div class="header">
         <h1>🛡️ Guardian Dashboard Pro</h1>
-        <p id="locationDisplay">Detecting your location...</p>
+        <p>Your Daily Source of Inspiration & Entertainment</p>
     </div>
 
     <div class="dashboard">
-        <div class="card">
-            <h2>🌦️ Local Weather</h2>
-            <div id="weatherContent">Loading local weather...</div>
-            <div class="weather-input-group" style="display:none;" id="weatherFallback">
-                <input type="text" id="cityInput" placeholder="Enter city name..." onkeyup="if(event.key === 'Enter') searchWeatherByCity()">
-                <button onclick="searchWeatherByCity()">Search</button>
-            </div>
-        </div>
-
         <div class="card">
             <h2>📰 Global News</h2>
             <select id="newsCategory" onchange="getNews()">
@@ -162,7 +198,7 @@
                 <option value="business">Business</option>
                 <option value="entertainment">Entertainment</option>
             </select>
-            <div id="newsContent"></div>
+            <div id="newsContent" class="news-grid"></div>
         </div>
 
         <div class="card">
@@ -173,11 +209,16 @@
         </div>
 
         <div class="card">
-            <h2>💬 Daily Motivation</h2>
+            <h2>💬 Daily Wisdom</h2>
             <div id="quoteArea">
-                <p id="quoteText" style="font-size: 1.1rem; line-height: 1.4;"></p>
-                <p id="quoteAuthor" style="color: #3b82f6; margin-top: 5px;"></p>
-                <div id="quoteInsight" class="insight-line"></div>
+                <div class="quote-container">
+                    <p id="quoteText"></p>
+                    <p id="quoteAuthor"></p>
+                    <div class="quote-explanation">
+                        <div class="quote-explanation-title">💡 What This Means:</div>
+                        <p class="quote-explanation-text" id="quoteExplanation"></p>
+                    </div>
+                </div>
             </div>
             <button onclick="getQuote()" style="margin-top: 15px;">New Wisdom</button>
         </div>
@@ -193,148 +234,120 @@
     <!-- NEWS DETAIL MODAL -->
     <div id="newsModal">
         <div class="news-modal-inner">
-            <button class="close-news-btn" onclick="closeNewsModal()">Close</button>
-            <h2 id="newsModalTitle" style="margin-bottom: 15px;"></h2>
-            <p id="newsModalContent"></p>
-            <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
-                <p id="newsModalSource" style="font-size: 0.85rem; color: #94a3b8;"></p>
-                <a id="newsModalLink" href="#" target="_blank" style="color: #3b82f6; text-decoration: none; font-weight: 600;">Read Full Article →</a>
+            <button class="close-news-btn" onclick="closeNewsModal()">✕ Close</button>
+            <img id="newsModalImg" class="news-modal-img" src="" alt="Article">
+            <h2 id="newsModalTitle" style="margin-bottom: 15px; color: #3b82f6;"></h2>
+            <p id="newsModalContent" style="line-height: 1.6; margin-bottom: 20px;"></p>
+            <div style="padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                <p id="newsModalSource" style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 10px;"></p>
+                <p id="newsModalDate" style="font-size: 0.8rem; color: #64748b;"></p>
             </div>
         </div>
     </div>
 
     <script>
         const API_KEY_MOVIE = "2a76ab20531de6848483abb62c0f0c50";
-        const API_KEY_WEATHER = "f00c597effd4755170baf386159832f8";
 
-        // Store news data for modal
         let currentNewsData = [];
 
-        // 1. AUTO WEATHER - FIXED WITH FALLBACK
-        function initWeather() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    async (pos) => {
-                        try {
-                            const lat = pos.coords.latitude;
-                            const lon = pos.coords.longitude;
-                            await fetchWeatherByCoords(lat, lon);
-                        } catch (err) {
-                            showWeatherFallback();
-                        }
-                    },
-                    (error) => {
-                        console.log("Geolocation error:", error.message);
-                        showWeatherFallback();
-                    },
-                    { timeout: 8000 }
-                );
-            } else {
-                showWeatherFallback();
-            }
-        }
-
-        async function fetchWeatherByCoords(lat, lon) {
-            try {
-                const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY_WEATHER}&units=metric`);
-                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-                
-                const data = await res.json();
-                
-                if (data.cod === 200 || data.cod === "200") {
-                    document.getElementById("locationDisplay").textContent = `Currently in ${data.name}, ${data.sys.country}`;
-                    document.getElementById("weatherContent").innerHTML = `
-                        <div style="text-align:center;">
-                            <h3 style="font-size:2.5rem; color: #fbbf24;">${Math.round(data.main.temp)}°C</h3>
-                            <p style="font-size:1.1rem; margin: 10px 0; text-transform: capitalize;">${data.weather[0].description}</p>
-                            <p style="opacity: 0.8;">💧 Humidity: ${data.main.humidity}%</p>
-                            <p style="opacity: 0.8;">💨 Wind: ${data.wind.speed} m/s</p>
-                            <p style="opacity: 0.8; margin-top: 8px;">🌡️ Feels like: ${Math.round(data.main.feels_like)}°C</p>
-                        </div>`;
-                    document.getElementById("weatherFallback").style.display = "none";
-                } else {
-                    throw new Error("Invalid API response");
-                }
-            } catch (err) {
-                console.error("Weather fetch error:", err);
-                showWeatherFallback();
-            }
-        }
-
-        async function searchWeatherByCity() {
-            const city = document.getElementById("cityInput").value.trim();
-            if (!city) return;
-
-            try {
-                const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY_WEATHER}&units=metric`);
-                if (!res.ok) throw new Error("City not found");
-                
-                const data = await res.json();
-                if (data.cod === 200 || data.cod === "200") {
-                    document.getElementById("locationDisplay").textContent = `Currently in ${data.name}, ${data.sys.country}`;
-                    document.getElementById("weatherContent").innerHTML = `
-                        <div style="text-align:center;">
-                            <h3 style="font-size:2.5rem; color: #fbbf24;">${Math.round(data.main.temp)}°C</h3>
-                            <p style="font-size:1.1rem; margin: 10px 0; text-transform: capitalize;">${data.weather[0].description}</p>
-                            <p style="opacity: 0.8;">💧 Humidity: ${data.main.humidity}%</p>
-                            <p style="opacity: 0.8;">💨 Wind: ${data.wind.speed} m/s</p>
-                            <p style="opacity: 0.8; margin-top: 8px;">🌡️ Feels like: ${Math.round(data.main.feels_like)}°C</p>
-                        </div>`;
-                    document.getElementById("weatherFallback").style.display = "none";
-                }
-            } catch (err) {
-                alert("City not found. Please try again.");
-            }
-        }
-
-        function showWeatherFallback() {
-            document.getElementById("locationDisplay").textContent = "📍 Location access not available";
-            document.getElementById("weatherContent").innerHTML = `
-                <div style="text-align:center; padding: 20px;">
-                    <p style="margin-bottom: 15px;">No location detected</p>
-                    <p style="font-size:0.85rem; opacity:0.7;">Search manually to view weather</p>
-                </div>`;
-            document.getElementById("weatherFallback").style.display = "flex";
-        }
-
-        // 2. NEWS BY CATEGORY WITH CLICKABLE POSTS
+        // NEWS WITH IMAGES AND FULL CONTENT
         function getNews() {
             const cat = document.getElementById("newsCategory").value;
             const mockNews = {
                 general: [
-                    {t: "Global Markets Steady", d: "Stocks hold firm as 2026 begins with positive investor sentiment. The S&P 500 reaches new highs as economic forecasts remain bullish.", url: "#", source: "Global Finance News"},
-                    {t: "Climate Summit Progress", d: "World leaders reach agreement on carbon emission targets for the next decade. Major breakthrough in international climate cooperation.", url: "#", source: "Environmental Weekly"}
+                    {
+                        t: "Global Markets Steady",
+                        d: "Stocks hold firm as 2026 begins with positive investor sentiment. The S&P 500 reaches new highs as economic forecasts remain bullish. Market analysts predict continued growth in emerging sectors.",
+                        fullContent: "In a strong start to 2026, global markets are showing resilience as investors maintain confidence in economic recovery. The S&P 500 has crossed new thresholds, with tech stocks leading the charge. International markets are following suit, with European and Asian indices showing similar positive momentum. Economic indicators suggest sustained growth, with unemployment rates remaining stable and consumer spending continuing to rise. Analysts attribute this success to strong corporate earnings, technological innovation, and favorable interest rate policies. Investors are keeping a close eye on inflation metrics and geopolitical developments that could impact future performance.",
+                        img: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=500&fit=crop",
+                        source: "Global Finance News",
+                        date: "April 20, 2026"
+                    },
+                    {
+                        t: "Climate Summit Progress",
+                        d: "World leaders reach agreement on carbon emission targets for the next decade. A historic accord signed by 195 nations commits to reducing greenhouse gas emissions.",
+                        fullContent: "In a historic gathering at the Global Climate Forum, world leaders have unanimously agreed on ambitious new carbon emission reduction targets. The accord, dubbed the 'Green 2035 Initiative,' commits participating nations to reduce global emissions by 50% within the next decade. The agreement includes binding commitments for renewable energy expansion, with at least 60% of global energy coming from renewable sources by 2035. Developed nations have pledged $500 billion in climate financing to support developing countries in their transition. This milestone represents the strongest collective action on climate change since the Paris Agreement, with enforcement mechanisms ensuring accountability.",
+                        img: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&h=500&fit=crop",
+                        source: "Environmental Weekly",
+                        date: "April 18, 2026"
+                    }
                 ],
                 technology: [
-                    {t: "AI Code Partners Evolve", d: "New models show 90% accuracy in coding tasks and debugging. Major breakthrough in automated development accelerates software creation.", url: "#", source: "Tech Daily"},
-                    {t: "Quantum Computing Milestone", d: "Researchers achieve new quantum computing breakthrough with 1000+ qubits, opening doors to practical quantum applications.", url: "#", source: "Science & Tech"}
+                    {
+                        t: "AI Code Partners Evolve",
+                        d: "New models show 90% accuracy in coding tasks and debugging. Major breakthrough in automated development accelerates software creation by 5x.",
+                        fullContent: "The artificial intelligence industry has reached a significant milestone with the latest generation of AI coding assistants demonstrating a 90% accuracy rate in complex programming tasks. These new models, trained on billions of lines of code, can now understand context, suggest optimizations, and identify bugs with human-level precision. Companies report that development cycles have been reduced by 5x in some cases, with developers spending more time on architecture and design rather than routine coding. The technology is expected to democratize software development, allowing smaller teams and startups to compete with tech giants. Ethical considerations around AI-generated code ownership and security are being actively debated in the developer community.",
+                        img: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&h=500&fit=crop",
+                        source: "Tech Daily",
+                        date: "April 19, 2026"
+                    },
+                    {
+                        t: "Quantum Computing Milestone",
+                        d: "Researchers achieve quantum computing breakthrough with 1000+ qubits. First practical applications in drug discovery entering clinical trials.",
+                        fullContent: "A team of researchers at the Institute for Advanced Computing has successfully developed a quantum computer with over 1000 stable qubits, marking a significant breakthrough in quantum computing. Unlike previous attempts plagued by decoherence issues, this system maintains quantum states with unprecedented stability. The first real-world application is already showing promise: drug discovery simulations that would take conventional computers 1000 years can now be completed in days. Pharmaceutical companies have begun collaborating with the research team to test new drug candidates, with several compounds already entering early clinical trials. This achievement brings practical quantum computing closer to reality and could revolutionize medicine, materials science, and cryptography.",
+                        img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop",
+                        source: "Science & Tech",
+                        date: "April 17, 2026"
+                    }
                 ],
                 business: [
-                    {t: "Startup Boom", d: "Clean energy startups see record funding in 2026. Billions invested in renewable innovations and sustainable technologies worldwide.", url: "#", source: "Business Insider"},
-                    {t: "E-commerce Growth", d: "Online retail sectors report 45% growth year-over-year, driven by mobile shopping and international expansion.", url: "#", source: "Commerce Weekly"}
+                    {
+                        t: "Startup Boom",
+                        d: "Clean energy startups see record funding in 2026. Billions invested in renewable innovations and sustainable technologies worldwide.",
+                        fullContent: "The clean energy sector is experiencing unprecedented growth, with early-stage startups raising a record $87 billion in the first quarter of 2026 alone. Venture capital firms are aggressively pursuing companies developing solar technology, battery storage, and green hydrogen solutions. Notable deals include a $2.3 billion Series C round for an emerging battery technology company and $1.8 billion for an advanced geothermal startup. Investors are betting on the long-term viability of renewable energy as governments worldwide strengthen climate commitments. Success stories include startups that have achieved profitability by scaling production and reducing costs, attracting even more investor confidence. The sector is creating thousands of high-paying jobs across manufacturing, engineering, and operations.",
+                        img: "https://images.unsplash.com/photo-1509391366360-2e938d440424?w=800&h=500&fit=crop",
+                        source: "Business Insider",
+                        date: "April 16, 2026"
+                    },
+                    {
+                        t: "E-commerce Growth",
+                        d: "Online retail sectors report 45% growth year-over-year, driven by mobile shopping and international expansion.",
+                        fullContent: "Global e-commerce platforms are reporting robust growth as mobile shopping continues to dominate consumer behavior. Year-over-year growth stands at 45%, with particularly strong performance in Asia-Pacific and African markets. Mobile apps now account for 65% of all online retail transactions, with seamless checkout experiences driving conversion rates higher. International expansion strategies are paying off, with companies successfully entering emerging markets through localized platforms and payment options. Same-day and next-day delivery services are becoming standard expectations rather than premium features. Cross-border e-commerce is thriving, with currency conversion and international shipping becoming smoother and more affordable, opening new revenue streams for small businesses.",
+                        img: "https://images.unsplash.com/photo-1460925895917-adf4e6904734?w=800&h=500&fit=crop",
+                        source: "Commerce Weekly",
+                        date: "April 15, 2026"
+                    }
                 ],
                 entertainment: [
-                    {t: "Box Office Record", d: "Latest sci-fi epic breaks records with $500M opening weekend globally. Audiences flock to theaters for this groundbreaking film.", url: "#", source: "Entertainment Weekly"},
-                    {t: "Music Festival Announcements", d: "Major festivals announced for summer 2026 with star-studded lineups. Early bird tickets selling out rapidly.", url: "#", source: "Entertainment News"}
+                    {
+                        t: "Box Office Record",
+                        d: "Latest sci-fi epic breaks records with $500M opening weekend globally. Audiences flock to theaters for this groundbreaking film.",
+                        fullContent: "A groundbreaking science fiction film has shattered box office records with a stunning $500 million global opening weekend. The film, featuring cutting-edge visual effects and a compelling narrative about humanity's future in space, resonated with audiences across all age groups. Major markets including North America, Europe, and Asia contributed significantly to the record-breaking performance. Critics praise the film's ambitious storytelling and technical achievements, with several calling it a watershed moment for cinema. The film is projected to surpass $2 billion globally by the end of its theatrical run, making it one of the highest-grossing films of all time. Streaming platforms have already begun negotiations for exclusive digital rights after its theatrical window concludes.",
+                        img: "https://images.unsplash.com/photo-1489599849228-ed2edf8a6c65?w=800&h=500&fit=crop",
+                        source: "Entertainment Weekly",
+                        date: "April 14, 2026"
+                    },
+                    {
+                        t: "Music Festival Announcements",
+                        d: "Major festivals announced for summer 2026 with star-studded lineups. Early bird tickets selling out rapidly across all continents.",
+                        fullContent: "The summer 2026 festival season is shaping up to be legendary, with organizers announcing lineups featuring the world's biggest music artists. Major festivals across Europe, North America, Asia, and Africa have unveiled their schedules, and early bird tickets are already selling at record pace. Festival-goers can expect diverse lineups spanning multiple genres, from rock and pop to electronic and hip-hop. New festival venues in emerging markets are bringing world-class entertainment to previously underserved regions. Festival organizers are implementing innovative technology including AR experiences, virtual reality stages, and interactive apps to enhance the attendee experience. Accommodation packages and festival travel services are being overwhelmed with bookings as fans plan their summer adventures.",
+                        img: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&h=500&fit=crop",
+                        source: "Entertainment News",
+                        date: "April 13, 2026"
+                    }
                 ]
             };
             
             currentNewsData = mockNews[cat] || mockNews.general;
             document.getElementById("newsContent").innerHTML = currentNewsData.map((n, idx) => `
                 <div class="news-item" onclick="openNewsModal(${idx})">
-                    <h4>📌 ${n.t}</h4>
-                    <p>${n.d}</p>
-                    <span class="source">${n.source}</span>
+                    <img src="${n.img}" alt="${n.t}" class="news-item-img">
+                    <div class="news-item-content">
+                        <h4>📌 ${n.t}</h4>
+                        <p>${n.d}</p>
+                        <span class="source">${n.source}</span>
+                    </div>
                 </div>`).join("");
         }
 
-        // Open news detail modal
+        // Open news detail modal with full content
         function openNewsModal(index) {
             const news = currentNewsData[index];
+            document.getElementById("newsModalImg").src = news.img;
             document.getElementById("newsModalTitle").textContent = news.t;
-            document.getElementById("newsModalContent").textContent = news.d;
-            document.getElementById("newsModalSource").textContent = `Source: ${news.source}`;
-            document.getElementById("newsModalLink").href = news.url;
+            document.getElementById("newsModalContent").textContent = news.fullContent;
+            document.getElementById("newsModalSource").textContent = `📰 Source: ${news.source}`;
+            document.getElementById("newsModalDate").textContent = `📅 ${news.date}`;
             document.getElementById("newsModal").style.display = "flex";
         }
 
@@ -342,7 +355,7 @@
             document.getElementById("newsModal").style.display = "none";
         }
 
-        // 3. MOVIE SEARCH
+        // MOVIE SEARCH
         async function searchMovies() {
             const query = document.getElementById("movieSearch").value;
             const url = query 
@@ -383,7 +396,7 @@
             document.getElementById("videoPlayer").innerHTML = "";
         }
 
-        // 4. MOTIVATION WITH INSIGHT
+        // QUOTES WITH EXPLANATIONS
         async function getQuote() {
             try {
                 const res = await fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("https://zenquotes.io/api/random"));
@@ -393,22 +406,40 @@
                 document.getElementById("quoteText").textContent = `"${quote.q}"`;
                 document.getElementById("quoteAuthor").textContent = `— ${quote.a}`;
                 
-                const insights = [
-                    "This reminds us that growth often happens outside of our comfort zone.",
-                    "Perspective is everything; how we view the problem is usually the problem.",
-                    "Small consistent actions lead to massive long-term results.",
-                    "True wisdom lies in knowing that you still have much to learn."
-                ];
-                document.getElementById("quoteInsight").textContent = "🤔 Insight: " + insights[Math.floor(Math.random() * insights.length)];
+                // Explanations for quotes
+                const explanations = {
+                    "success": "Success rarely comes overnight. This wisdom reminds us that consistent effort and perseverance over time lead to remarkable achievements.",
+                    "failure": "Failure is not the end of the journey—it's a step along the way. Each setback provides valuable lessons that propel us toward our goals.",
+                    "growth": "Personal growth requires stepping outside familiar territory. It's in discomfort that we discover our true potential and capabilities.",
+                    "learning": "The wisest among us recognize how much they don't know. Curiosity and humility are the foundations of continuous learning.",
+                    "change": "Positive change begins within ourselves. By transforming our mindset and habits, we create ripples that improve our entire world.",
+                    "courage": "True courage isn't the absence of fear—it's taking action despite being afraid. Bravery is a choice we make every day.",
+                    "purpose": "Living with purpose gives meaning to our actions. When our work aligns with our values, even challenges become opportunities.",
+                    "time": "Time is our most valuable asset. How we choose to spend it defines not just our lives, but the legacy we leave behind.",
+                    "love": "Love in its truest form—compassion, kindness, and empathy—connects us to others and makes life worth living.",
+                    "patience": "In our fast-paced world, patience has become rare and precious. Yet it's often the key to achieving lasting results."
+                };
+
+                // Select an explanation based on quote content
+                let explanation = "This quote invites us to reflect deeply on our actions and motivations. It encourages mindfulness about how we spend our time and energy, reminding us that small choices compound into significant life outcomes.";
+                
+                for (let key in explanations) {
+                    if (quote.q.toLowerCase().includes(key)) {
+                        explanation = explanations[key];
+                        break;
+                    }
+                }
+
+                document.getElementById("quoteExplanation").textContent = explanation;
             } catch (err) {
                 console.error("Quote fetch error:", err);
                 document.getElementById("quoteText").textContent = "\"The only way to do great work is to love what you do.\"";
                 document.getElementById("quoteAuthor").textContent = "— Steve Jobs";
+                document.getElementById("quoteExplanation").textContent = "Passion and purpose are inseparable. When your work aligns with your values and interests, it stops being just a job and becomes a meaningful expression of yourself. This is where excellence naturally emerges.";
             }
         }
 
         window.onload = () => {
-            initWeather();
             getNews();
             searchMovies();
             getQuote();

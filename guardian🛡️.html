@@ -1,210 +1,538 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Guardian Dashboard 🛡️</title>
-
-<style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Guardian Dashboard - Your smart assistant for weather, news, and daily motivation">
+    <title>Guardian Dashboard 🛡️</title>
+    <style>
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: white;
-  padding: 20px;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    min-height: 100vh;
+    padding: 20px;
 }
 
 /* HEADER */
 .header {
-  text-align: center;
-  margin-bottom: 20px;
+    text-align: center;
+    margin-bottom: 40px;
+    animation: slideDown 0.6s ease-out;
 }
 
 .header h1 {
-  font-size: 28px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
 }
 
-/* GRID */
+.header p {
+    font-size: 1.1rem;
+    opacity: 0.85;
+    font-weight: 300;
+}
+
+/* DASHBOARD GRID */
 .dashboard {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-/* CARD */
+/* CARD STYLES */
 .card {
-  background: rgba(255,255,255,0.1);
-  border-radius: 20px;
-  padding: 20px;
-  backdrop-filter: blur(12px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-  transition: 0.3s;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 24px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fadeInUp 0.6s ease-out;
 }
 
 .card:hover {
-  transform: translateY(-5px);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.12);
 }
 
-/* INPUT */
+.card h2 {
+    margin-bottom: 16px;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* INPUT STYLES */
 input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  margin: 10px 0;
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s;
 }
 
-/* BUTTONS */
+input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+input:focus {
+    outline: none;
+    border-color: #00c6ff;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 3px rgba(0, 198, 255, 0.1);
+}
+
+/* BUTTON STYLES */
+.button-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
 button {
-  padding: 10px 15px;
-  border-radius: 10px;
-  border: none;
-  background: linear-gradient(45deg, #00c6ff, #0072ff);
-  color: white;
-  cursor: pointer;
-  margin: 5px;
-  transition: 0.3s;
+    flex: 1;
+    min-width: 100px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0, 114, 255, 0.3);
 }
 
 button:hover {
-  transform: scale(1.05);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 198, 255, 0.4);
 }
 
-/* TEXT */
-h2 {
-  margin-bottom: 10px;
+button:active {
+    transform: translateY(0);
 }
 
-.weather-box, .quote-box {
-  margin-top: 10px;
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
 }
 
+/* WEATHER BOX */
+.weather-box {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 12px;
+}
+
+.weather-box h3 {
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+}
+
+.weather-box p {
+    margin: 4px 0;
+    opacity: 0.9;
+}
+
+/* QUOTE BOX */
+.quote-box {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 12px;
+    border-left: 4px solid #00c6ff;
+}
+
+.quote-box p {
+    margin: 8px 0;
+    line-height: 1.6;
+    font-style: italic;
+}
+
+.quote-box p#author {
+    margin-top: 12px;
+    font-size: 0.95rem;
+    opacity: 0.8;
+    font-style: normal;
+}
+
+/* NEWS ITEM */
 .news-item {
-  margin-top: 10px;
-  padding: 10px;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.05);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 12px;
+    margin-top: 10px;
+    transition: all 0.3s;
 }
-</style>
+
+.news-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(4px);
+}
+
+.news-item h4 {
+    margin-bottom: 8px;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.news-item a {
+    color: #00c6ff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.news-item a:hover {
+    color: #0072ff;
+    text-decoration: underline;
+}
+
+/* ERROR MESSAGE */
+.error-message {
+    color: #ff6b6b;
+    font-size: 0.9rem;
+    margin-top: 8px;
+    padding: 10px;
+    background: rgba(255, 107, 107, 0.1);
+    border-radius: 8px;
+    display: none;
+    border-left: 3px solid #ff6b6b;
+}
+
+.error-message.show {
+    display: block;
+    animation: slideDown 0.3s ease-out;
+}
+
+/* ANIMATIONS */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* LOADING STATE */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2rem;
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 12px;
+    }
+
+    .card {
+        padding: 16px;
+    }
+
+    .header h1 {
+        font-size: 1.5rem;
+    }
+}
+    </style>
 </head>
-
 <body>
-
-<div class="header">
-  <h1>🛡️ Guardian Dashboard</h1>
-  <p>Your smart assistant</p>
-</div>
-
-<div class="dashboard">
-
-  <!-- WEATHER -->
-  <div class="card">
-    <h2>🌦️ Weather</h2>
-
-    <input type="text" id="cityInput" placeholder="Enter city...">
-
-    <button onclick="getWeatherByCity()">Search</button>
-    <button onclick="getLocationWeather()">📍 Location</button>
-
-    <div class="weather-box" id="weatherResult"></div>
-  </div>
-
-  <!-- NEWS -->
-  <div class="card">
-    <h2>📰 News</h2>
-
-    <button onclick="getNews()">Load News</button>
-
-    <div id="news"></div>
-  </div>
-
-  <!-- QUOTES -->
-  <div class="card">
-    <h2>💬 Motivation</h2>
-
-    <button onclick="getQuote()">New Quote</button>
-
-    <div class="quote-box">
-      <p id="quote"></p>
-      <p id="author"></p>
+    <div class="header">
+        <h1>🛡️ Guardian Dashboard</h1>
+        <p>Your smart assistant</p>
     </div>
-  </div>
 
-</div>
+    <div class="dashboard">
+        <!-- WEATHER CARD -->
+        <div class="card">
+            <h2>🌦️ Weather</h2>
+            <div class="card-content">
+                <input type="text" id="cityInput" placeholder="Enter city name..." aria-label="City search">
+                <div class="button-group">
+                    <button onclick="getWeatherByCity()" aria-label="Search weather by city">Search</button>
+                    <button onclick="getLocationWeather()" aria-label="Get weather for current location">📍 Location</button>
+                </div>
+                <div class="weather-box" id="weatherResult"></div>
+                <div id="weatherError" class="error-message"></div>
+            </div>
+        </div>
 
-<script>
-const weatherKey = "052d73c4917c6fde5a0191ab1ec6b0af";
-const newsKey = "4de6fd9fd2db4d558c186354398e99d3";
+        <!-- NEWS CARD -->
+        <div class="card">
+            <h2>📰 News</h2>
+            <div class="card-content">
+                <button onclick="getNews()" aria-label="Load latest news">Load News</button>
+                <div id="news"></div>
+                <div id="newsError" class="error-message"></div>
+            </div>
+        </div>
 
-// WEATHER
-function getWeatherByCity() {
-  const city = document.getElementById("cityInput").value;
+        <!-- QUOTES CARD -->
+        <div class="card">
+            <h2>💬 Motivation</h2>
+            <div class="card-content">
+                <button onclick="getQuote()" aria-label="Get a new motivational quote">New Quote</button>
+                <div class="quote-box">
+                    <p id="quote"></p>
+                    <p id="author"></p>
+                </div>
+                <div id="quoteError" class="error-message"></div>
+            </div>
+        </div>
+    </div>
 
-  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatherKey}&units=metric`)
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById("weatherResult").innerHTML = `
-        <h3>${data.name}</h3>
-        <p>🌡️ ${data.main.temp}°C</p>
-        <p>☁️ ${data.weather[0].description}</p>
-      `;
-    });
+    <script>
+// API Configuration
+const CONFIG = {
+    WEATHER_API: "https://api.openweathermap.org/data/2.5/weather",
+    NEWS_API: "https://newsapi.org/v2/top-headlines",
+    QUOTE_API: "https://api.quotable.io/random",
+    WEATHER_KEY: "052d73c4917c6fde5a0191ab1ec6b0af",
+    NEWS_KEY: "4de6fd9fd2db4d558c186354398e99d3"
+};
+
+const TIMEOUT = 10000; // 10 seconds
+
+// Utility: Timeout wrapper
+function fetchWithTimeout(url, timeout = TIMEOUT) {
+    return Promise.race([
+        fetch(url),
+        new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Request timeout")), timeout)
+        )
+    ]);
 }
 
-function getLocationWeather() {
-  navigator.geolocation.getCurrentPosition(pos => {
-    const lat = pos.coords.latitude;
-    const lon = pos.coords.longitude;
-
-    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${weatherKey}&units=metric`)
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("weatherResult").innerHTML = `
-          <h3>${data.name}</h3>
-          <p>🌡️ ${data.main.temp}°C</p>
-          <p>☁️ ${data.weather[0].description}</p>
-        `;
-      });
-  });
+// Utility: Error handler
+function showError(elementId, message) {
+    const errorElement = document.getElementById(elementId);
+    if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.classList.add("show");
+        setTimeout(() => {
+            errorElement.classList.remove("show");
+        }, 5000);
+    }
 }
 
-// NEWS
-function getNews() {
-  fetch(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${newsKey}`)
-    .then(res => res.json())
-    .then(data => {
-      let output = "";
-
-      data.articles.slice(0,5).forEach(article => {
-        output += `
-          <div class="news-item">
-            <h4>${article.title}</h4>
-            <a href="${article.url}" target="_blank" style="color:#00c6ff;">Read more</a>
-          </div>
-        `;
-      });
-
-      document.getElementById("news").innerHTML = output;
-    });
+// Utility: Clear errors
+function clearError(elementId) {
+    const errorElement = document.getElementById(elementId);
+    if (errorElement) {
+        errorElement.classList.remove("show");
+        errorElement.textContent = "";
+    }
 }
 
-// QUOTES
-function getQuote() {
-  fetch("https://api.quotable.io/random")
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById("quote").innerText = `"${data.content}"`;
-      document.getElementById("author").innerText = `— ${data.author}`;
-    });
+// WEATHER: Get by city
+async function getWeatherByCity() {
+    const city = document.getElementById("cityInput").value.trim();
+
+    if (!city) {
+        showError("weatherError", "Please enter a city name.");
+        return;
+    }
+
+    clearError("weatherError");
+    const button = event.target;
+    button.disabled = true;
+
+    try {
+        const url = `${CONFIG.WEATHER_API}?q=${encodeURIComponent(city)}&appid=${CONFIG.WEATHER_KEY}&units=metric`;
+        const response = await fetchWithTimeout(url);
+
+        if (!response.ok) {
+            throw new Error(response.status === 404 ? "City not found" : "Failed to fetch weather");
+        }
+
+        const data = await response.json();
+        displayWeather(data);
+    } catch (error) {
+        showError("weatherError", `Error: ${error.message}`);
+    } finally {
+        button.disabled = false;
+    }
 }
 
-// AUTO LOAD
-getQuote();
-</script>
+// WEATHER: Get by location
+async function getLocationWeather() {
+    clearError("weatherError");
+    const button = event.target;
+    button.disabled = true;
 
+    try {
+        if (!navigator.geolocation) {
+            throw new Error("Geolocation is not supported by your browser.");
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                try {
+                    const { latitude, longitude } = position.coords;
+                    const url = `${CONFIG.WEATHER_API}?lat=${latitude}&lon=${longitude}&appid=${CONFIG.WEATHER_KEY}&units=metric`;
+                    const response = await fetchWithTimeout(url);
+
+                    if (!response.ok) throw new Error("Failed to fetch weather");
+
+                    const data = await response.json();
+                    displayWeather(data);
+                } catch (error) {
+                    showError("weatherError", `Error: ${error.message}`);
+                } finally {
+                    button.disabled = false;
+                }
+            },
+            (error) => {
+                let message = "Unable to access your location.";
+                if (error.code === error.PERMISSION_DENIED) {
+                    message = "Location permission denied. Please enable it in settings.";
+                }
+                showError("weatherError", message);
+                button.disabled = false;
+            }
+        );
+    } catch (error) {
+        showError("weatherError", `Error: ${error.message}`);
+        button.disabled = false;
+    }
+}
+
+// WEATHER: Display function
+function displayWeather(data) {
+    const weatherResult = document.getElementById("weatherResult");
+    weatherResult.innerHTML = `
+        <h3>${data.name}, ${data.sys.country}</h3>
+        <p>🌡️ Temperature: ${Math.round(data.main.temp)}°C</p>
+        <p>🤔 Feels like: ${Math.round(data.main.feels_like)}°C</p>
+        <p>☁️ Condition: ${data.weather[0].description}</p>
+        <p>💧 Humidity: ${data.main.humidity}%</p>
+        <p>💨 Wind Speed: ${data.wind.speed} m/s</p>
+    `;
+}
+
+// NEWS: Fetch and display
+async function getNews() {
+    clearError("newsError");
+    const button = event.target;
+    button.disabled = true;
+
+    try {
+        const url = `${CONFIG.NEWS_API}?country=us&sortBy=publishedAt&apiKey=${CONFIG.NEWS_KEY}`;
+        const response = await fetchWithTimeout(url);
+
+        if (!response.ok) throw new Error("Failed to fetch news");
+
+        const data = await response.json();
+
+        if (!data.articles || data.articles.length === 0) {
+            showError("newsError", "No news articles found.");
+            return;
+        }
+
+        let output = "";
+        data.articles.slice(0, 5).forEach((article) => {
+            output += `
+                <div class="news-item">
+                    <h4>${article.title}</h4>
+                    <p style="font-size: 0.9rem; opacity: 0.8; margin: 6px 0;">${article.source.name}</p>
+                    <a href="${article.url}" target="_blank" rel="noopener noreferrer">Read more →</a>
+                </div>
+            `;
+        });
+
+        document.getElementById("news").innerHTML = output;
+    } catch (error) {
+        showError("newsError", `Error: ${error.message}`);
+    } finally {
+        button.disabled = false;
+    }
+}
+
+// QUOTES: Fetch and display
+async function getQuote() {
+    clearError("quoteError");
+    const button = event.target;
+    button.disabled = true;
+
+    try {
+        const response = await fetchWithTimeout(CONFIG.QUOTE_API);
+
+        if (!response.ok) throw new Error("Failed to fetch quote");
+
+        const data = await response.json();
+        document.getElementById("quote").textContent = `"${data.content}"`;
+        document.getElementById("author").textContent = `— ${data.author}`;
+    } catch (error) {
+        showError("quoteError", `Error: ${error.message}`);
+    } finally {
+        button.disabled = false;
+    }
+}
+
+// Initialize: Load quote on page load
+document.addEventListener("DOMContentLoaded", () => {
+    getQuote();
+});
+    </script>
 </body>
-  </html>
+</html>

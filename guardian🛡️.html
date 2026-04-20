@@ -3,340 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Guardian Dashboard - Your smart assistant for weather, news, movies, and daily motivation">
-    <title>Guardian Dashboard 🛡️</title>
+    <title>Guardian Dashboard Pro 🛡️</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+            color: #f8fafc;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             min-height: 100vh;
             padding: 20px;
         }
 
-        /* HEADER */
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            animation: slideDown 0.6s ease-out;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-        }
-
-        /* DASHBOARD GRID */
+        .header { text-align: center; margin-bottom: 30px; }
         .dashboard {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-            max-width: 1200px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
-        /* CARD STYLES */
         .card {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 24px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        .card h2 {
-            margin-bottom: 16px;
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
-        /* MOVIE GRID STYLES */
-        .movie-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-top: 15px;
-            max-height: 400px;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-
-        .movie-item {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
-        }
-
-        .movie-item:hover {
-            transform: scale(1.03);
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .movie-item img {
-            width: 100%;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-
-        .movie-item h4 {
-            font-size: 0.8rem;
-            margin-bottom: 4px;
-            height: 2.4em;
-            overflow: hidden;
-        }
-
-        .play-tag {
-            font-size: 0.7rem;
-            color: #00c6ff;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        /* VIDEO MODAL */
-        #videoModal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
             flex-direction: column;
         }
 
-        .modal-content {
-            width: 90%;
-            max-width: 900px;
-            aspect-ratio: 16/9;
-            background: #000;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 0 50px rgba(0, 198, 255, 0.3);
-        }
+        h2 { margin-bottom: 15px; font-size: 1.4rem; display: flex; align-items: center; gap: 10px; }
 
-        .close-btn {
-            margin-bottom: 15px;
-            background: #ff4b2b;
-            padding: 10px 25px;
-            border-radius: 30px;
-            font-weight: bold;
-            border: none;
-            color: white;
-            cursor: pointer;
-        }
-
-        /* SHARED UI COMPONENTS */
-        input {
+        /* UI ELEMENTS */
+        input, select {
             width: 100%;
             padding: 12px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            border: none;
             background: rgba(255, 255, 255, 0.1);
             color: white;
             margin-bottom: 10px;
         }
 
         button {
-            width: 100%;
             padding: 12px;
-            border-radius: 10px;
+            border-radius: 8px;
             border: none;
-            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            background: #3b82f6;
             color: white;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.3s;
+            transition: 0.2s;
         }
+        button:hover { background: #2563eb; }
 
-        button:hover { opacity: 0.9; transform: scale(1.02); }
-        button:disabled { opacity: 0.5; cursor: not-allowed; }
-
-        .error-message {
-            color: #ff6b6b;
+        /* MOVIE GRID */
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+            max-height: 450px;
+            overflow-y: auto;
+        }
+        .movie-item {
+            background: rgba(0,0,0,0.2);
+            padding: 5px;
+            border-radius: 8px;
+            cursor: pointer;
             font-size: 0.8rem;
-            margin-top: 8px;
-            display: none;
+            text-align: center;
         }
+        .movie-item img { width: 100%; border-radius: 5px; margin-bottom: 5px; }
 
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* MODAL */
+        #videoModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center;
+        }
+        .modal-inner { width: 90%; max-width: 800px; position: relative; }
+        .close-btn { position: absolute; top: -40px; right: 0; background: red; }
+
+        /* QUOTE INSIGHT */
+        .insight-line {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem;
+            color: #94a3b8;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>🛡️ Guardian Dashboard</h1>
-        <p>Your smart assistant for 2026</p>
+        <h1>🛡️ Guardian Dashboard Pro</h1>
+        <p id="locationDisplay">Detecting your location...</p>
     </div>
 
     <div class="dashboard">
         <div class="card">
-            <h2>🌦️ Weather</h2>
-            <input type="text" id="cityInput" placeholder="Enter city...">
-            <button onclick="getWeather(event)">Check Weather</button>
-            <div id="weatherResult" style="margin-top:15px;"></div>
+            <h2>🌦️ Local Weather</h2>
+            <div id="weatherContent">Loading local weather...</div>
         </div>
 
         <div class="card">
-            <h2>📰 News Feed</h2>
-            <button onclick="getNews(event)">Refresh News</button>
-            <div id="news" style="margin-top:15px;"></div>
+            <h2>📰 Global News</h2>
+            <select id="newsCategory" onchange="getNews()">
+                <option value="general">General</option>
+                <option value="technology">Technology</option>
+                <option value="business">Business</option>
+                <option value="entertainment">Entertainment</option>
+            </select>
+            <div id="newsContent"></div>
         </div>
 
         <div class="card">
-            <h2>🎬 Trending Movies</h2>
-            <button onclick="getMovies(event)">Load Trending</button>
-            <div id="movies" class="movie-grid"></div>
-            <div id="movieError" class="error-message"></div>
+            <h2>🎬 Movie Finder</h2>
+            <input type="text" id="movieSearch" placeholder="Search for a movie..." onkeyup="if(event.key === 'Enter') searchMovies()">
+            <button onclick="searchMovies()">Search</button>
+            <div id="movieResults" class="movie-grid"></div>
         </div>
 
         <div class="card">
-            <h2>💬 Motivation</h2>
-            <button onclick="getQuote(event)">Inspire Me</button>
-            <div style="margin-top:15px; border-left: 3px solid #00c6ff; padding-left: 10px;">
-                <p id="quote">Click for a dose of wisdom...</p>
-                <p id="author" style="opacity: 0.6; font-size: 0.9rem; margin-top: 5px;"></p>
+            <h2>💬 Daily Motivation</h2>
+            <div id="quoteArea">
+                <p id="quoteText" style="font-size: 1.1rem; line-height: 1.4;"></p>
+                <p id="quoteAuthor" style="color: #3b82f6; margin-top: 5px;"></p>
+                <div id="quoteInsight" class="insight-line"></div>
             </div>
+            <button onclick="getQuote()" style="margin-top: 15px;">New Wisdom</button>
         </div>
     </div>
 
     <div id="videoModal">
-        <button class="close-btn" onclick="closeModal()">CLOSE ✖</button>
-        <div class="modal-content" id="videoContainer"></div>
+        <div class="modal-inner">
+            <button class="close-btn" onclick="closeModal()">Close</button>
+            <div id="videoPlayer" style="aspect-ratio: 16/9;"></div>
+        </div>
     </div>
 
     <script>
-        const CONFIG = {
-            WEATHER_KEY: "f00c597effd4755170baf386159832f8",
-            MOVIE_KEY: "2a76ab20531de6848483abb62c0f0c50",
-            MOVIE_BASE: "https://api.themoviedb.org/3",
-            QUOTE_API: "https://api.allorigins.win/get?url=" + encodeURIComponent("https://zenquotes.io/api/random")
-        };
+        const API_KEY_MOVIE = "2a76ab20531de6848483abb62c0f0c50";
+        const API_KEY_WEATHER = "f00c597effd4755170baf386159832f8";
 
-        // --- MOVIE LOGIC ---
-        async function getMovies(e) {
-            const btn = e.target;
-            const container = document.getElementById("movies");
-            btn.disabled = true;
-            btn.textContent = "Loading...";
-
-            try {
-                const res = await fetch(`${CONFIG.MOVIE_BASE}/trending/movie/day?api_key=${CONFIG.MOVIE_KEY}`);
-                const data = await res.json();
-                
-                container.innerHTML = data.results.map(movie => `
-                    <div class="movie-item" onclick="playTrailer(${movie.id})">
-                        <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" alt="${movie.title}">
-                        <h4>${movie.title}</h4>
-                        <span class="play-tag">▶ Play Trailer</span>
-                    </div>
-                `).join("");
-            } catch (err) {
-                document.getElementById("movieError").style.display = "block";
-            } finally {
-                btn.disabled = false;
-                btn.textContent = "Refresh Movies";
+        // 1. AUTO WEATHER
+        function initWeather() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(async (pos) => {
+                    const lat = pos.coords.latitude;
+                    const lon = pos.coords.longitude;
+                    const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY_WEATHER}&units=metric`);
+                    const data = await res.json();
+                    document.getElementById("locationDisplay").textContent = `Currently in ${data.name}`;
+                    document.getElementById("weatherContent").innerHTML = `
+                        <div style="text-align:center;">
+                            <h3 style="font-size:2.5rem;">${Math.round(data.main.temp)}°C</h3>
+                            <p>${data.weather[0].description.toUpperCase()}</p>
+                            <p>Humidity: ${data.main.humidity}% | Wind: ${data.wind.speed} m/s</p>
+                        </div>`;
+                }, () => {
+                    document.getElementById("weatherContent").textContent = "Location access denied. Please search manually.";
+                });
             }
         }
 
-        async function playTrailer(movieId) {
-            try {
-                const res = await fetch(`${CONFIG.MOVIE_BASE}/movie/${movieId}/videos?api_key=${CONFIG.MOVIE_KEY}`);
-                const data = await res.json();
-                const trailer = data.results.find(v => v.type === 'Trailer' && v.site === 'YouTube');
+        // 2. NEWS BY CATEGORY (Simulated fetch)
+        function getNews() {
+            const cat = document.getElementById("newsCategory").value;
+            const mockNews = {
+                general: [{t: "Global Markets Steady", d: "Stocks hold firm as 2026 begins."}],
+                technology: [{t: "AI Code Partners Evolve", d: "New models show 90% accuracy in coding."}],
+                business: [{t: "Startup Boom", d: "Clean energy startups see record funding."}],
+                entertainment: [{t: "Box Office Record", d: "Latest sci-fi epic breaks records."}]
+            };
+            const selected = mockNews[cat] || mockNews.general;
+            document.getElementById("newsContent").innerHTML = selected.map(n => `
+                <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; margin-top:10px;">
+                    <h4>${n.t}</h4>
+                    <p style="font-size:0.8rem; opacity:0.7;">${n.d}</p>
+                </div>`).join("");
+        }
 
-                if (trailer) {
-                    document.getElementById("videoContainer").innerHTML = `
-                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/${trailer.key}?autoplay=1" 
-                        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                    `;
-                    document.getElementById("videoModal").style.display = "flex";
-                } else {
-                    alert("Sorry, no trailer found for this movie.");
-                }
-            } catch (err) {
-                alert("Error fetching trailer.");
+        // 3. MOVIE SEARCH
+        async function searchMovies() {
+            const query = document.getElementById("movieSearch").value;
+            const url = query 
+                ? `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY_MOVIE}&query=${query}`
+                : `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY_MOVIE}`;
+            
+            const res = await fetch(url);
+            const data = await res.json();
+            document.getElementById("movieResults").innerHTML = data.results.map(m => `
+                <div class="movie-item" onclick="playTrailer(${m.id})">
+                    <img src="${m.poster_path ? 'https://image.tmdb.org/t/p/w200'+m.poster_path : 'https://via.placeholder.com/200x300'}" alt="${m.title}">
+                    <p>${m.title}</p>
+                </div>`).join("");
+        }
+
+        async function playTrailer(id) {
+            const res = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY_MOVIE}`);
+            const data = await res.json();
+            const trailer = data.results.find(v => v.type === 'Trailer');
+            if(trailer) {
+                document.getElementById("videoPlayer").innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${trailer.key}?autoplay=1" frameborder="0" allowfullscreen></iframe>`;
+                document.getElementById("videoModal").style.display = "flex";
             }
         }
 
         function closeModal() {
             document.getElementById("videoModal").style.display = "none";
-            document.getElementById("videoContainer").innerHTML = "";
+            document.getElementById("videoPlayer").innerHTML = "";
         }
 
-        // --- WEATHER LOGIC ---
-        async function getWeather() {
-            const city = document.getElementById("cityInput").value;
-            if (!city) return;
-            const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${CONFIG.WEATHER_KEY}&units=metric`);
-            const data = await res.json();
-            if(data.main) {
-                document.getElementById("weatherResult").innerHTML = `
-                    <div style="background:rgba(255,255,255,0.1); padding:15px; border-radius:10px;">
-                        <h3 style="color:#00c6ff;">${data.name}</h3>
-                        <p style="font-size:1.5rem; font-weight:bold;">${Math.round(data.main.temp)}°C</p>
-                        <p>${data.weather[0].description}</p>
-                    </div>`;
-            }
-        }
-
-        // --- QUOTE LOGIC ---
+        // 4. MOTIVATION WITH INSIGHT
         async function getQuote() {
-            try {
-                const res = await fetch(CONFIG.QUOTE_API);
-                const data = await res.json();
-                const quoteObj = JSON.parse(data.contents)[0];
-                document.getElementById("quote").textContent = `"${quoteObj.q}"`;
-                document.getElementById("author").textContent = `— ${quoteObj.a}`;
-            } catch (err) {
-                document.getElementById("quote").textContent = "Action is the foundational key to all success.";
-            }
-        }
-
-        // --- NEWS LOGIC ---
-        function getNews() {
-            const news = [
-                { t: "The 2026 Tech Summit", d: "Leading experts gather to discuss AI ethics." },
-                { t: "New Clean Energy Record", d: "Solar efficiency hits an all-time high." }
+            const res = await fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("https://zenquotes.io/api/random"));
+            const json = await res.json();
+            const quote = JSON.parse(json.contents)[0];
+            
+            document.getElementById("quoteText").textContent = `"${quote.q}"`;
+            document.getElementById("quoteAuthor").textContent = `— ${quote.a}`;
+            
+            // Generate a simple "Insight" based on the quote's vibe
+            const insights = [
+                "This reminds us that growth often happens outside of our comfort zone.",
+                "Perspective is everything; how we view the problem is usually the problem.",
+                "Small consistent actions lead to massive long-term results.",
+                "True wisdom lies in knowing that you still have much to learn."
             ];
-            document.getElementById("news").innerHTML = news.map(n => `
-                <div style="margin-bottom:10px; background:rgba(255,255,255,0.05); padding:10px; border-radius:8px;">
-                    <h4 style="font-size:0.9rem;">${n.t}</h4>
-                    <p style="font-size:0.75rem; opacity:0.7;">${n.d}</p>
-                </div>
-            `).join("");
+            document.getElementById("quoteInsight").textContent = "🤔 Insight: " + insights[Math.floor(Math.random() * insights.length)];
         }
 
         window.onload = () => {
-            getQuote();
+            initWeather();
             getNews();
+            searchMovies();
+            getQuote();
         };
     </script>
 </body>

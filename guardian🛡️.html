@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guardian Dashboard Pro 🛡️</title>
+    <title>Guardian Dashboard 🛡️</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -85,6 +85,36 @@
         .modal-inner { width: 90%; max-width: 800px; position: relative; }
         .close-btn { position: absolute; top: -40px; right: 0; background: red; }
 
+        /* NEWS MODAL */
+        #newsModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center;
+        }
+        .news-modal-inner {
+            width: 90%; max-width: 700px; background: rgba(30, 41, 59, 0.95);
+            border-radius: 20px; padding: 30px; position: relative;
+            max-height: 80vh; overflow-y: auto;
+        }
+        .close-news-btn { position: absolute; top: 15px; right: 20px; background: red; padding: 8px 15px; }
+
+        /* NEWS ITEMS */
+        .news-item {
+            background: rgba(255,255,255,0.05);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            border-left: 4px solid #3b82f6;
+        }
+        .news-item:hover {
+            background: rgba(59, 130, 246, 0.15);
+            transform: translateX(5px);
+        }
+        .news-item h4 { margin-bottom: 5px; color: #3b82f6; }
+        .news-item p { font-size: 0.85rem; opacity: 0.8; margin-bottom: 5px; }
+        .news-item .source { font-size: 0.75rem; color: #94a3b8; }
+
         /* QUOTE INSIGHT */
         .insight-line {
             margin-top: 15px;
@@ -99,7 +129,7 @@
 <body>
 
     <div class="header">
-        <h1>🛡️ Guardian Dashboard Pro</h1>
+        <h1>🛡️ Guardian Dashboard</h1>
         <p id="locationDisplay">Detecting your location...</p>
     </div>
 
@@ -145,46 +175,111 @@
         </div>
     </div>
 
+    <!-- NEWS DETAIL MODAL -->
+    <div id="newsModal">
+        <div class="news-modal-inner">
+            <button class="close-news-btn" onclick="closeNewsModal()">Close</button>
+            <h2 id="newsModalTitle" style="margin-bottom: 15px;"></h2>
+            <p id="newsModalContent"></p>
+            <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+                <p id="newsModalSource" style="font-size: 0.85rem; color: #94a3b8;"></p>
+                <a id="newsModalLink" href="#" target="_blank" style="color: #3b82f6; text-decoration: none; font-weight: 600;">Read Full Article →</a>
+            </div>
+        </div>
+    </div>
+
     <script>
         const API_KEY_MOVIE = "2a76ab20531de6848483abb62c0f0c50";
         const API_KEY_WEATHER = "f00c597effd4755170baf386159832f8";
 
-        // 1. AUTO WEATHER
+        // Store news data for modal
+        let currentNewsData = [];
+
+        // 1. AUTO WEATHER - FIXED
         function initWeather() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(async (pos) => {
-                    const lat = pos.coords.latitude;
-                    const lon = pos.coords.longitude;
-                    const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY_WEATHER}&units=metric`);
-                    const data = await res.json();
-                    document.getElementById("locationDisplay").textContent = `Currently in ${data.name}`;
-                    document.getElementById("weatherContent").innerHTML = `
-                        <div style="text-align:center;">
-                            <h3 style="font-size:2.5rem;">${Math.round(data.main.temp)}°C</h3>
-                            <p>${data.weather[0].description.toUpperCase()}</p>
-                            <p>Humidity: ${data.main.humidity}% | Wind: ${data.wind.speed} m/s</p>
-                        </div>`;
+                    try {
+                        const lat = pos.coords.latitude;
+                        const lon = pos.coords.longitude;
+                        const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY_WEATHER}&units=metric`);
+                        const data = await res.json();
+                        
+                        if (data.cod === 200) {
+                            document.getElementById("locationDisplay").textContent = `Currently in ${data.name}`;
+                            document.getElementById("weatherContent").innerHTML = `
+                                <div style="text-align:center;">
+                                    <h3 style="font-size:2.5rem; color: #fbbf24;">${Math.round(data.main.temp)}°C</h3>
+                                    <p style="font-size:1.1rem; margin: 10px 0;">${data.weather[0].description.toUpperCase()}</p>
+                                    <p style="opacity: 0.8;">💧 Humidity: ${data.main.humidity}%</p>
+                                    <p style="opacity: 0.8;">💨 Wind: ${data.wind.speed} m/s</p>
+                                    <p style="opacity: 0.8; margin-top: 8px;">🌡️ Feels like: ${Math.round(data.main.feels_like)}°C</p>
+                                </div>`;
+                        } else {
+                            throw new Error("Weather API error");
+                        }
+                    } catch (err) {
+                        document.getElementById("weatherContent").innerHTML = `
+                            <div style="text-align:center; padding: 20px;">
+                                <p>⚠️ Unable to fetch weather</p>
+                                <p style="font-size:0.85rem; opacity:0.7; margin-top: 10px;">Please allow location access</p>
+                            </div>`;
+                    }
                 }, () => {
-                    document.getElementById("weatherContent").textContent = "Location access denied. Please search manually.";
+                    document.getElementById("weatherContent").innerHTML = `
+                        <div style="text-align:center; padding: 20px;">
+                            <p>📍 Location access denied</p>
+                            <p style="font-size:0.85rem; opacity:0.7; margin-top: 10px;">Enable location permissions to see weather</p>
+                        </div>`;
                 });
+            } else {
+                document.getElementById("weatherContent").textContent = "Geolocation not supported.";
             }
         }
 
-        // 2. NEWS BY CATEGORY (Simulated fetch)
+        // 2. NEWS BY CATEGORY WITH CLICKABLE POSTS
         function getNews() {
             const cat = document.getElementById("newsCategory").value;
             const mockNews = {
-                general: [{t: "Global Markets Steady", d: "Stocks hold firm as 2026 begins."}],
-                technology: [{t: "AI Code Partners Evolve", d: "New models show 90% accuracy in coding."}],
-                business: [{t: "Startup Boom", d: "Clean energy startups see record funding."}],
-                entertainment: [{t: "Box Office Record", d: "Latest sci-fi epic breaks records."}]
+                general: [
+                    {t: "Global Markets Steady", d: "Stocks hold firm as 2026 begins with positive investor sentiment.", url: "#", source: "Global Finance News"},
+                    {t: "Climate Summit Progress", d: "World leaders reach agreement on carbon emission targets.", url: "#", source: "Environmental Weekly"}
+                ],
+                technology: [
+                    {t: "AI Code Partners Evolve", d: "New models show 90% accuracy in coding tasks and debugging. Major breakthrough in automated development.", url: "#", source: "Tech Daily"},
+                    {t: "Quantum Computing Milestone", d: "Researchers achieve new quantum computing breakthrough with 1000+ qubits.", url: "#", source: "Science & Tech"}
+                ],
+                business: [
+                    {t: "Startup Boom", d: "Clean energy startups see record funding in 2026. Billions invested in renewable innovations.", url: "#", source: "Business Insider"},
+                    {t: "E-commerce Growth", d: "Online retail sectors report 45% growth year-over-year.", url: "#", source: "Commerce Weekly"}
+                ],
+                entertainment: [
+                    {t: "Box Office Record", d: "Latest sci-fi epic breaks records with $500M opening weekend globally.", url: "#", source: "Entertainment Weekly"},
+                    {t: "Music Festival Announcements", d: "Major festivals announced for summer 2026 with star-studded lineups.", url: "#", source: "Entertainment News"}
+                ]
             };
-            const selected = mockNews[cat] || mockNews.general;
-            document.getElementById("newsContent").innerHTML = selected.map(n => `
-                <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; margin-top:10px;">
-                    <h4>${n.t}</h4>
-                    <p style="font-size:0.8rem; opacity:0.7;">${n.d}</p>
+            
+            currentNewsData = mockNews[cat] || mockNews.general;
+            document.getElementById("newsContent").innerHTML = currentNewsData.map((n, idx) => `
+                <div class="news-item" onclick="openNewsModal(${idx})">
+                    <h4>📌 ${n.t}</h4>
+                    <p>${n.d}</p>
+                    <span class="source">${n.source}</span>
                 </div>`).join("");
+        }
+
+        // Open news detail modal
+        function openNewsModal(index) {
+            const news = currentNewsData[index];
+            document.getElementById("newsModalTitle").textContent = news.t;
+            document.getElementById("newsModalContent").textContent = news.d;
+            document.getElementById("newsModalSource").textContent = `Source: ${news.source}`;
+            document.getElementById("newsModalLink").href = news.url;
+            document.getElementById("newsModal").style.display = "flex";
+        }
+
+        function closeNewsModal() {
+            document.getElementById("newsModal").style.display = "none";
         }
 
         // 3. MOVIE SEARCH
@@ -194,22 +289,32 @@
                 ? `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY_MOVIE}&query=${query}`
                 : `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY_MOVIE}`;
             
-            const res = await fetch(url);
-            const data = await res.json();
-            document.getElementById("movieResults").innerHTML = data.results.map(m => `
-                <div class="movie-item" onclick="playTrailer(${m.id})">
-                    <img src="${m.poster_path ? 'https://image.tmdb.org/t/p/w200'+m.poster_path : 'https://via.placeholder.com/200x300'}" alt="${m.title}">
-                    <p>${m.title}</p>
-                </div>`).join("");
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                document.getElementById("movieResults").innerHTML = data.results.map(m => `
+                    <div class="movie-item" onclick="playTrailer(${m.id})">
+                        <img src="${m.poster_path ? 'https://image.tmdb.org/t/p/w200'+m.poster_path : 'https://via.placeholder.com/200x300'}" alt="${m.title}">
+                        <p>${m.title}</p>
+                    </div>`).join("");
+            } catch (err) {
+                console.error("Movie search error:", err);
+            }
         }
 
         async function playTrailer(id) {
-            const res = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY_MOVIE}`);
-            const data = await res.json();
-            const trailer = data.results.find(v => v.type === 'Trailer');
-            if(trailer) {
-                document.getElementById("videoPlayer").innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${trailer.key}?autoplay=1" frameborder="0" allowfullscreen></iframe>`;
-                document.getElementById("videoModal").style.display = "flex";
+            try {
+                const res = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY_MOVIE}`);
+                const data = await res.json();
+                const trailer = data.results.find(v => v.type === 'Trailer');
+                if(trailer) {
+                    document.getElementById("videoPlayer").innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${trailer.key}?autoplay=1" frameborder="0" allowfullscreen></iframe>`;
+                    document.getElementById("videoModal").style.display = "flex";
+                } else {
+                    alert("No trailer available for this movie.");
+                }
+            } catch (err) {
+                console.error("Trailer fetch error:", err);
             }
         }
 
@@ -220,21 +325,26 @@
 
         // 4. MOTIVATION WITH INSIGHT
         async function getQuote() {
-            const res = await fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("https://zenquotes.io/api/random"));
-            const json = await res.json();
-            const quote = JSON.parse(json.contents)[0];
-            
-            document.getElementById("quoteText").textContent = `"${quote.q}"`;
-            document.getElementById("quoteAuthor").textContent = `— ${quote.a}`;
-            
-            // Generate a simple "Insight" based on the quote's vibe
-            const insights = [
-                "This reminds us that growth often happens outside of our comfort zone.",
-                "Perspective is everything; how we view the problem is usually the problem.",
-                "Small consistent actions lead to massive long-term results.",
-                "True wisdom lies in knowing that you still have much to learn."
-            ];
-            document.getElementById("quoteInsight").textContent = "🤔 Insight: " + insights[Math.floor(Math.random() * insights.length)];
+            try {
+                const res = await fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("https://zenquotes.io/api/random"));
+                const json = await res.json();
+                const quote = JSON.parse(json.contents)[0];
+                
+                document.getElementById("quoteText").textContent = `"${quote.q}"`;
+                document.getElementById("quoteAuthor").textContent = `— ${quote.a}`;
+                
+                const insights = [
+                    "This reminds us that growth often happens outside of our comfort zone.",
+                    "Perspective is everything; how we view the problem is usually the problem.",
+                    "Small consistent actions lead to massive long-term results.",
+                    "True wisdom lies in knowing that you still have much to learn."
+                ];
+                document.getElementById("quoteInsight").textContent = "🤔 Insight: " + insights[Math.floor(Math.random() * insights.length)];
+            } catch (err) {
+                console.error("Quote fetch error:", err);
+                document.getElementById("quoteText").textContent = "\"The only way to do great work is to love what you do.\"";
+                document.getElementById("quoteAuthor").textContent = "— Steve Jobs";
+            }
         }
 
         window.onload = () => {

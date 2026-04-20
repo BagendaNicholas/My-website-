@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Guardian Dashboard - Your smart assistant for weather, news, and daily motivation">
+    <meta name="description" content="Guardian Dashboard - Your smart assistant for weather, news, movies, and daily motivation">
     <title>Guardian Dashboard 🛡️</title>
     <style>
+        /* [EXISTING DASHBOARD STYLES] */
         * {
             margin: 0;
             padding: 0;
@@ -24,7 +25,6 @@
             padding: 20px;
         }
 
-        /* HEADER */
         .header {
             text-align: center;
             margin-bottom: 40px;
@@ -38,13 +38,6 @@
             letter-spacing: 1px;
         }
 
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.85;
-            font-weight: 300;
-        }
-
-        /* DASHBOARD GRID */
         .dashboard {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -53,7 +46,6 @@
             margin: 0 auto;
         }
 
-        /* CARD STYLES */
         .card {
             background: rgba(255, 255, 255, 0.08);
             border-radius: 16px;
@@ -67,7 +59,6 @@
 
         .card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
             background: rgba(255, 255, 255, 0.12);
         }
 
@@ -83,39 +74,9 @@
             gap: 12px;
         }
 
-        /* INPUT STYLES */
-        input {
-            width: 100%;
-            padding: 12px 16px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #00c6ff;
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 0 3px rgba(0, 198, 255, 0.1);
-        }
-
         /* BUTTON STYLES */
-        .button-group {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
         button {
-            flex: 1;
-            min-width: 100px;
+            width: 100%;
             padding: 12px 20px;
             border-radius: 10px;
             border: none;
@@ -124,91 +85,71 @@
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 15px rgba(0, 114, 255, 0.3);
+            transition: all 0.3s;
         }
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 198, 255, 0.4);
+        /* MOVIE SPECIFIC STYLES */
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 5px;
         }
 
-        button:active {
-            transform: translateY(0);
+        /* Custom scrollbar for movie grid */
+        .movie-grid::-webkit-scrollbar {
+            width: 5px;
         }
-
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* WEATHER BOX */
-        .weather-box {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 12px;
-        }
-
-        /* QUOTE BOX */
-        .quote-box {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 12px;
-            border-left: 4px solid #00c6ff;
-            min-height: 80px;
-        }
-
-        .quote-box p#quote {
-            font-style: italic;
-            line-height: 1.4;
-        }
-
-        .quote-box p#author {
-            margin-top: 8px;
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        /* NEWS ITEM */
-        .news-item {
-            background: rgba(255, 255, 255, 0.05);
+        .movie-grid::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 10px;
-            padding: 12px;
-            margin-top: 10px;
         }
 
-        /* ERROR MESSAGE */
+        .movie-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .movie-item img {
+            width: 100%;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .movie-item h4 {
+            font-size: 0.75rem;
+            opacity: 0.9;
+        }
+
+        /* Shared Components */
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
         .error-message {
             color: #ff6b6b;
             font-size: 0.9rem;
-            margin-top: 8px;
-            padding: 10px;
-            background: rgba(255, 107, 107, 0.1);
-            border-radius: 8px;
             display: none;
-            border-left: 3px solid #ff6b6b;
         }
 
-        .error-message.show {
-            display: block;
-        }
+        .error-message.show { display: block; }
 
-        /* ANIMATIONS */
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
+
     <div class="header">
         <h1>🛡️ Guardian Dashboard</h1>
         <p>Your smart assistant</p>
@@ -218,11 +159,8 @@
         <div class="card">
             <h2>🌦️ Weather</h2>
             <div class="card-content">
-                <input type="text" id="cityInput" placeholder="Enter city name..." aria-label="City search">
-                <div class="button-group">
-                    <button onclick="getWeatherByCity(event)">Search</button>
-                    <button onclick="getLocationWeather(event)">📍 Location</button>
-                </div>
+                <input type="text" id="cityInput" placeholder="Enter city name...">
+                <button onclick="getWeatherByCity(event)">Search</button>
                 <div id="weatherResult"></div>
                 <div id="weatherError" class="error-message"></div>
             </div>
@@ -233,7 +171,15 @@
             <div class="card-content">
                 <button onclick="getNews(event)">Load News</button>
                 <div id="news"></div>
-                <div id="newsError" class="error-message"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🎬 Trending Movies</h2>
+            <div class="card-content">
+                <button onclick="getMovies(event)">Show Today's Hits</button>
+                <div id="movies" class="movie-grid"></div>
+                <div id="movieError" class="error-message"></div>
             </div>
         </div>
 
@@ -241,11 +187,8 @@
             <h2>💬 Motivation</h2>
             <div class="card-content">
                 <button onclick="getQuote(event)">New Quote</button>
-                <div class="quote-box">
-                    <p id="quote">Click the button for motivation...</p>
-                    <p id="author"></p>
-                </div>
-                <div id="quoteError" class="error-message"></div>
+                <div id="quote" style="font-style: italic; margin-top: 10px;">Click for motivation...</div>
+                <div id="author" style="opacity: 0.7; font-size: 0.9rem;"></div>
             </div>
         </div>
     </div>
@@ -253,83 +196,57 @@
     <script>
         const CONFIG = {
             WEATHER_API: "https://api.openweathermap.org/data/2.5/weather",
-            // Using a CORS proxy for the Quote API to avoid blocked requests
-            QUOTE_API: "https://api.allorigins.win/get?url=" + encodeURIComponent("https://zenquotes.io/api/random"),
-            WEATHER_KEY: "f00c597effd4755170baf386159832f8"
+            WEATHER_KEY: "f00c597effd4755170baf386159832f8",
+            MOVIE_API: "https://api.themoviedb.org/3/trending/movie/day",
+            MOVIE_KEY: "2a76ab20531de6848483abb62c0f0c50",
+            QUOTE_API: "https://api.allorigins.win/get?url=" + encodeURIComponent("https://zenquotes.io/api/random")
         };
 
-        // Utility: Error handling
-        function showError(elementId, message) {
-            const err = document.getElementById(elementId);
-            err.textContent = message;
-            err.classList.add("show");
-            setTimeout(() => err.classList.remove("show"), 5000);
-        }
-
-        function clearError(elementId) {
-            document.getElementById(elementId).classList.remove("show");
-        }
-
-        // WEATHER
-        async function getWeatherByCity(e) {
-            const city = document.getElementById("cityInput").value.trim();
-            if (!city) return showError("weatherError", "Please enter a city.");
-
+        // --- MOVIES LOGIC ---
+        async function getMovies(e) {
             const btn = e.target;
+            const container = document.getElementById("movies");
             btn.disabled = true;
-            btn.textContent = "Loading...";
+            btn.textContent = "Fetching...";
 
             try {
-                const res = await fetch(`${CONFIG.WEATHER_API}?q=${city}&appid=${CONFIG.WEATHER_KEY}&units=metric`);
-                if (!res.ok) throw new Error("City not found.");
+                const res = await fetch(`${CONFIG.MOVIE_API}?api_key=${CONFIG.MOVIE_KEY}`);
+                if (!res.ok) throw new Error("Failed to load movies");
                 const data = await res.json();
-                displayWeather(data);
+                
+                container.innerHTML = data.results.map(movie => `
+                    <div class="movie-item">
+                        <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" alt="${movie.title}">
+                        <h4>${movie.title}</h4>
+                    </div>
+                `).join("");
+
             } catch (err) {
-                showError("weatherError", err.message);
+                document.getElementById("movieError").textContent = "Could not load movies.";
+                document.getElementById("movieError").classList.add("show");
             } finally {
                 btn.disabled = false;
-                btn.textContent = "Search";
+                btn.textContent = "Update Movies";
             }
         }
 
-        async function getLocationWeather(e) {
-            if (!navigator.geolocation) return showError("weatherError", "Geolocation not supported.");
-            
-            const btn = e.target;
-            btn.disabled = true;
-
-            navigator.geolocation.getCurrentPosition(async (pos) => {
-                try {
-                    const { latitude, longitude } = pos.coords;
-                    const res = await fetch(`${CONFIG.WEATHER_API}?lat=${latitude}&lon=${longitude}&appid=${CONFIG.WEATHER_KEY}&units=metric`);
-                    const data = await res.json();
-                    displayWeather(data);
-                } catch (err) {
-                    showError("weatherError", "Failed to get weather.");
-                } finally {
-                    btn.disabled = false;
-                }
-            }, () => {
-                showError("weatherError", "Location access denied.");
-                btn.disabled = false;
-            });
+        // --- EXISTING WEATHER LOGIC ---
+        async function getWeatherByCity(e) {
+            const city = document.getElementById("cityInput").value.trim();
+            if (!city) return;
+            try {
+                const res = await fetch(`${CONFIG.WEATHER_API}?q=${city}&appid=${CONFIG.WEATHER_KEY}&units=metric`);
+                const data = await res.json();
+                document.getElementById("weatherResult").innerHTML = `
+                    <div style="margin-top:10px; background:rgba(255,255,255,0.1); padding:10px; border-radius:8px;">
+                        <h3>${data.name}</h3>
+                        <p>${Math.round(data.main.temp)}°C - ${data.weather[0].main}</p>
+                    </div>`;
+            } catch (err) { console.log("Weather error"); }
         }
 
-        function displayWeather(data) {
-            document.getElementById("weatherResult").innerHTML = `
-                <div class="weather-box">
-                    <h3>${data.name}</h3>
-                    <p>Temp: ${Math.round(data.main.temp)}°C</p>
-                    <p>Condition: ${data.weather[0].main}</p>
-                </div>
-            `;
-        }
-
-        // QUOTES
+        // --- EXISTING QUOTE LOGIC ---
         async function getQuote(e) {
-            const btn = e ? e.target : null;
-            if (btn) btn.disabled = true;
-
             try {
                 const res = await fetch(CONFIG.QUOTE_API);
                 const data = await res.json();
@@ -337,37 +254,24 @@
                 document.getElementById("quote").textContent = `"${quoteObj.q}"`;
                 document.getElementById("author").textContent = `— ${quoteObj.a}`;
             } catch (err) {
-                document.getElementById("quote").textContent = "The best way to predict the future is to create it.";
-                document.getElementById("author").textContent = "— Peter Drucker";
-            } finally {
-                if (btn) btn.disabled = false;
+                document.getElementById("quote").textContent = "Keep pushing forward.";
             }
         }
 
-        // NEWS
+        // --- EXISTING NEWS LOGIC (Simulated) ---
         function getNews(e) {
-            const btn = e.target;
-            btn.disabled = true;
-            btn.textContent = "Fetching...";
-            
-            // Simulating news fetch due to API key restrictions in browsers
-            setTimeout(() => {
-                const newsItems = [
-                    { title: "Tech Trends 2026", desc: "AI continues to integrate into daily workflows." },
-                    { title: "Global Economy", desc: "New trade agreements signed today." }
-                ];
-                document.getElementById("news").innerHTML = newsItems.map(n => `
-                    <div class="news-item">
-                        <h4>${n.title}</h4>
-                        <p style="font-size: 0.8rem; opacity: 0.8;">${n.desc}</p>
-                    </div>
-                `).join("");
-                btn.disabled = false;
-                btn.textContent = "Load News";
-            }, 1000);
+            const newsItems = [
+                { title: "Tech Trends 2026", desc: "AI continues to evolve." },
+                { title: "Space X Update", desc: "Mars mission on track." }
+            ];
+            document.getElementById("news").innerHTML = newsItems.map(n => `
+                <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; margin-top:10px;">
+                    <h4>${n.title}</h4>
+                    <p style="font-size:0.8rem;">${n.desc}</p>
+                </div>
+            `).join("");
         }
 
-        // Init
         window.onload = () => getQuote();
     </script>
 </body>

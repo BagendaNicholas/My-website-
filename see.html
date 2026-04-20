@@ -2,72 +2,105 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Guardian Cinema 🛡️🎬</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: #0f172a;
-  color: white;
-}
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0f172a;
+    color: white;
+  }
 
-header {
-  padding: 15px;
-  background: #020617;
-  text-align: center;
-}
+  header {
+    padding: 20px;
+    background: #020617;
+    text-align: center;
+    border-bottom: 2px solid #1e293b;
+  }
 
-.container {
-  padding: 20px;
-  max-width: 1100px;
-  margin: auto;
-}
+  .container {
+    padding: 20px;
+    max-width: 1100px;
+    margin: auto;
+  }
 
-input {
-  padding: 10px;
-  width: 60%;
-  border-radius: 10px;
-  border: none;
-}
+  .search-box {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
 
-button {
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  background: #22c55e;
-  color: white;
-  cursor: pointer;
-}
+  input {
+    padding: 12px;
+    width: 60%;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    background: #1e293b;
+    color: white;
+  }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 15px;
-  margin-top: 20px;
-}
+  button {
+    padding: 10px 25px;
+    border-radius: 8px;
+    border: none;
+    background: #22c55e;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
 
-.card {
-  background: #1e293b;
-  padding: 10px;
-  border-radius: 10px;
-}
+  button:hover {
+    background: #16a34a;
+  }
 
-.card img {
-  width: 100%;
-  border-radius: 10px;
-}
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
 
-iframe {
-  width: 100%;
-  height: 200px;
-  margin-top: 10px;
-}
+  .card {
+    background: #1e293b;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
 
-.section-title {
-  margin-top: 40px;
-  font-size: 22px;
-}
+  .card img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  iframe {
+    width: 100%;
+    height: 200px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+  }
+
+  .section-title {
+    margin-top: 40px;
+    font-size: 24px;
+    border-left: 4px solid #22c55e;
+    padding-left: 10px;
+    color: #f8fafc;
+  }
+
+  .download-btn {
+    display: inline-block;
+    margin-top: 10px;
+    color: #4ade80;
+    text-decoration: none;
+    font-weight: bold;
+  }
 </style>
 </head>
 
@@ -78,83 +111,96 @@ iframe {
 </header>
 
 <div class="container">
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Enter movie title (e.g. Night of the Living Dead)">
+    <button onclick="searchAll()">Search</button>
+  </div>
 
-  <input type="text" id="search" placeholder="Search movies...">
-  <button onclick="searchAll()">Search</button>
-
-  <!-- Posters + Trailers -->
-  <div class="section-title">🎞️ Movies & Trailers</div>
+  <div class="section-title">🎞️ TMDB Info & Trailers</div>
   <div id="movies" class="grid"></div>
 
-  <!-- Full Movies -->
-  <div class="section-title">🎬 Full Movies (Legal)</div>
+  <div class="section-title">🎬 Archive.org Public Domain Movies</div>
   <div id="fullMovies" class="grid"></div>
-
 </div>
 
 <script>
-const TMDB_KEY = "2a76ab20531de6848483abb62c0f0c50";
+// IMPORTANT: Replace 'YOUR_TMDB_API_KEY' with your actual key from themoviedb.org
+const TMDB_KEY = "2a76ab20531de6848483abb62c0f0c50"; 
 
-// 🔍 SEARCH EVERYTHING
-function searchAll() {
+async function searchAll() {
   const query = document.getElementById("search").value;
+  if (!query) return alert("Please enter a search term");
+
+  document.getElementById("movies").innerHTML = "Loading...";
+  document.getElementById("fullMovies").innerHTML = "Loading...";
 
   loadPostersAndTrailers(query);
   loadFullMovies(query);
 }
 
-// 🎞️ Posters + YouTube Trailers
+// 🎞️ Posters + YouTube Trailers via TMDB
 async function loadPostersAndTrailers(query) {
-  const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB_KEY}&query=${query}`);
-  const data = await res.json();
+  try {
+    const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB_KEY}&query=${encodeURIComponent(query)}`);
+    const data = await res.json();
 
-  let output = "";
+    let output = "";
+    if (data.results && data.results.length > 0) {
+      data.results.slice(0, 6).forEach(movie => {
+        const poster = movie.poster_path 
+          ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+          : "https://via.placeholder.com/500x750?text=No+Poster";
 
-  data.results.slice(0,6).forEach(movie => {
-    const poster = movie.poster_path 
-      ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-      : "";
+        // Using a YouTube search embed strategy
+        const yt = `https://www.youtube.com/embed?listType=search&list=${movie.title}+official+trailer`;
 
-    const yt = `https://www.youtube.com/embed?listType=search&list=${movie.title} trailer`;
-
-    output += `
-      <div class="card">
-        <img src="${poster}">
-        <h4>${movie.title}</h4>
-        <iframe src="${yt}" allowfullscreen></iframe>
-      </div>
-    `;
-  });
-
-  document.getElementById("movies").innerHTML = output;
+        output += `
+          <div class="card">
+            <img src="${poster}" alt="${movie.title}">
+            <h4>${movie.title} (${movie.release_date ? movie.release_date.split('-')[0] : 'N/A'})</h4>
+            <iframe src="${yt}" allowfullscreen></iframe>
+          </div>
+        `;
+      });
+    } else {
+      output = "<p>No results found on TMDB.</p>";
+    }
+    document.getElementById("movies").innerHTML = output;
+  } catch (error) {
+    document.getElementById("movies").innerHTML = "Error loading TMDB data.";
+  }
 }
 
-// 🎬 FULL MOVIES (Internet Archive)
+// 🎬 FULL MOVIES (Internet Archive - Public Domain)
 async function loadFullMovies(query) {
-  const res = await fetch(`https://archive.org/advancedsearch.php?q=${query}&fl[]=identifier,title&rows=4&output=json`);
-  const data = await res.json();
+  try {
+    // Added mediatype:movies to ensure we get video content
+    const res = await fetch(`https://archive.org/advancedsearch.php?q=title:(${query}) AND mediatype:(movies)&fl[]=identifier,title&rows=4&output=json`);
+    const data = await res.json();
 
-  let output = "";
-
-  data.response.docs.forEach(movie => {
-    const id = movie.identifier;
-
-    output += `
-      <div class="card">
-        <h4>${movie.title}</h4>
-
-        <iframe src="https://archive.org/embed/${id}" allowfullscreen></iframe>
-
-        <a href="https://archive.org/download/${id}" target="_blank">
-          ⬇️ Download
-        </a>
-      </div>
-    `;
-  });
-
-  document.getElementById("fullMovies").innerHTML = output;
+    let output = "";
+    if (data.response.docs && data.response.docs.length > 0) {
+      data.response.docs.forEach(movie => {
+        const id = movie.identifier;
+        output += `
+          <div class="card">
+            <h4>${movie.title}</h4>
+            <iframe src="https://archive.org/embed/${id}" allowfullscreen></iframe>
+            <a href="https://archive.org/details/${id}" target="_blank" class="download-btn">
+              📂 View on Archive.org
+            </a>
+          </div>
+        `;
+      });
+    } else {
+      output = "<p>No public domain movies found for this search.</p>";
+    }
+    document.getElementById("fullMovies").innerHTML = output;
+  } catch (error) {
+    document.getElementById("fullMovies").innerHTML = "Error loading Archive data.";
+  }
 }
 </script>
 
 </body>
-    </html>
+</html>

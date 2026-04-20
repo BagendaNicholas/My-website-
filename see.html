@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Guardian Cinema 🛡️🎬</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+}
+
+header {
+  padding: 15px;
+  background: #020617;
+  text-align: center;
+}
+
+.container {
+  padding: 20px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+input {
+  padding: 10px;
+  width: 60%;
+  border-radius: 10px;
+  border: none;
+}
+
+button {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #22c55e;
+  color: white;
+  cursor: pointer;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.card {
+  background: #1e293b;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+iframe {
+  width: 100%;
+  height: 200px;
+  margin-top: 10px;
+}
+
+.section-title {
+  margin-top: 40px;
+  font-size: 22px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>🛡️ Guardian Cinema</h2>
+</header>
+
+<div class="container">
+
+  <input type="text" id="search" placeholder="Search movies...">
+  <button onclick="searchAll()">Search</button>
+
+  <!-- Posters + Trailers -->
+  <div class="section-title">🎞️ Movies & Trailers</div>
+  <div id="movies" class="grid"></div>
+
+  <!-- Full Movies -->
+  <div class="section-title">🎬 Full Movies (Legal)</div>
+  <div id="fullMovies" class="grid"></div>
+
+</div>
+
+<script>
+const TMDB_KEY = "YOUR_TMDB_API_KEY";
+
+// 🔍 SEARCH EVERYTHING
+function searchAll() {
+  const query = document.getElementById("search").value;
+
+  loadPostersAndTrailers(query);
+  loadFullMovies(query);
+}
+
+// 🎞️ Posters + YouTube Trailers
+async function loadPostersAndTrailers(query) {
+  const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB_KEY}&query=${query}`);
+  const data = await res.json();
+
+  let output = "";
+
+  data.results.slice(0,6).forEach(movie => {
+    const poster = movie.poster_path 
+      ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+      : "";
+
+    const yt = `https://www.youtube.com/embed?listType=search&list=${movie.title} trailer`;
+
+    output += `
+      <div class="card">
+        <img src="${poster}">
+        <h4>${movie.title}</h4>
+        <iframe src="${yt}" allowfullscreen></iframe>
+      </div>
+    `;
+  });
+
+  document.getElementById("movies").innerHTML = output;
+}
+
+// 🎬 FULL MOVIES (Internet Archive)
+async function loadFullMovies(query) {
+  const res = await fetch(`https://archive.org/advancedsearch.php?q=${query}&fl[]=identifier,title&rows=4&output=json`);
+  const data = await res.json();
+
+  let output = "";
+
+  data.response.docs.forEach(movie => {
+    const id = movie.identifier;
+
+    output += `
+      <div class="card">
+        <h4>${movie.title}</h4>
+
+        <iframe src="https://archive.org/embed/${id}" allowfullscreen></iframe>
+
+        <a href="https://archive.org/download/${id}" target="_blank">
+          ⬇️ Download
+        </a>
+      </div>
+    `;
+  });
+
+  document.getElementById("fullMovies").innerHTML = output;
+}
+</script>
+
+</body>
+    </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guardian Dashboard 🛡️</title>
+    <title>Guardian Dashboard Pro 🛡️</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -124,12 +124,23 @@
             color: #94a3b8;
             font-style: italic;
         }
+
+        /* WEATHER INPUT */
+        .weather-input-group {
+            display: flex; gap: 8px; margin-top: 10px;
+        }
+        .weather-input-group input {
+            flex: 1; margin-bottom: 0;
+        }
+        .weather-input-group button {
+            flex: 0 0 auto; padding: 8px 12px;
+        }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>🛡️ Guardian Dashboard</h1>
+        <h1>🛡️ Guardian Dashboard Pro</h1>
         <p id="locationDisplay">Detecting your location...</p>
     </div>
 
@@ -137,6 +148,10 @@
         <div class="card">
             <h2>🌦️ Local Weather</h2>
             <div id="weatherContent">Loading local weather...</div>
+            <div class="weather-input-group" style="display:none;" id="weatherFallback">
+                <input type="text" id="cityInput" placeholder="Enter city name..." onkeyup="if(event.key === 'Enter') searchWeatherByCity()">
+                <button onclick="searchWeatherByCity()">Search</button>
+            </div>
         </div>
 
         <div class="card">
@@ -195,46 +210,91 @@
         // Store news data for modal
         let currentNewsData = [];
 
-        // 1. AUTO WEATHER - FIXED
+        // 1. AUTO WEATHER - FIXED WITH FALLBACK
         function initWeather() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(async (pos) => {
-                    try {
-                        const lat = pos.coords.latitude;
-                        const lon = pos.coords.longitude;
-                        const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY_WEATHER}&units=metric`);
-                        const data = await res.json();
-                        
-                        if (data.cod === 200) {
-                            document.getElementById("locationDisplay").textContent = `Currently in ${data.name}`;
-                            document.getElementById("weatherContent").innerHTML = `
-                                <div style="text-align:center;">
-                                    <h3 style="font-size:2.5rem; color: #fbbf24;">${Math.round(data.main.temp)}°C</h3>
-                                    <p style="font-size:1.1rem; margin: 10px 0;">${data.weather[0].description.toUpperCase()}</p>
-                                    <p style="opacity: 0.8;">💧 Humidity: ${data.main.humidity}%</p>
-                                    <p style="opacity: 0.8;">💨 Wind: ${data.wind.speed} m/s</p>
-                                    <p style="opacity: 0.8; margin-top: 8px;">🌡️ Feels like: ${Math.round(data.main.feels_like)}°C</p>
-                                </div>`;
-                        } else {
-                            throw new Error("Weather API error");
+                navigator.geolocation.getCurrentPosition(
+                    async (pos) => {
+                        try {
+                            const lat = pos.coords.latitude;
+                            const lon = pos.coords.longitude;
+                            await fetchWeatherByCoords(lat, lon);
+                        } catch (err) {
+                            showWeatherFallback();
                         }
-                    } catch (err) {
-                        document.getElementById("weatherContent").innerHTML = `
-                            <div style="text-align:center; padding: 20px;">
-                                <p>⚠️ Unable to fetch weather</p>
-                                <p style="font-size:0.85rem; opacity:0.7; margin-top: 10px;">Please allow location access</p>
-                            </div>`;
-                    }
-                }, () => {
-                    document.getElementById("weatherContent").innerHTML = `
-                        <div style="text-align:center; padding: 20px;">
-                            <p>📍 Location access denied</p>
-                            <p style="font-size:0.85rem; opacity:0.7; margin-top: 10px;">Enable location permissions to see weather</p>
-                        </div>`;
-                });
+                    },
+                    (error) => {
+                        console.log("Geolocation error:", error.message);
+                        showWeatherFallback();
+                    },
+                    { timeout: 8000 }
+                );
             } else {
-                document.getElementById("weatherContent").textContent = "Geolocation not supported.";
+                showWeatherFallback();
             }
+        }
+
+        async function fetchWeatherByCoords(lat, lon) {
+            try {
+                const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY_WEATHER}&units=metric`);
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                
+                const data = await res.json();
+                
+                if (data.cod === 200 || data.cod === "200") {
+                    document.getElementById("locationDisplay").textContent = `Currently in ${data.name}, ${data.sys.country}`;
+                    document.getElementById("weatherContent").innerHTML = `
+                        <div style="text-align:center;">
+                            <h3 style="font-size:2.5rem; color: #fbbf24;">${Math.round(data.main.temp)}°C</h3>
+                            <p style="font-size:1.1rem; margin: 10px 0; text-transform: capitalize;">${data.weather[0].description}</p>
+                            <p style="opacity: 0.8;">💧 Humidity: ${data.main.humidity}%</p>
+                            <p style="opacity: 0.8;">💨 Wind: ${data.wind.speed} m/s</p>
+                            <p style="opacity: 0.8; margin-top: 8px;">🌡️ Feels like: ${Math.round(data.main.feels_like)}°C</p>
+                        </div>`;
+                    document.getElementById("weatherFallback").style.display = "none";
+                } else {
+                    throw new Error("Invalid API response");
+                }
+            } catch (err) {
+                console.error("Weather fetch error:", err);
+                showWeatherFallback();
+            }
+        }
+
+        async function searchWeatherByCity() {
+            const city = document.getElementById("cityInput").value.trim();
+            if (!city) return;
+
+            try {
+                const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY_WEATHER}&units=metric`);
+                if (!res.ok) throw new Error("City not found");
+                
+                const data = await res.json();
+                if (data.cod === 200 || data.cod === "200") {
+                    document.getElementById("locationDisplay").textContent = `Currently in ${data.name}, ${data.sys.country}`;
+                    document.getElementById("weatherContent").innerHTML = `
+                        <div style="text-align:center;">
+                            <h3 style="font-size:2.5rem; color: #fbbf24;">${Math.round(data.main.temp)}°C</h3>
+                            <p style="font-size:1.1rem; margin: 10px 0; text-transform: capitalize;">${data.weather[0].description}</p>
+                            <p style="opacity: 0.8;">💧 Humidity: ${data.main.humidity}%</p>
+                            <p style="opacity: 0.8;">💨 Wind: ${data.wind.speed} m/s</p>
+                            <p style="opacity: 0.8; margin-top: 8px;">🌡️ Feels like: ${Math.round(data.main.feels_like)}°C</p>
+                        </div>`;
+                    document.getElementById("weatherFallback").style.display = "none";
+                }
+            } catch (err) {
+                alert("City not found. Please try again.");
+            }
+        }
+
+        function showWeatherFallback() {
+            document.getElementById("locationDisplay").textContent = "📍 Location access not available";
+            document.getElementById("weatherContent").innerHTML = `
+                <div style="text-align:center; padding: 20px;">
+                    <p style="margin-bottom: 15px;">No location detected</p>
+                    <p style="font-size:0.85rem; opacity:0.7;">Search manually to view weather</p>
+                </div>`;
+            document.getElementById("weatherFallback").style.display = "flex";
         }
 
         // 2. NEWS BY CATEGORY WITH CLICKABLE POSTS
@@ -242,20 +302,20 @@
             const cat = document.getElementById("newsCategory").value;
             const mockNews = {
                 general: [
-                    {t: "Global Markets Steady", d: "Stocks hold firm as 2026 begins with positive investor sentiment.", url: "#", source: "Global Finance News"},
-                    {t: "Climate Summit Progress", d: "World leaders reach agreement on carbon emission targets.", url: "#", source: "Environmental Weekly"}
+                    {t: "Global Markets Steady", d: "Stocks hold firm as 2026 begins with positive investor sentiment. The S&P 500 reaches new highs as economic forecasts remain bullish.", url: "#", source: "Global Finance News"},
+                    {t: "Climate Summit Progress", d: "World leaders reach agreement on carbon emission targets for the next decade. Major breakthrough in international climate cooperation.", url: "#", source: "Environmental Weekly"}
                 ],
                 technology: [
-                    {t: "AI Code Partners Evolve", d: "New models show 90% accuracy in coding tasks and debugging. Major breakthrough in automated development.", url: "#", source: "Tech Daily"},
-                    {t: "Quantum Computing Milestone", d: "Researchers achieve new quantum computing breakthrough with 1000+ qubits.", url: "#", source: "Science & Tech"}
+                    {t: "AI Code Partners Evolve", d: "New models show 90% accuracy in coding tasks and debugging. Major breakthrough in automated development accelerates software creation.", url: "#", source: "Tech Daily"},
+                    {t: "Quantum Computing Milestone", d: "Researchers achieve new quantum computing breakthrough with 1000+ qubits, opening doors to practical quantum applications.", url: "#", source: "Science & Tech"}
                 ],
                 business: [
-                    {t: "Startup Boom", d: "Clean energy startups see record funding in 2026. Billions invested in renewable innovations.", url: "#", source: "Business Insider"},
-                    {t: "E-commerce Growth", d: "Online retail sectors report 45% growth year-over-year.", url: "#", source: "Commerce Weekly"}
+                    {t: "Startup Boom", d: "Clean energy startups see record funding in 2026. Billions invested in renewable innovations and sustainable technologies worldwide.", url: "#", source: "Business Insider"},
+                    {t: "E-commerce Growth", d: "Online retail sectors report 45% growth year-over-year, driven by mobile shopping and international expansion.", url: "#", source: "Commerce Weekly"}
                 ],
                 entertainment: [
-                    {t: "Box Office Record", d: "Latest sci-fi epic breaks records with $500M opening weekend globally.", url: "#", source: "Entertainment Weekly"},
-                    {t: "Music Festival Announcements", d: "Major festivals announced for summer 2026 with star-studded lineups.", url: "#", source: "Entertainment News"}
+                    {t: "Box Office Record", d: "Latest sci-fi epic breaks records with $500M opening weekend globally. Audiences flock to theaters for this groundbreaking film.", url: "#", source: "Entertainment Weekly"},
+                    {t: "Music Festival Announcements", d: "Major festivals announced for summer 2026 with star-studded lineups. Early bird tickets selling out rapidly.", url: "#", source: "Entertainment News"}
                 ]
             };
             

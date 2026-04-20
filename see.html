@@ -6,143 +6,58 @@
 <title>Guardian Cinema 🛡️🎬</title>
 
 <style>
-  :root {
-    --primary: #22c55e; /* Green for "Ready to Watch" */
-    --accent: #e11d48;  /* Red for "Luganda" */
-    --bg: #0f172a;
-    --card-bg: #1e293b;
-  }
-
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: var(--bg);
-    color: white;
-  }
-
-  header {
-    padding: 20px;
-    background: #020617;
-    text-align: center;
-    border-bottom: 2px solid #1e293b;
-  }
-
-  .container {
-    padding: 20px;
-    max-width: 1200px;
-    margin: auto;
-  }
-
-  .search-box {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-bottom: 30px;
-  }
-
-  input {
-    padding: 12px;
-    width: 60%;
-    border-radius: 8px;
-    border: 1px solid #334155;
-    background: var(--card-bg);
-    color: white;
-  }
-
-  button {
-    padding: 10px 25px;
-    border-radius: 8px;
-    border: none;
-    background: var(--primary);
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  .section-title {
-    margin-top: 40px;
-    font-size: 22px;
-    border-left: 4px solid var(--primary);
-    padding-left: 15px;
-    margin-bottom: 20px;
-  }
-
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-  }
-
-  .card {
-    background: var(--card-bg);
-    border-radius: 12px;
-    overflow: hidden;
-    transition: transform 0.2s;
-  }
-
-  .card:hover { transform: translateY(-5px); }
-
-  .card img { width: 100%; height: 250px; object-fit: cover; }
-
-  .info { padding: 15px; }
-
-  .badge {
-    background: var(--accent);
-    font-size: 11px;
-    padding: 3px 8px;
-    border-radius: 4px;
-    text-transform: uppercase;
-    font-weight: bold;
-  }
-
+  body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #0f172a; color: white; }
+  header { padding: 20px; background: #020617; text-align: center; border-bottom: 2px solid #1e293b; }
+  .container { padding: 20px; max-width: 1100px; margin: auto; }
+  .search-box { display: flex; gap: 10px; justify-content: center; margin-bottom: 30px; }
+  input { padding: 12px; width: 60%; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: white; }
+  button { padding: 10px 25px; border-radius: 8px; border: none; background: #22c55e; color: white; font-weight: bold; cursor: pointer; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  .card { background: #1e293b; border-radius: 12px; overflow: hidden; padding-bottom: 10px; }
+  .section-title { margin-top: 40px; font-size: 24px; border-left: 4px solid #22c55e; padding-left: 10px; margin-bottom: 15px; }
   iframe { width: 100%; height: 200px; border: none; }
-
-  .loading { text-align: center; font-style: italic; color: #94a3b8; }
+  .info { padding: 10px; }
+  .badge { background: #e11d48; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-bottom: 5px; display: inline-block; }
 </style>
 </head>
-
 <body>
 
-<header>
-  <h2>🛡️ Guardian Cinema Luganda</h2>
-</header>
+<header><h2>🛡️ Guardian Cinema</h2></header>
 
 <div class="container">
   <div class="search-box">
-    <input type="text" id="search" placeholder="Search for movies (e.g. Rambo, Wakanda)...">
+    <input type="text" id="search" placeholder="Type movie name (e.g. Rambo, Commando)">
     <button onclick="searchAll()">Find Movies</button>
   </div>
 
-  <div class="section-title">🎬 Luganda Translated / Full Movies</div>
+  <div class="section-title">🎬 Luganda / Full Movies</div>
   <div id="fullMovies" class="grid"></div>
 
-  <div class="section-title">🎞️ Info & Trailers (English)</div>
+  <div class="section-title">🎞️ Info & Trailers</div>
   <div id="trailers" class="grid"></div>
 </div>
 
 <script>
-// --- CONFIGURATION ---
+const YT_KEY = "AQ.Ab8RN6I_nj8mBTtUCa-OTiHnlXf_nF6wfebodDxsPQadrqNMJA"; // Use your key here
 const TMDB_KEY = "2a76ab20531de6848483abb62c0f0c50"; 
-const YT_KEY = "AQ.Ab8RN6I_nj8mBTtUCa-OTiHnlXf_nF6wfebodDxsPQadrqNMJA";
 
 async function searchAll() {
   const query = document.getElementById("search").value;
   if (!query) return;
 
-  document.getElementById("fullMovies").innerHTML = "<p class='loading'>Searching for Luganda versions...</p>";
-  document.getElementById("trailers").innerHTML = "<p class='loading'>Fetching info...</p>";
+  document.getElementById("fullMovies").innerHTML = "Searching for translated versions...";
+  document.getElementById("trailers").innerHTML = "Loading info...";
 
-  searchYoutubeLuganda(query);
-  searchTMDBInfo(query);
+  fetchVideos(query, true);  // Search for Luganda
+  fetchTMDB(query);          // Search for Posters
 }
 
-// 1. SEARCH YOUTUBE FOR LUGANDA OR FULL MOVIES
-async function searchYoutubeLuganda(query) {
+async function fetchVideos(query, isLuganda) {
+  // We search for: Movie Title + Luganda OR VJ Junior OR VJ Jingo
+  const searchTerm = isLuganda ? `${query} Luganda translated full movie VJ Junior` : `${query} full movie`;
+  
   try {
-    // We search for the movie title + common Luganda VJ keywords
-    const searchTerms = `${query} Luganda translated full movie`;
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(searchTerms)}&type=video&maxResults=6&key=${YT_KEY}`;
-
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(searchTerm)}&type=video&maxResults=4&key=${YT_KEY}`;
     const res = await fetch(url);
     const data = await res.json();
 
@@ -153,49 +68,38 @@ async function searchYoutubeLuganda(query) {
           <div class="card">
             <iframe src="https://www.youtube.com/embed/${item.id.videoId}" allowfullscreen></iframe>
             <div class="info">
-              <span class="badge">Luganda / Full</span>
-              <h4>${item.snippet.title}</h4>
+              ${isLuganda ? '<span class="badge">LUGANDA / VJ</span>' : ''}
+              <h4 style="margin:5px 0;">${item.snippet.title}</h4>
             </div>
-          </div>
-        `;
+          </div>`;
       });
+    } else if (isLuganda) {
+      // If no Luganda found, automatically try searching for General Full Movie
+      return fetchVideos(query, false);
     } else {
-      output = "<p>No Luganda versions found. Try searching for English versions.</p>";
+      output = "<p>No movies found. Try a different name.</p>";
     }
     document.getElementById("fullMovies").innerHTML = output;
   } catch (e) {
-    document.getElementById("fullMovies").innerHTML = "Error fetching from YouTube.";
+    document.getElementById("fullMovies").innerHTML = "Error loading videos. Check your API Key.";
   }
 }
 
-// 2. SEARCH TMDB FOR POSTERS & DETAILS
-async function searchTMDBInfo(query) {
+async function fetchTMDB(query) {
   try {
-    const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB_KEY}&query=${encodeURIComponent(query)}`);
+    const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB_KEY}&query=${query}`);
     const data = await res.json();
-
     let output = "";
-    data.results.slice(0, 4).forEach(movie => {
-      const poster = movie.poster_path 
-        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-        : "https://via.placeholder.com/500x750?text=No+Poster";
-
+    data.results.slice(0, 4).forEach(m => {
       output += `
         <div class="card">
-          <img src="${poster}">
-          <div class="info">
-            <h4>${movie.title}</h4>
-            <p style="font-size:0.8em; color:#94a3b8;">${movie.overview.substring(0, 100)}...</p>
-          </div>
-        </div>
-      `;
+          <img src="https://image.tmdb.org/t/p/w500${m.poster_path}" style="width:100%">
+          <div class="info"><h4>${m.title}</h4><p style="font-size:12px; color:#ccc;">${m.overview.slice(0,80)}...</p></div>
+        </div>`;
     });
     document.getElementById("trailers").innerHTML = output;
-  } catch (e) {
-    document.getElementById("trailers").innerHTML = "Error fetching TMDB data.";
-  }
+  } catch (e) { }
 }
 </script>
-
 </body>
 </html>

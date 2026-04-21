@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guardian Dashboard Pro 🛡️</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
         body {
             background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
             color: #f8fafc;
@@ -14,7 +19,21 @@
             padding: 20px;
         }
 
-        .header { text-align: center; margin-bottom: 30px; }
+        .header { 
+            text-align: center; 
+            margin-bottom: 30px; 
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.8;
+            font-size: 1.1rem;
+        }
+
         .dashboard {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -31,9 +50,21 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
+            min-height: 500px;
+            transition: transform 0.3s ease;
         }
 
-        h2 { margin-bottom: 15px; font-size: 1.4rem; display: flex; align-items: center; gap: 10px; }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 { 
+            margin-bottom: 15px; 
+            font-size: 1.4rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        }
 
         /* UI ELEMENTS */
         input, select {
@@ -44,6 +75,18 @@
             background: rgba(255, 255, 255, 0.1);
             color: white;
             margin-bottom: 10px;
+            font-size: 1rem;
+            transition: 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
         }
 
         button {
@@ -55,8 +98,49 @@
             font-weight: 600;
             cursor: pointer;
             transition: 0.2s;
+            font-size: 0.95rem;
         }
-        button:hover { background: #2563eb; }
+
+        button:hover { 
+            background: #2563eb;
+            transform: scale(1.02);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        button:disabled { 
+            background: #64748b; 
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* REGION SELECTOR */
+        .region-selector {
+            display: flex; 
+            gap: 8px; 
+            margin-bottom: 10px; 
+            flex-wrap: wrap;
+        }
+
+        .region-btn {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            flex: 1;
+            min-width: 80px;
+        }
+
+        .region-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .region-btn.active {
+            background: #3b82f6;
+            border-color: #3b82f6;
+        }
 
         /* MOVIE GRID */
         .movie-grid {
@@ -66,7 +150,9 @@
             margin-top: 10px;
             max-height: 450px;
             overflow-y: auto;
+            flex: 1;
         }
+
         .movie-item {
             background: rgba(0,0,0,0.2);
             padding: 5px;
@@ -76,33 +162,116 @@
             text-align: center;
             transition: 0.2s;
         }
+
         .movie-item:hover {
             background: rgba(59, 130, 246, 0.2);
             transform: scale(1.05);
         }
-        .movie-item img { width: 100%; border-radius: 5px; margin-bottom: 5px; }
+
+        .movie-item img { 
+            width: 100%; 
+            border-radius: 5px; 
+            margin-bottom: 5px;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+        }
+
+        .loading { 
+            text-align: center; 
+            padding: 20px; 
+            opacity: 0.7;
+            font-size: 0.95rem;
+        }
 
         /* MODAL */
         #videoModal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center;
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: rgba(0,0,0,0.95); 
+            z-index: 1000; 
+            justify-content: center; 
+            align-items: center;
+            animation: fadeIn 0.3s ease;
         }
-        .modal-inner { width: 90%; max-width: 800px; position: relative; }
-        .close-btn { position: absolute; top: -40px; right: 0; background: red; }
+
+        .modal-inner { 
+            width: 90%; 
+            max-width: 800px; 
+            position: relative; 
+        }
+
+        .close-btn { 
+            position: absolute; 
+            top: -40px; 
+            right: 0; 
+            background: #ef4444;
+            padding: 8px 15px;
+        }
+
+        .close-btn:hover {
+            background: #dc2626;
+        }
 
         /* NEWS MODAL */
         #newsModal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 1000; justify-content: center; align-items: center;
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: rgba(0,0,0,0.95); 
+            z-index: 1000; 
+            justify-content: center; 
+            align-items: center;
             overflow-y: auto;
+            animation: fadeIn 0.3s ease;
         }
+
         .news-modal-inner {
-            width: 90%; max-width: 800px; background: rgba(30, 41, 59, 0.98);
-            border-radius: 20px; padding: 30px; position: relative;
+            width: 90%; 
+            max-width: 800px; 
+            background: rgba(30, 41, 59, 0.98);
+            border-radius: 20px; 
+            padding: 30px; 
+            position: relative;
             margin: 20px auto;
         }
-        .close-news-btn { position: absolute; top: 15px; right: 20px; background: red; padding: 8px 15px; border-radius: 8px; cursor: pointer; }
-        .news-modal-img { width: 100%; border-radius: 12px; margin-bottom: 20px; max-height: 400px; object-fit: cover; }
+
+        .close-news-btn { 
+            position: absolute; 
+            top: 15px; 
+            right: 20px; 
+            background: #ef4444; 
+            padding: 8px 15px; 
+            border-radius: 8px; 
+            cursor: pointer;
+        }
+
+        .close-news-btn:hover {
+            background: #dc2626;
+        }
+
+        .news-modal-img { 
+            width: 100%; 
+            border-radius: 12px; 
+            margin-bottom: 20px; 
+            max-height: 400px; 
+            object-fit: cover; 
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
 
         /* NEWS ITEMS */
         .news-item {
@@ -116,10 +285,12 @@
             display: flex;
             gap: 12px;
         }
+
         .news-item:hover {
             background: rgba(59, 130, 246, 0.15);
             transform: translateX(8px);
         }
+
         .news-item-img {
             width: 100px;
             height: 80px;
@@ -127,13 +298,37 @@
             border-radius: 8px;
             flex-shrink: 0;
         }
+
         .news-item-content {
             padding: 12px;
             flex: 1;
         }
-        .news-item h4 { margin-bottom: 5px; color: #3b82f6; font-size: 0.95rem; }
-        .news-item p { font-size: 0.8rem; opacity: 0.8; margin-bottom: 5px; line-height: 1.3; }
-        .news-item .source { font-size: 0.7rem; color: #94a3b8; }
+
+        .news-item h4 { 
+            margin-bottom: 5px; 
+            color: #3b82f6; 
+            font-size: 0.95rem; 
+        }
+
+        .news-item p { 
+            font-size: 0.8rem; 
+            opacity: 0.8; 
+            margin-bottom: 5px; 
+            line-height: 1.3; 
+        }
+
+        .news-item .source { 
+            font-size: 0.7rem; 
+            color: #94a3b8; 
+        }
+
+        .news-item .region { 
+            font-size: 0.7rem; 
+            color: #10b981; 
+            font-weight: 600; 
+            display: block;
+            margin-top: 4px;
+        }
 
         /* QUOTE SECTION */
         .quote-container {
@@ -143,12 +338,15 @@
             border-radius: 8px;
             margin-top: 10px;
         }
+
         #quoteText {
             font-size: 1.15rem;
             line-height: 1.5;
             font-style: italic;
             margin-bottom: 10px;
+            color: #e2e8f0;
         }
+
         #quoteAuthor {
             color: #3b82f6;
             margin-bottom: 15px;
@@ -163,12 +361,14 @@
             margin-top: 12px;
             border-left: 3px solid #10b981;
         }
+
         .quote-explanation-title {
             font-size: 0.85rem;
             color: #10b981;
             font-weight: 600;
             margin-bottom: 6px;
         }
+
         .quote-explanation-text {
             font-size: 0.8rem;
             line-height: 1.4;
@@ -179,6 +379,46 @@
         .news-grid {
             max-height: 600px;
             overflow-y: auto;
+            flex: 1;
+        }
+
+        /* SCROLLBAR STYLING */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.5);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(59, 130, 246, 0.8);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .movie-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .region-btn {
+                flex: 0 1 auto;
+                min-width: auto;
+            }
         }
     </style>
 </head>
@@ -190,24 +430,35 @@
     </div>
 
     <div class="dashboard">
+        <!-- NEWS CARD -->
         <div class="card">
             <h2>📰 Global News</h2>
             <select id="newsCategory" onchange="getNews()">
-                <option value="general">General</option>
+                <option value="general">General News</option>
                 <option value="technology">Technology</option>
                 <option value="business">Business</option>
                 <option value="entertainment">Entertainment</option>
+                <option value="africa">Africa & Uganda</option>
             </select>
+            <div class="region-selector">
+                <button class="region-btn active" onclick="setRegion('global', event)">🌍 Global</button>
+                <button class="region-btn" onclick="setRegion('uganda', event)">🇺🇬 Uganda</button>
+                <button class="region-btn" onclick="setRegion('africa', event)">🌍 Africa</button>
+                <button class="region-btn" onclick="setRegion('asia', event)">🌏 Asia</button>
+            </div>
             <div id="newsContent" class="news-grid"></div>
         </div>
 
+        <!-- MOVIE CARD -->
         <div class="card">
             <h2>🎬 Movie Finder</h2>
             <input type="text" id="movieSearch" placeholder="Search for a movie..." onkeyup="if(event.key === 'Enter') searchMovies()">
-            <button onclick="searchMovies()">Search</button>
+            <button onclick="searchMovies()">🔍 Search</button>
+            <button onclick="refreshMovies()" style="background: #10b981; margin-top: 5px;">🔄 Refresh Trending</button>
             <div id="movieResults" class="movie-grid"></div>
         </div>
 
+        <!-- QUOTE CARD -->
         <div class="card">
             <h2>💬 Daily Wisdom</h2>
             <div id="quoteArea">
@@ -220,13 +471,14 @@
                     </div>
                 </div>
             </div>
-            <button onclick="getQuote()" style="margin-top: 15px;">New Wisdom</button>
+            <button onclick="getQuote()" style="margin-top: 15px;">✨ New Wisdom</button>
         </div>
     </div>
 
+    <!-- VIDEO MODAL -->
     <div id="videoModal">
         <div class="modal-inner">
-            <button class="close-btn" onclick="closeModal()">Close</button>
+            <button class="close-btn" onclick="closeModal()">✕ Close</button>
             <div id="videoPlayer" style="aspect-ratio: 16/9;"></div>
         </div>
     </div>
@@ -240,7 +492,8 @@
             <p id="newsModalContent" style="line-height: 1.6; margin-bottom: 20px;"></p>
             <div style="padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px;">
                 <p id="newsModalSource" style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 10px;"></p>
-                <p id="newsModalDate" style="font-size: 0.8rem; color: #64748b;"></p>
+                <p id="newsModalDate" style="font-size: 0.8rem; color: #64748b; margin-bottom: 8px;"></p>
+                <p id="newsModalRegion" style="font-size: 0.8rem; color: #10b981;"></p>
             </div>
         </div>
     </div>
@@ -249,105 +502,576 @@
         const API_KEY_MOVIE = "2a76ab20531de6848483abb62c0f0c50";
 
         let currentNewsData = [];
+        let currentRegion = 'global';
+        let quoteIndex = 0;
 
-        // NEWS WITH IMAGES AND FULL CONTENT
-        function getNews() {
-            const cat = document.getElementById("newsCategory").value;
-            const mockNews = {
-                general: [
+        /* ====================================
+           INTERNATIONAL NEWS DATABASE
+           ==================================== */
+        const internationalNews = {
+            general: {
+                global: [
                     {
                         t: "Global Markets Steady",
-                        d: "Stocks hold firm as 2026 begins with positive investor sentiment. The S&P 500 reaches new highs as economic forecasts remain bullish. Market analysts predict continued growth in emerging sectors.",
-                        fullContent: "In a strong start to 2026, global markets are showing resilience as investors maintain confidence in economic recovery. The S&P 500 has crossed new thresholds, with tech stocks leading the charge. International markets are following suit, with European and Asian indices showing similar positive momentum. Economic indicators suggest sustained growth, with unemployment rates remaining stable and consumer spending continuing to rise. Analysts attribute this success to strong corporate earnings, technological innovation, and favorable interest rate policies. Investors are keeping a close eye on inflation metrics and geopolitical developments that could impact future performance.",
+                        d: "Stocks hold firm as 2026 begins with positive investor sentiment.",
+                        fullContent: "In a strong start to 2026, global markets are showing resilience as investors maintain confidence in economic recovery. The S&P 500 has crossed new thresholds, with tech stocks leading the charge. International markets are following suit, with European and Asian indices showing similar positive momentum. Economic indicators suggest sustained growth, with unemployment rates remaining stable and consumer spending continuing to rise.",
                         img: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=500&fit=crop",
                         source: "Global Finance News",
-                        date: "April 20, 2026"
+                        date: "April 20, 2026",
+                        region: "🌍 Global"
                     },
                     {
                         t: "Climate Summit Progress",
-                        d: "World leaders reach agreement on carbon emission targets for the next decade. A historic accord signed by 195 nations commits to reducing greenhouse gas emissions.",
-                        fullContent: "In a historic gathering at the Global Climate Forum, world leaders have unanimously agreed on ambitious new carbon emission reduction targets. The accord, dubbed the 'Green 2035 Initiative,' commits participating nations to reduce global emissions by 50% within the next decade. The agreement includes binding commitments for renewable energy expansion, with at least 60% of global energy coming from renewable sources by 2035. Developed nations have pledged $500 billion in climate financing to support developing countries in their transition. This milestone represents the strongest collective action on climate change since the Paris Agreement, with enforcement mechanisms ensuring accountability.",
+                        d: "World leaders reach agreement on carbon emission targets.",
+                        fullContent: "In a historic gathering at the Global Climate Forum, world leaders have unanimously agreed on ambitious new carbon emission reduction targets. The accord, dubbed the 'Green 2035 Initiative,' commits participating nations to reduce global emissions by 50% within the next decade. Developed nations have pledged $500 billion in climate financing to support developing countries in their transition.",
                         img: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&h=500&fit=crop",
                         source: "Environmental Weekly",
-                        date: "April 18, 2026"
+                        date: "April 18, 2026",
+                        region: "🌍 Global"
+                    },
+                    {
+                        t: "International Trade Pact Signed",
+                        d: "New global trade agreement promises economic growth for participating nations.",
+                        fullContent: "Leading economies have signed a landmark trade agreement that aims to reduce tariffs and streamline cross-border commerce. The pact includes provisions for sustainable development and fair labor practices, setting new standards for international trade.",
+                        img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=500&fit=crop",
+                        source: "World Trade News",
+                        date: "April 19, 2026",
+                        region: "🌍 Global"
                     }
                 ],
-                technology: [
+                uganda: [
+                    {
+                        t: "Uganda's Tech Hub Growth",
+                        d: "Kampala emerges as Africa's fastest-growing tech ecosystem.",
+                        fullContent: "Uganda has seen a 40% increase in tech startups over the past year, with Kampala becoming a hub for innovation in East Africa. The government's digital transformation initiatives are attracting international investors. Tech companies are creating thousands of jobs for young professionals in software development, data analysis, and digital marketing.",
+                        img: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&h=500&fit=crop",
+                        source: "Uganda Tech Daily",
+                        date: "April 19, 2026",
+                        region: "🇺🇬 Uganda"
+                    },
+                    {
+                        t: "Agricultural Innovation in Uganda",
+                        d: "New farming techniques boost crop yields across the nation.",
+                        fullContent: "Ugandan farmers are adopting modern agricultural techniques that have increased yields by up to 60%. Government support and international partnerships are driving this agricultural revolution. Initiatives like precision farming and sustainable irrigation are transforming rural communities and improving food security.",
+                        img: "https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=800&h=500&fit=crop",
+                        source: "Uganda News Network",
+                        date: "April 17, 2026",
+                        region: "🇺🇬 Uganda"
+                    },
+                    {
+                        t: "Kampala Infrastructure Expansion",
+                        d: "Major development projects transform Uganda's capital.",
+                        fullContent: "The Ugandan government is investing heavily in infrastructure development, with new roads, public transportation systems, and commercial buildings transforming Kampala's skyline. These projects are expected to boost economic activity and improve quality of life for residents.",
+                        img: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&h=500&fit=crop",
+                        source: "Uganda Development News",
+                        date: "April 16, 2026",
+                        region: "🇺🇬 Uganda"
+                    }
+                ],
+                africa: [
+                    {
+                        t: "African Union Summit",
+                        d: "Pan-African cooperation initiatives launched for economic growth.",
+                        fullContent: "The African Union has launched new initiatives to strengthen economic cooperation across the continent, focusing on infrastructure development and trade agreements. The Agenda 2063 framework is guiding investments in transportation networks, energy infrastructure, and digital connectivity.",
+                        img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=500&fit=crop",
+                        source: "Africa News",
+                        date: "April 20, 2026",
+                        region: "🌍 Africa"
+                    },
+                    {
+                        t: "Renewable Energy Expansion",
+                        d: "African nations lead in solar power development globally.",
+                        fullContent: "With abundant solar resources, African nations are investing heavily in renewable energy infrastructure, positioning the continent as a global leader in clean energy. Countries like Kenya, Morocco, and Ethiopia are developing massive solar and wind farms.",
+                        img: "https://images.unsplash.com/photo-1509391366360-2e938d440424?w=800&h=500&fit=crop",
+                        source: "Africa Energy News",
+                        date: "April 19, 2026",
+                        region: "🌍 Africa"
+                    },
+                    {
+                        t: "Pan-African Free Trade Progress",
+                        d: "African Continental Free Trade Area driving intra-continental commerce.",
+                        fullContent: "The African Continental Free Trade Area (AfCFTA) is facilitating unprecedented levels of trade among African nations. With over 80% of African countries now participating, the initiative is creating new business opportunities and fostering regional integration.",
+                        img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=500&fit=crop",
+                        source: "Africa Trade News",
+                        date: "April 18, 2026",
+                        region: "🌍 Africa"
+                    }
+                ],
+                asia: [
+                    {
+                        t: "Asian Economic Summit",
+                        d: "Regional leaders discuss trade and investment opportunities.",
+                        fullContent: "Major Asian economies are strengthening trade bonds and discussing new regional investment frameworks to accelerate growth. The summit focused on digital economy, sustainable development, and technological innovation.",
+                        img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=500&fit=crop",
+                        source: "Asia News Network",
+                        date: "April 18, 2026",
+                        region: "🌏 Asia"
+                    },
+                    {
+                        t: "Southeast Asian Tech Boom",
+                        d: "Startup ecosystem flourishes with record funding rounds.",
+                        fullContent: "Southeast Asia's tech sector is experiencing explosive growth with major investment firms establishing regional headquarters. Countries like Singapore, Vietnam, and Thailand are becoming innovation hubs attracting global talent.",
+                        img: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=800&h=500&fit=crop",
+                        source: "Asia Tech Weekly",
+                        date: "April 17, 2026",
+                        region: "🌏 Asia"
+                    },
+                    {
+                        t: "India's Economic Growth",
+                        d: "India reaches new economic milestones amid global changes.",
+                        fullContent: "India's economy continues to grow at impressive rates, with the country becoming an increasingly important player in global markets. Manufacturing, IT services, and renewable energy sectors are leading growth.",
+                        img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=500&fit=crop",
+                        source: "South Asia Economic Times",
+                        date: "April 16, 2026",
+                        region: "🌏 Asia"
+                    }
+                ]
+            },
+            technology: {
+                global: [
                     {
                         t: "AI Code Partners Evolve",
-                        d: "New models show 90% accuracy in coding tasks and debugging. Major breakthrough in automated development accelerates software creation by 5x.",
-                        fullContent: "The artificial intelligence industry has reached a significant milestone with the latest generation of AI coding assistants demonstrating a 90% accuracy rate in complex programming tasks. These new models, trained on billions of lines of code, can now understand context, suggest optimizations, and identify bugs with human-level precision. Companies report that development cycles have been reduced by 5x in some cases, with developers spending more time on architecture and design rather than routine coding. The technology is expected to democratize software development, allowing smaller teams and startups to compete with tech giants. Ethical considerations around AI-generated code ownership and security are being actively debated in the developer community.",
+                        d: "New models show 90% accuracy in coding tasks.",
+                        fullContent: "AI coding assistants are now achieving 90% accuracy in complex programming tasks, revolutionizing software development worldwide. These new models can understand context, suggest optimizations, and identify bugs with human-level precision.",
                         img: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&h=500&fit=crop",
                         source: "Tech Daily",
-                        date: "April 19, 2026"
+                        date: "April 19, 2026",
+                        region: "🌍 Global"
                     },
                     {
                         t: "Quantum Computing Milestone",
-                        d: "Researchers achieve quantum computing breakthrough with 1000+ qubits. First practical applications in drug discovery entering clinical trials.",
-                        fullContent: "A team of researchers at the Institute for Advanced Computing has successfully developed a quantum computer with over 1000 stable qubits, marking a significant breakthrough in quantum computing. Unlike previous attempts plagued by decoherence issues, this system maintains quantum states with unprecedented stability. The first real-world application is already showing promise: drug discovery simulations that would take conventional computers 1000 years can now be completed in days. Pharmaceutical companies have begun collaborating with the research team to test new drug candidates, with several compounds already entering early clinical trials. This achievement brings practical quantum computing closer to reality and could revolutionize medicine, materials science, and cryptography.",
+                        d: "Researchers achieve quantum computing breakthrough with 1000+ qubits.",
+                        fullContent: "A team of researchers has successfully developed a quantum computer with over 1000 stable qubits, marking a significant breakthrough. First practical applications in drug discovery are entering clinical trials.",
                         img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop",
                         source: "Science & Tech",
-                        date: "April 17, 2026"
+                        date: "April 17, 2026",
+                        region: "🌍 Global"
+                    },
+                    {
+                        t: "Cybersecurity Advances",
+                        d: "New protocols strengthen global digital infrastructure.",
+                        fullContent: "International tech leaders have developed revolutionary cybersecurity protocols to protect critical infrastructure from evolving threats. These advancements set new standards for data protection and privacy.",
+                        img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=500&fit=crop",
+                        source: "Cybersecurity Weekly",
+                        date: "April 15, 2026",
+                        region: "🌍 Global"
                     }
                 ],
-                business: [
+                uganda: [
+                    {
+                        t: "Uganda Mobile Revolution",
+                        d: "Mobile tech adoption surpasses 70% nationwide.",
+                        fullContent: "Uganda's mobile technology adoption continues to soar, with smartphone penetration reaching 70% in urban areas and rapidly expanding to rural regions. Mobile money services are transforming financial inclusion.",
+                        img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=500&fit=crop",
+                        source: "Uganda Digital News",
+                        date: "April 18, 2026",
+                        region: "🇺🇬 Uganda"
+                    },
+                    {
+                        t: "Fiber Optic Expansion",
+                        d: "Broadband infrastructure reaches remote areas.",
+                        fullContent: "Uganda's broadband initiative is bringing high-speed internet to remote communities. This infrastructure development is enabling online education and e-commerce in areas previously underserved.",
+                        img: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=500&fit=crop",
+                        source: "Uganda Tech Infrastructure",
+                        date: "April 17, 2026",
+                        region: "🇺🇬 Uganda"
+                    }
+                ],
+                africa: [
+                    {
+                        t: "5G Network Rollout",
+                        d: "African nations embrace 5G technology for connectivity.",
+                        fullContent: "Multiple African nations are rolling out 5G networks to bridge the digital divide and enable technological advancement. South Africa, Kenya, and Nigeria are leading the deployment.",
+                        img: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=500&fit=crop",
+                        source: "Africa Tech Hub",
+                        date: "April 20, 2026",
+                        region: "🌍 Africa"
+                    },
+                    {
+                        t: "African Satellite Internet",
+                        d: "Local startups launch satellite solutions for rural connectivity.",
+                        fullContent: "African technology companies are developing satellite-based internet solutions to provide connectivity to remote areas. These innovations complement terrestrial infrastructure expansion efforts.",
+                        img: "https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=800&h=500&fit=crop",
+                        source: "Africa Innovation News",
+                        date: "April 19, 2026",
+                        region: "🌍 Africa"
+                    },
+                    {
+                        t: "AI Adoption in African Industries",
+                        d: "Businesses leverage AI for efficiency and growth.",
+                        fullContent: "African companies are increasingly adopting artificial intelligence to improve operations, reduce costs, and create new business opportunities. From agriculture to finance, AI applications are transforming industries.",
+                        img: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&h=500&fit=crop",
+                        source: "Africa Digital Weekly",
+                        date: "April 18, 2026",
+                        region: "🌍 Africa"
+                    }
+                ],
+                asia: [
+                    {
+                        t: "Semiconductor Innovations",
+                        d: "Asian tech companies lead in chip manufacturing.",
+                        fullContent: "Asian semiconductor manufacturers continue to innovate, producing next-generation chips for global markets. Taiwan and South Korea remain industry leaders.",
+                        img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop",
+                        source: "Asia Tech News",
+                        date: "April 17, 2026",
+                        region: "🌏 Asia"
+                    },
+                    {
+                        t: "Robotics Revolution in Manufacturing",
+                        d: "Asian factories deploy advanced automation systems.",
+                        fullContent: "Manufacturing plants across Asia are implementing advanced robotic systems to increase productivity and quality. These technologies are creating new job categories in maintenance and programming.",
+                        img: "https://images.unsplash.com/photo-1535221228889-b6e4a1098c37?w=800&h=500&fit=crop",
+                        source: "Asia Manufacturing Tech",
+                        date: "April 16, 2026",
+                        region: "🌏 Asia"
+                    }
+                ]
+            },
+            business: {
+                global: [
                     {
                         t: "Startup Boom",
-                        d: "Clean energy startups see record funding in 2026. Billions invested in renewable innovations and sustainable technologies worldwide.",
-                        fullContent: "The clean energy sector is experiencing unprecedented growth, with early-stage startups raising a record $87 billion in the first quarter of 2026 alone. Venture capital firms are aggressively pursuing companies developing solar technology, battery storage, and green hydrogen solutions. Notable deals include a $2.3 billion Series C round for an emerging battery technology company and $1.8 billion for an advanced geothermal startup. Investors are betting on the long-term viability of renewable energy as governments worldwide strengthen climate commitments. Success stories include startups that have achieved profitability by scaling production and reducing costs, attracting even more investor confidence. The sector is creating thousands of high-paying jobs across manufacturing, engineering, and operations.",
+                        d: "Clean energy startups see record funding in 2026.",
+                        fullContent: "Clean energy startups are raising record funding with billions invested in renewable innovations worldwide. Investors are betting on the long-term viability of renewable energy as governments strengthen climate commitments.",
                         img: "https://images.unsplash.com/photo-1509391366360-2e938d440424?w=800&h=500&fit=crop",
                         source: "Business Insider",
-                        date: "April 16, 2026"
+                        date: "April 16, 2026",
+                        region: "🌍 Global"
                     },
                     {
                         t: "E-commerce Growth",
-                        d: "Online retail sectors report 45% growth year-over-year, driven by mobile shopping and international expansion.",
-                        fullContent: "Global e-commerce platforms are reporting robust growth as mobile shopping continues to dominate consumer behavior. Year-over-year growth stands at 45%, with particularly strong performance in Asia-Pacific and African markets. Mobile apps now account for 65% of all online retail transactions, with seamless checkout experiences driving conversion rates higher. International expansion strategies are paying off, with companies successfully entering emerging markets through localized platforms and payment options. Same-day and next-day delivery services are becoming standard expectations rather than premium features. Cross-border e-commerce is thriving, with currency conversion and international shipping becoming smoother and more affordable, opening new revenue streams for small businesses.",
+                        d: "Online retail sectors report 45% growth year-over-year.",
+                        fullContent: "Global e-commerce platforms are reporting robust growth as mobile shopping continues to dominate. Mobile apps now account for 65% of all online retail transactions, with particularly strong performance in emerging markets.",
                         img: "https://images.unsplash.com/photo-1460925895917-adf4e6904734?w=800&h=500&fit=crop",
                         source: "Commerce Weekly",
-                        date: "April 15, 2026"
+                        date: "April 15, 2026",
+                        region: "🌍 Global"
+                    },
+                    {
+                        t: "Sustainable Business Initiatives",
+                        d: "Companies prioritize environmental responsibility.",
+                        fullContent: "Major corporations are adopting sustainable practices and reporting on their environmental impact. ESG (Environmental, Social, Governance) investments are attracting significant capital flows.",
+                        img: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=800&h=500&fit=crop",
+                        source: "Sustainability Business News",
+                        date: "April 14, 2026",
+                        region: "🌍 Global"
                     }
                 ],
-                entertainment: [
+                uganda: [
+                    {
+                        t: "Uganda Business Investment",
+                        d: "Foreign direct investment grows 35% year-over-year.",
+                        fullContent: "Uganda continues to attract foreign investment with business-friendly policies and stable economic growth driving investor confidence. Key sectors include technology, agriculture, and energy.",
+                        img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=500&fit=crop",
+                        source: "Uganda Business Weekly",
+                        date: "April 19, 2026",
+                        region: "🇺🇬 Uganda"
+                    },
+                    {
+                        t: "SME Growth in Uganda",
+                        d: "Small businesses fuel economic development.",
+                        fullContent: "Small and medium enterprises (SMEs) in Uganda are growing rapidly with government support programs and access to microfinance. These businesses are creating employment and driving innovation.",
+                        img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=500&fit=crop",
+                        source: "Uganda Enterprise News",
+                        date: "April 17, 2026",
+                        region: "🇺🇬 Uganda"
+                    },
+                    {
+                        t: "Coffee Industry Innovation",
+                        d: "Uganda's coffee sector embraces modern farming.",
+                        fullContent: "Uganda's coffee industry, a major export earner, is adopting modern agricultural techniques and value-added processing to increase revenues and quality. Direct-to-consumer sales are growing online.",
+                        img: "https://images.unsplash.com/photo-1559205242-04e9e55d8e64?w=800&h=500&fit=crop",
+                        source: "Uganda Agriculture Business",
+                        date: "April 16, 2026",
+                        region: "🇺🇬 Uganda"
+                    }
+                ],
+                africa: [
+                    {
+                        t: "African E-commerce Growth",
+                        d: "Online retail expands rapidly across the continent.",
+                        fullContent: "African e-commerce platforms are experiencing explosive growth as more consumers embrace digital shopping. Innovations in payment systems and logistics are driving this expansion.",
+                        img: "https://images.unsplash.com/photo-1460925895917-adf4e6904734?w=800&h=500&fit=crop",
+                        source: "Africa Commerce News",
+                        date: "April 20, 2026",
+                        region: "🌍 Africa"
+                    },
+                    {
+                        t: "African Fintech Revolution",
+                        d: "Digital finance solutions transform banking landscape.",
+                        fullContent: "Fintech companies across Africa are revolutionizing access to financial services through mobile banking and digital payment solutions. Innovation is bringing financial inclusion to millions.",
+                        img: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=800&h=500&fit=crop",
+                        source: "Africa Finance Tech News",
+                        date: "April 19, 2026",
+                        region: "🌍 Africa"
+                    },
+                    {
+                        t: "Manufacturing Renaissance",
+                        d: "African countries develop competitive manufacturing sectors.",
+                        fullContent: "With rising labor costs in Asia, African nations are positioning themselves as manufacturing alternatives. Government incentives and infrastructure development attract global manufacturers.",
+                        img: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&h=500&fit=crop",
+                        source: "Africa Industrial News",
+                        date: "April 18, 2026",
+                        region: "🌍 Africa"
+                    }
+                ],
+                asia: [
+                    {
+                        t: "Asian Export Success",
+                        d: "Regional exports set new records in Q1 2026.",
+                        fullContent: "Asian manufacturers report record export volumes as global demand for quality products remains strong. Supply chain optimization has improved efficiency and profitability.",
+                        img: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=800&h=500&fit=crop",
+                        source: "Asia Business Times",
+                        date: "April 18, 2026",
+                        region: "🌏 Asia"
+                    },
+                    {
+                        t: "Regional Banking Consolidation",
+                        d: "Asian banks merge to strengthen market position.",
+                        fullContent: "Strategic mergers among Asian banks are creating stronger financial institutions capable of competing globally while meeting regional needs.",
+                        img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=500&fit=crop",
+                        source: "Asia Financial Times",
+                        date: "April 17, 2026",
+                        region: "🌏 Asia"
+                    }
+                ]
+            },
+            entertainment: {
+                global: [
                     {
                         t: "Box Office Record",
-                        d: "Latest sci-fi epic breaks records with $500M opening weekend globally. Audiences flock to theaters for this groundbreaking film.",
-                        fullContent: "A groundbreaking science fiction film has shattered box office records with a stunning $500 million global opening weekend. The film, featuring cutting-edge visual effects and a compelling narrative about humanity's future in space, resonated with audiences across all age groups. Major markets including North America, Europe, and Asia contributed significantly to the record-breaking performance. Critics praise the film's ambitious storytelling and technical achievements, with several calling it a watershed moment for cinema. The film is projected to surpass $2 billion globally by the end of its theatrical run, making it one of the highest-grossing films of all time. Streaming platforms have already begun negotiations for exclusive digital rights after its theatrical window concludes.",
+                        d: "Latest sci-fi epic breaks records with $500M opening.",
+                        fullContent: "A groundbreaking science fiction film has shattered box office records globally with a stunning $500 million opening weekend. The film is projected to surpass $2 billion globally.",
                         img: "https://images.unsplash.com/photo-1489599849228-ed2edf8a6c65?w=800&h=500&fit=crop",
                         source: "Entertainment Weekly",
-                        date: "April 14, 2026"
+                        date: "April 14, 2026",
+                        region: "🌍 Global"
                     },
                     {
                         t: "Music Festival Announcements",
-                        d: "Major festivals announced for summer 2026 with star-studded lineups. Early bird tickets selling out rapidly across all continents.",
-                        fullContent: "The summer 2026 festival season is shaping up to be legendary, with organizers announcing lineups featuring the world's biggest music artists. Major festivals across Europe, North America, Asia, and Africa have unveiled their schedules, and early bird tickets are already selling at record pace. Festival-goers can expect diverse lineups spanning multiple genres, from rock and pop to electronic and hip-hop. New festival venues in emerging markets are bringing world-class entertainment to previously underserved regions. Festival organizers are implementing innovative technology including AR experiences, virtual reality stages, and interactive apps to enhance the attendee experience. Accommodation packages and festival travel services are being overwhelmed with bookings as fans plan their summer adventures.",
+                        d: "Major festivals announced for summer 2026 with star-studded lineups.",
+                        fullContent: "The summer 2026 festival season is shaping up to be legendary with major festivals announcing lineups featuring the world's biggest music artists across multiple genres.",
                         img: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&h=500&fit=crop",
                         source: "Entertainment News",
-                        date: "April 13, 2026"
+                        date: "April 13, 2026",
+                        region: "🌍 Global"
+                    },
+                    {
+                        t: "Streaming Platform Competition",
+                        d: "Battle for audience dominance intensifies among streaming giants.",
+                        fullContent: "Streaming platforms are investing heavily in original content to attract and retain subscribers. Quality productions from diverse creators are reshaping entertainment consumption.",
+                        img: "https://images.unsplash.com/photo-1478720568477-152d9e3fb27d?w=800&h=500&fit=crop",
+                        source: "Entertainment Industry Daily",
+                        date: "April 12, 2026",
+                        region: "🌍 Global"
+                    }
+                ],
+                uganda: [
+                    {
+                        t: "Ugandan Film Festival",
+                        d: "Local cinema celebrates African storytelling talent.",
+                        fullContent: "Uganda's annual film festival showcases the best of African cinema, attracting international attention and recognition. Local filmmakers are gaining global platforms for their stories.",
+                        img: "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&h=500&fit=crop",
+                        source: "Uganda Entertainment News",
+                        date: "April 16, 2026",
+                        region: "🇺🇬 Uganda"
+                    },
+                    {
+                        t: "Ugandan Music Scene Thrives",
+                        d: "Local artists gain international recognition and streaming success.",
+                        fullContent: "Ugandan musicians are achieving international success with their music gaining millions of streams on global platforms. The local music industry is creating opportunities for artists, producers, and technicians.",
+                        img: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&h=500&fit=crop",
+                        source: "Uganda Music Weekly",
+                        date: "April 15, 2026",
+                        region: "🇺🇬 Uganda"
+                    }
+                ],
+                africa: [
+                    {
+                        t: "African Music Festival",
+                        d: "Continental celebration of diverse musical talent.",
+                        fullContent: "Africa's premier music festival brings together the continent's biggest stars for a celebration of rhythm and culture. The event showcases diverse musical traditions and contemporary genres.",
+                        img: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&h=500&fit=crop",
+                        source: "Africa Entertainment",
+                        date: "April 15, 2026",
+                        region: "🌍 Africa"
+                    },
+                    {
+                        t: "African Cinema Goes Global",
+                        d: "African filmmakers win major international awards.",
+                        fullContent: "African films and filmmakers are gaining recognition at major international film festivals and awards ceremonies. Stories from the continent are resonating with global audiences.",
+                        img: "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&h=500&fit=crop",
+                        source: "Africa Film Journal",
+                        date: "April 14, 2026",
+                        region: "🌍 Africa"
+                    },
+                    {
+                        t: "Video Game Development",
+                        d: "African game studios emerge as creative powerhouses.",
+                        fullContent: "African video game studios are developing games that reflect local cultures and stories, gaining recognition in the global gaming industry. This sector is creating high-skilled jobs.",
+                        img: "https://images.unsplash.com/photo-1538481143235-259afe4d0cea?w=800&h=500&fit=crop",
+                        source: "Africa Gaming News",
+                        date: "April 13, 2026",
+                        region: "🌍 Africa"
+                    }
+                ],
+                asia: [
+                    {
+                        t: "Asian Drama Success",
+                        d: "Regional productions go global with streaming hits.",
+                        fullContent: "Asian drama and entertainment productions are gaining massive international audiences through streaming platforms. Series from Korea, Japan, and Thailand dominate viewing charts.",
+                        img: "https://images.unsplash.com/photo-1478720568477-152d9e3fb27d?w=800&h=500&fit=crop",
+                        source: "Asia Entertainment Hub",
+                        date: "April 14, 2026",
+                        region: "🌏 Asia"
+                    },
+                    {
+                        t: "K-pop Global Domination",
+                        d: "Korean music continues worldwide expansion.",
+                        fullContent: "K-pop groups continue to dominate global music charts with record-breaking album sales and sold-out world tours. The industry is expanding beyond music into fashion and entertainment.",
+                        img: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&h=500&fit=crop",
+                        source: "Asia Music News",
+                        date: "April 13, 2026",
+                        region: "🌏 Asia"
                     }
                 ]
-            };
+            },
+            africa: {
+                global: [
+                    {
+                        t: "Africa Investment Summit",
+                        d: "Global investors focus on African opportunities.",
+                        fullContent: "International investors are increasingly turning their attention to Africa's growing markets and economic potential. Tech, renewable energy, and agriculture are top investment priorities.",
+                        img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=500&fit=crop",
+                        source: "Africa Invest News",
+                        date: "April 20, 2026",
+                        region: "🌍 Africa"
+                    }
+                ],
+                uganda: [
+                    {
+                        t: "Uganda Infrastructure Boom",
+                        d: "Major development projects transform the nation.",
+                        fullContent: "Uganda is experiencing rapid infrastructure development with roads, rail, and digital networks expanding rapidly. Projects include new highways, rail corridors, and smart city initiatives.",
+                        img: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&h=500&fit=crop",
+                        source: "Uganda Development News",
+                        date: "April 19, 2026",
+                        region: "🇺🇬 Uganda"
+                    }
+                ],
+                africa: [
+                    {
+                        t: "Pan-African Trade Initiative",
+                        d: "Continental free trade agreement drives commerce.",
+                        fullContent: "The African Continental Free Trade Area is facilitating unprecedented levels of intra-African trade and cooperation. This integration is creating opportunities for businesses across the continent.",
+                        img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=500&fit=crop",
+                        source: "Africa Trade News",
+                        date: "April 18, 2026",
+                        region: "🌍 Africa"
+                    }
+                ],
+                asia: [
+                    {
+                        t: "Africa-Asia Partnership",
+                        d: "Strategic collaborations reshape global commerce.",
+                        fullContent: "Africa and Asia are strengthening trade and investment partnerships for mutual economic growth. Technology transfer and capacity building are key focus areas.",
+                        img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=500&fit=crop",
+                        source: "Global Partnership News",
+                        date: "April 17, 2026",
+                        region: "🌍 Africa"
+                    }
+                ]
+            }
+        };
+
+        /* ====================================
+           COMPREHENSIVE QUOTE DATABASE
+           ==================================== */
+        const quoteDatabase = [
+            { q: "The only way to do great work is to love what you do.", a: "Steve Jobs", keyword: "purpose" },
+            { q: "Success is not final, failure is not fatal.", a: "Winston Churchill", keyword: "failure" },
+            { q: "Be yourself; everyone else is already taken.", a: "Oscar Wilde", keyword: "authenticity" },
+            { q: "The future belongs to those who believe in the beauty of their dreams.", a: "Eleanor Roosevelt", keyword: "dreams" },
+            { q: "It is during our darkest moments that we must focus to see the light.", a: "Aristotle", keyword: "perseverance" },
+            { q: "The only impossible journey is the one you never begin.", a: "Tony Robbins", keyword: "action" },
+            { q: "In the middle of difficulty lies opportunity.", a: "Albert Einstein", keyword: "opportunity" },
+            { q: "Life is what happens when you're busy making other plans.", a: "John Lennon", keyword: "life" },
+            { q: "The way to get started is to quit talking and begin doing.", a: "Walt Disney", keyword: "action" },
+            { q: "Don't let yesterday take up too much of today.", a: "Will Rogers", keyword: "present" },
+            { q: "You learn more from failure than from success.", a: "Unknown", keyword: "learning" },
+            { q: "It's not whether you get knocked down, it's whether you get up.", a: "Vince Lombardi", keyword: "resilience" },
+            { q: "Do not go where the path may lead, go instead where there is no path and leave a trail.", a: "Ralph Waldo Emerson", keyword: "courage" },
+            { q: "The best time to plant a tree was 20 years ago. The second best time is now.", a: "Chinese Proverb", keyword: "action" },
+            { q: "Believe you can and you're halfway there.", a: "Theodore Roosevelt", keyword: "belief" },
+            { q: "Everything you want is on the other side of fear.", a: "George Addair", keyword: "courage" },
+            { q: "Believe in yourself. You are braver than you think, more talented than you know, and capable of more than you imagine.", a: "Roy T. Bennett", keyword: "belief" },
+            { q: "I learned that courage was not the absence of fear, but the triumph over it.", a: "Nelson Mandela", keyword: "courage" },
+            { q: "The only thing we have to fear is fear itself.", a: "Franklin D. Roosevelt", keyword: "courage" },
+            { q: "Success is stumbling from failure to failure with no loss of enthusiasm.", a: "Winston Churchill", keyword: "failure" }
+        ];
+
+        const quoteExplanations = {
+            purpose: "Living with purpose gives your actions meaning and direction. When work aligns with your values, even challenges become opportunities for growth.",
+            failure: "Setbacks are not endpoints but stepping stones. Each failure teaches lessons that propel us forward toward success.",
+            authenticity: "Your unique perspective is your greatest strength. Authenticity connects you with others and creates genuine impact in the world.",
+            dreams: "Dreams fuel ambition and drive innovation. Those who dare to dream often reshape the world around them.",
+            perseverance: "In darkness, perseverance becomes your compass. Focus on the light within and keep moving forward.",
+            action: "Words without action are merely wishes. Bold steps transform intentions into reality.",
+            opportunity: "Every challenge contains seeds of opportunity. Look beyond the difficulty to find possibility and growth.",
+            life: "Life unfolds in the present moment. Be mindful of how you spend each day—it's all we truly have.",
+            learning: "Failure is feedback. Embrace it as your greatest teacher and continuous learning source.",
+            resilience: "Resilience isn't about never falling; it's about rising stronger each time you do.",
+            courage: "True courage means forging your own path, even when there's no map.",
+            belief: "Belief is the catalyst for achievement. What you believe shapes what you can accomplish.",
+            present: "Release yesterday's burdens to fully engage with today's possibilities."
+        };
+
+        /* ====================================
+           REGION SELECTION
+           ==================================== */
+        function setRegion(region, event) {
+            currentRegion = region;
+            document.querySelectorAll('.region-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            getNews();
+        }
+
+        /* ====================================
+           NEWS FUNCTIONS
+           ==================================== */
+        function getNews() {
+            const cat = document.getElementById("newsCategory").value;
+            const newsData = internationalNews[cat] || internationalNews.general;
+            const regionData = newsData[currentRegion] || newsData.global || [];
             
-            currentNewsData = mockNews[cat] || mockNews.general;
+            currentNewsData = regionData;
+            
+            if (currentNewsData.length === 0) {
+                document.getElementById("newsContent").innerHTML = '<div class="loading">No news available for this region and category.</div>';
+                return;
+            }
+
             document.getElementById("newsContent").innerHTML = currentNewsData.map((n, idx) => `
                 <div class="news-item" onclick="openNewsModal(${idx})">
-                    <img src="${n.img}" alt="${n.t}" class="news-item-img">
+                    <img src="${n.img}" alt="${n.t}" class="news-item-img" onerror="this.src='https://via.placeholder.com/100x80'">
                     <div class="news-item-content">
                         <h4>📌 ${n.t}</h4>
                         <p>${n.d}</p>
+                        <span class="region">${n.region}</span>
                         <span class="source">${n.source}</span>
                     </div>
                 </div>`).join("");
         }
 
-        // Open news detail modal with full content
         function openNewsModal(index) {
             const news = currentNewsData[index];
             document.getElementById("newsModalImg").src = news.img;
+            document.getElementById("newsModalImg").onerror = function() { this.src = 'https://via.placeholder.com/800x400'; };
             document.getElementById("newsModalTitle").textContent = news.t;
             document.getElementById("newsModalContent").textContent = news.fullContent;
             document.getElementById("newsModalSource").textContent = `📰 Source: ${news.source}`;
-            document.getElementById("newsModalDate").textContent = `📅 ${news.date}`;
+            document.getElementById("newsModalDate").textContent = `📅 Date: ${news.date}`;
+            document.getElementById("newsModalRegion").textContent = `${news.region}`;
             document.getElementById("newsModal").style.display = "flex";
         }
 
@@ -355,24 +1079,39 @@
             document.getElementById("newsModal").style.display = "none";
         }
 
-        // MOVIE SEARCH
+        /* ====================================
+           MOVIE FUNCTIONS
+           ==================================== */
         async function searchMovies() {
             const query = document.getElementById("movieSearch").value;
             const url = query 
-                ? `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY_MOVIE}&query=${query}`
-                : `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY_MOVIE}`;
+                ? `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY_MOVIE}&query=${query}&_t=${Date.now()}`
+                : `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY_MOVIE}&_t=${Date.now()}`;
             
             try {
+                document.getElementById("movieResults").innerHTML = '<div class="loading">🎬 Loading movies...</div>';
                 const res = await fetch(url);
                 const data = await res.json();
+                
+                if (!data.results || data.results.length === 0) {
+                    document.getElementById("movieResults").innerHTML = '<div class="loading">No movies found. Try a different search.</div>';
+                    return;
+                }
+
                 document.getElementById("movieResults").innerHTML = data.results.map(m => `
                     <div class="movie-item" onclick="playTrailer(${m.id})">
-                        <img src="${m.poster_path ? 'https://image.tmdb.org/t/p/w200'+m.poster_path : 'https://via.placeholder.com/200x300'}" alt="${m.title}">
+                        <img src="${m.poster_path ? 'https://image.tmdb.org/t/p/w200'+m.poster_path : 'https://via.placeholder.com/200x300'}" alt="${m.title}" onerror="this.src='https://via.placeholder.com/200x300'">
                         <p>${m.title}</p>
                     </div>`).join("");
             } catch (err) {
                 console.error("Movie search error:", err);
+                document.getElementById("movieResults").innerHTML = '<div class="loading">❌ Error loading movies. Check your connection.</div>';
             }
+        }
+
+        async function refreshMovies() {
+            document.getElementById("movieSearch").value = '';
+            await searchMovies();
         }
 
         async function playTrailer(id) {
@@ -384,10 +1123,11 @@
                     document.getElementById("videoPlayer").innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${trailer.key}?autoplay=1" frameborder="0" allowfullscreen></iframe>`;
                     document.getElementById("videoModal").style.display = "flex";
                 } else {
-                    alert("No trailer available for this movie.");
+                    alert("No trailer available for this movie. Please try another.");
                 }
             } catch (err) {
                 console.error("Trailer fetch error:", err);
+                alert("Error loading trailer. Please try again.");
             }
         }
 
@@ -396,54 +1136,52 @@
             document.getElementById("videoPlayer").innerHTML = "";
         }
 
-        // QUOTES WITH EXPLANATIONS
-        async function getQuote() {
+        /* ====================================
+           QUOTE FUNCTIONS
+           ==================================== */
+        function getQuote() {
             try {
-                const res = await fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("https://zenquotes.io/api/random"));
-                const json = await res.json();
-                const quote = JSON.parse(json.contents)[0];
+                // Rotate through local database for consistent fresh quotes
+                const quote = quoteDatabase[quoteIndex % quoteDatabase.length];
+                quoteIndex++;
                 
                 document.getElementById("quoteText").textContent = `"${quote.q}"`;
                 document.getElementById("quoteAuthor").textContent = `— ${quote.a}`;
                 
-                // Explanations for quotes
-                const explanations = {
-                    "success": "Success rarely comes overnight. This wisdom reminds us that consistent effort and perseverance over time lead to remarkable achievements.",
-                    "failure": "Failure is not the end of the journey—it's a step along the way. Each setback provides valuable lessons that propel us toward our goals.",
-                    "growth": "Personal growth requires stepping outside familiar territory. It's in discomfort that we discover our true potential and capabilities.",
-                    "learning": "The wisest among us recognize how much they don't know. Curiosity and humility are the foundations of continuous learning.",
-                    "change": "Positive change begins within ourselves. By transforming our mindset and habits, we create ripples that improve our entire world.",
-                    "courage": "True courage isn't the absence of fear—it's taking action despite being afraid. Bravery is a choice we make every day.",
-                    "purpose": "Living with purpose gives meaning to our actions. When our work aligns with our values, even challenges become opportunities.",
-                    "time": "Time is our most valuable asset. How we choose to spend it defines not just our lives, but the legacy we leave behind.",
-                    "love": "Love in its truest form—compassion, kindness, and empathy—connects us to others and makes life worth living.",
-                    "patience": "In our fast-paced world, patience has become rare and precious. Yet it's often the key to achieving lasting results."
-                };
-
-                // Select an explanation based on quote content
-                let explanation = "This quote invites us to reflect deeply on our actions and motivations. It encourages mindfulness about how we spend our time and energy, reminding us that small choices compound into significant life outcomes.";
-                
-                for (let key in explanations) {
-                    if (quote.q.toLowerCase().includes(key)) {
-                        explanation = explanations[key];
-                        break;
-                    }
-                }
-
+                const explanation = quoteExplanations[quote.keyword] || "This wisdom invites us to reflect deeply and take meaningful action in our lives.";
                 document.getElementById("quoteExplanation").textContent = explanation;
             } catch (err) {
                 console.error("Quote fetch error:", err);
-                document.getElementById("quoteText").textContent = "\"The only way to do great work is to love what you do.\"";
-                document.getElementById("quoteAuthor").textContent = "— Steve Jobs";
-                document.getElementById("quoteExplanation").textContent = "Passion and purpose are inseparable. When your work aligns with your values and interests, it stops being just a job and becomes a meaningful expression of yourself. This is where excellence naturally emerges.";
+                const defaultQuote = quoteDatabase[0];
+                document.getElementById("quoteText").textContent = `"${defaultQuote.q}"`;
+                document.getElementById("quoteAuthor").textContent = `— ${defaultQuote.a}`;
+                document.getElementById("quoteExplanation").textContent = quoteExplanations[defaultQuote.keyword];
             }
         }
 
-        window.onload = () => {
+        /* ====================================
+           CLOSE MODALS ON BACKGROUND CLICK
+           ==================================== */
+        document.addEventListener('click', function(event) {
+            const newsModal = document.getElementById("newsModal");
+            const videoModal = document.getElementById("videoModal");
+            
+            if (event.target === newsModal) {
+                closeNewsModal();
+            }
+            if (event.target === videoModal) {
+                closeModal();
+            }
+        });
+
+        /* ====================================
+           INITIALIZATION
+           ==================================== */
+        window.addEventListener('load', () => {
             getNews();
             searchMovies();
             getQuote();
-        };
+        });
     </script>
 </body>
 </html>

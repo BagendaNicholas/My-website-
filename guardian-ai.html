@@ -3,16 +3,17 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Guardian AI - Full System</title>
+<title>Guardian AI</title>
 
 <style>
 body {
   margin:0;
-  font-family: Arial;
-  background: linear-gradient(135deg,#0f172a,#1e293b);
+  font-family:Arial;
+  background:linear-gradient(135deg,#0f172a,#1e293b);
   color:white;
 }
 
+/* HEADER */
 header {
   text-align:center;
   padding:20px;
@@ -21,32 +22,8 @@ header {
 
 h1 { color:#00ffcc; }
 
-#loginBox {
-  text-align:center;
-  margin-top:50px;
-}
-
-button {
-  padding:10px 15px;
-  margin:8px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.google {
-  background:#00ffcc;
-  color:black;
-}
-
-.primary {
-  background:#3b82f6;
-  color:white;
-}
-
-#aiBox {
-  display:none;
+/* CHAT BOX */
+.container {
   max-width:700px;
   margin:20px auto;
   background:#111827;
@@ -64,10 +41,24 @@ button {
 }
 
 input {
-  width:70%;
+  width:75%;
   padding:10px;
-  border-radius:10px;
   border:none;
+  border-radius:10px;
+}
+
+button {
+  padding:10px 15px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:#00ffcc;
+  font-weight:bold;
+}
+
+.logout {
+  background:#ef4444;
+  color:white;
 }
 </style>
 </head>
@@ -75,36 +66,15 @@ input {
 <body>
 
 <header>
-<h1>🤖 Guardian AI</h1>
-<p>Login + Memory System</p>
+  <h1>🤖 Guardian AI</h1>
+  <p>Secure AI + Memory System</p>
 </header>
 
-<!-- LOGIN -->
-<div id="loginBox">
+<div class="container">
 
-  <h2>Login to continue</h2>
+  <h3 id="welcome">Loading user...</h3>
 
-  <button class="google" onclick="googleLogin()">🔵 Google Login</button>
-
-  <br/><br/>
-
-  <input id="email" placeholder="Email" />
-  <input id="password" type="password" placeholder="Password" />
-
-  <br/>
-
-  <button class="primary" onclick="emailSignUp()">🆕 Sign Up</button>
-  <button class="primary" onclick="emailSignIn()">🔐 Sign In</button>
-
-  <p id="status">Checking login...</p>
-</div>
-
-<!-- AI -->
-<div id="aiBox">
-
-  <h3 id="welcome"></h3>
-
-  <button onclick="logout()">🚪 Logout</button>
+  <button class="logout" onclick="logout()">🚪 Logout</button>
 
   <div id="chat"></div>
 
@@ -114,9 +84,8 @@ input {
 </div>
 
 <!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
 
 <script>
 const firebaseConfig = {
@@ -129,83 +98,51 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-
-const auth = firebase.auth();
 const db = firebase.firestore();
 
-let currentUser = null;
+const uid = localStorage.getItem("guardian_uid");
 
-/* GOOGLE LOGIN */
-function googleLogin() {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  auth.signInWithPopup(provider).then(res => setUser(res.user));
+// 🚫 BLOCK IF NOT LOGGED IN
+if (!uid) {
+  alert("Please login first 🛡️");
+  window.location.href = "login.html";
 }
 
-/* EMAIL SIGN UP */
-function emailSignUp() {
-  const email = document.getElementById("email").value;
-  const pass = document.getElementById("password").value;
+// 🧠 LOAD USER INFO
+db.collection("users").doc(uid).get().then(doc => {
+  if (doc.exists) {
+    document.getElementById("welcome").innerText =
+      "Welcome " + doc.data().name;
+  } else {
+    document.getElementById("welcome").innerText =
+      "Welcome Guardian User";
+  }
+});
 
-  auth.createUserWithEmailAndPassword(email, pass)
-    .then(res => setUser(res.user))
-    .catch(e => alert(e.message));
-}
+// 💬 LOAD CHAT HISTORY
+loadChat();
 
-/* EMAIL SIGN IN */
-function emailSignIn() {
-  const email = document.getElementById("email").value;
-  const pass = document.getElementById("password").value;
-
-  auth.signInWithEmailAndPassword(email, pass)
-    .then(res => setUser(res.user))
-    .catch(e => alert(e.message));
-}
-
-/* LOGOUT */
-function logout() {
-  auth.signOut();
-}
-
-/* SET USER */
-function setUser(user) {
-  currentUser = user;
-
-  db.collection("users").doc(user.uid).set({
-    name: user.displayName || user.email,
-    email: user.email,
-    lastLogin: new Date()
-  }, { merge:true });
-
-  document.getElementById("loginBox").style.display = "none";
-  document.getElementById("aiBox").style.display = "block";
-
-  document.getElementById("welcome").innerText =
-    "Welcome " + (user.displayName || user.email);
-
-  loadChat(user.uid);
-}
-
-/* LOAD MEMORY */
-function loadChat(uid) {
+function loadChat() {
   db.collection("chats").doc(uid).get().then(doc => {
-    if (!doc.exists) {
-      db.collection("chats").doc(uid).set({ messages: [] });
-    } else {
+    if (doc.exists) {
       const msgs = doc.data().messages || [];
       msgs.forEach(m => addMsg(m.role, m.text));
+    } else {
+      db.collection("chats").doc(uid).set({ messages: [] });
     }
   });
 }
 
-/* SEND MESSAGE */
+// 💬 SEND MESSAGE
 function sendMsg() {
-  const text = msg.value;
-  if (!text || !currentUser) return;
+  const input = document.getElementById("msg");
+  const text = input.value;
+  if (!text) return;
 
   addMsg("you", text);
   saveMsg("user", text);
 
-  msg.value = "";
+  input.value = "";
 
   setTimeout(() => {
     const reply = "🤖 Guardian AI: I received your message.";
@@ -214,7 +151,7 @@ function sendMsg() {
   }, 800);
 }
 
-/* ADD MESSAGE */
+// 🧠 ADD MESSAGE
 function addMsg(role, text) {
   const chat = document.getElementById("chat");
 
@@ -225,11 +162,9 @@ function addMsg(role, text) {
   chat.scrollTop = chat.scrollHeight;
 }
 
-/* SAVE MEMORY */
+// 💾 SAVE MEMORY
 function saveMsg(role, text) {
-  if (!currentUser) return;
-
-  const ref = db.collection("chats").doc(currentUser.uid);
+  const ref = db.collection("chats").doc(uid);
 
   ref.get().then(doc => {
     let messages = doc.exists ? doc.data().messages : [];
@@ -246,20 +181,11 @@ function saveMsg(role, text) {
   });
 }
 
-/* AUTH STATE */
-auth.onAuthStateChanged(user => {
-  if (user) {
-    setUser(user);
-  } else {
-    currentUser = null;
-
-    document.getElementById("loginBox").style.display = "block";
-    document.getElementById("aiBox").style.display = "none";
-
-    document.getElementById("status").innerText =
-      "❌ Not logged in";
-  }
-});
+// 🚪 LOGOUT
+function logout() {
+  localStorage.removeItem("guardian_uid");
+  window.location.href = "login.html";
+}
 </script>
 
 </body>

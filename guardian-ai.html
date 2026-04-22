@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guardian AI - Test Page</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: white;
+      text-align: center;
+    }
+
+    header {
+      padding: 20px;
+      background: rgba(0,0,0,0.4);
+      box-shadow: 0 0 10px rgba(0,255,200,0.3);
+    }
+
+    h1 {
+      margin: 10px 0;
+      color: #00ffcc;
+    }
+
+    p {
+      color: #cbd5e1;
+    }
+
+    .box {
+      margin-top: 30px;
+      padding: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: #00ffcc;
+      color: black;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🤖 Guardian AI</h1>
+  <p>Created by Nicholas & Big Bro Grayson</p>
+</header>
+
+<div class="box">
+  <h2>Test Page</h2>
+  <p>Talk to your AI assistant below 👇</p>
+</div>
+
+<!-- CHATBASE WIDGET -->
+<script>
+(function(){
+  if(!window.chatbase||window.chatbase("getState")!=="initialized"){
+    window.chatbase=(...arguments)=>{
+      if(!window.chatbase.q){window.chatbase.q=[]}
+      window.chatbase.q.push(arguments)
+    };
+
+    window.chatbase=new Proxy(window.chatbase,{
+      get(target,prop){
+        if(prop==="q"){return target.q}
+        return(...args)=>target(prop,...args)
+      }
+    })
+  }
+
+  const onLoad=function(){
+    const script=document.createElement("script");
+    script.src="https://www.chatbase.co/embed.min.js";
+    script.id="BJAUIH5Icn_jSA9SiDX9N";
+    script.domain="www.chatbase.co";
+    document.body.appendChild(script)
+  };
+
+  if(document.readyState==="complete"){
+    onLoad()
+  }else{
+    window.addEventListener("load",onLoad)
+  }
+})();
+</script>
+
+</body>
+</html>

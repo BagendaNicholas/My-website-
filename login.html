@@ -2,8 +2,53 @@
 <html>
 <head>
   <title>Guardian Login</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <style>
+    body {
+      margin:0;
+      font-family:Arial;
+      background:linear-gradient(135deg,#0f172a,#1e293b);
+      color:white;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+    }
+
+    .container {
+      background:#111827;
+      padding:30px;
+      border-radius:15px;
+      text-align:center;
+      width:300px;
+    }
+
+    input {
+      width:90%;
+      padding:10px;
+      margin:8px 0;
+      border:none;
+      border-radius:10px;
+    }
+
+    button {
+      width:95%;
+      padding:10px;
+      margin-top:10px;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+      background:#00ffcc;
+      font-weight:bold;
+    }
+
+    a {
+      color:#00ffcc;
+    }
+  </style>
 </head>
+
 <body>
 
 <div class="container">
@@ -17,10 +62,24 @@
   <p>New? <a href="signup.html">Create account</a></p>
 </div>
 
+<!-- Firebase -->
 <script type="module">
-import { auth } from './firebase.js';
-import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+const firebaseConfig = {
+  apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
+  authDomain: "my-website-357cb.firebaseapp.com",
+  projectId: "my-website-357cb",
+  storageBucket: "my-website-357cb.firebasestorage.app",
+  messagingSenderId: "759627961944",
+  appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// 🔐 LOGIN FUNCTION
 window.login = function() {
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
@@ -31,12 +90,20 @@ window.login = function() {
   }
 
   signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
+    .then((userCredential) => {
+
+      const user = userCredential.user;
+
+      // 💾 Save UID for Guardian AI page
+      localStorage.setItem("guardian_uid", user.uid);
+
       alert("Access granted 🛡️");
-      window.location.href = "secret.html";
+
+      // 🚀 Redirect to AI system
+      window.location.href = "guardian-ai.html";
     })
     .catch(err => {
-      alert(err.message);
+      alert("Login failed: " + err.message);
     });
 }
 </script>

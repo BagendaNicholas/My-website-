@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Guardian AI - Test Page</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Guardian AI - Login System</title>
 
   <style>
     body {
@@ -17,32 +17,43 @@
     header {
       padding: 20px;
       background: rgba(0,0,0,0.4);
-      box-shadow: 0 0 10px rgba(0,255,200,0.3);
     }
 
     h1 {
-      margin: 10px 0;
       color: #00ffcc;
+      margin: 0;
     }
 
-    p {
-      color: #cbd5e1;
+    .container {
+      padding: 30px;
+    }
+
+    button {
+      padding: 12px 18px;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .google {
+      background: #00ffcc;
+      color: black;
+    }
+
+    .logout {
+      background: #ef4444;
+      color: white;
+    }
+
+    .status {
+      margin-top: 20px;
+      color: #94a3b8;
     }
 
     .box {
-      margin-top: 30px;
-      padding: 20px;
-    }
-
-    .btn {
-      display: inline-block;
       margin-top: 20px;
-      padding: 12px 20px;
-      background: #00ffcc;
-      color: black;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: bold;
     }
   </style>
 </head>
@@ -51,21 +62,90 @@
 
 <header>
   <h1>🤖 Guardian AI</h1>
-  <p>Created by Nicholas & Big Bro Grayson</p>
+  <p>Login System + Memory Ready</p>
 </header>
 
-<div class="box">
-  <h2>Test Page</h2>
-  <p>Talk to your AI assistant below 👇</p>
+<div class="container">
+
+  <div id="authBox">
+    <button class="google" onclick="loginWithGoogle()">🔵 Login with Google</button>
+  </div>
+
+  <div class="box">
+    <button class="logout" onclick="logout()">🚪 Logout</button>
+  </div>
+
+  <p class="status" id="status">Checking login...</p>
+
 </div>
 
-<!-- CHATBASE WIDGET -->
+<!-- 🔥 FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
+    authDomain: "my-website-357cb.firebaseapp.com",
+    projectId: "my-website-357cb",
+    storageBucket: "my-website-357cb.firebasestorage.app",
+    messagingSenderId: "759627961944",
+    appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d",
+    measurementId: "G-MK9ZP12G83"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  // 🔵 GOOGLE LOGIN
+  function loginWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    auth.signInWithPopup(provider)
+      .then(result => {
+        saveUser(result.user);
+      })
+      .catch(error => console.log(error));
+  }
+
+  // 🚪 LOGOUT
+  function logout() {
+    auth.signOut();
+  }
+
+  // 🧠 SAVE USER (AI MEMORY FOUNDATION)
+  function saveUser(user) {
+    db.collection("users").doc(user.uid).set({
+      name: user.displayName,
+      email: user.email,
+      lastLogin: new Date()
+    }, { merge: true });
+
+    document.getElementById("status").innerText =
+      "✅ Logged in as " + user.displayName;
+  }
+
+  // 🔍 LOGIN STATE TRACKER
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      saveUser(user);
+    } else {
+      document.getElementById("status").innerText =
+        "❌ Not logged in";
+    }
+  });
+</script>
+
+<!-- 🤖 GUARDIAN AI CHAT WIDGET -->
 <script>
 (function(){
   if(!window.chatbase||window.chatbase("getState")!=="initialized"){
-    window.chatbase=(...arguments)=>{
+    window.chatbase=(...args)=>{
       if(!window.chatbase.q){window.chatbase.q=[]}
-      window.chatbase.q.push(arguments)
+      window.chatbase.q.push(args)
     };
 
     window.chatbase=new Proxy(window.chatbase,{
@@ -86,7 +166,7 @@
 
   if(document.readyState==="complete"){
     onLoad()
-  }else{
+  } else {
     window.addEventListener("load",onLoad)
   }
 })();

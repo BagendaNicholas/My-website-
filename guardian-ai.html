@@ -62,7 +62,7 @@
 
 <header>
   <h1>🤖 Guardian AI</h1>
-  <p>Login System + Memory Ready</p>
+  <p>Login + Memory System</p>
 </header>
 
 <div class="container">
@@ -100,13 +100,15 @@
   const auth = firebase.auth();
   const db = firebase.firestore();
 
+  let currentUser = null;
+
   // 🔵 GOOGLE LOGIN
   function loginWithGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
 
     auth.signInWithPopup(provider)
       .then(result => {
-        saveUser(result.user);
+        handleUser(result.user);
       })
       .catch(error => console.log(error));
   }
@@ -116,23 +118,67 @@
     auth.signOut();
   }
 
-  // 🧠 SAVE USER (AI MEMORY FOUNDATION)
-  function saveUser(user) {
+  // 🧠 HANDLE USER (SAVE + LOAD MEMORY)
+  function handleUser(user) {
+    currentUser = user;
+
+    // Save user profile
     db.collection("users").doc(user.uid).set({
       name: user.displayName,
       email: user.email,
       lastLogin: new Date()
     }, { merge: true });
 
+    // Load chat memory
+    loadMemory(user.uid);
+
     document.getElementById("status").innerText =
       "✅ Logged in as " + user.displayName;
+  }
+
+  // 📚 LOAD MEMORY
+  function loadMemory(uid) {
+    db.collection("chats").doc(uid).get()
+      .then(doc => {
+        if (!doc.exists) {
+          db.collection("chats").doc(uid).set({
+            messages: []
+          });
+        } else {
+          console.log("🧠 Memory loaded:", doc.data());
+        }
+      });
+  }
+
+  // 💬 SAVE MESSAGE (FOR FUTURE AI USE)
+  function saveMessage(role, text) {
+    if (!currentUser) return;
+
+    const ref = db.collection("chats").doc(currentUser.uid);
+
+    ref.get().then(doc => {
+      let messages = [];
+
+      if (doc.exists) {
+        messages = doc.data().messages || [];
+      }
+
+      messages.push({
+        role: role,
+        text: text,
+        time: new Date()
+      });
+
+      ref.set({ messages: messages }, { merge: true });
+    });
   }
 
   // 🔍 LOGIN STATE TRACKER
   auth.onAuthStateChanged(user => {
     if (user) {
-      saveUser(user);
+      handleUser(user);
     } else {
+      currentUser = null;
       document.getElementById("status").innerText =
         "❌ Not logged in";
     }

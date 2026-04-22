@@ -8,28 +8,27 @@
 <style>
 body {
   margin:0;
-  font-family: Arial, sans-serif;
+  font-family: Arial;
   background: linear-gradient(135deg,#0f172a,#1e293b);
   color:white;
 }
 
-/* HEADER */
 header {
   text-align:center;
   padding:20px;
   background:rgba(0,0,0,0.4);
 }
+
 h1 { color:#00ffcc; }
 
-/* LOGIN */
 #loginBox {
   text-align:center;
-  margin-top:60px;
+  margin-top:50px;
 }
 
 button {
   padding:10px 15px;
-  margin:10px;
+  margin:8px;
   border:none;
   border-radius:10px;
   cursor:pointer;
@@ -41,12 +40,11 @@ button {
   color:black;
 }
 
-.logout {
-  background:#ef4444;
+.primary {
+  background:#3b82f6;
   color:white;
 }
 
-/* AI SECTION */
 #aiBox {
   display:none;
   max-width:700px;
@@ -66,14 +64,10 @@ button {
 }
 
 input {
-  width:75%;
+  width:70%;
   padding:10px;
   border-radius:10px;
   border:none;
-}
-
-.send {
-  background:#00ffcc;
 }
 </style>
 </head>
@@ -82,12 +76,26 @@ input {
 
 <header>
 <h1>🤖 Guardian AI</h1>
-<p>Login + Memory + Chat System</p>
+<p>Login + Memory System</p>
 </header>
 
 <!-- LOGIN -->
 <div id="loginBox">
-  <button class="google" onclick="loginGoogle()">🔵 Login with Google</button>
+
+  <h2>Login to continue</h2>
+
+  <button class="google" onclick="googleLogin()">🔵 Google Login</button>
+
+  <br/><br/>
+
+  <input id="email" placeholder="Email" />
+  <input id="password" type="password" placeholder="Password" />
+
+  <br/>
+
+  <button class="primary" onclick="emailSignUp()">🆕 Sign Up</button>
+  <button class="primary" onclick="emailSignIn()">🔐 Sign In</button>
+
   <p id="status">Checking login...</p>
 </div>
 
@@ -96,12 +104,12 @@ input {
 
   <h3 id="welcome"></h3>
 
-  <button class="logout" onclick="logout()">🚪 Logout</button>
+  <button onclick="logout()">🚪 Logout</button>
 
   <div id="chat"></div>
 
   <input id="msg" placeholder="Ask Guardian AI..." />
-  <button class="send" onclick="sendMsg()">Send</button>
+  <button onclick="sendMsg()">Send</button>
 
 </div>
 
@@ -127,13 +135,30 @@ const db = firebase.firestore();
 
 let currentUser = null;
 
-/* LOGIN */
-function loginGoogle() {
+/* GOOGLE LOGIN */
+function googleLogin() {
   const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider).then(res => setUser(res.user));
+}
 
-  auth.signInWithPopup(provider)
+/* EMAIL SIGN UP */
+function emailSignUp() {
+  const email = document.getElementById("email").value;
+  const pass = document.getElementById("password").value;
+
+  auth.createUserWithEmailAndPassword(email, pass)
     .then(res => setUser(res.user))
-    .catch(err => console.log(err));
+    .catch(e => alert(e.message));
+}
+
+/* EMAIL SIGN IN */
+function emailSignIn() {
+  const email = document.getElementById("email").value;
+  const pass = document.getElementById("password").value;
+
+  auth.signInWithEmailAndPassword(email, pass)
+    .then(res => setUser(res.user))
+    .catch(e => alert(e.message));
 }
 
 /* LOGOUT */
@@ -155,12 +180,12 @@ function setUser(user) {
   document.getElementById("aiBox").style.display = "block";
 
   document.getElementById("welcome").innerText =
-    "Welcome back " + (user.displayName || user.email);
+    "Welcome " + (user.displayName || user.email);
 
   loadChat(user.uid);
 }
 
-/* LOAD CHAT MEMORY */
+/* LOAD MEMORY */
 function loadChat(uid) {
   db.collection("chats").doc(uid).get().then(doc => {
     if (!doc.exists) {
@@ -174,14 +199,13 @@ function loadChat(uid) {
 
 /* SEND MESSAGE */
 function sendMsg() {
-  const input = document.getElementById("msg");
-  const text = input.value;
+  const text = msg.value;
   if (!text || !currentUser) return;
 
   addMsg("you", text);
   saveMsg("user", text);
 
-  input.value = "";
+  msg.value = "";
 
   setTimeout(() => {
     const reply = "🤖 Guardian AI: I received your message.";
@@ -190,7 +214,7 @@ function sendMsg() {
   }, 800);
 }
 
-/* ADD MESSAGE TO UI */
+/* ADD MESSAGE */
 function addMsg(role, text) {
   const chat = document.getElementById("chat");
 
@@ -222,7 +246,7 @@ function saveMsg(role, text) {
   });
 }
 
-/* AUTH CHECK */
+/* AUTH STATE */
 auth.onAuthStateChanged(user => {
   if (user) {
     setUser(user);

@@ -1,221 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Guardian AI - Login System</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Guardian AI - Full System</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      color: white;
-      text-align: center;
-    }
+<style>
+body {
+  margin:0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#0f172a,#1e293b);
+  color:white;
+}
 
-    header {
-      padding: 20px;
-      background: rgba(0,0,0,0.4);
-    }
+/* HEADER */
+header {
+  text-align:center;
+  padding:20px;
+  background:rgba(0,0,0,0.4);
+}
+h1 { color:#00ffcc; }
 
-    h1 {
-      color: #00ffcc;
-      margin: 0;
-    }
+/* LOGIN */
+#loginBox {
+  text-align:center;
+  margin-top:60px;
+}
 
-    .container {
-      padding: 30px;
-    }
+button {
+  padding:10px 15px;
+  margin:10px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
+}
 
-    button {
-      padding: 12px 18px;
-      margin: 10px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-    }
+.google {
+  background:#00ffcc;
+  color:black;
+}
 
-    .google {
-      background: #00ffcc;
-      color: black;
-    }
+.logout {
+  background:#ef4444;
+  color:white;
+}
 
-    .logout {
-      background: #ef4444;
-      color: white;
-    }
+/* AI SECTION */
+#aiBox {
+  display:none;
+  max-width:700px;
+  margin:20px auto;
+  background:#111827;
+  padding:20px;
+  border-radius:15px;
+}
 
-    .status {
-      margin-top: 20px;
-      color: #94a3b8;
-    }
+#chat {
+  height:300px;
+  overflow-y:auto;
+  border:1px solid #334155;
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:10px;
+}
 
-    .box {
-      margin-top: 20px;
-    }
-  </style>
+input {
+  width:75%;
+  padding:10px;
+  border-radius:10px;
+  border:none;
+}
+
+.send {
+  background:#00ffcc;
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>🤖 Guardian AI</h1>
-  <p>Login + Memory System</p>
+<h1>🤖 Guardian AI</h1>
+<p>Login + Memory + Chat System</p>
 </header>
 
-<div class="container">
+<!-- LOGIN -->
+<div id="loginBox">
+  <button class="google" onclick="loginGoogle()">🔵 Login with Google</button>
+  <p id="status">Checking login...</p>
+</div>
 
-  <div id="authBox">
-    <button class="google" onclick="loginWithGoogle()">🔵 Login with Google</button>
-  </div>
+<!-- AI -->
+<div id="aiBox">
 
-  <div class="box">
-    <button class="logout" onclick="logout()">🚪 Logout</button>
-  </div>
+  <h3 id="welcome"></h3>
 
-  <p class="status" id="status">Checking login...</p>
+  <button class="logout" onclick="logout()">🚪 Logout</button>
+
+  <div id="chat"></div>
+
+  <input id="msg" placeholder="Ask Guardian AI..." />
+  <button class="send" onclick="sendMsg()">Send</button>
 
 </div>
 
-<!-- 🔥 FIREBASE -->
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
 
 <script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
-    authDomain: "my-website-357cb.firebaseapp.com",
-    projectId: "my-website-357cb",
-    storageBucket: "my-website-357cb.firebasestorage.app",
-    messagingSenderId: "759627961944",
-    appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d",
-    measurementId: "G-MK9ZP12G83"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
+  authDomain: "my-website-357cb.firebaseapp.com",
+  projectId: "my-website-357cb",
+  storageBucket: "my-website-357cb.firebasestorage.app",
+  messagingSenderId: "759627961944",
+  appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d"
+};
 
-  firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
-  const auth = firebase.auth();
-  const db = firebase.firestore();
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-  let currentUser = null;
+let currentUser = null;
 
-  // 🔵 GOOGLE LOGIN
-  function loginWithGoogle() {
-    const provider = new firebase.auth.GoogleAuthProvider();
+/* LOGIN */
+function loginGoogle() {
+  const provider = new firebase.auth.GoogleAuthProvider();
 
-    auth.signInWithPopup(provider)
-      .then(result => {
-        handleUser(result.user);
-      })
-      .catch(error => console.log(error));
-  }
+  auth.signInWithPopup(provider)
+    .then(res => setUser(res.user))
+    .catch(err => console.log(err));
+}
 
-  // 🚪 LOGOUT
-  function logout() {
-    auth.signOut();
-  }
+/* LOGOUT */
+function logout() {
+  auth.signOut();
+}
 
-  // 🧠 HANDLE USER (SAVE + LOAD MEMORY)
-  function handleUser(user) {
-    currentUser = user;
+/* SET USER */
+function setUser(user) {
+  currentUser = user;
 
-    // Save user profile
-    db.collection("users").doc(user.uid).set({
-      name: user.displayName,
-      email: user.email,
-      lastLogin: new Date()
-    }, { merge: true });
+  db.collection("users").doc(user.uid).set({
+    name: user.displayName || user.email,
+    email: user.email,
+    lastLogin: new Date()
+  }, { merge:true });
 
-    // Load chat memory
-    loadMemory(user.uid);
+  document.getElementById("loginBox").style.display = "none";
+  document.getElementById("aiBox").style.display = "block";
 
-    document.getElementById("status").innerText =
-      "✅ Logged in as " + user.displayName;
-  }
+  document.getElementById("welcome").innerText =
+    "Welcome back " + (user.displayName || user.email);
 
-  // 📚 LOAD MEMORY
-  function loadMemory(uid) {
-    db.collection("chats").doc(uid).get()
-      .then(doc => {
-        if (!doc.exists) {
-          db.collection("chats").doc(uid).set({
-            messages: []
-          });
-        } else {
-          console.log("🧠 Memory loaded:", doc.data());
-        }
-      });
-  }
+  loadChat(user.uid);
+}
 
-  // 💬 SAVE MESSAGE (FOR FUTURE AI USE)
-  function saveMessage(role, text) {
-    if (!currentUser) return;
-
-    const ref = db.collection("chats").doc(currentUser.uid);
-
-    ref.get().then(doc => {
-      let messages = [];
-
-      if (doc.exists) {
-        messages = doc.data().messages || [];
-      }
-
-      messages.push({
-        role: role,
-        text: text,
-        time: new Date()
-      });
-
-      ref.set({ messages: messages }, { merge: true });
-    });
-  }
-
-  // 🔍 LOGIN STATE TRACKER
-  auth.onAuthStateChanged(user => {
-    if (user) {
-      handleUser(user);
+/* LOAD CHAT MEMORY */
+function loadChat(uid) {
+  db.collection("chats").doc(uid).get().then(doc => {
+    if (!doc.exists) {
+      db.collection("chats").doc(uid).set({ messages: [] });
     } else {
-      currentUser = null;
-      document.getElementById("status").innerText =
-        "❌ Not logged in";
+      const msgs = doc.data().messages || [];
+      msgs.forEach(m => addMsg(m.role, m.text));
     }
   });
-</script>
+}
 
-<!-- 🤖 GUARDIAN AI CHAT WIDGET -->
-<script>
-(function(){
-  if(!window.chatbase||window.chatbase("getState")!=="initialized"){
-    window.chatbase=(...args)=>{
-      if(!window.chatbase.q){window.chatbase.q=[]}
-      window.chatbase.q.push(args)
-    };
+/* SEND MESSAGE */
+function sendMsg() {
+  const input = document.getElementById("msg");
+  const text = input.value;
+  if (!text || !currentUser) return;
 
-    window.chatbase=new Proxy(window.chatbase,{
-      get(target,prop){
-        if(prop==="q"){return target.q}
-        return(...args)=>target(prop,...args)
-      }
-    })
-  }
+  addMsg("you", text);
+  saveMsg("user", text);
 
-  const onLoad=function(){
-    const script=document.createElement("script");
-    script.src="https://www.chatbase.co/embed.min.js";
-    script.id="BJAUIH5Icn_jSA9SiDX9N";
-    script.domain="www.chatbase.co";
-    document.body.appendChild(script)
-  };
+  input.value = "";
 
-  if(document.readyState==="complete"){
-    onLoad()
+  setTimeout(() => {
+    const reply = "🤖 Guardian AI: I received your message.";
+    addMsg("ai", reply);
+    saveMsg("ai", reply);
+  }, 800);
+}
+
+/* ADD MESSAGE TO UI */
+function addMsg(role, text) {
+  const chat = document.getElementById("chat");
+
+  const p = document.createElement("p");
+  p.innerHTML = `<b>${role}:</b> ${text}`;
+
+  chat.appendChild(p);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+/* SAVE MEMORY */
+function saveMsg(role, text) {
+  if (!currentUser) return;
+
+  const ref = db.collection("chats").doc(currentUser.uid);
+
+  ref.get().then(doc => {
+    let messages = doc.exists ? doc.data().messages : [];
+
+    messages.push({
+      role,
+      text,
+      time: new Date()
+    });
+
+    if (messages.length > 100) messages = messages.slice(-100);
+
+    ref.set({ messages }, { merge:true });
+  });
+}
+
+/* AUTH CHECK */
+auth.onAuthStateChanged(user => {
+  if (user) {
+    setUser(user);
   } else {
-    window.addEventListener("load",onLoad)
+    currentUser = null;
+
+    document.getElementById("loginBox").style.display = "block";
+    document.getElementById("aiBox").style.display = "none";
+
+    document.getElementById("status").innerText =
+      "❌ Not logged in";
   }
-})();
+});
 </script>
 
 </body>

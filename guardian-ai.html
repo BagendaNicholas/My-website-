@@ -1,64 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Guardian AI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guardian AI - Test Page</title>
 
 <style>
 body {
-  margin:0;
-  font-family:Arial;
-  background:linear-gradient(135deg,#0f172a,#1e293b);
-  color:white;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: white;
+  text-align: center;
 }
 
-/* HEADER */
 header {
-  text-align:center;
-  padding:20px;
-  background:rgba(0,0,0,0.4);
+  padding: 20px;
+  background: rgba(0,0,0,0.4);
+  box-shadow: 0 0 10px rgba(0,255,200,0.3);
 }
 
-h1 { color:#00ffcc; }
-
-/* CHAT BOX */
-.container {
-  max-width:700px;
-  margin:20px auto;
-  background:#111827;
-  padding:20px;
-  border-radius:15px;
+h1 {
+  margin: 10px 0;
+  color: #00ffcc;
 }
 
-#chat {
-  height:300px;
-  overflow-y:auto;
-  border:1px solid #334155;
-  padding:10px;
-  border-radius:10px;
-  margin-bottom:10px;
+p {
+  color: #cbd5e1;
 }
 
-input {
-  width:75%;
-  padding:10px;
-  border:none;
-  border-radius:10px;
+.box {
+  margin-top: 30px;
+  padding: 20px;
 }
 
-button {
-  padding:10px 15px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-  background:#00ffcc;
-  font-weight:bold;
-}
-
-.logout {
-  background:#ef4444;
-  color:white;
+.btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: #00ffcc;
+  color: black;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
 }
 </style>
 </head>
@@ -67,25 +51,17 @@ button {
 
 <header>
   <h1>🤖 Guardian AI</h1>
-  <p>Secure AI + Memory System</p>
+  <p>Created by Nicholas & Big Bro Grayson</p>
 </header>
 
-<div class="container">
-
-  <h3 id="welcome">Loading user...</h3>
-
-  <button class="logout" onclick="logout()">🚪 Logout</button>
-
-  <div id="chat"></div>
-
-  <input id="msg" placeholder="Ask Guardian AI..." />
-  <button onclick="sendMsg()">Send</button>
-
+<div class="box">
+  <h2>Test Page</h2>
+  <p>Talk to your AI assistant below 👇</p>
 </div>
 
-<!-- FIREBASE -->
+<!-- 🔥 FIREBASE AUTH CHECK -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
 
 <script>
 const firebaseConfig = {
@@ -98,94 +74,50 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+const auth = firebase.auth();
 
-const uid = localStorage.getItem("guardian_uid");
-
-// 🚫 BLOCK IF NOT LOGGED IN
-if (!uid) {
-  alert("Please login first 🛡️");
-  window.location.href = "login.html";
-}
-
-// 🧠 LOAD USER INFO
-db.collection("users").doc(uid).get().then(doc => {
-  if (doc.exists) {
-    document.getElementById("welcome").innerText =
-      "Welcome " + doc.data().name;
+// 🔐 CHECK LOGIN STATUS
+auth.onAuthStateChanged(user => {
+  if (!user) {
+    // ❌ NOT LOGGED IN → redirect
+    window.location.href = "login.html";
   } else {
-    document.getElementById("welcome").innerText =
-      "Welcome Guardian User";
+    console.log("✅ User logged in:", user.email);
   }
 });
+</script>
 
-// 💬 LOAD CHAT HISTORY
-loadChat();
+<!-- 🤖 CHATBASE WIDGET -->
+<script>
+(function(){
+  if(!window.chatbase||window.chatbase("getState")!=="initialized"){
+    window.chatbase=(...arguments)=>{
+      if(!window.chatbase.q){window.chatbase.q=[]}
+      window.chatbase.q.push(arguments)
+    };
 
-function loadChat() {
-  db.collection("chats").doc(uid).get().then(doc => {
-    if (doc.exists) {
-      const msgs = doc.data().messages || [];
-      msgs.forEach(m => addMsg(m.role, m.text));
-    } else {
-      db.collection("chats").doc(uid).set({ messages: [] });
-    }
-  });
-}
+    window.chatbase=new Proxy(window.chatbase,{
+      get(target,prop){
+        if(prop==="q"){return target.q}
+        return(...args)=>target(prop,...args)
+      }
+    })
+  }
 
-// 💬 SEND MESSAGE
-function sendMsg() {
-  const input = document.getElementById("msg");
-  const text = input.value;
-  if (!text) return;
+  const onLoad=function(){
+    const script=document.createElement("script");
+    script.src="https://www.chatbase.co/embed.min.js";
+    script.id="BJAUIH5Icn_jSA9SiDX9N";
+    script.domain="www.chatbase.co";
+    document.body.appendChild(script)
+  };
 
-  addMsg("you", text);
-  saveMsg("user", text);
-
-  input.value = "";
-
-  setTimeout(() => {
-    const reply = "🤖 Guardian AI: I received your message.";
-    addMsg("ai", reply);
-    saveMsg("ai", reply);
-  }, 800);
-}
-
-// 🧠 ADD MESSAGE
-function addMsg(role, text) {
-  const chat = document.getElementById("chat");
-
-  const p = document.createElement("p");
-  p.innerHTML = `<b>${role}:</b> ${text}`;
-
-  chat.appendChild(p);
-  chat.scrollTop = chat.scrollHeight;
-}
-
-// 💾 SAVE MEMORY
-function saveMsg(role, text) {
-  const ref = db.collection("chats").doc(uid);
-
-  ref.get().then(doc => {
-    let messages = doc.exists ? doc.data().messages : [];
-
-    messages.push({
-      role,
-      text,
-      time: new Date()
-    });
-
-    if (messages.length > 100) messages = messages.slice(-100);
-
-    ref.set({ messages }, { merge:true });
-  });
-}
-
-// 🚪 LOGOUT
-function logout() {
-  localStorage.removeItem("guardian_uid");
-  window.location.href = "login.html";
-}
+  if(document.readyState==="complete"){
+    onLoad()
+  } else {
+    window.addEventListener("load",onLoad)
+  }
+})();
 </script>
 
 </body>

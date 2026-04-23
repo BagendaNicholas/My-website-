@@ -4,41 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guardian AI</title>
+    <script src="https://kjur.github.io/jsrsasign/jsrsasign-all-min.js"></script>
     <style>
-        body { margin: 0; font-family: Arial, sans-serif; background: #0f172a; color: white; text-align: center; }
-        header { padding: 20px; background: rgba(0,0,0,0.4); border-bottom: 1px solid #00ffcc; }
-        h1 { color: #00ffcc; margin: 0; }
-        .container { padding: 20px; }
-        
-        /* Logout Button Styling */
-        .logout-section { margin: 20px 0; }
-        .btn-signout {
-            background: #ff4d4d;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(255, 77, 77, 0.3);
-        }
-        .btn-signout:active { transform: scale(0.98); }
+        body { margin: 0; font-family: sans-serif; background: #0f172a; color: white; text-align: center; }
+        .card { background: #1e293b; padding: 20px; margin: 20px; border-radius: 12px; border: 1px solid #00ffcc; }
+        .btn { background: #ff4d4d; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Guardian AI</h1>
+<header style="padding: 20px; background: rgba(0,0,0,0.4);">
+    <h1 style="color: #00ffcc;">🛡 Guardian AI</h1>
 </header>
 
-<div class="container">
-    <div id="user-display">Checking user...</div>
-    
-    <div class="logout-section">
-        <button class="btn-signout" onclick="handleSignOut()">🚪 Sign Out & Clear Chat</button>
-    </div>
-    
-    <p>The chatbot is at the bottom right 👇</p>
+<div class="card">
+    <div id="user-info">Authenticating...</div>
+    <button class="btn" onclick="firebase.auth().signOut()">Sign Out</button>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -53,65 +34,48 @@
         messagingSenderId: "759627961944",
         appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d"
     };
-
     firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
 
-    // 1. SIGN OUT FUNCTION
-    async function handleSignOut() {
-        console.log("Cleaning up session...");
-        
-        // Force Chatbase to reset BEFORE signing out of Firebase
-        if (window.chatbase) {
-            window.chatbase('resetUser');
-            console.log("Chat session cleared.");
-        }
+    // --- YOUR SECRET FROM DASHBOARD ---
+    // IMPORTANT: Keep this secret in a real app!
+    const CHATBASE_SECRET = "w7bier3nj5zch42iubt7gicm3cgb05h1"; 
 
-        // Sign out of Firebase
-        await auth.signOut();
-        window.location.href = "login.html";
-    }
-
-    // 2. AUTH STATE MONITOR
-    auth.onAuthStateChanged(user => {
-        const display = document.getElementById('user-display');
+    firebase.auth().onAuthStateChanged(user => {
         if (user) {
-            display.innerHTML = `Welcome, <b>${user.email}</b>`;
+            document.getElementById('user-info').innerText = "Logged in: " + user.email;
+
+            // --- CREATE THE JWT (THE SERVER CODE) ---
+            const header = { alg: "HS256", typ: "JWT" };
+            const payload = {
+                user_id: user.uid,
+                email: user.email,
+                iat: Math.floor(Date.now() / 1000),
+                exp: Math.floor(Date.now() / 1000) + (60 * 60) // 1 hour
+            };
             
-            // Sync with Chatbase
-            let checkChat = setInterval(() => {
+            // Signing the token
+            const sHeader = JSON.stringify(header);
+            const sPayload = JSON.stringify(payload);
+            const token = KJUR.jws.JWS.sign("HS256", sHeader, sPayload, CHATBASE_SECRET);
+
+            // --- IDENTIFY TO CHATBASE ---
+            const checkChat = setInterval(() => {
                 if (window.chatbase) {
                     clearInterval(checkChat);
-                    window.chatbase('identify', {
-                        userId: user.uid,
-                        email: user.email
-                    });
+                    window.chatbase('identify', { token: token });
+                    console.log("✅ Identity Verified with JWT");
                 }
             }, 1000);
+
         } else {
-            // Redirect if no user
-            if (!window.location.pathname.includes('login.html')) {
-                window.location.href = "login.html";
-            }
+            if (window.chatbase) window.chatbase('resetUser');
+            window.location.href = "login.html";
         }
     });
 </script>
 
 <script>
-    (function(){
-        if(!window.chatbase||window.chatbase("getState")!=="initialized"){
-            window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};
-            window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})
-        }
-        const onLoad=function(){
-            const script=document.createElement("script");
-            script.src="https://www.chatbase.co/embed.min.js";
-            script.id="BJAUIH5Icn_jSA9SiDX9N";
-            script.domain="www.chatbase.co";
-            document.body.appendChild(script)
-        };
-        if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}
-    })();
+    (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="BJAUIH5Icn_jSA9SiDX9N";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
 </script>
 
 </body>

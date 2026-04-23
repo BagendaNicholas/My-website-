@@ -3,24 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guardian AI - Mobile Sync</title>
+    <title>Guardian AI</title>
     <style>
-        body { margin: 0; font-family: sans-serif; background: #0f172a; color: white; text-align: center; }
-        header { padding: 20px; background: rgba(0,0,0,0.4); }
-        h1 { color: #00ffcc; }
-        .status-card { background: #1e293b; padding: 20px; margin: 20px; border-radius: 12px; border: 1px solid #00ffcc; }
-        .btn-logout { background: #ff4d4d; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px; }
+        body { margin: 0; font-family: Arial, sans-serif; background: #0f172a; color: white; text-align: center; }
+        header { padding: 20px; background: rgba(0,0,0,0.4); border-bottom: 1px solid #00ffcc; }
+        h1 { color: #00ffcc; margin: 0; }
+        .container { padding: 20px; }
+        
+        /* Logout Button Styling */
+        .logout-section { margin: 20px 0; }
+        .btn-signout {
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(255, 77, 77, 0.3);
+        }
+        .btn-signout:active { transform: scale(0.98); }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>🤖 Guardian AI</h1>
+    <h1>Guardian AI</h1>
 </header>
 
-<div class="status-card">
-    <div id="user-info">Checking User...</div>
-    <button class="btn-logout" onclick="logout()">Log Out</button>
+<div class="container">
+    <div id="user-display">Checking user...</div>
+    
+    <div class="logout-section">
+        <button class="btn-signout" onclick="handleSignOut()">🚪 Sign Out & Clear Chat</button>
+    </div>
+    
+    <p>The chatbot is at the bottom right 👇</p>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -39,33 +57,44 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    // 🔐 HANDLE AUTH CHANGES
+    // 1. SIGN OUT FUNCTION
+    async function handleSignOut() {
+        console.log("Cleaning up session...");
+        
+        // Force Chatbase to reset BEFORE signing out of Firebase
+        if (window.chatbase) {
+            window.chatbase('resetUser');
+            console.log("Chat session cleared.");
+        }
+
+        // Sign out of Firebase
+        await auth.signOut();
+        window.location.href = "login.html";
+    }
+
+    // 2. AUTH STATE MONITOR
     auth.onAuthStateChanged(user => {
+        const display = document.getElementById('user-display');
         if (user) {
-            document.getElementById('user-info').innerHTML = `Logged in: ${user.email}`;
+            display.innerHTML = `Welcome, <b>${user.email}</b>`;
             
-            // Wait for Chatbase to be ready then SYNC the user
-            const waitForChat = setInterval(() => {
+            // Sync with Chatbase
+            let checkChat = setInterval(() => {
                 if (window.chatbase) {
-                    clearInterval(waitForChat);
+                    clearInterval(checkChat);
                     window.chatbase('identify', {
-                        userId: user.uid, // This switches the conversation history!
+                        userId: user.uid,
                         email: user.email
                     });
                 }
             }, 1000);
         } else {
-            // If logged out, CLEAR the chatbot history so the next person can't see it
-            if (window.chatbase) {
-                window.chatbase('resetUser');
+            // Redirect if no user
+            if (!window.location.pathname.includes('login.html')) {
+                window.location.href = "login.html";
             }
-            window.location.href = "login.html";
         }
     });
-
-    function logout() {
-        auth.signOut();
-    }
 </script>
 
 <script>

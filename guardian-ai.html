@@ -3,122 +3,661 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guardian AI - Secure Terminal Sync</title>
+    <title>Guardian AI - Termux Sync</title>
     <style>
-        body {
+        * {
             margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: #0f172a;
-            color: white;
-            text-align: center;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            color: #f0f9ff;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
         .header {
             padding: 40px 20px;
             background: linear-gradient(to bottom, #1e293b, #0f172a);
-            border-bottom: 1px solid #00ffcc;
+            border-bottom: 2px solid #00ff00;
+            box-shadow: 0 4px 20px rgba(0, 255, 0, 0.2);
         }
-        h1 { color: #00ffcc; text-shadow: 0 0 10px rgba(0,255,204,0.5); }
-        .info-card {
-            background: #1e293b;
-            margin: 20px auto;
+
+        h1 {
+            color: #00ff00;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .container {
+            flex: 1;
             padding: 20px;
-            width: 80%;
-            border-radius: 12px;
-            border: 1px solid #334155;
+            max-width: 700px;
+            margin: 0 auto;
+            width: 100%;
         }
+
+        .info-card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+            font-family: 'Courier New', monospace;
+        }
+
+        .info-card:hover {
+            border-color: #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+        }
+
+        .status-section {
+            margin: 10px 0;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            text-align: left;
+        }
+
+        .status-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .status-value {
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            font-weight: 600;
+            word-break: break-all;
+            font-family: 'Courier New', monospace;
+        }
+
         .status-dot {
-            height: 10px;
-            width: 10px;
-            background-color: #bbb;
+            height: 8px;
+            width: 8px;
+            background-color: #ef4444;
             border-radius: 50%;
             display: inline-block;
-            margin-right: 5px;
+            margin-right: 6px;
+            animation: pulse 2s infinite;
         }
-        .online { background-color: #00ffcc; box-shadow: 0 0 8px #00ffcc; }
-        .btn-signout {
-            background: none;
-            border: 1px solid #ff4d4d;
-            color: #ff4d4d;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
+
+        .status-dot.online {
+            background-color: #00ff00;
+            box-shadow: 0 0 8px #00ff00;
+        }
+
+        .status-dot.connecting {
+            background-color: #ffff00;
+            box-shadow: 0 0 8px #ffff00;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .user-info {
+            font-size: 0.95rem;
+            color: #00ff00;
+            margin: 10px 0;
+            padding: 12px;
+            background: rgba(0, 255, 0, 0.05);
+            border-left: 3px solid #00ff00;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .terminal-output {
+            background: #000;
+            border: 1px solid #00ff00;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            max-height: 200px;
+            overflow-y: auto;
+            text-align: left;
+            font-size: 0.85rem;
+            color: #00ff00;
+        }
+
+        .terminal-output > div {
+            margin: 3px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
             margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .btn-primary {
+            background: #00ff00;
+            color: #000;
+            border: 1px solid #00ff00;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-danger {
+            background: none;
+            border: 1px solid #ff0000;
+            color: #ff0000;
+        }
+
+        .btn-danger:hover {
+            background: rgba(255, 0, 0, 0.1);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: none;
+            border: 1px solid #00ffff;
+            color: #00ffff;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 4px;
+            margin: 15px 0;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid #ff0000;
+            color: #ff6b6b;
+            border-left: 3px solid #ff0000;
+        }
+
+        .success-message {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            border-left: 3px solid #00ff00;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border: 2px solid #334155;
+            border-top-color: #00ff00;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .termux-config {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #00ffff;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .termux-config h3 {
+            color: #00ffff;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .termux-config code {
+            background: #000;
+            color: #00ff00;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        .footer {
+            padding: 20px;
+            border-top: 1px solid #334155;
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .info-card {
+                padding: 15px;
+                margin: 10px 0;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h1>🤖 Guardian AI</h1>
-    <p>User Identity: <span id="sync-status">Syncing...</span></p>
-</div>
-
-<div class="info-card">
-    <div id="user-display">Waiting for Firebase...</div>
-    <div style="margin-top:10px;">
-        <span id="dot" class="status-dot"></span>
-        <small id="termux-status">Termux Server: Connecting...</small>
+    <div class="header">
+        <h1>> Guardian AI ◆ Termux Sync</h1>
+        <p class="subtitle">$ Secure Terminal Synchronization v1.0</p>
     </div>
-</div>
 
-<button class="btn-signout" onclick="handleLogout()">Sign Out of All Sessions</button>
+    <div class="container">
+        <!-- Messages -->
+        <div id="error-message" class="message error-message"></div>
+        <div id="success-message" class="message success-message"></div>
 
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+        <!-- Termux Server Status -->
+        <div class="info-card">
+            <div class="status-label">▶ Termux Server Connection</div>
+            <div class="status-section">
+                <span id="termux-dot" class="status-dot connecting"></span>
+                <small id="termux-status">Connecting to localhost:3000...</small>
+            </div>
+        </div>
 
-<script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
-        authDomain: "my-website-357cb.firebaseapp.com",
-        projectId: "my-website-357cb",
-        storageBucket: "my-website-357cb.firebasestorage.app",
-        messagingSenderId: "759627961944",
-        appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
+        <!-- Firebase Status -->
+        <div class="info-card">
+            <div class="status-label">▶ Firebase Authentication</div>
+            <div class="status-section">
+                <span id="firebase-dot" class="status-dot connecting"></span>
+                <small id="firebase-status">Initializing...</small>
+            </div>
+        </div>
 
-    async function handleLogout() {
-        if (window.chatbase) window.chatbase('resetUser');
-        await auth.signOut();
-        window.location.href = "login.html";
-    }
+        <!-- User Info -->
+        <div class="info-card" id="user-card" style="display: none;">
+            <div class="status-label">▶ User Session</div>
+            <div id="user-display" class="user-info">
+                <div class="loading"></div>
+            </div>
+        </div>
 
-    auth.onAuthStateChanged(async (user) => {
-        if (user) {
-            document.getElementById('user-display').innerText = "Account: " + user.email;
+        <!-- Token Info -->
+        <div class="info-card" id="token-card" style="display: none;">
+            <div class="status-label">▶ Session Token</div>
+            <div class="status-section">
+                <span style="color: #00ff00;">$</span>
+                <span id="token-display" style="color: #00ff00; font-weight: bold;"></span>
+            </div>
+            <button class="btn btn-secondary" onclick="copyToken()" style="margin-top: 10px; width: 100%;">
+                📋 Copy Token
+            </button>
+        </div>
+
+        <!-- Terminal Output -->
+        <div class="info-card">
+            <div class="status-label">▶ Terminal Output</div>
+            <div class="terminal-output" id="terminal-output">
+                <div>$ guardian-ai --init</div>
+                <div style="color: #ffff00;">Waiting for connection...</div>
+            </div>
+        </div>
+
+        <!-- Termux Setup Instructions -->
+        <div class="termux-config">
+            <h3>⚙️ Termux Server Setup</h3>
+            <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 10px;">
+                Run this in your Termux terminal:
+            </p>
+            <div style="background: #000; padding: 10px; border-radius: 4px; margin: 10px 0; color: #00ff00; font-family: 'Courier New', monospace; font-size: 0.8rem; overflow-x: auto;">
+pkg install nodejs<br>
+npm init -y<br>
+npm install express cors<br>
+node server.js
+            </div>
+            <p style="color: #94a3b8; font-size: 0.8rem; margin-top: 10px;">
+                Create <code>server.js</code> in Termux (see documentation below)
+            </p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="button-group">
+            <button class="btn btn-primary" id="connect-btn" onclick="manualConnect()">
+                🔄 Reconnect
+            </button>
+            <button class="btn btn-secondary" onclick="testConnection()">
+                🧪 Test Connection
+            </button>
+            <button class="btn btn-danger" onclick="handleLogout()">
+                🚪 Disconnect
+            </button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>🔒 Secure local connection | Status: <span id="connection-status">offline</span> | Last update: <span id="last-update">--:--:--</span></p>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js"></script>
+
+    <script>
+        /* ====================================
+           CONFIGURATION
+           ==================================== */
+        const TERMUX_SERVER = 'http://localhost:3000';
+        const FIREBASE_CONFIG = {
+            apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
+            authDomain: "my-website-357cb.firebaseapp.com",
+            projectId: "my-website-357cb",
+            storageBucket: "my-website-357cb.firebasestorage.app",
+            messagingSenderId: "759627961944",
+            appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d"
+        };
+
+        /* ====================================
+           STATE
+           ==================================== */
+        let currentUser = null;
+        let currentToken = null;
+        let auth = null;
+        let termuxConnected = false;
+
+        /* ====================================
+           UTILITY FUNCTIONS
+           ==================================== */
+        function log(message, type = 'info') {
+            const terminal = document.getElementById('terminal-output');
+            const line = document.createElement('div');
             
-            try {
-                // Request Token from Termux
-                const response = await fetch('http://localhost:3000/get-token', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ userId: user.uid, email: user.email })
-                });
-
-                const data = await response.json();
-                
-                if (data.token && window.chatbase) {
-                    window.chatbase('identify', { token: data.token });
-                    document.getElementById('termux-status').innerText = "Termux Server: Online";
-                    document.getElementById('dot').className = "status-dot online";
-                    document.getElementById('sync-status').innerText = "Verified ✅";
-                }
-            } catch (err) {
-                document.getElementById('termux-status').innerText = "Termux Server: Offline (Check App)";
-                console.error("Connection error:", err);
+            if (type === 'error') {
+                line.style.color = '#ff0000';
+                line.innerText = '$ ERROR: ' + message;
+            } else if (type === 'success') {
+                line.style.color = '#00ff00';
+                line.innerText = '$ SUCCESS: ' + message;
+            } else if (type === 'warning') {
+                line.style.color = '#ffff00';
+                line.innerText = '$ WARNING: ' + message;
+            } else {
+                line.style.color = '#00ffff';
+                line.innerText = '$ ' + message;
             }
-        } else {
-            if (!window.location.pathname.includes('login.html')) {
-                window.location.href = "login.html";
+            
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById("error-message");
+            errorDiv.innerText = "❌ " + message;
+            errorDiv.style.display = "block";
+            log(message, 'error');
+            setTimeout(() => {
+                errorDiv.style.display = "none";
+            }, 6000);
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById("success-message");
+            successDiv.innerText = "✅ " + message;
+            successDiv.style.display = "block";
+            log(message, 'success');
+            setTimeout(() => {
+                successDiv.style.display = "none";
+            }, 4000);
+        }
+
+        function updateLastUpdate() {
+            const now = new Date();
+            document.getElementById("last-update").innerText = now.toLocaleTimeString();
+        }
+
+        function copyToken() {
+            if (currentToken) {
+                navigator.clipboard.writeText(currentToken).then(() => {
+                    showSuccess("Token copied!");
+                }).catch(() => {
+                    showError("Failed to copy token");
+                });
             }
         }
-    });
-</script>
 
-<script>
-    (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="BJAUIH5Icn_jSA9SiDX9N";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
-</script>
+        /* ====================================
+           TERMUX SERVER FUNCTIONS
+           ==================================== */
+        async function connectToTermux() {
+            try {
+                document.getElementById('termux-dot').className = 'status-dot connecting';
+                document.getElementById('termux-status').innerText = 'Connecting...';
+                log('Connecting to Termux server...', 'info');
+
+                // ✅ CORRECTED FOR TERMUX - Use localhost:3000
+                const response = await fetch(`${TERMUX_SERVER}/health`, {
+                    method: 'GET',
+                    timeout: 5000
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('termux-dot').className = 'status-dot online';
+                    document.getElementById('termux-status').innerText = `Termux: Connected ✓ (${data.version || 'v1.0'})`;
+                    document.getElementById('connection-status').innerText = 'online';
+                    termuxConnected = true;
+                    log('Termux server connected successfully', 'success');
+                    updateLastUpdate();
+                    return true;
+                } else {
+                    throw new Error(`Server responded: ${response.status}`);
+                }
+            } catch (err) {
+                console.error("Termux connection error:", err);
+                document.getElementById('termux-dot').className = 'status-dot';
+                document.getElementById('termux-status').innerText = `Termux: Offline - ${err.message}`;
+                document.getElementById('connection-status').innerText = 'offline';
+                termuxConnected = false;
+                log(`Connection failed: ${err.message}`, 'error');
+                showError(`Cannot connect to Termux server at ${TERMUX_SERVER}`);
+                return false;
+            }
+        }
+
+        async function getTokenFromTermux(user) {
+            try {
+                if (!termuxConnected) {
+                    throw new Error("Termux server not connected");
+                }
+
+                log('Requesting token from Termux...', 'info');
+
+                // ✅ CORRECTED FOR TERMUX - POST to /get-token endpoint
+                const response = await fetch(`${TERMUX_SERVER}/get-token`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userId: user.uid,
+                        email: user.email,
+                        displayName: user.displayName || 'User'
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.token) {
+                    currentToken = data.token;
+                    document.getElementById('token-display').innerText = currentToken;
+                    document.getElementById('token-card').style.display = 'block';
+                    log(`Token received: ${data.token.substring(0, 20)}...`, 'success');
+                    showSuccess("Token received from Termux!");
+                    updateLastUpdate();
+                    return true;
+                } else {
+                    throw new Error(data.error || "No token in response");
+                }
+            } catch (err) {
+                console.error("Token request error:", err);
+                log(err.message, 'error');
+                showError(`Failed to get token: ${err.message}`);
+                return false;
+            }
+        }
+
+        async function testConnection() {
+            log('Running connection test...', 'info');
+            
+            if (currentUser) {
+                await getTokenFromTermux(currentUser);
+            } else {
+                showError("Please authenticate first");
+            }
+        }
+
+        async function manualConnect() {
+            log('Manual reconnection attempt...', 'info');
+            await connectToTermux();
+            
+            if (currentUser && termuxConnected) {
+                await getTokenFromTermux(currentUser);
+            }
+        }
+
+        /* ====================================
+           FIREBASE SETUP
+           ==================================== */
+        async function initializeFirebase() {
+            try {
+                const app = firebase.initializeApp(FIREBASE_CONFIG);
+                auth = firebase.auth(app);
+                
+                document.getElementById('firebase-dot').className = 'status-dot online';
+                document.getElementById('firebase-status').innerText = 'Firebase: Connected ✓';
+                log('Firebase initialized', 'success');
+            } catch (error) {
+                console.error("Firebase init error:", error);
+                document.getElementById('firebase-dot').className = 'status-dot';
+                document.getElementById('firebase-status').innerText = `Firebase: Error - ${error.message}`;
+                log(`Firebase error: ${error.message}`, 'error');
+            }
+        }
+
+        async function handleLogout() {
+            try {
+                await auth.signOut();
+                currentUser = null;
+                currentToken = null;
+                document.getElementById('user-card').style.display = 'none';
+                document.getElementById('token-card').style.display = 'none';
+                showSuccess("Logged out successfully");
+                log('User logged out', 'success');
+            } catch (error) {
+                showError("Logout failed: " + error.message);
+                log(error.message, 'error');
+            }
+        }
+
+        /* ====================================
+           AUTH STATE LISTENER
+           ==================================== */
+        auth && auth.onAuthStateChanged(async (user) => {
+            try {
+                if (user) {
+                    currentUser = user;
+                    document.getElementById('user-card').style.display = 'block';
+                    document.getElementById('user-display').innerHTML = `
+                        <div>
+                            👤 <strong>${user.email}</strong>
+                            <br/>
+                            <small style="font-size: 0.8rem;">uid: ${user.uid}</small>
+                        </div>
+                    `;
+                    log(`User authenticated: ${user.email}`, 'success');
+                    
+                    // Auto-attempt to connect and get token
+                    if (!termuxConnected) {
+                        await connectToTermux();
+                    }
+                    
+                    if (termuxConnected) {
+                        await getTokenFromTermux(user);
+                    }
+                } else {
+                    log('No user authenticated', 'warning');
+                    document.getElementById('user-card').style.display = 'none';
+                    document.getElementById('token-card').style.display = 'none';
+                }
+            } catch (error) {
+                console.error("Auth state error:", error);
+                log(error.message, 'error');
+            }
+        });
+
+        /* ====================================
+           INITIALIZATION
+           ==================================== */
+        window.addEventListener('load', async () => {
+            log('Guardian AI Initializing...', 'info');
+            await initializeFirebase();
+            await connectToTermux();
+            updateLastUpdate();
+        });
+
+        // Auto-reconnect every 30 seconds
+        setInterval(async () => {
+            if (!termuxConnected) {
+                await connectToTermux();
+            }
+        }, 30000);
+    </script>
 
 </body>
 </html>

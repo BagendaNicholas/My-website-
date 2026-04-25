@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NK Biometric Admin Dashboard - Manage students and attendance">
+  <title>NK Biometric Admin Dashboard</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0a0f2c 0%, #1a1f4d 100%);
+      color: #00f7ff;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding: 20px;
+      background: rgba(0,247,255,0.05);
+      border-radius: 12px;
+      border: 2px solid #00f7ff;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #00f7ff;
+      text-shadow: 0 0 20px rgba(0,247,255,0.5);
+      letter-spacing: 2px;
+    }
+
+    h2 {
+      color: #00f7ff;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+    }
+
+    h3 {
+      color: #00f7ff;
+      margin-bottom: 15px;
+    }
+
+    .logout-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #ff6b6b, #ff4444);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      box-shadow: 0 0 15px rgba(255,107,107,0.6);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 12px 20px;
+      background: rgba(0,247,255,0.1);
+      color: #00f7ff;
+      border: 2px solid rgba(0,247,255,0.3);
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #00f7ff, #00aaff);
+      color: #0a0f2c;
+      border-color: #00f7ff;
+      box-shadow: 0 0 15px rgba(0,247,255,0.5);
+    }
+
+    .tab-btn:hover {
+      border-color: #00f7ff;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .content-container {
+      background: rgba(0,247,255,0.05);
+      padding: 30px;
+      border-radius: 12px;
+      border: 2px solid #00f7ff;
+      box-shadow: 0 0 20px rgba(0,247,255,0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    thead {
+      background: rgba(0,247,255,0.15);
+    }
+
+    th {
+      padding: 15px;
+      text-align: left;
+      color: #00f7ff;
+      font-weight: bold;
+      border-bottom: 2px solid #00f7ff;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+
+    td {
+      padding: 12px 15px;
+      border-bottom: 1px solid rgba(0,247,255,0.2);
+      color: #00f7ff;
+    }
+
+    tr:hover {
+      background: rgba(0,247,255,0.1);
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .status-approved {
+      background: rgba(0,200,100,0.3);
+      color: #00ff88;
+      border: 1px solid rgba(0,200,100,0.5);
+    }
+
+    .status-pending {
+      background: rgba(255,180,0,0.3);
+      color: #ffb400;
+      border: 1px solid rgba(255,180,0,0.5);
+    }
+
+    .action-btn {
+      padding: 8px 16px;
+      margin: 0 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      transition: all 0.3s ease;
+    }
+
+    .approve-btn {
+      background: rgba(0,200,100,0.4);
+      color: #00ff88;
+      border: 1px solid rgba(0,200,100,0.5);
+    }
+
+    .approve-btn:hover {
+      background: rgba(0,200,100,0.6);
+    }
+
+    .reject-btn {
+      background: rgba(255,100,100,0.4);
+      color: #ff6666;
+      border: 1px solid rgba(255,100,100,0.5);
+    }
+
+    .reject-btn:hover {
+      background: rgba(255,100,100,0.6);
+    }
+
+    .delete-btn {
+      background: rgba(255,100,100,0.4);
+      color: #ff6666;
+      border: 1px solid rgba(255,100,100,0.5);
+    }
+
+    .delete-btn:hover {
+      background: rgba(255,100,100,0.6);
+    }
+
+    .view-btn {
+      background: rgba(0,150,255,0.4);
+      color: #00f7ff;
+      border: 1px solid rgba(0,150,255,0.5);
+    }
+
+    .view-btn:hover {
+      background: rgba(0,150,255,0.6);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: rgba(0,247,255,0.1);
+      padding: 20px;
+      border-radius: 8px;
+      border: 2px solid #00f7ff;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      color: #00ff88;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .stat-label {
+      font-size: 0.95rem;
+      color: #00f7ff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .search-box {
+      margin-bottom: 20px;
+    }
+
+    input[type="text"], input[type="date"], select {
+      width: 100%;
+      max-width: 300px;
+      padding: 10px;
+      border: 2px solid rgba(0,247,255,0.3);
+      border-radius: 6px;
+      background: rgba(10,15,44,0.8);
+      color: #00f7ff;
+      font-size: 0.95rem;
+    }
+
+    input[type="text"]:focus, input[type="date"]:focus, select:focus {
+      outline: none;
+      border-color: #00f7ff;
+      box-shadow: 0 0 10px rgba(0,247,255,0.5);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-content {
+      background: linear-gradient(135deg, #0a0f2c 0%, #1a1f4d 100%);
+      margin: 5% auto;
+      padding: 30px;
+      border: 2px solid #00f7ff;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 600px;
+      color: #00f7ff;
+      box-shadow: 0 0 30px rgba(0,247,255,0.5);
+    }
+
+    .modal-content p {
+      margin-bottom: 15px;
+      font-size: 1rem;
+    }
+
+    .modal-content strong {
+      color: #00ff88;
+    }
+
+    .close {
+      color: #00f7ff;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .close:hover {
+      text-shadow: 0 0 10px rgba(0,247,255,0.5);
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 40px;
+      color: rgba(0,247,255,0.6);
+      font-size: 1.1rem;
+    }
+
+    .status-message {
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .success-message {
+      background: rgba(0,200,100,0.2);
+      border: 1px solid rgba(0,200,100,0.5);
+      color: #00ff88;
+    }
+
+    .error-message {
+      background: rgba(255,100,100,0.2);
+      border: 1px solid rgba(255,100,100,0.5);
+      color: #ff6666;
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .tabs {
+        flex-direction: column;
+      }
+
+      .tab-btn {
+        width: 100%;
+      }
+
+      table {
+        font-size: 0.9rem;
+      }
+
+      th, td {
+        padding: 8px;
+      }
+
+      .action-btn {
+        padding: 6px 10px;
+        font-size: 0.7rem;
+        margin: 2px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🛡️ Admin Dashboard</h1>
+    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('pending')">📋 Pending Approvals</button>
+    <button class="tab-btn" onclick="switchTab('approved')">✅ Approved Students</button>
+    <button class="tab-btn" onclick="switchTab('attendance')">📊 Attendance Records</button>
+    <button class="tab-btn" onclick="switchTab('analytics')">📈 Analytics</button>
+  </div>
+
+  <!-- Pending Approvals Tab -->
+  <div id="pending" class="tab-content active">
+    <div class="content-container">
+      <div class="status-message" id="pendingMessage"></div>
+      <h2>Pending Student Registrations</h2>
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-label">Pending Registrations</div>
+          <div class="stat-number" id="pendingCount">0</div>
+        </div>
+      </div>
+      <table id="pendingTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Country</th>
+            <th>District</th>
+            <th>Village</th>
+            <th>Registered At</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="pendingBody">
+          <tr><td colspan="6" class="no-data">No pending registrations</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Approved Students Tab -->
+  <div id="approved" class="tab-content">
+    <div class="content-container">
+      <div class="status-message" id="approvedMessage"></div>
+      <h2>Approved Students</h2>
+      <div class="search-box">
+        <input type="text" id="approvedSearch" placeholder="Search student name..." onkeyup="filterApprovedStudents()">
+      </div>
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-label">Total Approved</div>
+          <div class="stat-number" id="approvedCount">0</div>
+        </div>
+      </div>
+      <table id="approvedTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Country</th>
+            <th>District</th>
+            <th>Village</th>
+            <th>Approved At</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="approvedBody">
+          <tr><td colspan="6" class="no-data">No approved students</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Attendance Records Tab -->
+  <div id="attendance" class="tab-content">
+    <div class="content-container">
+      <h2>Attendance Records</h2>
+      <div class="search-box">
+        <input type="date" id="attendanceDate" onchange="filterAttendance()">
+      </div>
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-label">Total Attendance Records</div>
+          <div class="stat-number" id="attendanceCount">0</div>
+        </div>
+      </div>
+      <table id="attendanceTable">
+        <thead>
+          <tr>
+            <th>Student Name</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="attendanceBody">
+          <tr><td colspan="5" class="no-data">No attendance records</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Analytics Tab -->
+  <div id="analytics" class="tab-content">
+    <div class="content-container">
+      <h2>System Analytics</h2>
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-label">Total Students</div>
+          <div class="stat-number" id="totalStudents">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Approval Rate</div>
+          <div class="stat-number" id="approvalRate">0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Attendance Rate</div>
+          <div class="stat-number" id="attendanceRate">0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Pending Registrations</div>
+          <div class="stat-number" id="analyticsPending">0</div>
+        </div>
+      </div>
+      <div style="margin-top: 30px;">
+        <h3>Recent Activity</h3>
+        <table id="activityTable">
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Action</th>
+              <th>Date/Time</th>
+            </tr>
+          </thead>
+          <tbody id="activityBody">
+            <tr><td colspan="3" class="no-data">No recent activity</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for student details -->
+  <div id="studentModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2>Student Details</h2>
+      <div id="studentDetails"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, getDocs, updateDoc, deleteDoc, doc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBKp0yZqLMXkPZqLH5ZqLH5ZqLH5ZqLH5Z",
+      authDomain: "my-website-357cb.firebaseapp.com",
+      projectId: "my-website-357cb",
+      storageBucket: "my-website-357cb.appspot.com",
+      messagingSenderId: "759627961944",
+      appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let allStudents = [];
+    let allAttendance = [];
+
+    // Initialize dashboard
+    async function initDashboard() {
+      await loadPendingStudents();
+      await loadApprovedStudents();
+      await loadAttendance();
+      await loadAnalytics();
+    }
+
+    window.switchTab = function(tabName) {
+      // Hide all tabs
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+
+      // Deactivate all buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      // Show selected tab
+      document.getElementById(tabName).classList.add('active');
+      event.target.classList.add('active');
+    };
+
+    async function loadPendingStudents() {
+      try {
+        const q = query(collection(db, "students"), where("approved", "==", false));
+        const querySnapshot = await getDocs(q);
+        
+        const pendingBody = document.getElementById("pendingBody");
+        pendingBody.innerHTML = "";
+
+        if (querySnapshot.empty) {
+          pendingBody.innerHTML = '<tr><td colspan="6" class="no-data">No pending registrations</td></tr>';
+          document.getElementById("pendingCount").textContent = "0";
+          return;
+        }
+
+        document.getElementById("pendingCount").textContent = querySnapshot.size;
+
+        querySnapshot.forEach(doc => {
+          const student = doc.data();
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${student.name}</td>
+            <td>${student.country}</td>
+            <td>${student.district}</td>
+            <td>${student.village}</td>
+            <td>${formatDate(student.registeredAt)}</td>
+            <td>
+              <button class="action-btn approve-btn" onclick="approveStudent('${doc.id}', '${student.name}')">Approve</button>
+              <button class="action-btn reject-btn" onclick="rejectStudent('${doc.id}', '${student.name}')">Reject</button>
+            </td>
+          `;
+          pendingBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error("Error loading pending students:", error);
+        showMessage("pendingMessage", "Error loading pending students", "error");
+      }
+    }
+
+    async function loadApprovedStudents() {
+      try {
+        const q = query(collection(db, "students"), where("approved", "==", true));
+        const querySnapshot = await getDocs(q);
+        
+        allStudents = [];
+        const approvedBody = document.getElementById("approvedBody");
+        approvedBody.innerHTML = "";
+
+        if (querySnapshot.empty) {
+          approvedBody.innerHTML = '<tr><td colspan="6" class="no-data">No approved students</td></tr>';
+          document.getElementById("approvedCount").textContent = "0";
+          return;
+        }
+
+        document.getElementById("approvedCount").textContent = querySnapshot.size;
+
+        querySnapshot.forEach(doc => {
+          const student = { id: doc.id, ...doc.data() };
+          allStudents.push(student);
+
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${student.name}</td>
+            <td>${student.country}</td>
+            <td>${student.district}</td>
+            <td>${student.village}</td>
+            <td>${formatDate(student.approvedAt)}</td>
+            <td>
+              <button class="action-btn view-btn" onclick="viewStudent('${doc.id}')">View</button>
+              <button class="action-btn delete-btn" onclick="deleteStudent('${doc.id}', '${student.name}')">Delete</button>
+            </td>
+          `;
+          approvedBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error("Error loading approved students:", error);
+        showMessage("approvedMessage", "Error loading approved students", "error");
+      }
+    }
+
+    async function loadAttendance() {
+      try {
+        const q = query(collection(db, "attendance"), orderBy("timestamp", "desc"));
+        const querySnapshot = await getDocs(q);
+        
+        allAttendance = [];
+        const attendanceBody = document.getElementById("attendanceBody");
+        attendanceBody.innerHTML = "";
+
+        if (querySnapshot.empty) {
+          attendanceBody.innerHTML = '<tr><td colspan="5" class="no-data">No attendance records</td></tr>';
+          document.getElementById("attendanceCount").textContent = "0";
+          return;
+        }
+
+        document.getElementById("attendanceCount").textContent = querySnapshot.size;
+
+        querySnapshot.forEach(doc => {
+          const record = { id: doc.id, ...doc.data() };
+          allAttendance.push(record);
+
+          const row = document.createElement("tr");
+          const date = new Date(record.timestamp?.toDate?.() || record.timestamp);
+          row.innerHTML = `
+            <td>${record.studentName}</td>
+            <td>${date.toLocaleDateString()}</td>
+            <td>${date.toLocaleTimeString()}</td>
+            <td><span class="status-badge status-approved">Present</span></td>
+            <td>
+              <button class="action-btn delete-btn" onclick="deleteAttendance('${doc.id}')">Delete</button>
+            </td>
+          `;
+          attendanceBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error("Error loading attendance:", error);
+      }
+    }
+
+    async function loadAnalytics() {
+      try {
+        const studentsSnapshot = await getDocs(collection(db, "students"));
+        const attendanceSnapshot = await getDocs(collection(db, "attendance"));
+
+        let approvedCount = 0;
+        let pendingCount = 0;
+
+        studentsSnapshot.forEach(doc => {
+          if (doc.data().approved) {
+            approvedCount++;
+          } else {
+            pendingCount++;
+          }
+        });
+
+        const total = studentsSnapshot.size;
+        const approvalRate = total > 0 ? Math.round((approvedCount / total) * 100) : 0;
+        const attendanceRate = approvedCount > 0 ? Math.round((attendanceSnapshot.size / approvedCount) * 100) : 0;
+
+        document.getElementById("totalStudents").textContent = total;
+        document.getElementById("approvalRate").textContent = approvalRate + "%";
+        document.getElementById("attendanceRate").textContent = attendanceRate + "%";
+        document.getElementById("analyticsPending").textContent = pendingCount;
+
+        // Load recent activity
+        const recentActivity = [];
+        studentsSnapshot.forEach(doc => {
+          recentActivity.push({
+            name: doc.data().name,
+            action: doc.data().approved ? "Approved" : "Registered",
+            date: doc.data().approvedAt || doc.data().registeredAt
+          });
+        });
+
+        const activityBody = document.getElementById("activityBody");
+        activityBody.innerHTML = "";
+
+        if (recentActivity.length === 0) {
+          activityBody.innerHTML = '<tr><td colspan="3" class="no-data">No recent activity</td></tr>';
+        } else {
+          recentActivity.slice(0, 10).forEach(activity => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${activity.name}</td>
+              <td>${activity.action}</td>
+              <td>${formatDate(activity.date)}</td>
+            `;
+            activityBody.appendChild(row);
+          });
+        }
+      } catch (error) {
+        console.error("Error loading analytics:", error);
+      }
+    }
+
+    window.approveStudent = async function(studentId, studentName) {
+      if (!confirm(`Approve ${studentName}?`)) return;
+
+      try {
+        await updateDoc(doc(db, "students", studentId), {
+          approved: true,
+          approvedAt: new Date()
+        });
+
+        showMessage("pendingMessage", `✅ ${studentName} approved successfully!`, "success");
+        await loadPendingStudents();
+        await loadApprovedStudents();
+        await loadAnalytics();
+      } catch (error) {
+        console.error("Error approving student:", error);
+        showMessage("pendingMessage", "Error approving student", "error");
+      }
+    };
+
+    window.rejectStudent = async function(studentId, studentName) {
+      if (!confirm(`Reject ${studentName}?`)) return;
+
+      try {
+        await deleteDoc(doc(db, "students", studentId));
+        showMessage("pendingMessage", `❌ ${studentName} rejected`, "success");
+        await loadPendingStudents();
+        await loadAnalytics();
+      } catch (error) {
+        console.error("Error rejecting student:", error);
+        showMessage("pendingMessage", "Error rejecting student", "error");
+      }
+    };
+
+    window.deleteStudent = async function(studentId, studentName) {
+      if (!confirm(`Delete ${studentName}?`)) return;
+
+      try {
+        await deleteDoc(doc(db, "students", studentId));
+        showMessage("approvedMessage", `🗑️ ${studentName} deleted`, "success");
+        await loadApprovedStudents();
+        await loadAnalytics();
+      } catch (error) {
+        console.error("Error deleting student:", error);
+        showMessage("approvedMessage", "Error deleting student", "error");
+      }
+    };
+
+    window.deleteAttendance = async function(recordId) {
+      if (!confirm("Delete this attendance record?")) return;
+
+      try {
+        await deleteDoc(doc(db, "attendance", recordId));
+        await loadAttendance();
+      } catch (error) {
+        console.error("Error deleting attendance:", error);
+      }
+    };
+
+    window.filterApprovedStudents = function() {
+      const searchTerm = document.getElementById("approvedSearch").value.toLowerCase();
+      const tbody = document.getElementById("approvedBody");
+      const rows = tbody.getElementsByTagName("tr");
+
+      let visibleCount = 0;
+      for (let row of rows) {
+        const name = row.cells[0].textContent.toLowerCase();
+        if (name.includes(searchTerm)) {
+          row.style.display = "";
+          visibleCount++;
+        } else {
+          row.style.display = "none";
+        }
+      }
+
+      if (visibleCount === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="no-data">No students found</td></tr>';
+      }
+    };
+
+    window.filterAttendance = function() {
+      const selectedDate = document.getElementById("attendanceDate").value;
+      const tbody = document.getElementById("attendanceBody");
+      const rows = tbody.getElementsByTagName("tr");
+
+      let visibleCount = 0;
+      for (let row of rows) {
+        const recordDate = row.cells[1].textContent;
+        if (!selectedDate || recordDate === selectedDate) {
+          row.style.display = "";
+          visibleCount++;
+        } else {
+          row.style.display = "none";
+        }
+      }
+
+      if (visibleCount === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="no-data">No records for selected date</td></tr>';
+      }
+    };
+
+    window.viewStudent = function(studentId) {
+      const student = allStudents.find(s => s.id === studentId);
+      if (!student) return;
+
+      const details = `
+        <p><strong>Name:</strong> ${student.name}</p>
+        <p><strong>Country:</strong> ${student.country}</p>
+        <p><strong>District:</strong> ${student.district}</p>
+        <p><strong>Village:</strong> ${student.village}</p>
+        <p><strong>Registered:</strong> ${formatDate(student.registeredAt)}</p>
+        <p><strong>Approved:</strong> ${formatDate(student.approvedAt)}</p>
+      `;
+
+      document.getElementById("studentDetails").innerHTML = details;
+      document.getElementById("studentModal").style.display = "block";
+    };
+
+    window.closeModal = function() {
+      document.getElementById("studentModal").style.display = "none";
+    };
+
+    window.logout = function() {
+      if (confirm("Are you sure you want to logout?")) {
+        window.location.href = "attendance.html";
+      }
+    };
+
+    function formatDate(timestamp) {
+      if (!timestamp) return "N/A";
+      const date = timestamp.toDate?.() || new Date(timestamp);
+      return date.toLocaleString();
+    }
+
+    function showMessage(elementId, message, type) {
+      const element = document.getElementById(elementId);
+      element.textContent = message;
+      element.className = `status-message ${type}-message`;
+      element.style.display = 'block';
+
+      setTimeout(() => {
+        element.style.display = "none";
+      }, 4000);
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      const modal = document.getElementById("studentModal");
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    };
+
+    // Initialize on load
+    initDashboard();
+  </script>
+</body>
+</html>

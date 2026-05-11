@@ -6,6 +6,7 @@
 <title>Interactive 3D Rotating Cube</title>
 
 <style>
+
 body{
     display:flex;
     justify-content:center;
@@ -29,6 +30,7 @@ body{
     height:100%;
     position:relative;
     transform-style:preserve-3d;
+    transform:translateZ(-100px);
     animation:rotateCube 8s infinite linear;
 }
 
@@ -51,6 +53,7 @@ body{
     overflow:hidden;
     border:2px solid rgba(255,255,255,0.2);
     border-radius:10px;
+    background:#111;
 }
 
 /* Images */
@@ -87,58 +90,105 @@ body{
 
 /* Animation */
 @keyframes rotateCube{
+
     0%{
-        transform:rotateX(0deg) rotateY(0deg);
+        transform:translateZ(-100px) rotateX(0deg) rotateY(0deg);
     }
+
+    25%{
+        transform:translateZ(-100px) rotateX(90deg) rotateY(90deg);
+    }
+
+    50%{
+        transform:translateZ(-100px) rotateX(180deg) rotateY(180deg);
+    }
+
+    75%{
+        transform:translateZ(-100px) rotateX(270deg) rotateY(270deg);
+    }
+
     100%{
-        transform:rotateX(360deg) rotateY(360deg);
+        transform:translateZ(-100px) rotateX(360deg) rotateY(360deg);
     }
 }
+
 </style>
 </head>
 
 <body>
 
 <div class="scene">
+
     <div class="cube">
 
-        <a href="https://bayonaedith.github.io/My-school-project/admin.1.html" class="cube-face-link front">
+        <!-- Front -->
+        <a href="https://bayonaedith.github.io/My-school-project/admin.1.html"
+           class="cube-face-link front">
+
             <div class="cube-face">
-                <img src="https://i.postimg.cc/W4Cpqh6k/1759816092973.png" alt="Front">
+                <img src="https://i.postimg.cc/W4Cpqh6k/1759816092973.png"
+                     alt="Front">
             </div>
+
         </a>
 
-        <a href="menu.html" class="cube-face-link back">
+        <!-- Back -->
+        <a href="menu.html"
+           class="cube-face-link back">
+
             <div class="cube-face">
-                <img src="https://i.postimg.cc/DZGvrnBq/1759488455267.png" alt="Back">
+                <img src="https://i.postimg.cc/DZGvrnBq/1759488455267.png"
+                     alt="Back">
             </div>
+
         </a>
 
-        <a href="chat&search.html" class="cube-face-link right">
+        <!-- Right -->
+        <a href="chat&search.html"
+           class="cube-face-link right">
+
             <div class="cube-face">
-                <img src="https://i.postimg.cc/d1Cs2w4S/1759816077657.png" alt="Right">
+                <img src="https://i.postimg.cc/d1Cs2w4S/1759816077657.png"
+                     alt="Right">
             </div>
+
         </a>
 
-        <a href="nicholassearch.html" class="cube-face-link left">
+        <!-- Left -->
+        <a href="nicholassearch.html"
+           class="cube-face-link left">
+
             <div class="cube-face">
-                <img src="https://i.postimg.cc/BvXQvxDt/1759814336455.png" alt="Left">
+                <img src="https://i.postimg.cc/BvXQvxDt/1759814336455.png"
+                     alt="Left">
             </div>
+
         </a>
 
-        <a href="minigooglechat.html" class="cube-face-link top">
+        <!-- Top -->
+        <a href="minigooglechat.html"
+           class="cube-face-link top">
+
             <div class="cube-face">
-                <img src="https://i.postimg.cc/SQWQjQXG/1759486824644.png" alt="Top">
+                <img src="https://i.postimg.cc/SQWQjQXG/1759486824644.png"
+                     alt="Top">
             </div>
+
         </a>
 
-        <a href="message.html" class="cube-face-link bottom">
+        <!-- Bottom -->
+        <a href="message.html"
+           class="cube-face-link bottom">
+
             <div class="cube-face">
-                <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Bottom">
+                <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png"
+                     alt="Bottom">
             </div>
+
         </a>
 
     </div>
+
 </div>
 
 </body>

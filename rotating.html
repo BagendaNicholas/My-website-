@@ -3,57 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Interactive 3D Rotating Cube</title>
+
+<title>3D Cube</title>
 
 <style>
 
 body{
+    margin:0;
     display:flex;
     justify-content:center;
     align-items:center;
-    min-height:100vh;
-    background:#282c34;
+    height:100vh;
+    background:#111;
     overflow:hidden;
-    margin:0;
 }
 
 /* Scene */
 .scene{
-    width:200px;
-    height:200px;
-    perspective:1000px;
+    width:220px;
+    height:220px;
+    perspective:1200px;
 }
 
 /* Cube */
 .cube{
-    width:100%;
-    height:100%;
+    width:220px;
+    height:220px;
     position:relative;
     transform-style:preserve-3d;
-    transform:translateZ(-100px);
-    animation:rotateCube 8s infinite linear;
+    animation:spin 10s infinite linear;
 }
 
-/* Clickable faces */
+/* Faces */
 .cube-face-link{
     position:absolute;
-    width:200px;
-    height:200px;
-    display:block;
-    cursor:pointer;
+    width:220px;
+    height:220px;
 }
 
-/* Face */
+/* Face style */
 .cube-face{
     width:100%;
     height:100%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow:hidden;
     border:2px solid rgba(255,255,255,0.2);
-    border-radius:10px;
-    background:#111;
+    border-radius:12px;
+    overflow:hidden;
+    background:#222;
 }
 
 /* Images */
@@ -63,52 +58,54 @@ body{
     object-fit:cover;
 }
 
-/* Cube positions */
+/* PERFECT 3D POSITIONS */
+
 .front{
-    transform:rotateY(0deg) translateZ(100px);
+    transform:translateZ(110px);
 }
 
 .back{
-    transform:rotateY(180deg) translateZ(100px);
+    transform:rotateY(180deg) translateZ(110px);
 }
 
 .right{
-    transform:rotateY(90deg) translateZ(100px);
+    transform:rotateY(90deg) translateZ(110px);
 }
 
 .left{
-    transform:rotateY(-90deg) translateZ(100px);
+    transform:rotateY(-90deg) translateZ(110px);
 }
 
 .top{
-    transform:rotateX(90deg) translateZ(100px);
+    transform:rotateX(90deg) translateZ(110px);
 }
 
 .bottom{
-    transform:rotateX(-90deg) translateZ(100px);
+    transform:rotateX(-90deg) translateZ(110px);
 }
 
-/* Animation */
-@keyframes rotateCube{
+/* REAL 6-SIDE ROTATION */
+
+@keyframes spin{
 
     0%{
-        transform:translateZ(-100px) rotateX(0deg) rotateY(0deg);
+        transform:rotateX(-20deg) rotateY(0deg);
     }
 
     25%{
-        transform:translateZ(-100px) rotateX(90deg) rotateY(90deg);
+        transform:rotateX(-20deg) rotateY(90deg);
     }
 
     50%{
-        transform:translateZ(-100px) rotateX(180deg) rotateY(180deg);
+        transform:rotateX(-20deg) rotateY(180deg);
     }
 
     75%{
-        transform:translateZ(-100px) rotateX(270deg) rotateY(270deg);
+        transform:rotateX(-20deg) rotateY(270deg);
     }
 
     100%{
-        transform:translateZ(-100px) rotateX(360deg) rotateY(360deg);
+        transform:rotateX(-20deg) rotateY(360deg);
     }
 }
 
@@ -119,75 +116,69 @@ body{
 
 <div class="scene">
 
-    <div class="cube">
+<div class="cube">
 
-        <!-- Front -->
-        <a href="https://bayonaedith.github.io/My-school-project/admin.1.html"
-           class="cube-face-link front">
+    <!-- FRONT -->
+    <a href="https://bayonaedith.github.io/My-school-project/admin.1.html"
+       class="cube-face-link front">
 
-            <div class="cube-face">
-                <img src="https://i.postimg.cc/W4Cpqh6k/1759816092973.png"
-                     alt="Front">
-            </div>
+        <div class="cube-face">
+            <img src="https://i.postimg.cc/W4Cpqh6k/1759816092973.png">
+        </div>
 
-        </a>
+    </a>
 
-        <!-- Back -->
-        <a href="menu.html"
-           class="cube-face-link back">
+    <!-- BACK -->
+    <a href="menu.html"
+       class="cube-face-link back">
 
-            <div class="cube-face">
-                <img src="https://i.postimg.cc/DZGvrnBq/1759488455267.png"
-                     alt="Back">
-            </div>
+        <div class="cube-face">
+            <img src="https://i.postimg.cc/DZGvrnBq/1759488455267.png">
+        </div>
 
-        </a>
+    </a>
 
-        <!-- Right -->
-        <a href="chat&search.html"
-           class="cube-face-link right">
+    <!-- RIGHT -->
+    <a href="chat&search.html"
+       class="cube-face-link right">
 
-            <div class="cube-face">
-                <img src="https://i.postimg.cc/d1Cs2w4S/1759816077657.png"
-                     alt="Right">
-            </div>
+        <div class="cube-face">
+            <img src="https://i.postimg.cc/d1Cs2w4S/1759816077657.png">
+        </div>
 
-        </a>
+    </a>
 
-        <!-- Left -->
-        <a href="nicholassearch.html"
-           class="cube-face-link left">
+    <!-- LEFT -->
+    <a href="nicholassearch.html"
+       class="cube-face-link left">
 
-            <div class="cube-face">
-                <img src="https://i.postimg.cc/BvXQvxDt/1759814336455.png"
-                     alt="Left">
-            </div>
+        <div class="cube-face">
+            <img src="https://i.postimg.cc/BvXQvxDt/1759814336455.png">
+        </div>
 
-        </a>
+    </a>
 
-        <!-- Top -->
-        <a href="minigooglechat.html"
-           class="cube-face-link top">
+    <!-- TOP -->
+    <a href="minigooglechat.html"
+       class="cube-face-link top">
 
-            <div class="cube-face">
-                <img src="https://i.postimg.cc/SQWQjQXG/1759486824644.png"
-                     alt="Top">
-            </div>
+        <div class="cube-face">
+            <img src="https://i.postimg.cc/SQWQjQXG/1759486824644.png">
+        </div>
 
-        </a>
+    </a>
 
-        <!-- Bottom -->
-        <a href="message.html"
-           class="cube-face-link bottom">
+    <!-- BOTTOM -->
+    <a href="message.html"
+       class="cube-face-link bottom">
 
-            <div class="cube-face">
-                <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png"
-                     alt="Bottom">
-            </div>
+        <div class="cube-face">
+            <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png">
+        </div>
 
-        </a>
+    </a>
 
-    </div>
+</div>
 
 </div>
 

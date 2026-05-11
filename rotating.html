@@ -3,62 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>3D Cube</title>
+<title>TV To Rotating Cube</title>
 
 <style>
 
-body{
+*{
     margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    height:100vh;
-    background:#111;
+    background:#050816;
     overflow:hidden;
+    font-family:Arial, sans-serif;
 }
 
-/* Scene */
-.scene{
-    width:220px;
-    height:220px;
-    perspective:1200px;
-}
-
-/* Cube */
-.cube{
-    width:220px;
-    height:220px;
-    position:relative;
-    transform-style:preserve-3d;
-    animation:spin 10s infinite linear;
-}
-
-/* Faces */
-.cube-face-link{
+/* GLOWING BACKGROUND */
+body::before{
+    content:"";
     position:absolute;
-    width:220px;
-    height:220px;
+    width:500px;
+    height:500px;
+    background:radial-gradient(circle, rgba(0,255,255,0.25), transparent 70%);
+    filter:blur(40px);
+    animation:pulse 4s infinite alternate;
 }
 
-/* Face style */
-.cube-face{
+@keyframes pulse{
+    from{ transform:scale(1); }
+    to{ transform:scale(1.3); }
+}
+
+.scene{
+    width:260px;
+    height:260px;
+    perspective:1200px;
+    position:relative;
+}
+
+/* =========================
+   TV SCREEN
+========================= */
+.tv{
+    width:320px;
+    height:220px;
+    background:#111;
+    border:12px solid #333;
+    border-radius:18px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    overflow:hidden;
+    box-shadow:
+        0 0 20px rgba(0,255,255,0.4),
+        0 0 50px rgba(0,255,255,0.2),
+        inset 0 0 20px rgba(255,255,255,0.1);
+
+    animation:tvDisappear 4s forwards;
+}
+
+.tv::before{
+    content:"";
+    position:absolute;
     width:100%;
     height:100%;
-    border:2px solid rgba(255,255,255,0.2);
-    border-radius:12px;
-    overflow:hidden;
-    background:#222;
+    background:linear-gradient(
+        rgba(255,255,255,0.08),
+        rgba(255,255,255,0.02)
+    );
+    pointer-events:none;
 }
 
-/* Images */
-.cube-face img{
+.tv-screen{
+    width:100%;
+    height:100%;
+}
+
+.tv-screen img{
     width:100%;
     height:100%;
     object-fit:cover;
 }
 
-/* PERFECT 3D POSITIONS */
+/* TV STAND */
+.tv-stand{
+    position:absolute;
+    bottom:-40px;
+    left:50%;
+    transform:translateX(-50%);
+    width:100px;
+    height:12px;
+    background:#444;
+    border-radius:20px;
+}
+
+.tv-stand::before{
+    content:"";
+    position:absolute;
+    width:30px;
+    height:35px;
+    background:#555;
+    left:50%;
+    transform:translateX(-50%);
+    top:-30px;
+    border-radius:10px;
+}
+
+/* =========================
+   CUBE
+========================= */
+.cube{
+    width:220px;
+    height:220px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform-style:preserve-3d;
+    transform:translate(-50%, -50%) rotateX(-25deg) rotateY(0deg);
+    opacity:0;
+
+    animation:
+        cubeAppear 4s forwards,
+        fastSpin 2s linear infinite 4s;
+}
+
+.face-link{
+    position:absolute;
+    width:220px;
+    height:220px;
+    display:block;
+}
+
+.face{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    border-radius:18px;
+    border:2px solid rgba(255,255,255,0.15);
+    box-shadow:
+        0 0 20px rgba(0,255,255,0.2),
+        inset 0 0 15px rgba(255,255,255,0.08);
+    background:#111;
+}
+
+.face img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
 
 .front{
     transform:translateZ(110px);
@@ -84,28 +182,58 @@ body{
     transform:rotateX(-90deg) translateZ(110px);
 }
 
-/* REAL 6-SIDE ROTATION */
+/* =========================
+   ANIMATIONS
+========================= */
 
-@keyframes spin{
+@keyframes tvDisappear{
 
-    0%{
-        transform:rotateX(-20deg) rotateY(0deg);
-    }
-
-    25%{
-        transform:rotateX(-20deg) rotateY(90deg);
-    }
-
-    50%{
-        transform:rotateX(-20deg) rotateY(180deg);
-    }
-
-    75%{
-        transform:rotateX(-20deg) rotateY(270deg);
+    0%,70%{
+        opacity:1;
+        transform:translate(-50%, -50%) scale(1);
     }
 
     100%{
-        transform:rotateX(-20deg) rotateY(360deg);
+        opacity:0;
+        transform:translate(-50%, -50%) scale(0.2) rotateY(360deg);
+    }
+}
+
+@keyframes cubeAppear{
+
+    0%,70%{
+        opacity:0;
+        transform:
+            translate(-50%, -50%)
+            scale(0.1)
+            rotateX(0deg)
+            rotateY(0deg);
+    }
+
+    100%{
+        opacity:1;
+        transform:
+            translate(-50%, -50%)
+            scale(1)
+            rotateX(-25deg)
+            rotateY(0deg);
+    }
+}
+
+@keyframes fastSpin{
+
+    from{
+        transform:
+            translate(-50%, -50%)
+            rotateX(0deg)
+            rotateY(0deg);
+    }
+
+    to{
+        transform:
+            translate(-50%, -50%)
+            rotateX(360deg)
+            rotateY(720deg);
     }
 }
 
@@ -116,69 +244,85 @@ body{
 
 <div class="scene">
 
-<div class="cube">
+    <!-- TV -->
+    <div class="tv">
 
-    <!-- FRONT -->
-    <a href="https://bayonaedith.github.io/My-school-project/admin.1.html"
-       class="cube-face-link front">
+        <a href="https://bayonaedith.github.io/My-school-project/admin.1.html"
+           class="tv-screen">
 
-        <div class="cube-face">
             <img src="https://i.postimg.cc/W4Cpqh6k/1759816092973.png">
-        </div>
 
-    </a>
+        </a>
 
-    <!-- BACK -->
-    <a href="menu.html"
-       class="cube-face-link back">
+        <div class="tv-stand"></div>
 
-        <div class="cube-face">
-            <img src="https://i.postimg.cc/DZGvrnBq/1759488455267.png">
-        </div>
+    </div>
 
-    </a>
 
-    <!-- RIGHT -->
-    <a href="chat&search.html"
-       class="cube-face-link right">
+    <!-- 3D CUBE -->
+    <div class="cube">
 
-        <div class="cube-face">
-            <img src="https://i.postimg.cc/d1Cs2w4S/1759816077657.png">
-        </div>
+        <!-- FRONT -->
+        <a href="https://bayonaedith.github.io/My-school-project/admin.1.html"
+           class="face-link front">
 
-    </a>
+            <div class="face">
+                <img src="https://i.postimg.cc/W4Cpqh6k/1759816092973.png">
+            </div>
 
-    <!-- LEFT -->
-    <a href="nicholassearch.html"
-       class="cube-face-link left">
+        </a>
 
-        <div class="cube-face">
-            <img src="https://i.postimg.cc/BvXQvxDt/1759814336455.png">
-        </div>
+        <!-- BACK -->
+        <a href="menu.html"
+           class="face-link back">
 
-    </a>
+            <div class="face">
+                <img src="https://i.postimg.cc/DZGvrnBq/1759488455267.png">
+            </div>
 
-    <!-- TOP -->
-    <a href="minigooglechat.html"
-       class="cube-face-link top">
+        </a>
 
-        <div class="cube-face">
-            <img src="https://i.postimg.cc/SQWQjQXG/1759486824644.png">
-        </div>
+        <!-- RIGHT -->
+        <a href="chat&search.html"
+           class="face-link right">
 
-    </a>
+            <div class="face">
+                <img src="https://i.postimg.cc/d1Cs2w4S/1759816077657.png">
+            </div>
 
-    <!-- BOTTOM -->
-    <a href="message.html"
-       class="cube-face-link bottom">
+        </a>
 
-        <div class="cube-face">
-            <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png">
-        </div>
+        <!-- LEFT -->
+        <a href="nicholassearch.html"
+           class="face-link left">
 
-    </a>
+            <div class="face">
+                <img src="https://i.postimg.cc/BvXQvxDt/1759814336455.png">
+            </div>
 
-</div>
+        </a>
+
+        <!-- TOP -->
+        <a href="minigooglechat.html"
+           class="face-link top">
+
+            <div class="face">
+                <img src="https://i.postimg.cc/SQWQjQXG/1759486824644.png">
+            </div>
+
+        </a>
+
+        <!-- BOTTOM -->
+        <a href="message.html"
+           class="face-link bottom">
+
+            <div class="face">
+                <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png">
+            </div>
+
+        </a>
+
+    </div>
 
 </div>
 

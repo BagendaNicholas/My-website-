@@ -4,97 +4,141 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Interactive 3D Rotating Cube</title>
+
 <style>
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #282c34;
-    overflow: hidden;
-    margin: 0;
-  }
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    background:#282c34;
+    overflow:hidden;
+    margin:0;
+}
 
-  .scene {
-    width: 200px;
-    height: 200px;
-    perspective: 800px;
-  }
+/* Scene */
+.scene{
+    width:200px;
+    height:200px;
+    perspective:1000px;
+}
 
-  .cube {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    transform: translateZ(-100px);
-    animation: cubeRotate 8s infinite linear;
-  }
+/* Cube */
+.cube{
+    width:100%;
+    height:100%;
+    position:relative;
+    transform-style:preserve-3d;
+    animation:rotateCube 8s infinite linear;
+}
 
-  /* Each anchor tag now acts as the clickable face */
-  .cube-face-link {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    box-sizing: border-box;
-    cursor: pointer;
-  }
+/* Clickable faces */
+.cube-face-link{
+    position:absolute;
+    width:200px;
+    height:200px;
+    display:block;
+    cursor:pointer;
+}
 
-  .cube-face {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-  }
-  
-  /* This rule makes your images fit perfectly */
-  .cube-face img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+/* Face */
+.cube-face{
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    border:2px solid rgba(255,255,255,0.2);
+    border-radius:10px;
+}
 
-  /* Positioning for each face */
-  .front  { transform: rotateY(0deg) translateZ(100px); }
-  .back   { transform: rotateY(180deg) translateZ(100px); }
-  .right  { transform: rotateY(90deg) translateZ(100px); }
-  .left   { transform: rotateY(-90deg) translateZ(100px); }
-  .top    { transform: rotateX(90deg) translateZ(100px); }
-  .bottom { transform: rotateX(-90deg) translateZ(100px); }
+/* Images */
+.cube-face img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
 
-  @keyframes cubeRotate {
-    from {
-      transform: rotateX(0deg) rotateY(0deg);
+/* Cube positions */
+.front{
+    transform:rotateY(0deg) translateZ(100px);
+}
+
+.back{
+    transform:rotateY(180deg) translateZ(100px);
+}
+
+.right{
+    transform:rotateY(90deg) translateZ(100px);
+}
+
+.left{
+    transform:rotateY(-90deg) translateZ(100px);
+}
+
+.top{
+    transform:rotateX(90deg) translateZ(100px);
+}
+
+.bottom{
+    transform:rotateX(-90deg) translateZ(100px);
+}
+
+/* Animation */
+@keyframes rotateCube{
+    0%{
+        transform:rotateX(0deg) rotateY(0deg);
     }
-    to {
-      transform: rotateX(360deg) rotateY(360deg);
+    100%{
+        transform:rotateX(360deg) rotateY(360deg);
     }
-  }
+}
 </style>
 </head>
+
 <body>
 
 <div class="scene">
-  <div class="cube">
-    <a href="('https://bayonaedith.github.io/My-school-project/admin.1.html')" class="cube-face-link front">
-      <div class="cube-face"><img src="https://i.postimg.cc/W4Cpqh6k/1759816092973.png" alt="Nicholas Bagenda" /></div>
-    </a>
-    <a href="menu.html" class="cube-face-link back">
-      <div class="cube-face"><img src="https://i.postimg.cc/DZGvrnBq/1759488455267.png" alt="Nicholas Bagenda" /></div>
-    </a>
-    <a href="chat&search.html" class="cube-face-link right">
-      <div class="cube-face"><img src="https://i.postimg.cc/d1Cs2w4S/1759816077657.png" alt="Nicholas Bagenda" /></div>
-    </a>
-    <a href="nicholassearch.html" class="cube-face-link left">
-      <div class="cube-face"><img src="https://i.postimg.cc/BvXQvxDt/1759814336455.png" alt="Nicholas Bagenda" /></div>
-    </a>
-    <a href="minigooglechat.html" class="cube-face-link top">
-      <div class="cube-face"><img src="https://i.postimg.cc/SQWQjQXG/1759486824644.png" alt="Nicholas Bagenda" /></div>
-    </a>
-    <a href="message.html" class="cube-face-link bottom">
-      <div class="cube-face"><img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Nicholas Bagenda" /></div>
-    </a>
-  </div>
+    <div class="cube">
+
+        <a href="https://bayonaedith.github.io/My-school-project/admin.1.html" class="cube-face-link front">
+            <div class="cube-face">
+                <img src="https://i.postimg.cc/W4Cpqh6k/1759816092973.png" alt="Front">
+            </div>
+        </a>
+
+        <a href="menu.html" class="cube-face-link back">
+            <div class="cube-face">
+                <img src="https://i.postimg.cc/DZGvrnBq/1759488455267.png" alt="Back">
+            </div>
+        </a>
+
+        <a href="chat&search.html" class="cube-face-link right">
+            <div class="cube-face">
+                <img src="https://i.postimg.cc/d1Cs2w4S/1759816077657.png" alt="Right">
+            </div>
+        </a>
+
+        <a href="nicholassearch.html" class="cube-face-link left">
+            <div class="cube-face">
+                <img src="https://i.postimg.cc/BvXQvxDt/1759814336455.png" alt="Left">
+            </div>
+        </a>
+
+        <a href="minigooglechat.html" class="cube-face-link top">
+            <div class="cube-face">
+                <img src="https://i.postimg.cc/SQWQjQXG/1759486824644.png" alt="Top">
+            </div>
+        </a>
+
+        <a href="message.html" class="cube-face-link bottom">
+            <div class="cube-face">
+                <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Bottom">
+            </div>
+        </a>
+
+    </div>
 </div>
 
 </body>

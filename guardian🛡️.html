@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Guardian Dashboard Pro 🛡️</title>
+<title>Guardian Dashboard Pro ����️</title>
 
 <style>
 
@@ -306,6 +306,12 @@ a{
     text-decoration:none;
 }
 
+.location-name{
+    color:#10b981;
+    font-weight:bold;
+    font-size:1.1rem;
+}
+
 </style>
 </head>
 
@@ -331,7 +337,7 @@ a{
 
     <div class="card">
 
-        <h2>📰 Global News</h2>
+        <h2>📰 Live Global News</h2>
 
         <select id="newsCategory" onchange="getNews()">
 
@@ -632,7 +638,7 @@ function closeModal(){
 }
 
 /* =========================
-   LIVE WEATHER
+   LIVE WEATHER WITH LOCATION
 ========================= */
 
 async function getWeather(){
@@ -644,19 +650,27 @@ async function getWeather(){
                 const lon = position.coords.longitude;
 
                 try{
-                    const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
-                    const data = await res.json();
+                    // Fetch weather data
+                    const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+                    const weatherData = await weatherRes.json();
+
+                    // Fetch location name using reverse geocoding
+                    const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
+                    const geoData = await geoRes.json();
+
+                    // Extract location name (city > town > village > county)
+                    const locationName = geoData.address.city || geoData.address.town || geoData.address.village || geoData.address.county || "Your Location";
 
                     document.getElementById("weatherBox").innerHTML = `
                         <h3>🌤️ Your Weather</h3>
                         <p style="margin-top:10px;">
-                            🌡️ Temperature: ${data.current_weather.temperature}°C
+                            📍 <span class="location-name">${locationName}</span>
+                        </p>
+                        <p style="margin-top:8px;">
+                            🌡️ Temperature: ${weatherData.current_weather.temperature}°C
                         </p>
                         <p>
-                            💨 Wind Speed: ${data.current_weather.windspeed} km/h
-                        </p>
-                        <p>
-                            📍 Based on your location
+                            💨 Wind Speed: ${weatherData.current_weather.windspeed} km/h
                         </p>
                     `;
 

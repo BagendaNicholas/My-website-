@@ -4,184 +4,283 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guardian Dashboard Pro 🛡️</title>
+
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
-            color: #f8fafc;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            min-height: 100vh;
-            padding: 20px;
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
         }
 
-        .header { text-align: center; margin-bottom: 30px; }
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-            max-width: 1400px;
-            margin: 0 auto;
+        body{
+            background:linear-gradient(135deg,#0f172a,#1e293b,#334155);
+            color:#f8fafc;
+            font-family:'Segoe UI',Roboto,Arial,sans-serif;
+            min-height:100vh;
+            padding:20px;
         }
 
-        .card {
-            background: rgba(30, 41, 59, 0.7);
-            border-radius: 20px;
-            padding: 20px;
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            flex-direction: column;
+        .header{
+            text-align:center;
+            margin-bottom:30px;
         }
 
-        h2 { margin-bottom: 15px; font-size: 1.4rem; display: flex; align-items: center; gap: 10px; }
-
-        /* UI ELEMENTS */
-        input, select {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            margin-bottom: 10px;
+        .header h1{
+            font-size:2.3rem;
+            margin-bottom:10px;
         }
 
-        button {
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            background: #3b82f6;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
+        .dashboard{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+            gap:25px;
+            max-width:1400px;
+            margin:auto;
         }
-        button:hover { background: #2563eb; }
 
-        /* MOVIE GRID */
-        .movie-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 10px;
-            max-height: 450px;
-            overflow-y: auto;
+        .card{
+            background:rgba(30,41,59,0.7);
+            border-radius:20px;
+            padding:20px;
+            backdrop-filter:blur(12px);
+            border:1px solid rgba(255,255,255,0.1);
         }
-        .movie-item {
-            background: rgba(0,0,0,0.2);
-            padding: 5px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            text-align: center;
-            transition: 0.2s;
-        }
-        .movie-item:hover {
-            background: rgba(59, 130, 246, 0.2);
-            transform: scale(1.05);
-        }
-        .movie-item img { width: 100%; border-radius: 5px; margin-bottom: 5px; }
 
-        /* MODAL */
-        #videoModal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center;
+        h2{
+            margin-bottom:15px;
+            display:flex;
+            align-items:center;
+            gap:10px;
         }
-        .modal-inner { width: 90%; max-width: 800px; position: relative; }
-        .close-btn { position: absolute; top: -40px; right: 0; background: red; }
+
+        input,
+        select{
+            width:100%;
+            padding:12px;
+            border:none;
+            border-radius:10px;
+            background:rgba(255,255,255,0.08);
+            color:white;
+            margin-bottom:10px;
+        }
+
+        button{
+            padding:12px;
+            border:none;
+            border-radius:10px;
+            background:#3b82f6;
+            color:white;
+            cursor:pointer;
+            font-weight:bold;
+            transition:0.3s;
+        }
+
+        button:hover{
+            background:#2563eb;
+            transform:scale(1.02);
+        }
+
+        /* NEWS */
+
+        .news-grid{
+            max-height:600px;
+            overflow-y:auto;
+        }
+
+        .news-item{
+            background:rgba(255,255,255,0.05);
+            border-radius:14px;
+            margin-top:15px;
+            cursor:pointer;
+            transition:0.3s;
+            border-left:4px solid #3b82f6;
+            overflow:hidden;
+            display:flex;
+            gap:12px;
+        }
+
+        .news-item:hover{
+            background:rgba(59,130,246,0.15);
+            transform:translateX(8px);
+        }
+
+        .news-item-img{
+            width:100px;
+            height:80px;
+            object-fit:cover;
+            border-radius:8px;
+            flex-shrink:0;
+        }
+
+        .news-item-content{
+            padding:12px;
+            flex:1;
+        }
+
+        .news-item h4{
+            margin-bottom:5px;
+            color:#3b82f6;
+            font-size:0.95rem;
+        }
+
+        .news-item p{
+            font-size:0.8rem;
+            opacity:0.8;
+            line-height:1.3;
+        }
+
+        .source{
+            font-size:0.7rem;
+            color:#94a3b8;
+        }
+
+        /* MOVIES */
+
+        .movie-grid{
+            display:grid;
+            grid-template-columns:repeat(2,1fr);
+            gap:10px;
+            margin-top:10px;
+            max-height:450px;
+            overflow-y:auto;
+        }
+
+        .movie-item{
+            background:rgba(0,0,0,0.2);
+            padding:5px;
+            border-radius:8px;
+            cursor:pointer;
+            text-align:center;
+            transition:0.3s;
+        }
+
+        .movie-item:hover{
+            transform:scale(1.05);
+            background:rgba(59,130,246,0.2);
+        }
+
+        .movie-item img{
+            width:100%;
+            border-radius:5px;
+            margin-bottom:5px;
+        }
+
+        /* QUOTES */
+
+        .quote-container{
+            background:rgba(59,130,246,0.1);
+            border-left:4px solid #3b82f6;
+            padding:15px;
+            border-radius:10px;
+        }
+
+        #quoteText{
+            font-size:1.1rem;
+            line-height:1.5;
+            font-style:italic;
+            margin-bottom:10px;
+        }
+
+        #quoteAuthor{
+            color:#3b82f6;
+            margin-bottom:15px;
+            font-weight:bold;
+        }
+
+        .quote-explanation{
+            background:rgba(255,255,255,0.05);
+            padding:12px;
+            border-radius:8px;
+            border-left:3px solid #10b981;
+        }
+
+        .quote-explanation-title{
+            color:#10b981;
+            margin-bottom:6px;
+            font-weight:bold;
+        }
+
+        .quote-explanation-text{
+            font-size:0.85rem;
+            line-height:1.5;
+            opacity:0.9;
+        }
+
+        /* VIDEO MODAL */
+
+        #videoModal{
+            display:none;
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background:rgba(0,0,0,0.9);
+            z-index:1000;
+            justify-content:center;
+            align-items:center;
+        }
+
+        .modal-inner{
+            width:90%;
+            max-width:800px;
+            position:relative;
+        }
+
+        .close-btn{
+            position:absolute;
+            top:-45px;
+            right:0;
+            background:red;
+        }
 
         /* NEWS MODAL */
-        #newsModal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 1000; justify-content: center; align-items: center;
-            overflow-y: auto;
-        }
-        .news-modal-inner {
-            width: 90%; max-width: 800px; background: rgba(30, 41, 59, 0.98);
-            border-radius: 20px; padding: 30px; position: relative;
-            margin: 20px auto;
-        }
-        .close-news-btn { position: absolute; top: 15px; right: 20px; background: red; padding: 8px 15px; border-radius: 8px; cursor: pointer; }
-        .news-modal-img { width: 100%; border-radius: 12px; margin-bottom: 20px; max-height: 400px; object-fit: cover; }
 
-        /* NEWS ITEMS */
-        .news-item {
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
-            margin-top: 15px;
-            cursor: pointer;
-            transition: 0.3s;
-            border-left: 4px solid #3b82f6;
-            overflow: hidden;
-            display: flex;
-            gap: 12px;
-        }
-        .news-item:hover {
-            background: rgba(59, 130, 246, 0.15);
-            transform: translateX(8px);
-        }
-        .news-item-img {
-            width: 100px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 8px;
-            flex-shrink: 0;
-        }
-        .news-item-content {
-            padding: 12px;
-            flex: 1;
-        }
-        .news-item h4 { margin-bottom: 5px; color: #3b82f6; font-size: 0.95rem; }
-        .news-item p { font-size: 0.8rem; opacity: 0.8; margin-bottom: 5px; line-height: 1.3; }
-        .news-item .source { font-size: 0.7rem; color: #94a3b8; }
-
-        /* QUOTE SECTION */
-        .quote-container {
-            background: rgba(59, 130, 246, 0.1);
-            border-left: 4px solid #3b82f6;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 10px;
-        }
-        #quoteText {
-            font-size: 1.15rem;
-            line-height: 1.5;
-            font-style: italic;
-            margin-bottom: 10px;
-        }
-        #quoteAuthor {
-            color: #3b82f6;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-        
-        /* QUOTE EXPLANATION */
-        .quote-explanation {
-            background: rgba(255,255,255,0.05);
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 12px;
-            border-left: 3px solid #10b981;
-        }
-        .quote-explanation-title {
-            font-size: 0.85rem;
-            color: #10b981;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-        .quote-explanation-text {
-            font-size: 0.8rem;
-            line-height: 1.4;
-            opacity: 0.85;
+        #newsModal{
+            display:none;
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background:rgba(0,0,0,0.95);
+            z-index:1000;
+            justify-content:center;
+            align-items:center;
+            overflow-y:auto;
         }
 
-        /* NEWS GRID */
-        .news-grid {
-            max-height: 600px;
-            overflow-y: auto;
+        .news-modal-inner{
+            width:90%;
+            max-width:850px;
+            background:rgba(30,41,59,0.98);
+            border-radius:20px;
+            padding:30px;
+            position:relative;
+            margin:20px auto;
+        }
+
+        .close-news-btn{
+            position:absolute;
+            top:15px;
+            right:20px;
+            background:red;
+        }
+
+        .news-modal-img{
+            width:100%;
+            border-radius:12px;
+            margin-bottom:20px;
+            max-height:400px;
+            object-fit:cover;
+        }
+
+        a{
+            color:white;
         }
     </style>
 </head>
+
 <body>
 
     <div class="header">
@@ -190,260 +289,449 @@
     </div>
 
     <div class="dashboard">
+
+        <!-- NEWS -->
         <div class="card">
             <h2>📰 Global News</h2>
+
             <select id="newsCategory" onchange="getNews()">
                 <option value="general">General</option>
                 <option value="technology">Technology</option>
                 <option value="business">Business</option>
                 <option value="entertainment">Entertainment</option>
             </select>
+
             <div id="newsContent" class="news-grid"></div>
         </div>
 
+        <!-- MOVIES -->
         <div class="card">
             <h2>🎬 Movie Finder</h2>
-            <input type="text" id="movieSearch" placeholder="Search for a movie..." onkeyup="if(event.key === 'Enter') searchMovies()">
+
+            <input type="text"
+                   id="movieSearch"
+                   placeholder="Search for a movie..."
+                   onkeyup="if(event.key==='Enter') searchMovies()">
+
             <button onclick="searchMovies()">Search</button>
+
             <div id="movieResults" class="movie-grid"></div>
         </div>
 
+        <!-- QUOTES -->
         <div class="card">
             <h2>💬 Daily Wisdom</h2>
-            <div id="quoteArea">
-                <div class="quote-container">
-                    <p id="quoteText"></p>
-                    <p id="quoteAuthor"></p>
-                    <div class="quote-explanation">
-                        <div class="quote-explanation-title">💡 What This Means:</div>
-                        <p class="quote-explanation-text" id="quoteExplanation"></p>
+
+            <div class="quote-container">
+                <p id="quoteText"></p>
+                <p id="quoteAuthor"></p>
+
+                <div class="quote-explanation">
+                    <div class="quote-explanation-title">
+                        💡 What This Means:
                     </div>
+
+                    <p class="quote-explanation-text"
+                       id="quoteExplanation"></p>
                 </div>
             </div>
-            <button onclick="getQuote()" style="margin-top: 15px;">New Wisdom</button>
+
+            <button onclick="getQuote()" style="margin-top:15px;">
+                New Wisdom
+            </button>
         </div>
+
     </div>
+
+    <!-- VIDEO MODAL -->
 
     <div id="videoModal">
         <div class="modal-inner">
-            <button class="close-btn" onclick="closeModal()">Close</button>
-            <div id="videoPlayer" style="aspect-ratio: 16/9;"></div>
+
+            <button class="close-btn"
+                    onclick="closeModal()">
+                Close
+            </button>
+
+            <div id="videoPlayer"
+                 style="aspect-ratio:16/9;">
+            </div>
+
         </div>
     </div>
 
-    <!-- NEWS DETAIL MODAL -->
+    <!-- NEWS MODAL -->
+
     <div id="newsModal">
         <div class="news-modal-inner">
-            <button class="close-news-btn" onclick="closeNewsModal()">✕ Close</button>
-            <img id="newsModalImg" class="news-modal-img" src="" alt="Article">
-            <h2 id="newsModalTitle" style="margin-bottom: 15px; color: #3b82f6;"></h2>
-            <p id="newsModalContent" style="line-height: 1.6; margin-bottom: 20px;"></p>
-            <div style="padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px;">
-                <p id="newsModalSource" style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 10px;"></p>
-                <p id="newsModalDate" style="font-size: 0.8rem; color: #64748b;"></p>
+
+            <button class="close-news-btn"
+                    onclick="closeNewsModal()">
+                ✕ Close
+            </button>
+
+            <img id="newsModalImg"
+                 class="news-modal-img"
+                 src="">
+
+            <h2 id="newsModalTitle"
+                style="margin-bottom:15px;color:#3b82f6;">
+            </h2>
+
+            <div id="newsModalContent"
+                 style="line-height:1.7;margin-bottom:20px;">
             </div>
+
+            <div style="
+                padding:15px;
+                background:rgba(255,255,255,0.05);
+                border-radius:10px;
+            ">
+
+                <p id="newsModalSource"
+                   style="font-size:0.85rem;color:#94a3b8;margin-bottom:8px;">
+                </p>
+
+                <p id="newsModalDate"
+                   style="font-size:0.8rem;color:#64748b;">
+                </p>
+
+            </div>
+
         </div>
     </div>
 
-    <script>
-        const API_KEY_MOVIE = "2a76ab20531de6848483abb62c0f0c50";
+<script>
 
-        let currentNewsData = [];
+const API_KEY_MOVIE = "2a76ab20531de6848483abb62c0f0c50";
 
-        // NEWS WITH IMAGES AND FULL CONTENT
-        function getNews() {
-            const cat = document.getElementById("newsCategory").value;
-            const mockNews = {
-                general: [
-                    {
-                        t: "Global Markets Steady",
-                        d: "Stocks hold firm as 2026 begins with positive investor sentiment. The S&P 500 reaches new highs as economic forecasts remain bullish. Market analysts predict continued growth in emerging sectors.",
-                        fullContent: "In a strong start to 2026, global markets are showing resilience as investors maintain confidence in economic recovery. The S&P 500 has crossed new thresholds, with tech stocks leading the charge. International markets are following suit, with European and Asian indices showing similar positive momentum. Economic indicators suggest sustained growth, with unemployment rates remaining stable and consumer spending continuing to rise. Analysts attribute this success to strong corporate earnings, technological innovation, and favorable interest rate policies. Investors are keeping a close eye on inflation metrics and geopolitical developments that could impact future performance.",
-                        img: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=500&fit=crop",
-                        source: "Global Finance News",
-                        date: "April 20, 2026"
-                    },
-                    {
-                        t: "Climate Summit Progress",
-                        d: "World leaders reach agreement on carbon emission targets for the next decade. A historic accord signed by 195 nations commits to reducing greenhouse gas emissions.",
-                        fullContent: "In a historic gathering at the Global Climate Forum, world leaders have unanimously agreed on ambitious new carbon emission reduction targets. The accord, dubbed the 'Green 2035 Initiative,' commits participating nations to reduce global emissions by 50% within the next decade. The agreement includes binding commitments for renewable energy expansion, with at least 60% of global energy coming from renewable sources by 2035. Developed nations have pledged $500 billion in climate financing to support developing countries in their transition. This milestone represents the strongest collective action on climate change since the Paris Agreement, with enforcement mechanisms ensuring accountability.",
-                        img: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&h=500&fit=crop",
-                        source: "Environmental Weekly",
-                        date: "April 18, 2026"
-                    }
-                ],
-                technology: [
-                    {
-                        t: "AI Code Partners Evolve",
-                        d: "New models show 90% accuracy in coding tasks and debugging. Major breakthrough in automated development accelerates software creation by 5x.",
-                        fullContent: "The artificial intelligence industry has reached a significant milestone with the latest generation of AI coding assistants demonstrating a 90% accuracy rate in complex programming tasks. These new models, trained on billions of lines of code, can now understand context, suggest optimizations, and identify bugs with human-level precision. Companies report that development cycles have been reduced by 5x in some cases, with developers spending more time on architecture and design rather than routine coding. The technology is expected to democratize software development, allowing smaller teams and startups to compete with tech giants. Ethical considerations around AI-generated code ownership and security are being actively debated in the developer community.",
-                        img: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&h=500&fit=crop",
-                        source: "Tech Daily",
-                        date: "April 19, 2026"
-                    },
-                    {
-                        t: "Quantum Computing Milestone",
-                        d: "Researchers achieve quantum computing breakthrough with 1000+ qubits. First practical applications in drug discovery entering clinical trials.",
-                        fullContent: "A team of researchers at the Institute for Advanced Computing has successfully developed a quantum computer with over 1000 stable qubits, marking a significant breakthrough in quantum computing. Unlike previous attempts plagued by decoherence issues, this system maintains quantum states with unprecedented stability. The first real-world application is already showing promise: drug discovery simulations that would take conventional computers 1000 years can now be completed in days. Pharmaceutical companies have begun collaborating with the research team to test new drug candidates, with several compounds already entering early clinical trials. This achievement brings practical quantum computing closer to reality and could revolutionize medicine, materials science, and cryptography.",
-                        img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop",
-                        source: "Science & Tech",
-                        date: "April 17, 2026"
-                    }
-                ],
-                business: [
-                    {
-                        t: "Startup Boom",
-                        d: "Clean energy startups see record funding in 2026. Billions invested in renewable innovations and sustainable technologies worldwide.",
-                        fullContent: "The clean energy sector is experiencing unprecedented growth, with early-stage startups raising a record $87 billion in the first quarter of 2026 alone. Venture capital firms are aggressively pursuing companies developing solar technology, battery storage, and green hydrogen solutions. Notable deals include a $2.3 billion Series C round for an emerging battery technology company and $1.8 billion for an advanced geothermal startup. Investors are betting on the long-term viability of renewable energy as governments worldwide strengthen climate commitments. Success stories include startups that have achieved profitability by scaling production and reducing costs, attracting even more investor confidence. The sector is creating thousands of high-paying jobs across manufacturing, engineering, and operations.",
-                        img: "https://images.unsplash.com/photo-1509391366360-2e938d440424?w=800&h=500&fit=crop",
-                        source: "Business Insider",
-                        date: "April 16, 2026"
-                    },
-                    {
-                        t: "E-commerce Growth",
-                        d: "Online retail sectors report 45% growth year-over-year, driven by mobile shopping and international expansion.",
-                        fullContent: "Global e-commerce platforms are reporting robust growth as mobile shopping continues to dominate consumer behavior. Year-over-year growth stands at 45%, with particularly strong performance in Asia-Pacific and African markets. Mobile apps now account for 65% of all online retail transactions, with seamless checkout experiences driving conversion rates higher. International expansion strategies are paying off, with companies successfully entering emerging markets through localized platforms and payment options. Same-day and next-day delivery services are becoming standard expectations rather than premium features. Cross-border e-commerce is thriving, with currency conversion and international shipping becoming smoother and more affordable, opening new revenue streams for small businesses.",
-                        img: "https://images.unsplash.com/photo-1460925895917-adf4e6904734?w=800&h=500&fit=crop",
-                        source: "Commerce Weekly",
-                        date: "April 15, 2026"
-                    }
-                ],
-                entertainment: [
-                    {
-                        t: "Box Office Record",
-                        d: "Latest sci-fi epic breaks records with $500M opening weekend globally. Audiences flock to theaters for this groundbreaking film.",
-                        fullContent: "A groundbreaking science fiction film has shattered box office records with a stunning $500 million global opening weekend. The film, featuring cutting-edge visual effects and a compelling narrative about humanity's future in space, resonated with audiences across all age groups. Major markets including North America, Europe, and Asia contributed significantly to the record-breaking performance. Critics praise the film's ambitious storytelling and technical achievements, with several calling it a watershed moment for cinema. The film is projected to surpass $2 billion globally by the end of its theatrical run, making it one of the highest-grossing films of all time. Streaming platforms have already begun negotiations for exclusive digital rights after its theatrical window concludes.",
-                        img: "https://images.unsplash.com/photo-1489599849228-ed2edf8a6c65?w=800&h=500&fit=crop",
-                        source: "Entertainment Weekly",
-                        date: "April 14, 2026"
-                    },
-                    {
-                        t: "Music Festival Announcements",
-                        d: "Major festivals announced for summer 2026 with star-studded lineups. Early bird tickets selling out rapidly across all continents.",
-                        fullContent: "The summer 2026 festival season is shaping up to be legendary, with organizers announcing lineups featuring the world's biggest music artists. Major festivals across Europe, North America, Asia, and Africa have unveiled their schedules, and early bird tickets are already selling at record pace. Festival-goers can expect diverse lineups spanning multiple genres, from rock and pop to electronic and hip-hop. New festival venues in emerging markets are bringing world-class entertainment to previously underserved regions. Festival organizers are implementing innovative technology including AR experiences, virtual reality stages, and interactive apps to enhance the attendee experience. Accommodation packages and festival travel services are being overwhelmed with bookings as fans plan their summer adventures.",
-                        img: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&h=500&fit=crop",
-                        source: "Entertainment News",
-                        date: "April 13, 2026"
-                    }
-                ]
-            };
-            
-            currentNewsData = mockNews[cat] || mockNews.general;
-            document.getElementById("newsContent").innerHTML = currentNewsData.map((n, idx) => `
-                <div class="news-item" onclick="openNewsModal(${idx})">
-                    <img src="${n.img}" alt="${n.t}" class="news-item-img">
-                    <div class="news-item-content">
-                        <h4>📌 ${n.t}</h4>
-                        <p>${n.d}</p>
-                        <span class="source">${n.source}</span>
-                    </div>
-                </div>`).join("");
-        }
+let currentNewsData = [];
 
-        // Open news detail modal with full content
-        function openNewsModal(index) {
-            const news = currentNewsData[index];
-            document.getElementById("newsModalImg").src = news.img;
-            document.getElementById("newsModalTitle").textContent = news.t;
-            document.getElementById("newsModalContent").textContent = news.fullContent;
-            document.getElementById("newsModalSource").textContent = `📰 Source: ${news.source}`;
-            document.getElementById("newsModalDate").textContent = `📅 ${news.date}`;
-            document.getElementById("newsModal").style.display = "flex";
-        }
+/* NEWS */
 
-        function closeNewsModal() {
-            document.getElementById("newsModal").style.display = "none";
-        }
+function getNews(){
 
-        // MOVIE SEARCH
-        async function searchMovies() {
-            const query = document.getElementById("movieSearch").value;
-            const url = query 
-                ? `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY_MOVIE}&query=${query}`
-                : `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY_MOVIE}`;
-            
-            try {
-                const res = await fetch(url);
-                const data = await res.json();
-                document.getElementById("movieResults").innerHTML = data.results.map(m => `
-                    <div class="movie-item" onclick="playTrailer(${m.id})">
-                        <img src="${m.poster_path ? 'https://image.tmdb.org/t/p/w200'+m.poster_path : 'https://via.placeholder.com/200x300'}" alt="${m.title}">
-                        <p>${m.title}</p>
-                    </div>`).join("");
-            } catch (err) {
-                console.error("Movie search error:", err);
-            }
-        }
+const cat = document.getElementById("newsCategory").value;
 
-        async function playTrailer(id) {
-            try {
-                const res = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY_MOVIE}`);
-                const data = await res.json();
-                const trailer = data.results.find(v => v.type === 'Trailer');
-                if(trailer) {
-                    document.getElementById("videoPlayer").innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${trailer.key}?autoplay=1" frameborder="0" allowfullscreen></iframe>`;
-                    document.getElementById("videoModal").style.display = "flex";
-                } else {
-                    alert("No trailer available for this movie.");
-                }
-            } catch (err) {
-                console.error("Trailer fetch error:", err);
-            }
-        }
+const mockNews = {
 
-        function closeModal() {
-            document.getElementById("videoModal").style.display = "none";
-            document.getElementById("videoPlayer").innerHTML = "";
-        }
+general: [
 
-        // QUOTES WITH EXPLANATIONS
-        async function getQuote() {
-            try {
-                const res = await fetch("https://api.allorigins.win/get?url=" + encodeURIComponent("https://zenquotes.io/api/random"));
-                const json = await res.json();
-                const quote = JSON.parse(json.contents)[0];
-                
-                document.getElementById("quoteText").textContent = `"${quote.q}"`;
-                document.getElementById("quoteAuthor").textContent = `— ${quote.a}`;
-                
-                // Explanations for quotes
-                const explanations = {
-                    "success": "Success rarely comes overnight. This wisdom reminds us that consistent effort and perseverance over time lead to remarkable achievements.",
-                    "failure": "Failure is not the end of the journey—it's a step along the way. Each setback provides valuable lessons that propel us toward our goals.",
-                    "growth": "Personal growth requires stepping outside familiar territory. It's in discomfort that we discover our true potential and capabilities.",
-                    "learning": "The wisest among us recognize how much they don't know. Curiosity and humility are the foundations of continuous learning.",
-                    "change": "Positive change begins within ourselves. By transforming our mindset and habits, we create ripples that improve our entire world.",
-                    "courage": "True courage isn't the absence of fear—it's taking action despite being afraid. Bravery is a choice we make every day.",
-                    "purpose": "Living with purpose gives meaning to our actions. When our work aligns with our values, even challenges become opportunities.",
-                    "time": "Time is our most valuable asset. How we choose to spend it defines not just our lives, but the legacy we leave behind.",
-                    "love": "Love in its truest form—compassion, kindness, and empathy—connects us to others and makes life worth living.",
-                    "patience": "In our fast-paced world, patience has become rare and precious. Yet it's often the key to achieving lasting results."
-                };
+{
+t:"SpaceX Shares Major Update",
+d:"Latest SpaceX update shared on X platform with new mission details.",
+fullContent:"Click below to read the full SpaceX article.",
+img:"https://images.unsplash.com/photo-1516849841032-87cbac4d88f?w=800&h=500&fit=crop",
+source:"X / SpaceX",
+date:"May 2026",
+link:"https://x.com/SpaceX/status/2053929135936864393"
+},
 
-                // Select an explanation based on quote content
-                let explanation = "This quote invites us to reflect deeply on our actions and motivations. It encourages mindfulness about how we spend our time and energy, reminding us that small choices compound into significant life outcomes.";
-                
-                for (let key in explanations) {
-                    if (quote.q.toLowerCase().includes(key)) {
-                        explanation = explanations[key];
-                        break;
-                    }
-                }
+{
+t:"UPDF Passes Out Platoon Commanders",
+d:"UPDF successfully passes out platoon commanders at Labwordwong Training School.",
+fullContent:"Read the complete UPDF article from the official source.",
+img:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=500&fit=crop",
+source:"UPDF",
+date:"May 2026",
+link:"https://share.google/VkRN1S0Y5R7yMXsP5"
+},
 
-                document.getElementById("quoteExplanation").textContent = explanation;
-            } catch (err) {
-                console.error("Quote fetch error:", err);
-                document.getElementById("quoteText").textContent = "\"The only way to do great work is to love what you do.\"";
-                document.getElementById("quoteAuthor").textContent = "— Steve Jobs";
-                document.getElementById("quoteExplanation").textContent = "Passion and purpose are inseparable. When your work aligns with your values and interests, it stops being just a job and becomes a meaningful expression of yourself. This is where excellence naturally emerges.";
-            }
-        }
+{
+t:"Luuka Weather Forecast",
+d:"Latest weather forecast for Luuka, Uganda.",
+fullContent:"Check live weather updates and forecasts.",
+img:"https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&h=500&fit=crop",
+source:"AccuWeather",
+date:"Today",
+link:"https://share.google/gaoTs0YPZgvsyCX5R"
+}
 
-        window.onload = () => {
-            getNews();
-            searchMovies();
-            getQuote();
-        };
-    </script>
+],
+
+technology:[
+
+{
+t:"5 Android Phones Better Than Motorola Razr Fold",
+d:"Best Android alternatives to the Motorola Razr Fold.",
+fullContent:"See the full smartphone comparison.",
+img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&h=500&fit=crop",
+source:"Technology News",
+date:"May 2026",
+link:"https://share.google/DSeIj2HBKMAYxT1ft"
+},
+
+{
+t:"XDA Android News",
+d:"Latest Android and smartphone developments from XDA.",
+fullContent:"Read the full XDA article.",
+img:"https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=500&fit=crop",
+source:"XDA",
+date:"May 2026",
+link:"https://share.google/Umgz8yJR9b3hEVSuQ"
+}
+
+],
+
+business:[
+
+{
+t:"Trending Business Update",
+d:"Latest online business and market developments.",
+fullContent:"Open the source to read the full update.",
+img:"https://images.unsplash.com/photo-1556740749-887f6717d7e4?w=800&h=500&fit=crop",
+source:"X",
+date:"May 2026",
+link:"https://share.google/BLFxkfFh3ryjjCgDt"
+}
+
+],
+
+entertainment:[
+
+{
+t:"Arsenal Latest News",
+d:"Latest Arsenal football club updates and transfer news.",
+fullContent:"Read the complete Arsenal update online.",
+img:"https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&h=500&fit=crop",
+source:"now.arsenal",
+date:"May 2026",
+link:"https://share.google/gyviwNOjlp5IIVW1K"
+},
+
+{
+t:"BBC Trending Story",
+d:"Latest breaking and trending story from BBC News.",
+fullContent:"Open BBC article for full details.",
+img:"https://images.unsplash.com/photo-1495020689067-958852a7765e?w=800&h=500&fit=crop",
+source:"BBC",
+date:"May 2026",
+link:"https://share.google/HCJrR2jOLqrXuIpvA"
+}
+
+]
+
+};
+
+currentNewsData = mockNews[cat];
+
+document.getElementById("newsContent").innerHTML =
+currentNewsData.map((n,idx)=>`
+
+<div class="news-item"
+     onclick="openNewsModal(${idx})">
+
+<img src="${n.img}"
+     class="news-item-img">
+
+<div class="news-item-content">
+
+<h4>📌 ${n.t}</h4>
+
+<p>${n.d}</p>
+
+<span class="source">${n.source}</span>
+
+</div>
+</div>
+
+`).join("");
+
+}
+
+/* OPEN NEWS */
+
+function openNewsModal(index){
+
+const news = currentNewsData[index];
+
+document.getElementById("newsModalImg").src = news.img;
+
+document.getElementById("newsModalTitle").textContent = news.t;
+
+document.getElementById("newsModalContent").innerHTML = `
+
+<p style="margin-bottom:20px;">
+${news.fullContent}
+</p>
+
+<a href="${news.link}"
+   target="_blank"
+   style="
+   display:inline-block;
+   padding:12px 20px;
+   background:#3b82f6;
+   border-radius:10px;
+   text-decoration:none;
+   font-weight:bold;
+   ">
+
+🔗 Read Full Article
+
+</a>
+
+`;
+
+document.getElementById("newsModalSource").textContent =
+`📰 Source: ${news.source}`;
+
+document.getElementById("newsModalDate").textContent =
+`📅 ${news.date}`;
+
+document.getElementById("newsModal").style.display = "flex";
+
+}
+
+function closeNewsModal(){
+document.getElementById("newsModal").style.display = "none";
+}
+
+/* MOVIES */
+
+async function searchMovies(){
+
+const query = document.getElementById("movieSearch").value;
+
+const url = query
+? `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY_MOVIE}&query=${query}`
+: `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY_MOVIE}`;
+
+try{
+
+const res = await fetch(url);
+
+const data = await res.json();
+
+document.getElementById("movieResults").innerHTML =
+data.results.map(m=>`
+
+<div class="movie-item"
+     onclick="playTrailer(${m.id})">
+
+<img src="${
+m.poster_path
+? 'https://image.tmdb.org/t/p/w200'+m.poster_path
+: 'https://via.placeholder.com/200x300'
+}">
+
+<p>${m.title}</p>
+
+</div>
+
+`).join("");
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+
+async function playTrailer(id){
+
+try{
+
+const res = await fetch(
+`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY_MOVIE}`
+);
+
+const data = await res.json();
+
+const trailer = data.results.find(v=>v.type==="Trailer");
+
+if(trailer){
+
+document.getElementById("videoPlayer").innerHTML = `
+<iframe width="100%"
+height="100%"
+src="https://www.youtube.com/embed/${trailer.key}?autoplay=1"
+frameborder="0"
+allowfullscreen>
+</iframe>`;
+
+document.getElementById("videoModal").style.display="flex";
+
+}else{
+
+alert("No trailer available.");
+
+}
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+
+function closeModal(){
+
+document.getElementById("videoModal").style.display="none";
+
+document.getElementById("videoPlayer").innerHTML="";
+
+}
+
+/* QUOTES */
+
+async function getQuote(){
+
+const quotes = [
+
+{
+q:"Success is the sum of small efforts repeated daily.",
+a:"Robert Collier",
+e:"Great achievements come from consistency and discipline."
+},
+
+{
+q:"Your future is created by what you do today.",
+a:"Unknown",
+e:"Every small decision shapes tomorrow."
+},
+
+{
+q:"Do not fear failure. Fear not trying.",
+a:"Roy T. Bennett",
+e:"Growth begins when you dare to take action."
+},
+
+{
+q:"Dream big and dare to fail.",
+a:"Norman Vaughan",
+e:"Big dreams require bold steps."
+}
+
+];
+
+const random = quotes[Math.floor(Math.random()*quotes.length)];
+
+document.getElementById("quoteText").textContent =
+`"${random.q}"`;
+
+document.getElementById("quoteAuthor").textContent =
+`— ${random.a}`;
+
+document.getElementById("quoteExplanation").textContent =
+random.e;
+
+}
+
+/* START */
+
+window.onload = ()=>{
+
+getNews();
+
+searchMovies();
+
+getQuote();
+
+};
+
+</script>
+
 </body>
 </html>

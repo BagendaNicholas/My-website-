@@ -83,6 +83,11 @@ select{
     margin-bottom:10px;
 }
 
+input::placeholder,
+select option {
+    color:rgba(255,255,255,0.6);
+}
+
 button{
     padding:12px;
     border:none;
@@ -92,6 +97,7 @@ button{
     cursor:pointer;
     font-weight:bold;
     transition:0.3s;
+    width:100%;
 }
 
 button:hover{
@@ -116,6 +122,7 @@ button:hover{
     overflow:hidden;
     display:flex;
     gap:12px;
+    padding:10px;
 }
 
 .news-item:hover{
@@ -132,7 +139,7 @@ button:hover{
 }
 
 .news-item-content{
-    padding:12px;
+    padding:0;
     flex:1;
 }
 
@@ -151,6 +158,8 @@ button:hover{
 .source{
     font-size:0.75rem;
     color:#94a3b8;
+    margin-top:5px;
+    display:block;
 }
 
 /* MOVIES */
@@ -182,10 +191,12 @@ button:hover{
     width:100%;
     border-radius:8px;
     margin-bottom:5px;
+    height:auto;
 }
 
 .movie-item p{
     font-size:0.85rem;
+    word-break:break-word;
 }
 
 /* QUOTES */
@@ -195,6 +206,7 @@ button:hover{
     border-left:4px solid #3b82f6;
     padding:15px;
     border-radius:10px;
+    margin-bottom:15px;
 }
 
 #quoteText{
@@ -264,7 +276,15 @@ button:hover{
     position:absolute;
     top:-45px;
     right:0;
-    background:red;
+    background:#ef4444;
+    padding:8px 12px;
+    border-radius:8px;
+    z-index:1001;
+}
+
+.close-btn:hover,
+.close-news-btn:hover {
+    background:#dc2626;
 }
 
 .news-modal-img{
@@ -305,7 +325,7 @@ a{
 
     <div class="card">
 
-        <h2>📰 Global News</h2>
+        <h2>📰 Live Global News</h2>
 
         <select id="newsCategory" onchange="getNews()">
 
@@ -368,7 +388,7 @@ a{
         </div>
 
         <button onclick="getQuote()"
-                style="margin-top:15px;">
+                style="margin-top:0;">
 
             New Wisdom
 
@@ -387,7 +407,7 @@ a{
         <button class="close-btn"
                 onclick="closeModal()">
 
-            Close
+            ✕ Close
 
         </button>
 
@@ -413,7 +433,8 @@ a{
         </button>
 
         <img id="newsModalImg"
-             class="news-modal-img">
+             class="news-modal-img"
+             alt="News image">
 
         <h2 id="newsModalTitle"
             style="margin-bottom:15px;color:#3b82f6;">
@@ -449,8 +470,7 @@ a{
    MOVIE API
 ========================= */
 
-const API_KEY_MOVIE =
-"2a76ab20531de6848483abb62c0f0c50";
+const API_KEY_MOVIE = "2a76ab20531de6848483abb62c0f0c50";
 
 let currentNewsData = [];
 
@@ -460,77 +480,41 @@ let currentNewsData = [];
 
 async function getNews(){
 
-const cat =
-document.getElementById("newsCategory").value;
+    const cat = document.getElementById("newsCategory").value;
 
-const feeds = {
+    const feeds = {
+        general: "https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/news/rss.xml",
+        technology: "https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/news/technology/rss.xml",
+        business: "https://api.rss2json.com/v1/api.json?rss_url=http://feeds.reuters.com/reuters/businessNews",
+        entertainment: "https://api.rss2json.com/v1/api.json?rss_url=https://feeds.skynews.com/feeds/rss/entertainment.xml"
+    };
 
-general:
-"https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/news/rss.xml",
+    try{
+        const res = await fetch(feeds[cat]);
+        const data = await res.json();
 
-technology:
-"https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/news/technology/rss.xml",
+        currentNewsData = data.items || [];
 
-business:
-"https://api.rss2json.com/v1/api.json?rss_url=http://feeds.reuters.com/reuters/businessNews",
+        if(currentNewsData.length === 0){
+            document.getElementById("newsContent").innerHTML = "<p>📭 No news available.</p>";
+            return;
+        }
 
-entertainment:
-"https://api.rss2json.com/v1/api.json?rss_url=https://feeds.skynews.com/feeds/rss/entertainment.xml"
+        document.getElementById("newsContent").innerHTML = currentNewsData.map((n, idx) => `
+            <div class="news-item" onclick="openNewsModal(${idx})">
+                <img src="${n.thumbnail || 'https://via.placeholder.com/300'}" class="news-item-img" alt="News thumbnail">
+                <div class="news-item-content">
+                    <h4>📌 ${n.title || 'No title'}</h4>
+                    <p>${(n.description || '').replace(/<[^>]*>?/gm, '').substring(0, 120)}...</p>
+                    <span class="source">${n.author || 'Live News'}</span>
+                </div>
+            </div>
+        `).join("");
 
-};
-
-try{
-
-const res = await fetch(feeds[cat]);
-
-const data = await res.json();
-
-currentNewsData = data.items;
-
-document.getElementById("newsContent").innerHTML =
-
-currentNewsData.map((n,idx)=>`
-
-<div class="news-item"
-     onclick="openNewsModal(${idx})">
-
-<img src="${
-n.thumbnail ||
-'https://via.placeholder.com/300'
-}"
-class="news-item-img">
-
-<div class="news-item-content">
-
-<h4>📌 ${n.title}</h4>
-
-<p>
-${
-n.description
-.replace(/<[^>]*>?/gm,'')
-.substring(0,120)
-}...
-</p>
-
-<span class="source">
-${n.author || 'Live News'}
-</span>
-
-</div>
-
-</div>
-
-`).join("");
-
-}catch(err){
-
-console.log(err);
-
-document.getElementById("newsContent").innerHTML =
-"<p>⚠️ Failed to load live news.</p>";
-
-}
-
+    } catch(err){
+        console.error("News fetch error:", err);
+        document.getElementById("newsContent").innerHTML = "<p>⚠️ Failed to load live news.</p>";
+    }
 }
 
 /* =========================
@@ -539,53 +523,38 @@ document.getElementById("newsContent").innerHTML =
 
 function openNewsModal(index){
 
-const news = currentNewsData[index];
+    const news = currentNewsData[index];
 
-document.getElementById("newsModalImg").src =
-news.thumbnail ||
-"https://via.placeholder.com/800x400";
+    document.getElementById("newsModalImg").src = news.thumbnail || "https://via.placeholder.com/800x400";
 
-document.getElementById("newsModalTitle").textContent =
-news.title;
+    document.getElementById("newsModalTitle").textContent = news.title;
 
-document.getElementById("newsModalContent").innerHTML = `
+    document.getElementById("newsModalContent").innerHTML = `
+        <p style="margin-bottom:20px;">
+            ${news.description || 'No description available.'}
+        </p>
+        <a href="${news.link || '#'}"
+           target="_blank"
+           style="
+           display:inline-block;
+           padding:12px 20px;
+           background:#3b82f6;
+           border-radius:10px;
+           font-weight:bold;
+           ">
+            🔗 Read Full Article
+        </a>
+    `;
 
-<p style="margin-bottom:20px;">
-${news.description}
-</p>
+    document.getElementById("newsModalSource").textContent = `📰 Source: ${news.author || 'Live News'}`;
 
-<a href="${news.link}"
-   target="_blank"
-   style="
-   display:inline-block;
-   padding:12px 20px;
-   background:#3b82f6;
-   border-radius:10px;
-   font-weight:bold;
-   ">
+    document.getElementById("newsModalDate").textContent = `📅 ${news.pubDate || 'Date unavailable'}`;
 
-🔗 Read Full Article
-
-</a>
-
-`;
-
-document.getElementById("newsModalSource").textContent =
-`📰 Source: ${news.author || 'Live News'}`;
-
-document.getElementById("newsModalDate").textContent =
-`📅 ${news.pubDate}`;
-
-document.getElementById("newsModal").style.display =
-"flex";
-
+    document.getElementById("newsModal").style.display = "flex";
 }
 
 function closeNewsModal(){
-
-document.getElementById("newsModal").style.display =
-"none";
-
+    document.getElementById("newsModal").style.display = "none";
 }
 
 /* =========================
@@ -594,101 +563,66 @@ document.getElementById("newsModal").style.display =
 
 async function searchMovies(){
 
-const query =
-document.getElementById("movieSearch").value;
+    const query = document.getElementById("movieSearch").value;
 
-const url = query
+    const url = query
+        ? `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY_MOVIE}&query=${encodeURIComponent(query)}`
+        : `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY_MOVIE}`;
 
-? `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY_MOVIE}&query=${query}`
+    try{
+        const res = await fetch(url);
+        const data = await res.json();
 
-: `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY_MOVIE}`;
+        if(!data.results || data.results.length === 0){
+            document.getElementById("movieResults").innerHTML = "<p>🎬 No movies found.</p>";
+            return;
+        }
 
-try{
+        document.getElementById("movieResults").innerHTML = data.results.map(m => `
+            <div class="movie-item" onclick="playTrailer(${m.id})">
+                <img src="${m.poster_path ? 'https://image.tmdb.org/t/p/w200' + m.poster_path : 'https://via.placeholder.com/200x300'}" alt="${m.title}">
+                <p>${m.title || 'Unknown'}</p>
+            </div>
+        `).join("");
 
-const res = await fetch(url);
-
-const data = await res.json();
-
-document.getElementById("movieResults").innerHTML =
-
-data.results.map(m=>`
-
-<div class="movie-item"
-     onclick="playTrailer(${m.id})">
-
-<img src="${
-m.poster_path
-? 'https://image.tmdb.org/t/p/w200'+m.poster_path
-: 'https://via.placeholder.com/200x300'
-}">
-
-<p>${m.title}</p>
-
-</div>
-
-`).join("");
-
-}catch(err){
-
-console.log(err);
-
-}
-
+    } catch(err){
+        console.error("Movie fetch error:", err);
+        document.getElementById("movieResults").innerHTML = "<p>⚠️ Failed to load movies.</p>";
+    }
 }
 
 async function playTrailer(id){
 
-try{
+    try{
+        const res = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY_MOVIE}`);
+        const data = await res.json();
 
-const res = await fetch(
+        const trailer = data.results && data.results.find(v => v.type === "Trailer" && v.site === "YouTube");
 
-`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY_MOVIE}`
+        if(trailer){
+            document.getElementById("videoPlayer").innerHTML = `
+                <iframe width="100%"
+                        height="100%"
+                        src="https://www.youtube.com/embed/${trailer.key}?autoplay=1"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                </iframe>
+            `;
+            document.getElementById("videoModal").style.display = "flex";
+        } else {
+            alert("No trailer available.");
+        }
 
-);
-
-const data = await res.json();
-
-const trailer =
-data.results.find(v=>v.type==="Trailer");
-
-if(trailer){
-
-document.getElementById("videoPlayer").innerHTML = `
-
-<iframe width="100%"
-height="100%"
-src="https://www.youtube.com/embed/${trailer.key}?autoplay=1"
-frameborder="0"
-allowfullscreen>
-</iframe>
-
-`;
-
-document.getElementById("videoModal").style.display =
-"flex";
-
-}else{
-
-alert("No trailer available.");
-
-}
-
-}catch(err){
-
-console.log(err);
-
-}
-
+    } catch(err){
+        console.error("Trailer fetch error:", err);
+        alert("Failed to load trailer.");
+    }
 }
 
 function closeModal(){
-
-document.getElementById("videoModal").style.display =
-"none";
-
-document.getElementById("videoPlayer").innerHTML =
-"";
-
+    document.getElementById("videoModal").style.display = "none";
+    document.getElementById("videoPlayer").innerHTML = "";
 }
 
 /* =========================
@@ -697,68 +631,39 @@ document.getElementById("videoPlayer").innerHTML =
 
 async function getWeather(){
 
-if(navigator.geolocation){
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(
+            async position => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
 
-navigator.geolocation.getCurrentPosition(
+                try{
+                    const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+                    const data = await res.json();
 
-async position=>{
+                    document.getElementById("weatherBox").innerHTML = `
+                        <h3>🌤️ Your Weather</h3>
+                        <p style="margin-top:10px;">
+                            🌡️ Temperature: ${data.current_weather.temperature}°C
+                        </p>
+                        <p>
+                            💨 Wind Speed: ${data.current_weather.windspeed} km/h
+                        </p>
+                        <p>
+                            📍 Based on your location
+                        </p>
+                    `;
 
-const lat = position.coords.latitude;
-
-const lon = position.coords.longitude;
-
-try{
-
-const res = await fetch(
-
-`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`
-
-);
-
-const data = await res.json();
-
-document.getElementById("weatherBox").innerHTML = `
-
-<h3>🌤️ Your Weather</h3>
-
-<p style="margin-top:10px;">
-🌡️ Temperature:
-${data.current_weather.temperature}°C
-</p>
-
-<p>
-💨 Wind Speed:
-${data.current_weather.windspeed} km/h
-</p>
-
-<p>
-📍 Based on your location
-</p>
-
-`;
-
-}catch(err){
-
-console.log(err);
-
-document.getElementById("weatherBox").innerHTML =
-"⚠️ Weather unavailable.";
-
-}
-
-},
-
-()=>{
-
-document.getElementById("weatherBox").innerHTML =
-"📍 Please allow location access.";
-
-}
-
-);
-
-}
-
+                } catch(err){
+                    console.error("Weather fetch error:", err);
+                    document.getElementById("weatherBox").innerHTML = "⚠️ Weather unavailable.";
+                }
+            },
+            () => {
+                document.getElementById("weatherBox").innerHTML = "📍 Please allow location access.";
+            }
+        );
+    }
 }
 
 /* =========================
@@ -767,103 +672,55 @@ document.getElementById("weatherBox").innerHTML =
 
 async function getQuote(){
 
-try{
+    try{
+        const res = await fetch("https://api.allorigins.win/raw?url=https://zenquotes.io/api/random");
+        const data = await res.json();
 
-const res = await fetch(
-"https://api.allorigins.win/raw?url=https://zenquotes.io/api/random"
-);
+        const quote = data[0];
 
-const data = await res.json();
+        document.getElementById("quoteText").textContent = `"${quote.q}"`;
+        document.getElementById("quoteAuthor").textContent = `— ${quote.a}`;
 
-const quote = data[0];
+        const text = quote.q.toLowerCase();
+        let explanation = "This wisdom encourages reflection, growth, and positive action in life.";
 
-document.getElementById("quoteText").textContent =
-`"${quote.q}"`;
+        if(text.includes("success")){
+            explanation = "Success comes through persistence, patience, and effort.";
+        } else if(text.includes("fear")){
+            explanation = "Courage means moving forward despite fear.";
+        } else if(text.includes("dream")){
+            explanation = "Dreams become reality through action and belief.";
+        } else if(text.includes("love")){
+            explanation = "Love creates connection and meaning in life.";
+        } else if(text.includes("time")){
+            explanation = "Time is precious because it never returns.";
+        } else if(text.includes("life")){
+            explanation = "Life teaches growth through experiences.";
+        } else if(text.includes("change")){
+            explanation = "Positive change begins with small actions.";
+        } else if(text.includes("hope")){
+            explanation = "Hope gives strength during difficult moments.";
+        }
 
-document.getElementById("quoteAuthor").textContent =
-`— ${quote.a}`;
+        document.getElementById("quoteExplanation").textContent = explanation;
 
-const text = quote.q.toLowerCase();
-
-let explanation =
-"This wisdom encourages reflection, growth, and positive action in life.";
-
-if(text.includes("success")){
-
-explanation =
-"Success comes through persistence, patience, and effort.";
-
-}else if(text.includes("fear")){
-
-explanation =
-"Courage means moving forward despite fear.";
-
-}else if(text.includes("dream")){
-
-explanation =
-"Dreams become reality through action and belief.";
-
-}else if(text.includes("love")){
-
-explanation =
-"Love creates connection and meaning in life.";
-
-}else if(text.includes("time")){
-
-explanation =
-"Time is precious because it never returns.";
-
-}else if(text.includes("life")){
-
-explanation =
-"Life teaches growth through experiences.";
-
-}else if(text.includes("change")){
-
-explanation =
-"Positive change begins with small actions.";
-
-}else if(text.includes("hope")){
-
-explanation =
-"Hope gives strength during difficult moments.";
-
-}
-
-document.getElementById("quoteExplanation").textContent =
-explanation;
-
-}catch(err){
-
-console.log(err);
-
-document.getElementById("quoteText").textContent =
-"⚠️ Failed to load quote.";
-
-document.getElementById("quoteAuthor").textContent =
-"";
-
-document.getElementById("quoteExplanation").textContent =
-"Please check your internet connection.";
-
-}
-
+    } catch(err){
+        console.error("Quote fetch error:", err);
+        document.getElementById("quoteText").textContent = "⚠️ Failed to load quote.";
+        document.getElementById("quoteAuthor").textContent = "";
+        document.getElementById("quoteExplanation").textContent = "Please check your internet connection.";
+    }
 }
 
 /* =========================
    START APP
 ========================= */
 
-window.onload = ()=>{
-
-getNews();
-
-searchMovies();
-
-getQuote();
-
-getWeather();
-
+window.onload = () => {
+    getNews();
+    searchMovies();
+    getQuote();
+    getWeather();
 };
 
 </script>

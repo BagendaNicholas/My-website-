@@ -30,7 +30,7 @@ body{
 }
 
 .header h1{
-    font-size:2.4rem;
+    font-size:2.5rem;
     margin-bottom:8px;
 }
 
@@ -305,7 +305,7 @@ a{
 
     <div class="card">
 
-        <h2>📰 Live Global News</h2>
+        <h2>📰 Global News</h2>
 
         <select id="newsCategory" onchange="getNews()">
 
@@ -335,9 +335,7 @@ a{
                onkeyup="if(event.key==='Enter') searchMovies()">
 
         <button onclick="searchMovies()">
-
             Search
-
         </button>
 
         <div id="movieResults" class="movie-grid"></div>
@@ -359,9 +357,7 @@ a{
             <div class="quote-explanation">
 
                 <div class="quote-explanation-title">
-
                     💡 What This Means:
-
                 </div>
 
                 <p id="quoteExplanation"
@@ -766,7 +762,7 @@ document.getElementById("weatherBox").innerHTML =
 }
 
 /* =========================
-   QUOTES
+   LIVE QUOTES
 ========================= */
 
 async function getQuote(){
@@ -787,52 +783,50 @@ document.getElementById("quoteText").textContent =
 document.getElementById("quoteAuthor").textContent =
 `— ${quote.a}`;
 
-/* SMART EXPLANATIONS */
-
 const text = quote.q.toLowerCase();
 
 let explanation =
-"This wisdom encourages reflection, growth, and positive action in daily life.";
+"This wisdom encourages reflection, growth, and positive action in life.";
 
 if(text.includes("success")){
 
 explanation =
-"Success comes through persistence, patience, and consistent effort over time.";
+"Success comes through persistence, patience, and effort.";
 
 }else if(text.includes("fear")){
 
 explanation =
-"Courage means moving forward even when uncertainty or fear exists.";
+"Courage means moving forward despite fear.";
 
 }else if(text.includes("dream")){
 
 explanation =
-"Dreams become reality when matched with determination and action.";
+"Dreams become reality through action and belief.";
 
 }else if(text.includes("love")){
 
 explanation =
-"Love creates connection, healing, and meaning in human life.";
+"Love creates connection and meaning in life.";
 
 }else if(text.includes("time")){
 
 explanation =
-"Time is valuable because once it passes, it can never return.";
+"Time is precious because it never returns.";
 
 }else if(text.includes("life")){
 
 explanation =
-"Life teaches lessons through experiences, challenges, and growth.";
+"Life teaches growth through experiences.";
 
 }else if(text.includes("change")){
 
 explanation =
-"Positive change begins with small decisions and consistent improvement.";
+"Positive change begins with small actions.";
 
 }else if(text.includes("hope")){
 
 explanation =
-"Hope keeps people moving forward even during difficult moments.";
+"Hope gives strength during difficult moments.";
 
 }
 
@@ -855,6 +849,23 @@ document.getElementById("quoteExplanation").textContent =
 }
 
 }
+
+/* =========================
+   START APP
+========================= */
+
+window.onload = ()=>{
+
+getNews();
+
+searchMovies();
+
+getQuote();
+
+getWeather();
+
+};
+
 </script>
 
 </body>

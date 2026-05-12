@@ -769,66 +769,92 @@ document.getElementById("weatherBox").innerHTML =
    QUOTES
 ========================= */
 
-function getQuote(){
+async function getQuote(){
 
-const quotes = [
+try{
 
-{
-q:"Success is the sum of small efforts repeated daily.",
-a:"Robert Collier",
-e:"Great achievements come from consistency."
-},
+const res = await fetch(
+"https://api.allorigins.win/raw?url=https://zenquotes.io/api/random"
+);
 
-{
-q:"Dream big and dare to fail.",
-a:"Norman Vaughan",
-e:"Big dreams require courage."
-},
+const data = await res.json();
 
-{
-q:"Your future is created by what you do today.",
-a:"Unknown",
-e:"Today's actions shape tomorrow."
-},
-
-{
-q:"Do not fear failure. Fear not trying.",
-a:"Roy T. Bennett",
-e:"Growth begins with action."
-}
-
-];
-
-const random =
-quotes[Math.floor(Math.random()*quotes.length)];
+const quote = data[0];
 
 document.getElementById("quoteText").textContent =
-`"${random.q}"`;
+`"${quote.q}"`;
 
 document.getElementById("quoteAuthor").textContent =
-`— ${random.a}`;
+`— ${quote.a}`;
 
-document.getElementById("quoteExplanation").textContent =
-random.e;
+/* SMART EXPLANATIONS */
+
+const text = quote.q.toLowerCase();
+
+let explanation =
+"This wisdom encourages reflection, growth, and positive action in daily life.";
+
+if(text.includes("success")){
+
+explanation =
+"Success comes through persistence, patience, and consistent effort over time.";
+
+}else if(text.includes("fear")){
+
+explanation =
+"Courage means moving forward even when uncertainty or fear exists.";
+
+}else if(text.includes("dream")){
+
+explanation =
+"Dreams become reality when matched with determination and action.";
+
+}else if(text.includes("love")){
+
+explanation =
+"Love creates connection, healing, and meaning in human life.";
+
+}else if(text.includes("time")){
+
+explanation =
+"Time is valuable because once it passes, it can never return.";
+
+}else if(text.includes("life")){
+
+explanation =
+"Life teaches lessons through experiences, challenges, and growth.";
+
+}else if(text.includes("change")){
+
+explanation =
+"Positive change begins with small decisions and consistent improvement.";
+
+}else if(text.includes("hope")){
+
+explanation =
+"Hope keeps people moving forward even during difficult moments.";
 
 }
 
-/* =========================
-   START
-========================= */
+document.getElementById("quoteExplanation").textContent =
+explanation;
 
-window.onload = ()=>{
+}catch(err){
 
-getNews();
+console.log(err);
 
-searchMovies();
+document.getElementById("quoteText").textContent =
+"⚠️ Failed to load quote.";
 
-getQuote();
+document.getElementById("quoteAuthor").textContent =
+"";
 
-getWeather();
+document.getElementById("quoteExplanation").textContent =
+"Please check your internet connection.";
 
-};
+}
 
+}
 </script>
 
 </body>

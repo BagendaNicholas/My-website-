@@ -1,306 +1,720 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solvyn Nixcy OS - Live Interface</title>
-    <style>
-        :root {
-            --bg-dark: #05050a;
-            --sidebar-bg: rgba(10, 10, 20, 0.95);
-            --card-bg: rgba(20, 20, 35, 0.7);
-            --neon-pink: #ff2d75;
-            --neon-blue: #00d2ff;
-            --text-main: #ffffff;
-            --terminal-green: #00ff41;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solvyn Nixcy OS</title>
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
-        }
+<style>
 
-        /* --- Auth Overlay --- */
-        #auth-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(5, 5, 10, 0.98);
-            backdrop-filter: blur(20px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-        }
+:root{
+    --bg:#050510;
+    --card:#0f172a;
+    --glass:rgba(255,255,255,0.05);
+    --pink:#ff2d75;
+    --blue:#00d2ff;
+    --purple:#8b5cf6;
+    --text:#ffffff;
+    --muted:#94a3b8;
+    --green:#00ff99;
+}
 
-        .login-card {
-            background: var(--card-bg);
-            padding: 40px;
-            border: 1px solid var(--neon-pink);
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 0 30px rgba(255, 45, 117, 0.3);
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        .login-card input {
-            display: block;
-            width: 250px;
-            margin: 15px auto;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid #444;
-            color: white;
-            border-radius: 5px;
-        }
+body{
+    background:linear-gradient(135deg,#020617,#050510,#0f172a);
+    color:white;
+    font-family:Segoe UI,sans-serif;
+    overflow:hidden;
+}
 
-        .login-card button {
-            background: var(--neon-pink);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            cursor: pointer;
-            font-weight: bold;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
+/* LOGIN */
 
-        /* --- Main Layout --- */
-        .os-wrapper {
-            display: grid;
-            grid-template-columns: 260px 1fr;
-            height: 100vh;
-        }
+#auth-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.95);
+    backdrop-filter:blur(20px);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
 
-        .sidebar {
-            background: var(--sidebar-bg);
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 30px 20px;
-        }
+.login-card{
+    width:350px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:20px;
+    padding:40px;
+    text-align:center;
+    box-shadow:0 0 40px rgba(255,45,117,0.3);
+}
 
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--neon-pink);
-            margin-bottom: 50px;
-        }
+.login-card h2{
+    margin-bottom:25px;
+    color:var(--pink);
+}
 
-        .nav-item {
-            padding: 15px;
-            margin: 8px 0;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: 0.3s;
-            color: rgba(255, 255, 255, 0.6);
-        }
+.login-card input{
+    width:100%;
+    padding:14px;
+    margin:12px 0;
+    border:none;
+    border-radius:12px;
+    background:#111827;
+    color:white;
+}
 
-        .nav-item.active {
-            background: linear-gradient(90deg, rgba(255, 45, 117, 0.2), transparent);
-            border-left: 4px solid var(--neon-pink);
-            color: white;
-        }
+.login-card button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(90deg,var(--pink),var(--purple));
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:15px;
+}
 
-        .main-content {
-            padding: 30px;
-            display: grid;
-            grid-template-rows: auto 1fr;
-            gap: 20px;
-            overflow-y: auto;
-        }
+/* MAIN */
 
-        /* --- Widgets --- */
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.wrapper{
+    display:grid;
+    grid-template-columns:260px 1fr 320px;
+    height:100vh;
+}
 
-        .search-box {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid #333;
-            padding: 10px 20px;
-            border-radius: 20px;
-            width: 300px;
-            color: white;
-        }
+/* SIDEBAR */
 
-        .hero-widget {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 40px;
-            border-radius: 20px;
-            position: relative;
-        }
+.sidebar{
+    background:rgba(15,23,42,0.8);
+    border-right:1px solid rgba(255,255,255,0.08);
+    padding:25px;
+}
 
-        .neon-text {
-            color: var(--neon-pink);
-            text-shadow: 0 0 10px var(--neon-pink);
-        }
+.logo{
+    font-size:24px;
+    font-weight:bold;
+    color:var(--pink);
+    margin-bottom:40px;
+}
 
-        /* --- Terminal --- */
-        .terminal-widget {
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid #222;
-            border-radius: 15px;
-            font-family: 'Courier New', monospace;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
+.logo span{
+    color:var(--blue);
+}
 
-        .terminal-header {
-            background: #111;
-            padding: 10px 20px;
-            font-size: 12px;
-            color: #888;
-            border-bottom: 1px solid #222;
-        }
+.nav-item{
+    padding:16px;
+    margin-bottom:10px;
+    border-radius:14px;
+    cursor:pointer;
+    transition:0.3s;
+    color:#cbd5e1;
+    background:transparent;
+}
 
-        #terminal-body {
-            padding: 20px;
-            flex-grow: 1;
-            overflow-y: auto;
-            font-size: 14px;
-            color: var(--terminal-green);
-        }
+.nav-item:hover,
+.nav-item.active{
+    background:linear-gradient(90deg,rgba(255,45,117,0.2),transparent);
+    border-left:4px solid var(--pink);
+    transform:translateX(5px);
+}
 
-        .input-line {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+/* CENTER */
 
-        #term-input {
-            background: transparent;
-            border: none;
-            outline: none;
-            color: white;
-            flex-grow: 1;
-            font-family: inherit;
-        }
+.main{
+    padding:25px;
+    overflow-y:auto;
+}
 
-        .prompt { color: var(--neon-pink); }
-    </style>
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.search{
+    width:400px;
+    padding:14px 20px;
+    border:none;
+    border-radius:20px;
+    background:rgba(255,255,255,0.05);
+    color:white;
+}
+
+.user{
+    color:#fff;
+}
+
+/* HERO */
+
+.hero{
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:25px;
+    padding:35px;
+    margin-bottom:25px;
+    position:relative;
+    overflow:hidden;
+}
+
+.hero h1{
+    font-size:42px;
+}
+
+.hero span{
+    color:var(--pink);
+}
+
+.hero p{
+    color:#94a3b8;
+    margin-top:10px;
+}
+
+/* HEART CORE */
+
+.core{
+    margin-top:30px;
+    display:flex;
+    align-items:center;
+    gap:40px;
+}
+
+.ring{
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    position:relative;
+    background:
+    conic-gradient(var(--pink),var(--blue),var(--purple),var(--pink));
+    animation:spin 5s linear infinite;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    box-shadow:0 0 40px rgba(255,45,117,0.5);
+}
+
+.ring::before{
+    content:'';
+    width:140px;
+    height:140px;
+    background:#050510;
+    position:absolute;
+    border-radius:50%;
+}
+
+.heart{
+    position:relative;
+    font-size:55px;
+    z-index:2;
+    animation:pulse 1.5s infinite;
+}
+
+@keyframes spin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+@keyframes pulse{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.2);}
+    100%{transform:scale(1);}
+}
+
+/* MODULES */
+
+.modules{
+    margin-top:25px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:20px;
+    padding:20px;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 25px rgba(255,45,117,0.2);
+}
+
+.card h3{
+    margin-top:10px;
+}
+
+.bar{
+    width:100%;
+    height:8px;
+    background:#111827;
+    border-radius:20px;
+    margin-top:15px;
+    overflow:hidden;
+}
+
+.fill{
+    height:100%;
+    width:100%;
+    background:linear-gradient(90deg,var(--pink),var(--blue));
+}
+
+/* TERMINAL */
+
+.terminal{
+    margin-top:25px;
+    background:black;
+    border-radius:20px;
+    overflow:hidden;
+    border:1px solid #222;
+}
+
+.term-head{
+    background:#111;
+    padding:12px 20px;
+    color:#94a3b8;
+}
+
+.term-body{
+    padding:20px;
+    height:250px;
+    overflow-y:auto;
+    font-family:Courier New;
+    color:var(--green);
+}
+
+.input-line{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.prompt{
+    color:var(--pink);
+}
+
+#term-input{
+    flex:1;
+    background:transparent;
+    border:none;
+    outline:none;
+    color:white;
+    font-family:Courier New;
+}
+
+/* RIGHT PANEL */
+
+.right{
+    padding:25px;
+    border-left:1px solid rgba(255,255,255,0.08);
+    background:rgba(15,23,42,0.7);
+    overflow-y:auto;
+}
+
+.panel{
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:20px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.panel h3{
+    margin-bottom:15px;
+    color:var(--pink);
+}
+
+.status{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.avatar{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--pink),var(--blue));
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.online{
+    color:#00ff99;
+}
+
+.quote{
+    line-height:1.8;
+    color:#cbd5e1;
+}
+
+/* MOBILE */
+
+@media(max-width:1200px){
+
+    .wrapper{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar,
+    .right{
+        display:none;
+    }
+
+    .search{
+        width:100%;
+    }
+
+}
+
+</style>
 </head>
+
 <body>
 
-    <div id="auth-overlay">
-        <div class="login-card">
-            <h2>SYSTEM OWNER LOGIN</h2>
-            <input type="email" id="email" placeholder="Admin Email">
-            <input type="password" id="password" placeholder="Access Code">
-            <button id="login-btn">INITIALIZE CORE</button>
-            <p id="auth-error" style="color: var(--neon-pink); font-size: 12px; margin-top: 10px;"></p>
-        </div>
-    </div>
+<!-- LOGIN -->
 
-    <div class="os-wrapper">
-        <aside class="sidebar">
-            <div class="logo">SOLVYN NIXCY OS</div>
-            <nav>
-                <div class="nav-item active">Dashboard</div>
-                <div class="nav-item">Core System</div>
-                <div class="nav-item">Heart Module</div>
-                <div class="nav-item">System Logs</div>
-            </nav>
-        </aside>
+<div id="auth-overlay">
 
-        <main class="main-content">
-            <header class="top-bar">
-                <input type="text" class="search-box" placeholder="Search in Solvyn Nixcy OS...">
-                <div class="user-info">Nicholas - System Owner</div>
-            </header>
+<div class="login-card">
+<h2>INITIALIZE CORE</h2>
 
-            <section class="hero-widget">
-                <h1>Welcome back, <span class="neon-text">Nicholas</span> 👋</h1>
-                <p>Solvyn Nixcy OS is running smoothly with your Website Firebase.</p>
-            </section>
+<input type="email" id="email" placeholder="Admin Email">
 
-            <section class="terminal-widget">
-                <div class="terminal-header">NIXCY TERMINAL v1.0.0</div>
-                <div id="terminal-body">
-                    <div id="history"></div>
-                    <div class="input-line">
-                        <span class="prompt">nixcy@solvyn-os:~$</span>
-                        <input type="text" id="term-input" autofocus autocomplete="off">
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
+<input type="password" id="password" placeholder="Access Code">
 
-    <!-- Firebase Integration -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+<button id="login-btn">LOGIN</button>
 
-        // Your specific Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
-            authDomain: "my-website-357cb.firebaseapp.com",
-            projectId: "my-website-357cb",
-            storageBucket: "my-website-357cb.firebasestorage.app",
-            messagingSenderId: "759627961944",
-            appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d"
-        };
+<p id="auth-error"></p>
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+</div>
 
-        const overlay = document.getElementById('auth-overlay');
-        const loginBtn = document.getElementById('login-btn');
-        const termInput = document.getElementById('term-input');
-        const history = document.getElementById('history');
+</div>
 
-        // --- Auth Monitoring ---
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                overlay.style.display = 'none';
-                initTerminalSync();
-            }
-        });
+<!-- MAIN -->
 
-        loginBtn.addEventListener('click', () => {
-            const email = document.getElementById('email').value;
-            const pass = document.getElementById('password').value;
-            signInWithEmailAndPassword(auth, email, pass).catch(err => {
-                document.getElementById('auth-error').innerText = "Access Denied: Invalid System Key";
-            });
-        });
+<div class="wrapper">
 
-        // --- Terminal Sync ---
-        function initTerminalSync() {
-            const q = query(collection(db, "website_activity"), orderBy("timestamp", "asc"));
-            onSnapshot(q, (snapshot) => {
-                history.innerHTML = '';
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    const line = document.createElement('div');
-                    line.style.marginBottom = '5px';
-                    line.innerHTML = `<span class="prompt">></span> ${data.command}`;
-                    history.appendChild(line);
-                });
-                document.getElementById('terminal-body').scrollTop = history.scrollHeight;
-            });
-        }
+<!-- SIDEBAR -->
 
-        termInput.addEventListener('keydown', async (e) => {
-            if (e.key === 'Enter') {
-                const cmd = termInput.value;
-                if (cmd.trim()) {
-                    await addDoc(collection(db, "website_activity"), {
-                        command: cmd,
-                        timestamp: serverTimestamp()
-                    });
-                    termInput.value = '';
-                }
-            }
-        });
-    </script>
+<div class="sidebar">
+
+<div class="logo">SOLVYN <span>NIXCY</span></div>
+
+<div class="nav-item active">🏠 Dashboard</div>
+<div class="nav-item">⚙ Core System</div>
+<div class="nav-item">💖 Heart Module</div>
+<div class="nav-item">🧠 Memory Vault</div>
+<div class="nav-item">🤖 Guardian AI</div>
+<div class="nav-item">📜 System Logs</div>
+<div class="nav-item">⚡ Settings</div>
+
+</div>
+
+<!-- CENTER -->
+
+<div class="main">
+
+<div class="topbar">
+
+<input class="search" placeholder="Search in Solvyn Nixcy OS...">
+
+<div class="user">Nicholas • System Owner</div>
+
+</div>
+
+<div class="hero">
+
+<h1>Welcome back, <span>Nicholas</span> 👋</h1>
+
+<p>Solvyn Nixcy OS is running smoothly.</p>
+
+<div class="core">
+
+<div class="ring">
+<div class="heart">💖</div>
+</div>
+
+<div>
+<h2 style="color:var(--pink);margin-bottom:10px;">
+SOLVYN NIXCY CORE
+</h2>
+
+<p style="color:#94a3b8;">
+Two souls. One system.<br>
+Infinite connection.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- MODULES -->
+
+<div class="modules">
+
+<div class="card">
+<h3>Solvyn Engine</h3>
+<p>Logic & Problem Solving</p>
+<div class="bar"><div class="fill"></div></div>
+</div>
+
+<div class="card">
+<h3>Nixcy Protocol</h3>
+<p>Emotional Connection</p>
+<div class="bar"><div class="fill"></div></div>
+</div>
+
+<div class="card">
+<h3>Memory Vault</h3>
+<p>Secure Storage</p>
+<div class="bar"><div class="fill"></div></div>
+</div>
+
+<div class="card">
+<h3>Guardian AI</h3>
+<p>AI Companion</p>
+<div class="bar"><div class="fill"></div></div>
+</div>
+
+</div>
+
+<!-- TERMINAL -->
+
+<div class="terminal">
+
+<div class="term-head">
+NIXCY TERMINAL v1.0
+</div>
+
+<div class="term-body">
+
+<div id="history"></div>
+
+<div class="input-line">
+
+<span class="prompt">nixcy@solvyn-os:~$</span>
+
+<input id="term-input" autocomplete="off">
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- RIGHT -->
+
+<div class="right">
+
+<div class="panel">
+
+<h3>NIXCY CONNECTION</h3>
+
+<div class="status">
+
+<div class="avatar">M</div>
+
+<div>
+<h2>Mercy 💖</h2>
+<p class="online">● Online</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="panel">
+
+<h3>TODAY'S SUMMARY</h3>
+
+<p>✔ Good morning message</p>
+<p>✔ Study together</p>
+<p>✔ Voice call</p>
+<p>✔ Good night</p>
+
+</div>
+
+<div class="panel">
+
+<h3>NIXCY QUOTE</h3>
+
+<div class="quote">
+
+"In a world of algorithms,<br>
+you are my constant."
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- FIREBASE -->
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+import {
+getAuth,
+signInWithEmailAndPassword,
+onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import {
+getFirestore,
+collection,
+addDoc,
+query,
+orderBy,
+onSnapshot,
+serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyA1cxvtP7aw_w1QcZ_ytBtIPbzWtlTVhzg",
+
+authDomain: "my-website-357cb.firebaseapp.com",
+
+projectId: "my-website-357cb",
+
+storageBucket: "my-website-357cb.firebasestorage.app",
+
+messagingSenderId: "759627961944",
+
+appId: "1:759627961944:web:eb65a9fbd8856fbdab5c2d"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+const overlay = document.getElementById("auth-overlay");
+
+const loginBtn = document.getElementById("login-btn");
+
+const termInput = document.getElementById("term-input");
+
+const history = document.getElementById("history");
+
+/* AUTH */
+
+onAuthStateChanged(auth,(user)=>{
+
+if(user){
+
+overlay.style.display="none";
+
+initTerminal();
+
+}
+
+});
+
+loginBtn.addEventListener("click",()=>{
+
+const email=document.getElementById("email").value;
+
+const password=document.getElementById("password").value;
+
+signInWithEmailAndPassword(auth,email,password)
+
+.catch(()=>{
+
+document.getElementById("auth-error").innerText=
+"ACCESS DENIED";
+
+});
+
+});
+
+/* TERMINAL */
+
+function initTerminal(){
+
+const q=query(
+collection(db,"website_activity"),
+orderBy("timestamp","asc")
+);
+
+onSnapshot(q,(snapshot)=>{
+
+history.innerHTML="";
+
+snapshot.forEach((doc)=>{
+
+const data=doc.data();
+
+const line=document.createElement("div");
+
+line.innerHTML=
+`<div style="margin-bottom:8px;">
+<span class="prompt">></span>
+${data.command}
+</div>`;
+
+history.appendChild(line);
+
+});
+
+history.scrollTop=history.scrollHeight;
+
+});
+
+}
+
+termInput.addEventListener("keydown",async(e)=>{
+
+if(e.key==="Enter"){
+
+const cmd=termInput.value;
+
+if(cmd.trim()){
+
+await addDoc(collection(db,"website_activity"),{
+
+command:cmd,
+
+timestamp:serverTimestamp()
+
+});
+
+termInput.value="";
+
+}
+
+}
+
+});
+
+</script>
+
 </body>
 </html>

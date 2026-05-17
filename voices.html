@@ -9,199 +9,113 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-/* ================= ROOT COLORS ================= */
-:root{
-    --dark-bg:#0b1220;
-    --deep-bg:#0f172a;
-    --card-bg:#111c33;
-    --accent:#38bdf8;
-    --accent-soft:#0ea5e9;
-    --gold:#fbbf24;
-    --text:#f1f5f9;
-    --soft:#94a3b8;
-    --muted:#64748b;
-    --hover:#1e293b;
-    --border:rgba(255,255,255,0.08);
-}
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #ffffff;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      scroll-behavior: smooth;
+    }
 
-/* ================= GLOBAL ================= */
-body{
-    margin:0;
-    font-family:'Cormorant Garamond',serif;
-    background: radial-gradient(circle at top, #0f172a, #020617);
-    color:var(--text);
-    line-height:1.9;
-}
+    header, section {
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
 
-/* ================= SIDEBAR ================= */
-.sidebar {
-  position: fixed;
-  left: -260px;
-  top: 0;
-  width: 250px;
-  height: 100%;
-  background: linear-gradient(180deg, #0f172a, #0b1220);
-  border-right: 1px solid var(--border);
-  transition: 0.3s;
-  padding-top: 60px;
-  z-index: 2000;
-}
+    h1, h2 {
+      color: #f0db4f;
+    }
 
-.sidebar.active {
-  left: 0;
-}
+    a {
+      color: #7fd1b9;
+      text-decoration: none;
+    }
 
-.sidebar a {
-  display: block;
-  padding: 12px 20px;
-  color: var(--text);
-  text-decoration: none;
-  transition: 0.2s;
-}
+    a:hover {
+      text-decoration: underline;
+    }
 
-.sidebar a:hover {
-  background: var(--hover);
-  color: var(--accent);
-}
+    /* NAV BUTTONS */
+    .nav-buttons {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 999;
+    }
 
-.sidebar i {
-  margin-right: 10px;
-}
+    .nav-buttons a {
+      background: #ffffff20;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: bold;
+    }
 
-/* ================= OVERLAY ================= */
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  display: none;
-  z-index: 1500;
-}
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      left: -260px;
+      top: 0;
+      width: 250px;
+      height: 100%;
+      background: #001b3d;
+      color: white;
+      transition: 0.3s;
+      padding-top: 60px;
+      z-index: 1000;
+    }
 
-.overlay.active {
-  display: block;
-}
+    .sidebar.active {
+      left: 0;
+    }
 
-/* ================= MENU BUTTON ================= */
-.menu-btn {
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  font-size: 22px;
-  cursor: pointer;
-  z-index: 3000;
-  color: var(--accent);
-  text-shadow: 0 0 10px rgba(56,189,248,0.3);
-}
+    .sidebar a {
+      display: block;
+      padding: 15px 20px;
+      color: white;
+      text-decoration: none;
+    }
 
-/* ================= CONTAINER ================= */
-.container{
-    max-width:950px;
-    margin:auto;
-    padding:80px 20px 40px;
-}
+    .sidebar a:hover {
+      background: #004aad;
+    }
 
-/* ================= HERO ================= */
-.hero{
-    text-align:center;
-    padding:40px 20px;
-}
+    .sidebar i {
+      margin-right: 10px;
+    }
 
-.hero h1{
-    font-family:'Montserrat',sans-serif;
-    font-size:2.8rem;
-    font-weight:800;
-    color:var(--accent);
-    text-shadow: 0 0 20px rgba(56,189,248,0.15);
-}
+    /* OVERLAY */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      z-index: 900;
+    }
 
-/* ================= CARD ================= */
-.content-card{
-    background: linear-gradient(145deg, #111c33, #0f172a);
-    padding:40px;
-    border-radius:16px;
-    margin-top:30px;
-    border:1px solid var(--border);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-}
+    .overlay.active {
+      display: block;
+    }
 
-/* ================= FOOTER ================= */
-footer{
-    text-align:center;
-    margin-top:80px;
-    color:var(--muted);
-}
-
-/* ================= LIST ================= */
-li {
-    margin-bottom: 8px;
-}
-
-/* ================= NEW GREEN & RED LINK STYLES ================= */
-.nav-buttons {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    font-size: 1.1rem;
-    margin-bottom: 25px;
-}
-
-/* Style for the top row elements highlighted in green */
-.nav-buttons a, .nav-buttons span {
-    color: #4ade80 !important; /* Vibrant readable green */
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
-.nav-buttons a:hover {
-    color: #f87171 !important; /* Switches to red on hover */
-}
-
-/* Style for Table of Contents items highlighted in green */
-.toc-list {
-    list-style: none;
-    padding-left: 0;
-    font-size: 1.3rem;
-}
-
-.toc-list li {
-    margin-bottom: 18px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.toc-list a {
-    color: #f87171 !important; /* Vibrant readable red/coral */
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
-.toc-list a:hover {
-    color: #4ade80 !important; /* Switches to green on hover */
-}
-
-/* Fallback override to ensure browser tracking doesn't break color rules */
-a:visited {
-    color: inherit;
-}
-
-/* ================= EXTRA ================= */
-h2,h3{
-    color:var(--text);
-}
-
-p{
-    color:var(--text);
-}
-
-blockquote{
-    border-left:3px solid var(--accent);
-    padding-left:15px;
-    color:var(--soft);
-}
+    /* MENU BUTTON */
+    .menu-btn {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      font-size: 22px;
+      cursor: pointer;
+      z-index: 1100;
+      color: white;
+    }
 </style>
 </head>
 

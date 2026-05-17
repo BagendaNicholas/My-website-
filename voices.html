@@ -6,26 +6,20 @@
 <title>Voices from the Future | Nicholas Bagenda</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-
 /* ================= ROOT COLORS ================= */
 :root{
     --dark-bg:#0b1220;
     --deep-bg:#0f172a;
     --card-bg:#111c33;
-
     --accent:#38bdf8;
     --accent-soft:#0ea5e9;
-
     --gold:#fbbf24;
-
     --text:#f1f5f9;
     --soft:#94a3b8;
     --muted:#64748b;
-
     --hover:#1e293b;
     --border:rgba(255,255,255,0.08);
 }
@@ -145,9 +139,53 @@ li {
     margin-bottom: 8px;
 }
 
-/* ================= NAV ================= */
+/* ================= NEW GREEN & RED LINK STYLES ================= */
 .nav-buttons {
     display: flex;
+    gap: 15px;
+    align-items: center;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+}
+
+/* Style for the top row elements highlighted in green */
+.nav-buttons a, .nav-buttons span {
+    color: #4ade80 !important; /* Vibrant readable green */
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.nav-buttons a:hover {
+    color: #f87171 !important; /* Switches to red on hover */
+}
+
+/* Style for Table of Contents items highlighted in green */
+.toc-list {
+    list-style: none;
+    padding-left: 0;
+    font-size: 1.3rem;
+}
+
+.toc-list li {
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.toc-list a {
+    color: #f87171 !important; /* Vibrant readable red/coral */
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.toc-list a:hover {
+    color: #4ade80 !important; /* Switches to green on hover */
+}
+
+/* Fallback override to ensure browser tracking doesn't break color rules */
+a:visited {
+    color: inherit;
 }
 
 /* ================= EXTRA ================= */
@@ -164,9 +202,9 @@ blockquote{
     padding-left:15px;
     color:var(--soft);
 }
-
 </style>
 </head>
+
 
 <body>
 

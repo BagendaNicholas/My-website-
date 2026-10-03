@@ -1,370 +1,747 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"> 
-<meta name="google-site-verification" content="_fuLs7ujw7KmQmXrSOffFmMLakhUERuxcJ061DokHGI" />  
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nicholas Bagenda | Portfolio</title>
-<title>Nk upgraded Biometric System | Portfolio</title>
-<link rel="icon" href="/favicon.ico" />
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <meta charset="UTF-8">
+    <meta name="google-site-verification" content="_fuLs7ujw7KmQmXrSOffFmMLakhUERuxcJ061DokHGI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>Nicholas Bagenda | Web Developer & Digital Creator</title>
+    <meta name="description" content="Ugandan web developer, digital creator, and storyteller building modern digital experiences with innovation and purpose.">
+    <meta name="keywords" content="Nicholas Bagenda, web developer, Uganda, AI, digital creator, GuardianOS">
+    <meta name="author" content="Nicholas Bagenda">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Nicholas Bagenda | Portfolio">
+    <meta property="og:description" content="Web developer, digital creator, and storyteller from Uganda.">
+    <meta property="og:image" content="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png">
+    <meta property="og:url" content="https://bagenda.netlify.app">
+    <meta property="og:type" content="website">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-<!-- SEO Images -->
-<img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="Bagenda Nicholas" style="display:none;">
-<img src="https://i.postimg.cc/g0GkJdxq/IMG_20260219_WA0023.jpg" alt="Bagenda Nicholas" style="display:none;">
-<img src="https://i.postimg.cc/L68qhtqX/Gemini_Generated_Image_j24si8j24si8j24s.png" alt="BagendaNicholas" style="display:none;">
-<img src="https://i.postimg.cc/bNwGdxGG/20250518_101224.jpg" alt="BagendaNicholas" style="display:none;">
-<img src="https://i.postimg.cc/W1m7jmxt/20251207-100134.jpg" alt="BagendaNicholas" style="display:none;">
-<img src="https://i.postimg.cc/VNzL61JD/IMG_20260219_WA0022.jpg" alt="Bagenda Nicholas" style="display:none;">
+    <style>
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-body {margin:0;font-family:'Poppins',sans-serif;color:#fff;}
-.topbar{background:#002147;color:white;padding:15px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1000;}
-.menu-btn{font-size:22px;cursor:pointer;}
-.topbar .logo{font-weight:700;font-size:1.3em;}
-.sidebar{position:fixed;left:-260px;top:0;width:250px;height:100%;background:#001b3d;color:white;transition:0.3s;padding-top:60px;z-index:1000;}
-.sidebar.active{left:0;}
-.sidebar a{display:block;padding:15px 20px;color:white;text-decoration:none;font-weight:500;transition:0.3s;}
-.sidebar a:hover{background:#004aad;}
-.sidebar i{margin-right:10px;}
-.overlay{position:fixed;display:none;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:900;}
-.overlay.active{display:block;}
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-/* Section Styling */
-section {
-    position: relative;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 80px 20px;
-    color: white;
-    text-align: center;
-}
-section::before {
-    content: '';
-    position: absolute;
-    top:0; left:0;
-    width:100%; height:100%;
-    background: rgba(0,0,0,0.45);
-    z-index:0;
-}
-section > * {position: relative; z-index:1;}
+        /* Topbar */
+        .topbar {
+            background: linear-gradient(135deg, #002147 0%, #001b3d 100%);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
 
-/* Assign background images */
-.hero { background-image: url('https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png'); }
-.about-me-section-dark { background-image: url('https://i.postimg.cc/g0GkJdxq/IMG_20260219_WA0023.jpg'); }
-.documents-section { background-image: url('https://i.postimg.cc/L68qhtqX/Gemini_Generated_Image_j24si8j24si8j24s.png'); }
-.audio-video-section { background-image: url('https://i.postimg.cc/bNwGdxGG/20250518_101224.jpg'); }
-.inspiration-section { background-image: url('https://i.postimg.cc/W1m7jmxt/20251207-100134.jpg'); }
-.projects-section { background-image: url('https://i.postimg.cc/VNzL61JD/IMG_20260219_WA0022.jpg'); }
+        .topbar .logo {
+            font-weight: 700;
+            font-size: 1.4em;
+            letter-spacing: 0.5px;
+        }
 
-/* Hero & About Me text */
-.hero img.profile-pic {width:140px;border-radius:50%;margin-bottom:15px;}
-.hero h1 {font-size:2em;margin:10px 0;color:#fff;}
-.hero p {font-size:1em;max-width:500px;margin:0 auto;color:#fff;}
-.about-me-section-dark p {max-width:700px;margin:10px auto;}
-ul.timeline {list-style:none;padding:0;margin-top:20px;}
-ul.timeline li {margin:10px 0;}
+        .menu-btn {
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            padding: 5px;
+        }
 
+        .menu-btn:hover {
+            transform: scale(1.1);
+        }
 
-.library {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-  margin-top: 40px;
-}
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: -280px;
+            top: 0;
+            width: 280px;
+            height: 100%;
+            background: linear-gradient(180deg, #001b3d 0%, #000f24 100%);
+            color: white;
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding-top: 80px;
+            z-index: 1001;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+        }
 
-.book-card {
-  background: rgba(0,0,0,0.6);
-  padding: 20px;
-  border-radius: 15px;
-  transition: 0.3s;
-  text-align: left;
-}
+        .sidebar.active {
+            left: 0;
+        }
 
-.book-card:hover {
-  transform: translateY(-10px) scale(1.03);
-  background: rgba(0,0,0,0.8);
-}
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            padding: 16px 25px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
 
-.book-card h3 {color:#ffd700;}
-.btns a {
-  padding:8px 12px;
-  background:#004aad;
-  color:white;
-  border-radius:8px;
-  text-decoration:none;
-  margin-right:5px;
-}
-/* Quick Links */
-.quick-links {display:flex;flex-wrap:wrap;justify-content:center;margin:40px 0;gap:20px;}
-.quick-card {display:flex;flex-direction:column;align-items:center;background:rgba(0,0,0,0.5);padding:20px;border-radius:10px;text-decoration:none;color:white;width:180px;transition:0.3s;}
-.quick-card:hover {background:rgba(0,0,0,0.7);}
-.quick-card .icon {font-size:2em;margin-bottom:10px;}
-.quick-card .heart {font-size:1.3em;margin:5px 0;}
+        .sidebar a:hover {
+            background: rgba(0, 74, 173, 0.3);
+            border-left-color: #ffd700;
+            padding-left: 30px;
+        }
 
-/* Footer */
-footer {text-align:center;padding:20px;background:#001b3d;color:white;margin-top:40px;}
-footer a {color:#ffd700;text-decoration:none;margin:0 8px;}
-footer .footer-sparkle {margin:0 5px;}
-</style>
+        .sidebar i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .download-btn {
+            margin: 20px 25px;
+            padding: 12px 20px !important;
+            background: linear-gradient(135deg, #004aad 0%, #003380 100%);
+            border-radius: 8px;
+            text-align: center;
+            justify-content: center;
+            border: 2px solid #ffd700;
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(135deg, #0059c9 0%, #004aad 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 74, 173, 0.4);
+        }
+
+        .download-btn img {
+            margin-right: 10px;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            display: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px);
+            z-index: 1000;
+            transition: opacity 0.3s ease;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* Section Styling */
+        section {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            padding: 100px 30px;
+            color: white;
+            text-align: center;
+        }
+
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+
+        section > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Background Images */
+        .hero { 
+            background-image: url('https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png');
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .about-me-section-dark { 
+            background-image: url('https://i.postimg.cc/g0GkJdxq/IMG_20260219_WA0023.jpg');
+        }
+
+        .documents-section { 
+            background-image: url('https://i.postimg.cc/L68qhtqX/Gemini_Generated_Image_j24si8j24si8j24s.png');
+        }
+
+        .audio-video-section { 
+            background-image: url('https://i.postimg.cc/bNwGdxGG/20250518_101224.jpg');
+        }
+
+        .inspiration-section { 
+            background-image: url('https://i.postimg.cc/W1m7jmxt/20251207-100134.jpg');
+        }
+
+        .projects-section { 
+            background-image: url('https://i.postimg.cc/VNzL61JD/IMG_20260219_WA0022.jpg');
+        }
+
+        /* Hero Section */
+        .hero img.profile-pic {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            border: 4px solid #ffd700;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .hero img.profile-pic:hover {
+            transform: scale(1.05);
+        }
+
+        .hero h1 {
+            font-size: 2.5em;
+            margin: 15px 0;
+            color: #fff;
+            font-weight: 700;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.1em;
+            max-width: 600px;
+            margin: 0 auto;
+            color: #f0f0f0;
+            line-height: 1.8;
+        }
+
+        .sparkle {
+            display: inline-block;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+
+        /* About Me Section */
+        .about-me-section-dark h2 {
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            color: #ffd700;
+        }
+
+        .about-me-section-dark p {
+            max-width: 800px;
+            margin: 15px auto;
+            font-size: 1.05em;
+            line-height: 1.8;
+            color: #e8e8e8;
+        }
+
+        ul.timeline {
+            list-style: none;
+            padding: 0;
+            margin-top: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        ul.timeline li {
+            margin: 15px 0;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+            border-left: 3px solid #ffd700;
+            text-align: left;
+            transition: transform 0.3s ease;
+        }
+
+        ul.timeline li:hover {
+            transform: translateX(10px);
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        /* Library Grid */
+        .library {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .book-card {
+            background: rgba(0, 0, 0, 0.65);
+            padding: 25px;
+            border-radius: 15px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: left;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .book-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            background: rgba(0, 0, 0, 0.85);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            border-color: #ffd700;
+        }
+
+        .book-card h3 {
+            color: #ffd700;
+            font-size: 1.4em;
+            margin-bottom: 12px;
+        }
+
+        .book-card p {
+            color: #d0d0d0;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .btns {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btns a {
+            padding: 10px 18px;
+            background: linear-gradient(135deg, #004aad 0%, #003380 100%);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .btns a:hover {
+            background: linear-gradient(135deg, #0059c9 0%, #004aad 100%);
+            border-color: #ffd700;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 74, 173, 0.4);
+        }
+
+        /* Quick Links */
+        .quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 50px 0;
+            gap: 25px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .quick-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: white;
+            width: 200px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .quick-card:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+            border-color: #ffd700;
+        }
+
+        .quick-card .icon {
+            font-size: 2.5em;
+            margin-bottom: 12px;
+        }
+
+        .quick-card .heart {
+            font-size: 1.5em;
+            margin: 8px 0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 30px;
+            background: linear-gradient(135deg, #001b3d 0%, #000f24 100%);
+            color: white;
+            margin-top: 0;
+        }
+
+        footer a {
+            color: #ffd700;
+            text-decoration: none;
+            margin: 0 12px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #ffed4e;
+            text-decoration: underline;
+        }
+
+        .footer-sparkle {
+            margin: 0 5px;
+            display: inline-block;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8em;
+            }
+
+            .hero p {
+                font-size: 1em;
+            }
+
+            section {
+                padding: 60px 20px;
+            }
+
+            .library {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-card {
+                width: 150px;
+                padding: 20px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .topbar {
+                padding: 12px 20px;
+            }
+
+            .topbar .logo {
+                font-size: 1.2em;
+            }
+
+            .hero img.profile-pic {
+                width: 120px;
+                height: 120px;
+            }
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Selection Color */
+        ::selection {
+            background: #ffd700;
+            color: #001b3d;
+        }
+    </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
-<div class="topbar">
-  <span class="logo">Bagenda Nicholas</span>
-  <i class="fas fa-bars menu-btn" onclick="toggleSidebar()"></i>
-</div>
-<!-- SIDEBAR -->
-<div class="sidebar" id="sidebar">
-  <a href="index.html"><i class="fas fa-home"></i> Home</a>
-  <a href="creator.html"><i class="fas fa-book"></i> Documents & Books</a>
-  <a href="audio&video.html"><i class="fas fa-headphones"></i> Audio & Video</a>
-  <a href="project.html"><i class="fas fa-rocket"></i> Projects</a>
-  <a href="message.html"><i class="fas fa-envelope"></i> Contact</a>
- <a href="https://www.mediafire.com/file/im1olpqhdqhblq8/Guardian_1.0.apk/file"
-   target="_blank"
-   class="download-btn">
+    <!-- TOPBAR -->
+    <header class="topbar" role="banner">
+        <span class="logo">Bagenda Nicholas</span>
+        <button class="menu-btn" onclick="toggleSidebar()" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
 
-    <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png"
-         alt="Guardian Logo"
-         style="height:32px; width:32px;">
-
-    Download Guardian APK
-</a>
-</div>
-<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
-
-<!-- HERO SECTION -->
-<section class="hero">
-  <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" class="profile-pic" alt="Nicholas Bagenda" />
-  <h1>
-    <span class="sparkle">✨️</span>Bagenda Nicholas <span class="sparkle">💛</span> <span class="sparkle">💖</span>
-  </h1>
-  <p>
-    Ugandan web developer, digital creator, and storyteller. I build modern digital experiences that combine technology, creativity, and purpose.<br>
-    <em>
-      <span class="sparkle">✨️</span>
-      I focus on creating value through innovation — where ideas become meaningful digital projects.
-      <span class="sparkle">💛</span>
-    </em>
-  </p>
-    <!-- Guardian AI Chat Widget -->
-<script>
-  window.chatbaseConfig = {
-    chatbotId: "BJAUIH5Icn_jSA9SiDX9N"
-  }
-</script>
-<script src="https://www.chatbase.co/embed.min.js" defer></script>
-    <script>
-    (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="ti3Jj51_okPWfXXM1Mbxe";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
-    </script>
-</body>
-</html>
-
-</section>
-
-<!-- ABOUT ME SECTION -->
-<section id="about-me" class="about-me-section-dark">
-  <h2>
-    <span class="sparkle">💚</span> About Me <span class="sparkle">💚</span>
-  </h2>
-
-  <p>
-    I build modern websites, digital tools, and AI-powered experiences that combine innovation, creativity, and purpose.
-    My goal is to transform ideas into real digital systems that inspire learning, growth, and impact in today’s world.
-  </p>
-
-  <p>
-    <span class="sparkle">✨️</span>
-    Beyond development, I am also a storyteller. I write emotional and spiritual books that explore love, pain, healing, faith, and human purpose through real-life inspired journeys.
-    <span class="sparkle">💖</span>
-  </p>
-
-  <p>
-    Through technology and writing, I aim to connect creativity with meaning — building both digital systems and stories that speak to people’s hearts.
-  </p>
-
-  <ul class="timeline">
-    <li>2022 – Started building GuardianAi, an all-in-one AI assistant project.</li>
-    <li>2024 – Published my first emotional and spiritual book, expanding into storytelling.</li>
-    <li>2025 – Built multiple web and AI projects and grew into a digital creator and author brand.</li>
-  </ul>
-</section>
-
+    <!-- SIDEBAR -->
+    <nav class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="creator.html"><i class="fas fa-book"></i> Documents & Books</a>
+        <a href="audio&video.html"><i class="fas fa-headphones"></i> Audio & Video</a>
+        <a href="project.html"><i class="fas fa-rocket"></i> Projects</a>
+        <a href="message.html"><i class="fas fa-envelope"></i> Contact</a>
+        <a href="https://www.mediafire.com/file/im1olpqhdqhblq8/Guardian_1.0.apk/file" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           class="download-btn">
+            <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" 
+                 alt="Guardian Logo" 
+                 style="height:32px; width:32px;">
+            Download Guardian APK
+        </a>
+    </nav>
     
-<!-- LIBRARY -->
-<section class="documents-section">
-  <h2>📚 My Digital Library</h2>
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-  <div class="library">
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" 
+             class="profile-pic" 
+             alt="Nicholas Bagenda - Web Developer" />
+        <h1>
+            <span class="sparkle">✨️</span>Bagenda Nicholas<span class="sparkle">💛</span><span class="sparkle">💖</span>
+        </h1>
+        <p>
+            Ugandan web developer, digital creator, and storyteller. I build modern digital experiences that combine technology, creativity, and purpose.<br>
+            <em>
+                <span class="sparkle">✨️</span>
+                I focus on creating value through innovation — where ideas become meaningful digital projects.
+                <span class="sparkle">💛</span>
+            </em>
+        </p>
+    </section>
 
-    <!-- SHADOW -->
-    <div class="book-card">
-      <h3>I Felt in Love with the Shadow</h3>
-      <p><em>"I gave my heart to someone who was only a reflection..."</em></p>
-      <p>
-        A deeply emotional and spiritual journey of Nichole, a quiet tech-minded young man who falls in love with Aisha,
-        only to discover her love was never real. Through heartbreak, silence, and healing, he transforms pain into purpose.
-      </p>
-      <div class="btns">
-        <a href="https://bagenda.netlify.app/shadow.html">📖 Read</a>
-        <a href="#">⬇️ Download</a>
-      </div>
-    </div>
+    <!-- ABOUT ME SECTION -->
+    <section id="about-me" class="about-me-section-dark">
+        <h2>
+            <span class="sparkle">💚</span> About Me <span class="sparkle">💚</span>
+        </h2>
 
-    <!-- NOW I FEEL -->
-    <div class="book-card">
-      <h3>Now I Feel</h3>
-      <p><strong>A True Story of Love, Distance, and the Heart That Still Waits</strong></p>
-      <p>
-        A real-life story of love told through messages, silence, and memory. Nichole, a tech boy,
-        carries the memory of Hi Li in every line of code he writes.
-      </p>
-      <div class="btns">
-        <a href="https://bagenda.netlify.app/feel.html">📖 Read</a>
-        <a href="#">⬇️ Download</a>
-      </div>
-    </div>
+        <p>
+            I build modern websites, digital tools, and AI-powered experiences that combine innovation, creativity, and purpose.
+            My goal is to transform ideas into real digital systems that inspire learning, growth, and impact in today's world.
+        </p>
 
-    <!-- UPTOWN -->
-    <div class="book-card">
-      <h3>The Up-Town Girl</h3>
-      <p><em>"She was the stars... I was the darkness."</em></p>
-      <div class="btns">
-        <a href="https://bagenda.netlify.app/uptown.html">📖 Read</a>
-        <a href="#">⬇️ Download</a>
-      </div>
-    </div>
+        <p>
+            <span class="sparkle">✨️</span>
+            Beyond development, I am also a storyteller. I write emotional and spiritual books that explore love, pain, healing, faith, and human purpose through real-life inspired journeys.
+            <span class="sparkle">💖</span>
+        </p>
 
-    <!-- BREAKING CHAINS -->
-    <div class="book-card">
-      <h3>Breaking Chains</h3>
-      <p>
-        A journey of breaking free from addiction and discovering healing, strength, and purpose.
-      </p>
-      <div class="btns">
-        <a href="chains.html">📖 Read</a>
-        <a href="#">⬇️ Download</a>
-      </div>
-    </div>
+        <p>
+            Through technology and writing, I aim to connect creativity with meaning — building both digital systems and stories that speak to people's hearts.
+        </p>
 
-    <!-- OUT OF BABYLON -->
-    <div class="book-card">
-      <h3>Out of Babylon</h3>
-      <p>
-        A spiritual journey exploring suffering, truth, and freedom from the confusion of the world,
-        leading to peace in God.
-      </p>
-      <div class="btns">
-        <a href="babylon.html">📖 Read</a>
-        <a href="#">⬇️ Download</a>
-      </div>
-    </div>
+        <ul class="timeline">
+            <li><strong>2022</strong> – Started building GuardianAi, an all-in-one AI assistant project.</li>
+            <li><strong>2024</strong> – Published my first emotional and spiritual book, expanding into storytelling.</li>
+            <li><strong>2025</strong> – Built multiple web and AI projects and grew into a digital creator and author brand.</li>
+        </ul>
+    </section>
 
-    <!-- HIDDEN TRUTH -->
-    <div class="book-card">
-      <h3>The Hidden Truth</h3>
-      <p>
-        A comprehensive guide to understanding fungal infections and chronic hand dermatitis,
-        helping people manage and prevent skin conditions.
-      </p>
-      <div class="btns">
-        <a href="truth.html">📖 Read</a>
-        <a href="#">⬇️ Download</a>
-      </div>
-    </div>
+    <!-- LIBRARY SECTION -->
+    <section class="documents-section" id="library">
+        <h2>📚 My Digital Library</h2>
 
-    <!-- CREATOR -->
-    <div class="book-card">
-      <h3>Am The Creator</h3>
-      <p>
-        A divine and poetic reflection on creation, prophecy, and humanity told in the voice of the Creator.
-      </p>
-      <div class="btns">
-        <a href="creator.html">📖 Read</a>
-        <a href="#">⬇️ Download</a>
-      </div>
-    </div>
+        <div class="library">
+            <!-- SHADOW -->
+            <article class="book-card">
+                <h3>I Felt in Love with the Shadow</h3>
+                <p><em>"I gave my heart to someone who was only a reflection..."</em></p>
+                <p>
+                    A deeply emotional and spiritual journey of Nichole, a quiet tech-minded young man who falls in love with Aisha,
+                    only to discover her love was never real. Through heartbreak, silence, and healing, he transforms pain into purpose.
+                </p>
+                <div class="btns">
+                    <a href="https://bagenda.netlify.app/shadow.html" aria-label="Read I Felt in Love with the Shadow">📖 Read</a>
+                    <a href="#" aria-label="Download I Felt in Love with the Shadow">⬇️ Download</a>
+                </div>
+            </article>
 
-    <!-- VOICES -->
-    <div class="book-card">
-      <h3>Voices From The Future</h3>
-      <p>
-        A prophetic reflection inspired by scripture and the rise of knowledge and technology.
-      </p>
-      <div class="btns">
-        <a href="voices.html">📖 Read</a>
-        <a href="#">⬇️ Download</a>
-      </div>
-    </div>
+            <!-- NOW I FEEL -->
+            <article class="book-card">
+                <h3>Now I Feel</h3>
+                <p><strong>A True Story of Love, Distance, and the Heart That Still Waits</strong></p>
+                <p>
+                    A real-life story of love told through messages, silence, and memory. Nichole, a tech boy,
+                    carries the memory of Hi Li in every line of code he writes.
+                </p>
+                <div class="btns">
+                    <a href="https://bagenda.netlify.app/feel.html" aria-label="Read Now I Feel">📖 Read</a>
+                    <a href="#" aria-label="Download Now I Feel">⬇️ Download</a>
+                </div>
+            </article>
 
-    <!-- SABBATH -->
-    <div class="book-card">
-      <h3>The Sabbath</h3>
-      <p>
-        A spiritual guide revealing the purpose, history, and blessing of God’s holy day.
-      </p>
-      <div class="btns">
-        <a href="sabbath.html">📖 Read</a>
-        <a href="#">⬇️ Download</a>
-      </div>
-    </div>
+            <!-- UPTOWN -->
+            <article class="book-card">
+                <h3>The Up-Town Girl</h3>
+                <p><em>"She was the stars... I was the darkness."</em></p>
+                <div class="btns">
+                    <a href="https://bagenda.netlify.app/uptown.html" aria-label="Read The Up-Town Girl">📖 Read</a>
+                    <a href="#" aria-label="Download The Up-Town Girl">⬇️ Download</a>
+                </div>
+            </article>
 
-  </div>
-</section>
-<!-- QUICK LINKS SECTION -->
-<section class="documents-section">
-  <div class="quick-links">
-    <a href="guardian🛡️.html" class="quick-card" title="Trending">
-      <span class="icon">💡</span>
-      Trending 
-      <span class="heart">💖</span>
-      <span style="font-size:0.9em;font-weight:400;color:#ffd70099;">News, Movies, & Quotes</span>
-    </a>
-    <a href="audio&video.html" class="quick-card" title="Audio & Video">
-      <span class="icon">🎧</span>
-      Audio & Video
-      <span class="heart">💛</span>
-      <span style="font-size:0.9em;font-weight:400;color:#ffd70099;">Listen & Watch</span>
-    </a>
-    <a href="inspiration.html" class="quick-card" title="Inspiration">
-      <span class="icon">✨️</span>
-      Inspiration
-      <span class="heart">💖</span>
-      <span style="font-size:0.9em;font-weight:400;color:#ffd70099;">Faith & Motivation</span>
-    </a>
-    <a href="project.html" class="quick-card" title="🚀 Featured Digital Projects">
-      <span class="icon">👷‍♀️</span>
-      Projects
-      <span class="heart">🌍</span>
-      <span style="font-size:0.9em;font-weight:400;color:#ffd70099;">Modern school Web, Biometric System, & more</span>
-    </a>
-  </div>
-</section>
+            <!-- BREAKING CHAINS -->
+            <article class="book-card">
+                <h3>Breaking Chains</h3>
+                <p>
+                    A journey of breaking free from addiction and discovering healing, strength, and purpose.
+                </p>
+                <div class="btns">
+                    <a href="chains.html" aria-label="Read Breaking Chains">📖 Read</a>
+                    <a href="#" aria-label="Download Breaking Chains">⬇️ Download</a>
+                </div>
+            </article>
 
-<!-- FOOTER -->
-<footer>
-    <a href="privacy-policy.html">Privacy Policy</a>
-    <a href="terms-and-conditions.html">Terms & Conditions</a>
-    <a href="disclaimer.html">Disclaimer</a>
-    <span class="footer-sparkle">✨️</span>
-    &copy; 2025 Nicholas Bagenda. All rights reserved.
-    <span class="footer-sparkle">💛</span><br>
-    <span style="font-size:0.98em;color:#ffd70077;">
-        A simple website that shares truth, healing, and hope.
-        <span class="footer-sparkle">💖</span>
-    </span>
-</footer>
+            <!-- OUT OF BABYLON -->
+            <article class="book-card">
+                <h3>Out of Babylon</h3>
+                <p>
+                    A spiritual journey exploring suffering, truth, and freedom from the confusion of the world,
+                    leading to peace in God.
+                </p>
+                <div class="btns">
+                    <a href="babylon.html" aria-label="Read Out of Babylon">📖 Read</a>
+                    <a href="#" aria-label="Download Out of Babylon">⬇️ Download</a>
+                </div>
+            </article>
 
-<script>
-function toggleSidebar(){
-  document.getElementById('sidebar').classList.toggle('active');
-  document.getElementById('overlay').classList.toggle('active');
-}
-</script>
+            <!-- HIDDEN TRUTH -->
+            <article class="book-card">
+                <h3>The Hidden Truth</h3>
+                <p>
+                    A comprehensive guide to understanding fungal infections and chronic hand dermatitis,
+                    helping people manage and prevent skin conditions.
+                </p>
+                <div class="btns">
+                    <a href="truth.html" aria-label="Read The Hidden Truth">📖 Read</a>
+                    <a href="#" aria-label="Download The Hidden Truth">⬇️ Download</a>
+                </div>
+            </article>
+
+            <!-- CREATOR -->
+            <article class="book-card">
+                <h3>Am The Creator</h3>
+                <p>
+                    A divine and poetic reflection on creation, prophecy, and humanity told in the voice of the Creator.
+                </p>
+                <div class="btns">
+                    <a href="creator.html" aria-label="Read Am The Creator">📖 Read</a>
+                    <a href="#" aria-label="Download Am The Creator">⬇️ Download</a>
+                </div>
+            </article>
+
+            <!-- VOICES -->
+            <article class="book-card">
+                <h3>Voices From The Future</h3>
+                <p>
+                    A prophetic reflection inspired by scripture and the rise of knowledge and technology.
+                </p>
+                <div class="btns">
+                    <a href="voices.html" aria-label="Read Voices From The Future">📖 Read</a>
+                    <a href="#" aria-label="Download Voices From The Future">⬇️ Download</a>
+                </div>
+            </article>
+
+            <!-- SABBATH -->
+            <article class="book-card">
+                <h3>The Sabbath</h3>
+                <p>
+                    A spiritual guide revealing the purpose, history, and blessing of God's holy day.
+                </p>
+                <div class="btns">
+                    <a href="sabbath.html" aria-label="Read The Sabbath">📖 Read</a>
+                    <a href="#" aria-label="Download The Sabbath">⬇️ Download</a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- QUICK LINKS SECTION -->
+    <section class="documents-section" id="quick-links">
+        <h2>🔗 Quick Access</h2>
+        <div class="quick-links">
+            <a href="guardian🛡️.html" class="quick-card" title="Trending News, Movies, & Quotes">
+                <span class="icon">💡</span>
+                <span>Trending</span>
+                <span class="heart">💖</span>
+                <span style="font-size:0.9em;font-weight:400;color:#ffd70099;">News, Movies, & Quotes</span>
+            </a>
+            <a href="audio&video.html" class="quick-card" title="Audio & Video Content">
+                <span class="icon">🎧</span>
+                <span>Audio & Video</span>
+                <span class="heart">💛</span>
+                <span style="font-size:0.9em;font-weight:400;color:#ffd70099;">Listen & Watch</span>
+            </a>
+            <a href="inspiration.html" class="quick-card" title="Inspiration & Motivation">
+                <span class="icon">✨️</span>
+                <span>Inspiration</span>
+                <span class="heart">💖</span>
+                <span style="font-size:0.9em;font-weight:400;color:#ffd70099;">Faith & Motivation</span>
+            </a>
+            <a href="project.html" class="quick-card" title="Featured Digital Projects">
+                <span class="icon">👷‍♀️</span>
+                <span>Projects</span>
+                <span class="heart">🌍</span>
+                <span style="font-size:0.9em;font-weight:400;color:#ffd70099;">Modern school Web, Biometric System, & more</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer role="contentinfo">
+        <div style="margin-bottom: 15px;">
+            <a href="privacy-policy.html">Privacy Policy</a>
+            <a href="terms-and-conditions.html">Terms & Conditions</a>
+            <a href="disclaimer.html">Disclaimer</a>
+        </div>
+        <span class="footer-sparkle">✨️</span>
+        &copy; 2025 Nicholas Bagenda. All rights reserved.
+        <span class="footer-sparkle">💛</span><br>
+        <span style="font-size:0.98em;color:#ffd70077;margin-top: 10px;display: block;">
+            A simple website that shares truth, healing, and hope.
+            <span class="footer-sparkle">💖</span>
+        </span>
+    </footer>
+
+    <!-- Chatbase Widget -->
+    <script>
+        window.chatbaseConfig = {
+            chatbotId: "BJAUIH5Icn_jSA9SiDX9N"
+        }
+    </script>
+    <script src="https://www.chatbase.co/embed.min.js" defer></script>
+
+    <!-- Sidebar Toggle Script -->
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+
+        // Close sidebar when clicking on a link
+        document.querySelectorAll('.sidebar a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('sidebar').classList.remove('active');
+                document.getElementById('overlay').classList.remove('active');
+            });
+        });
+    </script>
 
 </body>
 </html>

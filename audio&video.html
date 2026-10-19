@@ -1,178 +1,307 @@
 <!DOCTYPE html>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2816278854816808"
-     crossorigin="anonymous"></script>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Hidden Truth – Bagenda Nicholas</title>
-  <style>
-    body {
-      background-color: #1a1a1a;
-      color: #ffffff;
-      font-family: 'Arial', sans-serif;
-      line-height: 1.6;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background-color: #333;
-      padding: 1rem 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-    }
-
-    nav a {
-      color: #ffffff;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 0.5rem;
-      border-bottom: 2px solid transparent;
-    }
-
-    nav a:hover {
-      border-bottom: 2px solid #00ffcc;
-    }
-
-    nav a.active {
-      border-bottom: 2px solid #00ffcc;
-    }
-
-    h1, h2, h3 {
-      color: #00ffcc;
-    }
-
-    a {
-      color: #00ffcc;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    section {
-      padding: 1rem 2rem;
-    }
-
-    ol {
-      padding-left: 1.5rem;
-    }
-
-    footer {
-      background-color: #333;
-      padding: 1rem;
-      text-align: center;
-      color: #aaa;
-      font-size: 0.9rem;
-      margin-top: 2rem;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Library | Nicholas Bagenda</title>
     
-    li {
-      margin-bottom: 8px;
-    }
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Listen to inspirational talks, worship music, and watch project demos by Nicholas Bagenda.">
+    <meta property="og:title" content="Nicholas Bagenda | Media Library">
+    <meta property="og:description" content="Audio sermons, meditation tracks, and video showcases.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-    .nav-buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 30px;
-    }
+    <style>
+        /* --- GUARDIAN DESIGN SYSTEM VARIABLES --- */
+        :root {
+            --bg-deep: #080A0F;       /* Primary Background */
+            --card-bg: #11141D;       /* Card Background */
+            --accent-cyan: #00E5FF;   /* Technology Accent */
+            --accent-gold: #D4AF37;   /* Premium Accent */
+            --text-main: #FFFFFF;     /* Headings */
+            --text-body: #B8C0CC;     /* Body Text */
+            --border-color: rgba(0, 229, 255, 0.2);
+        }
 
-    .fixed-buttons {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .fixed-buttons a {
-      background: #ffffff22;
-      color: white;
-      padding: 10px 15px;
-      border-radius: 6px;
-      font-weight: bold;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-      text-align: center;
-    }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-body);
+            line-height: 1.6;
+            padding-bottom: 80px; /* Space for fixed buttons */
+        }
 
-    .fixed-buttons a:hover {
-      background: #ffffff44;
-    }
+        /* --- HEADER & NAVIGATION --- */
+        header {
+            background: rgba(8, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    audio, iframe {
-      width: 100%;
-      border-radius: 12px;
-      margin-top: 10px;
-    }
-  </style>
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+        .logo span { color: var(--accent-cyan); }
+
+        nav a {
+            color: var(--text-body);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* --- MAIN CONTENT CONTAINER --- */
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        h1 {
+            color: var(--text-main);
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--accent-cyan);
+            padding-left: 15px;
+        }
+
+        h2 {
+            color: var(--accent-gold);
+            font-size: 1.5rem;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* --- MEDIA CARDS --- */
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .media-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .media-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent-cyan);
+        }
+
+        .media-title {
+            color: var(--text-main);
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .media-desc {
+            font-size: 0.9rem;
+            color: var(--text-body);
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        /* Audio Player Styling */
+        audio {
+            width: 100%;
+            height: 40px;
+            outline: none;
+        }
+        
+        /* Video Container */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #000;
+        }
+
+        .video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- FIXED BOTTOM ACTIONS --- */
+        .fixed-actions {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 200;
+        }
+
+        .action-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(0, 229, 255, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            background: var(--accent-cyan);
+            color: var(--bg-deep);
+            transform: scale(1.05);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.5rem; }
+            .media-grid { grid-template-columns: 1fr; }
+            .fixed-actions {
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+    </style>
 </head>
+<body>
 
-<body id="top">
+    <header>
+        <a href="/" class="logo">NICHOLAS<span>BAGENDA</span></a>
+        <nav>
+            <a href="/">Home</a>
+        </nav>
+    </header>
 
-  <section class="p-6 bg-gradient-to-b from-indigo-950 to-indigo-900 text-white rounded-2xl shadow-2xl border border-indigo-700 mb-8">
-  <h2 class="text-3xl font-bold mb-4">🎧 Audios</h2>
-  
-  <div class="space-y-6">
-    <div>
-      <p class="mb-2 font-semibold">🌟 Inspirational Talk</p>
-      <audio controls class="w-full rounded-xl">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
-        Your browser does not support the audio element.
-      </audio>
-    </div>
-    
-    <div>
-      <p class="mb-2 font-semibold">🕊️ Calm Worship Music</p>
-      <audio controls class="w-full rounded-xl">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mp3">
-        Your browser does not support the audio element.
-      </audio>
-    </div>
-    
-    <div>
-      <p class="mb-2 font-semibold">🧘🏽‍♂️ Meditation Moment</p>
-      <audio controls class="w-full rounded-xl">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mp3">
-        Your browser does not support the audio element.
-      </audio>
-    </div>
-  </div>
-  </section>
-<section class="p-6 bg-gradient-to-b from-indigo-900 to-indigo-800 text-white rounded-2xl shadow-2xl border border-indigo-600">
-  <h2 class="text-3xl font-bold mb-4">📹 Videos</h2>
+    <main>
+        <h1>🎧 Digital Media Library</h1>
+        <p style="margin-bottom: 2rem; color: var(--text-body);">
+            Explore my collection of inspirational audio talks, worship sessions, and project demonstrations.
+        </p>
 
-  <div class="space-y-6">
-    <div class="mx-auto">
-      <p class="mb-2 font-semibold">🌍 Nature and Faith</p>
-      <video controls width="100%" class="rounded-xl">
-        <source src="https://raw.githubusercontent.com/BagendaNicholas/My-website-/main/VID-20250811-WA0000.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-    </div>
+        <!-- AUDIO SECTION -->
+        <section id="audio">
+            <h2>🔊 Audio Tracks</h2>
+            <div class="media-grid">
+                
+                <!-- Track 1 -->
+                <article class="media-card">
+                    <h3 class="media-title">Inspirational Talk</h3>
+                    <p class="media-desc">A message on finding purpose through faith and resilience.</p>
+                    <audio controls preload="metadata">
+                        <!-- REPLACE WITH YOUR LOCAL ASSET PATH IF MOVED -->
+                        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </article>
 
-    <div class="mx-auto">
-      <p class="mb-2 font-semibold">🚀 Building with Purpose</p>
-      <video controls width="100%" class="rounded-xl">
-        <source src="https://samplelib.com/lib/preview/mp4/sample-15s.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
+                <!-- Track 2 -->
+                <article class="media-card">
+                    <h3 class="media-title">Calm Worship Music</h3>
+                    <p class="media-desc">Instrumental worship session for reflection and prayer.</p>
+                    <audio controls preload="metadata">
+                        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </article>
+
+                <!-- Track 3 -->
+                <article class="media-card">
+                    <h3 class="media-title">Meditation Moment</h3>
+                    <p class="media-desc">Guided mindfulness exercise for stress relief.</p>
+                    <audio controls preload="metadata">
+                        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- VIDEO SECTION -->
+        <section id="video">
+            <h2>📹 Video Showcases</h2>
+            <div class="media-grid">
+                
+                <!-- Video 1 -->
+                <article class="media-card">
+                    <h3 class="media-title">Nature and Faith</h3>
+                    <p class="media-desc">Reflections on creation while walking through nature.</p>
+                    <div class="video-wrapper">
+                        <!-- IMPORTANT: Update this path if you moved the file to assets/media/video/ -->
+                        <video controls poster="">
+                            <source src="https://raw.githubusercontent.com/BagendaNicholas/My-website-/main/VID-20250811-WA0000.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </article>
+
+                <!-- Video 2 -->
+                <article class="media-card">
+                    <h3 class="media-title">Building with Purpose</h3>
+                    <p class="media-desc">Behind the scenes of developing GuardianOS.</p>
+                    <div class="video-wrapper">
+                         <!-- Using sample lib for demo, replace with your actual asset -->
+                        <video controls poster="">
+                            <source src="https://samplelib.com/lib/preview/mp4/sample-15s.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- FLOATING ACTION BUTTONS -->
+    <div class="fixed-actions">
+        <a href="#top" class="action-btn" aria-label="Scroll to top">
+            ⬆ Top
+        </a>
+        <a href="/" class="action-btn" aria-label="Return to home page">
+            🏠 Home
+        </a>
     </div>
-  </div>
-</section>
-  <div class="fixed-buttons">
-    <a href="#top">🔝 Top</a>
-    <a href="home.html">🏡 Home</a>
-  </div>
 
 </body>
 </html>

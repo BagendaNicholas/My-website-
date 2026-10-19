@@ -6,7 +6,7 @@
     <title>Media Library | Nicholas Bagenda</title>
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Listen to inspirational talks, worship music, and watch project demos by Nicholas Bagenda.">
+    <meta name="description" content="Listen to inspirational talks, worship music, and watch SDA ministry videos by Nicholas Bagenda.">
     <meta property="og:title" content="Nicholas Bagenda | Media Library">
     <meta property="og:description" content="Audio sermons, meditation tracks, and video showcases.">
     
@@ -110,14 +110,21 @@
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 20px;
+            overflow: hidden; /* Important for rounded corners on iframe */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
 
         .media-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
             border-color: var(--accent-cyan);
+        }
+
+        .media-info {
+            padding: 20px;
+            flex-grow: 1;
         }
 
         .media-title {
@@ -130,7 +137,6 @@
         .media-desc {
             font-size: 0.9rem;
             color: var(--text-body);
-            margin-bottom: 15px;
             opacity: 0.8;
         }
 
@@ -139,25 +145,26 @@
             width: 100%;
             height: 40px;
             outline: none;
+            margin-top: 10px;
         }
         
-        /* Video Container */
+        /* Video Container (Responsive 16:9) */
         .video-wrapper {
             position: relative;
+            width: 100%;
             padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
             height: 0;
-            overflow: hidden;
-            border-radius: 8px;
             background: #000;
         }
 
+        .video-wrapper iframe, 
         .video-wrapper video {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            border: 0;
         }
 
         /* --- FIXED BOTTOM ACTIONS --- */
@@ -204,7 +211,7 @@
         }
     </style>
 </head>
-<body>
+<body id="top">
 
     <header>
         <a href="/" class="logo">NICHOLAS<span>BAGENDA</span></a>
@@ -216,7 +223,7 @@
     <main>
         <h1>🎧 Digital Media Library</h1>
         <p style="margin-bottom: 2rem; color: var(--text-body);">
-            Explore my collection of inspirational audio talks, worship sessions, and project demonstrations.
+            Explore my collection of inspirational audio talks, worship sessions, and SDA ministry videos.
         </p>
 
         <!-- AUDIO SECTION -->
@@ -226,33 +233,38 @@
                 
                 <!-- Track 1 -->
                 <article class="media-card">
-                    <h3 class="media-title">Inspirational Talk</h3>
-                    <p class="media-desc">A message on finding purpose through faith and resilience.</p>
-                    <audio controls preload="metadata">
-                        <!-- REPLACE WITH YOUR LOCAL ASSET PATH IF MOVED -->
-                        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                    </audio>
+                    <div class="media-info">
+                        <h3 class="media-title">Inspirational Talk</h3>
+                        <p class="media-desc">A message on finding purpose through faith and resilience.</p>
+                        <audio controls preload="metadata">
+                            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
                 </article>
 
                 <!-- Track 2 -->
                 <article class="media-card">
-                    <h3 class="media-title">Calm Worship Music</h3>
-                    <p class="media-desc">Instrumental worship session for reflection and prayer.</p>
-                    <audio controls preload="metadata">
-                        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                    </audio>
+                    <div class="media-info">
+                        <h3 class="media-title">Calm Worship Music</h3>
+                        <p class="media-desc">Instrumental worship session for reflection and prayer.</p>
+                        <audio controls preload="metadata">
+                            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
                 </article>
 
                 <!-- Track 3 -->
                 <article class="media-card">
-                    <h3 class="media-title">Meditation Moment</h3>
-                    <p class="media-desc">Guided mindfulness exercise for stress relief.</p>
-                    <audio controls preload="metadata">
-                        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                    </audio>
+                    <div class="media-info">
+                        <h3 class="media-title">Meditation Moment</h3>
+                        <p class="media-desc">Guided mindfulness exercise for stress relief.</p>
+                        <audio controls preload="metadata">
+                            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
                 </article>
 
             </div>
@@ -260,32 +272,40 @@
 
         <!-- VIDEO SECTION -->
         <section id="video">
-            <h2>📹 Video Showcases</h2>
+            <h2>📹 Ministry & Demos</h2>
             <div class="media-grid">
                 
-                <!-- Video 1 -->
+                <!-- Video 1: YOUR SDA LINK -->
                 <article class="media-card">
-                    <h3 class="media-title">Nature and Faith</h3>
-                    <p class="media-desc">Reflections on creation while walking through nature.</p>
                     <div class="video-wrapper">
-                        <!-- IMPORTANT: Update this path if you moved the file to assets/media/video/ -->
-                        <video controls poster="">
-                            <source src="https://raw.githubusercontent.com/BagendaNicholas/My-website-/main/VID-20250811-WA0000.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
+                        <!-- Embedded using YouTube Iframe API for best compatibility -->
+                        <iframe 
+                            src="https://www.youtube.com/embed/iD67VqeTdkE" 
+                            title="SDA Ministry Message" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="media-info">
+                        <h3 class="media-title">Featured Teaching</h3>
+                        <p class="media-desc">Watch this powerful message from our SDA ministry channel.</p>
                     </div>
                 </article>
 
-                <!-- Video 2 -->
+                <!-- Video 2: PLACEHOLDER FOR NEXT LINK -->
                 <article class="media-card">
-                    <h3 class="media-title">Building with Purpose</h3>
-                    <p class="media-desc">Behind the scenes of developing GuardianOS.</p>
                     <div class="video-wrapper">
-                         <!-- Using sample lib for demo, replace with your actual asset -->
-                        <video controls poster="">
-                            <source src="https://samplelib.com/lib/preview/mp4/sample-15s.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
+                         <!-- Replace THIS_ID_HERE with your next YouTube Video ID -->
+                        <iframe 
+                            src="https://www.youtube.com/embed/THIS_ID_HERE" 
+                            title="Next Video Title" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="media-info">
+                        <h3 class="media-title">Coming Soon</h3>
+                        <p class="media-desc">Stay tuned for the next update in our digital library.</p>
                     </div>
                 </article>
 

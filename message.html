@@ -272,15 +272,18 @@
                 <p class="card-subtitle">Send a secure transmission to Nicholas Bagenda.</p>
             </div>
 
+            <!-- UPDATED FORM NAMES BELOW -->
             <form id="contact-form">
                 <div class="form-group">
-                    <label for="from_name">Identity (Name)</label>
-                    <input type="text" name="from_name" id="from_name" placeholder="Enter your name..." required>
+                    <label for="name">Identity (Name)</label>
+                    <!-- CHANGED name="from_name" TO name="name" -->
+                    <input type="text" name="name" id="name" placeholder="Enter your name..." required>
                 </div>
 
                 <div class="form-group">
-                    <label for="reply_to">Return Address (Email)</label>
-                    <input type="email" name="reply_to" id="reply_to" placeholder="your@email.com" required>
+                    <label for="email">Return Address (Email)</label>
+                    <!-- CHANGED name="reply_to" TO name="email" -->
+                    <input type="email" name="email" id="email" placeholder="your@email.com" required>
                 </div>
 
                 <div class="form-group">
@@ -430,4 +433,4 @@
         });
     </script>
 </body>
-                  </html>
+</html>

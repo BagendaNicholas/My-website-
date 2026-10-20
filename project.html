@@ -4,497 +4,598 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Nicholas Bagenda | Tech Projects</title>
+<title>Project Nexus | Nicholas Bagenda</title>
 
 <link rel="icon" href="/favicon.ico">
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
 <style>
+    /* --- GUARDIAN VARIABLES --- */
+    :root {
+        --bg-deep: #050505;
+        --neon-cyan: #00f3ff;
+        --neon-purple: #bc13fe;
+        --glass-bg: rgba(15, 15, 20, 0.7);
+        --border-color: rgba(0, 243, 255, 0.2);
+        --text-main: #ffffff;
+        --text-dim: #a0a0a0;
+    }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-scroll-behavior:smooth;
-}
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        scroll-behavior:smooth;
+        cursor: crosshair; /* Tech feel */
+    }
 
-body{
-font-family:'Poppins',sans-serif;
-background:#050816;
-color:#fff;
-overflow-x:hidden;
-}
+    body{
+        font-family:'Poppins',sans-serif;
+        background:#050505;
+        color:#fff;
+        overflow-x:hidden;
+        position:relative;
+    }
 
-/* BACKGROUND EFFECT */
+    /* BACKGROUND CANVAS LAYER */
+    #network-canvas {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        z-index: -1;
+        opacity: 0.3;
+        pointer-events: none;
+    }
 
-body::before{
-content:'';
-position:fixed;
-width:100%;
-height:100%;
-background:
-radial-gradient(circle at top left,#00ffee22,transparent 35%),
-radial-gradient(circle at bottom right,#ff00ff22,transparent 35%);
-z-index:-1;
-}
+    /* NAVBAR */
+    nav{
+        position:sticky;
+        top:0;
+        z-index:1000;
+        background:rgba(5,5,5,0.95);
+        backdrop-filter:blur(10px);
+        padding:18px 8%;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        border-bottom:1px solid var(--border-color);
+    }
 
-/* NAVBAR */
+    .logo{
+        font-family:'Orbitron',sans-serif;
+        font-size:1.4rem;
+        font-weight:700;
+        color:var(--neon-cyan);
+        text-shadow:0 0 12px rgba(0, 243, 255, 0.5);
+        letter-spacing: 1px;
+    }
 
-nav{
-position:sticky;
-top:0;
-z-index:1000;
-background:rgba(5,8,22,0.95);
-backdrop-filter:blur(10px);
-padding:18px 8%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-border-bottom:1px solid #00ffee33;
-}
+    nav ul{
+        display:flex;
+        list-style:none;
+        gap:22px;
+        flex-wrap:wrap;
+    }
 
-.logo{
-font-family:'Orbitron',sans-serif;
-font-size:1.4rem;
-font-weight:700;
-color:#00ffee;
-text-shadow:0 0 12px #00ffee;
-}
+    nav ul li a{
+        color:var(--text-dim);
+        font-weight:500;
+        transition:0.3s;
+        position:relative;
+        text-decoration: none;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
 
-nav ul{
-display:flex;
-list-style:none;
-gap:22px;
-flex-wrap:wrap;
-}
+    nav ul li a:hover,
+    nav ul li a.active{
+        color:var(--neon-cyan);
+        text-shadow: 0 0 8px var(--neon-cyan);
+    }
 
-nav ul li a{
-color:#fff;
-font-weight:500;
-transition:0.3s;
-position:relative;
-}
+    nav ul li a::after{
+        content:'';
+        position:absolute;
+        left:0;
+        bottom:-6px;
+        width:0%;
+        height:2px;
+        background:var(--neon-cyan);
+        transition:0.3s;
+        box-shadow: 0 0 5px var(--neon-cyan);
+    }
 
-nav ul li a:hover,
-nav ul li a.active{
-color:#00ffee;
-}
+    nav ul li a:hover::after,
+    nav ul li a.active::after{
+        width:100%;
+    }
 
-nav ul li a::after{
-content:'';
-position:absolute;
-left:0;
-bottom:-6px;
-width:0%;
-height:2px;
-background:#00ffee;
-transition:0.3s;
-}
+    /* HERO SECTION */
+    .hero{
+        padding:90px 20px 60px;
+        text-align:center;
+        position:relative;
+        z-index: 1;
+    }
 
-nav ul li a:hover::after{
-width:100%;
-}
+    .hero h1{
+        font-family:'Orbitron',sans-serif;
+        font-size:3rem;
+        margin-bottom:20px;
+        background:linear-gradient(90deg,var(--neon-cyan),#fff);
+        -webkit-background-clip:text;
+        -webkit-text-fill-color:transparent;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
 
-/* HERO */
+    .hero p{
+        max-width:800px;
+        margin:auto;
+        line-height:1.8;
+        font-size:1.05rem;
+        color:var(--text-dim);
+    }
 
-.hero{
-padding:90px 20px 60px;
-text-align:center;
-}
+    /* PROJECTS GRID */
+    .projects{
+        padding:30px 8% 70px;
+        position:relative;
+        z-index: 1;
+    }
 
-.hero h1{
-font-family:'Orbitron',sans-serif;
-font-size:3rem;
-margin-bottom:20px;
-background:linear-gradient(90deg,#00ffee,#ff00ff);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-}
+    .projects-grid{
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+        gap:30px;
+    }
 
-.hero p{
-max-width:800px;
-margin:auto;
-line-height:1.8;
-font-size:1.05rem;
-color:#d6d6d6;
-}
+    /* PROJECT CARD (HOLOGRAPHIC STYLE) */
+    .project-card{
+        background:var(--glass-bg);
+        border:1px solid var(--border-color);
+        border-radius:16px;
+        overflow:hidden;
+        backdrop-filter:blur(12px);
+        transition:all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        position:relative;
+        display:flex;
+        flex-direction:column;
+    }
 
-/* PROJECT SECTION */
+    .project-card:hover{
+        transform:translateY(-10px);
+        border-color:var(--neon-cyan);
+        box-shadow:0 0 30px rgba(0, 243, 255, 0.15), inset 0 0 20px rgba(0, 243, 255, 0.05);
+    }
 
-.projects{
-padding:30px 8% 70px;
-}
+    /* Image Container */
+    .card-img-wrapper {
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+        background: #000;
+    }
 
-.projects-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-gap:30px;
-}
+    .project-card img{
+        width:100%;
+        height:100%;
+        object-fit:cover;
+        transition: transform 0.5s ease;
+        filter: brightness(0.8) contrast(1.1);
+    }
 
-/* PROJECT CARD */
+    .project-card:hover img {
+        transform: scale(1.1);
+        filter: brightness(1) contrast(1.2);
+    }
 
-.project-card{
-background:rgba(255,255,255,0.05);
-border:1px solid rgba(255,255,255,0.08);
-border-radius:20px;
-overflow:hidden;
-backdrop-filter:blur(12px);
-transition:0.4s;
-position:relative;
-}
+    /* Card Content */
+    .card-content{
+        padding:25px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
 
-.project-card:hover{
-transform:translateY(-10px) scale(1.02);
-box-shadow:0 0 25px #00ffee55;
-}
+    .card-content h2{
+        font-family:'Orbitron',sans-serif;
+        font-size:1.2rem;
+        margin-bottom:12px;
+        color:var(--neon-cyan);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
 
-.project-card img{
-width:100%;
-height:210px;
-object-fit:cover;
-}
+    .card-content p{
+        font-size:0.95rem;
+        line-height:1.7;
+        color:#ccc;
+        margin-bottom:20px;
+        flex-grow: 1; /* Pushes button to bottom */
+    }
 
-.card-content{
-padding:22px;
-}
+    /* TECH BADGES (MODULES) */
+    .tech-stack{
+        display:flex;
+        flex-wrap:wrap;
+        gap:8px;
+        margin-bottom:20px;
+    }
 
-.card-content h2{
-font-family:'Orbitron',sans-serif;
-font-size:1.3rem;
-margin-bottom:12px;
-color:#00ffee;
-}
+    .tech{
+        padding:5px 10px;
+        background:rgba(0, 243, 255, 0.1);
+        border:1px solid rgba(0, 243, 255, 0.3);
+        border-radius:4px;
+        font-size:0.75rem;
+        color:var(--neon-cyan);
+        font-family: 'Courier New', monospace; /* Code font for tech tags */
+        text-transform: uppercase;
+    }
 
-.card-content p{
-font-size:0.96rem;
-line-height:1.7;
-color:#ddd;
-margin-bottom:18px;
-}
+    /* LAUNCH BUTTON */
+    .live-btn{
+        display:inline-block;
+        padding:12px 20px;
+        border-radius:8px;
+        background:transparent;
+        border:1px solid var(--neon-cyan);
+        color:var(--neon-cyan);
+        font-weight:600;
+        font-family:'Orbitron', sans-serif;
+        font-size:0.9rem;
+        text-transform:uppercase;
+        letter-spacing:1px;
+        transition:all 0.3s ease;
+        text-align:center;
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+    }
 
-/* TECH BADGES */
+    .live-btn::before {
+        content: '';
+        position: absolute;
+        top: 0; left: -100%;
+        width: 100%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.2), transparent);
+        transition: 0.5s;
+    }
 
-.tech-stack{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-margin-bottom:20px;
-}
+    .live-btn:hover {
+        background: var(--neon-cyan);
+        color: #000;
+        box-shadow: 0 0 20px rgba(0, 243, 255, 0.6);
+        transform: translateY(-2px);
+    }
 
-.tech{
-padding:6px 12px;
-background:#00ffee22;
-border:1px solid #00ffee55;
-border-radius:30px;
-font-size:0.8rem;
-color:#00ffee;
-}
+    .live-btn:hover::before {
+        left: 100%;
+    }
 
-/* BUTTON */
+    /* FOOTER */
+    footer{
+        padding:40px 20px;
+        text-align:center;
+        background:rgba(5,5,5,0.95);
+        border-top:1px solid var(--border-color);
+        position:relative;
+        z-index: 1;
+    }
 
-.live-btn{
-display:inline-block;
-padding:12px 20px;
-border-radius:12px;
-background:linear-gradient(135deg,#00ffee,#0066ff);
-color:#fff;
-font-weight:600;
-transition:0.3s;
-box-shadow:0 0 15px #00ffee55;
-}
+    footer p{
+        color:var(--text-dim);
+        margin-bottom:15px;
+        font-size: 0.9rem;
+    }
 
-.live-btn:hover{
-transform:translateY(-3px);
-background:linear-gradient(135deg,#ff00ff,#0066ff);
-}
+    footer a{
+        color:var(--neon-cyan);
+        margin:0 15px;
+        text-decoration:none;
+        font-size: 0.85rem;
+        transition: 0.3s;
+    }
 
-/* FOOTER */
+    footer a:hover{
+        text-decoration:underline;
+        text-shadow: 0 0 5px var(--neon-cyan);
+    }
 
-footer{
-padding:30px 20px;
-text-align:center;
-background:#070b1d;
-border-top:1px solid #00ffee22;
-}
-
-footer p{
-color:#aaa;
-margin-bottom:10px;
-}
-
-footer a{
-color:#00ffee;
-margin:0 10px;
-text-decoration:none;
-}
-
-footer a:hover{
-text-decoration:underline;
-}
-
-/* RESPONSIVE */
-
-@media(max-width:768px){
-
-.hero h1{
-font-size:2.2rem;
-}
-
-nav{
-flex-direction:column;
-gap:15px;
-}
-
-nav ul{
-justify-content:center;
-}
-
-}
-
+    /* RESPONSIVE */
+    @media(max-width:768px){
+        .hero h1{
+            font-size:2rem;
+        }
+        nav{
+            flex-direction:column;
+            gap:15px;
+        }
+        nav ul{
+            justify-content:center;
+        }
+        .projects-grid{
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-
-<nav>
-
-<div class="logo">NICHOLAS TECH</div>
-
-<ul>
-<li><a href="index.html">Home</a></li>
-<li><a href="project.html" class="active">Projects</a></li>
-<li><a href="index2.html">Books</a></li>
-<li><a href="index3.html">Media</a></li>
-<li><a href="index4.html">Inspiration</a></li>
-</ul>
-
-</nav>
-
-<!-- HERO -->
-
-<section class="hero">
-
-<h1>🚀 MY TECH PROJECTS</h1>
-
-<p>
-Welcome to my digital universe.  
-These are some of the systems, websites, AI platforms,
-and creative technology projects I have built using modern web technologies,
-Firebase integration, UI design, and intelligent automation.
-</p>
-
-</section>
-
-<!-- PROJECTS -->
-
-<section class="projects">
-
-<div class="projects-grid">
-
-<!-- PROJECT 1 -->
-
-<div class="project-card">
-
-<img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="St Paul Learning Centre">
-
-<div class="card-content">
-
-<h2>🏫 St Paul Learning Centre</h2>
-
-<p>
-A modern educational platform supporting digital learning,
-online applications, student management,
-and interactive school services.
-</p>
-
-<div class="tech-stack">
-<span class="tech">HTML</span>
-<span class="tech">CSS</span>
-<span class="tech">JavaScript</span>
-<span class="tech">Firebase</span>
-</div>
-
-<a href="https://st-paul-learning-centre.vercel.app"
-target="_blank"
-class="live-btn">
-Launch Project
-</a>
-
-</div>
-</div>
-
-<!-- PROJECT 2 -->
-
-<div class="project-card">
-
-<img src="https://i.postimg.cc/g0GkJdxq/IMG-20260219-WA0023.jpg" alt="School Project">
-
-<div class="card-content">
-
-<h2>🎓 School Project Website</h2>
-
-<p>
-A responsive academic website designed for educational presentation,
-interactive learning, and structured digital content management.
-</p>
-
-<div class="tech-stack">
-<span class="tech">HTML</span>
-<span class="tech">CSS</span>
-<span class="tech">JavaScript</span>
-</div>
-
-<a href="https://bayonaedith.github.io/My-school-project"
-target="_blank"
-class="live-btn">
-Launch Project
-</a>
-
-</div>
-</div>
-
-<!-- PROJECT 3 -->
-
-<div class="project-card">
-
-<img src="https://i.postimg.cc/L68qhtqX/Gemini_Generated_Image_j24si8j24si8j24s.png" alt="Lillian & NK">
-
-<div class="card-content">
-
-<h2>🌐 Lillian & NK</h2>
-
-<p>
-A creative digital space combining storytelling,
-technology, imagination, and futuristic web experiences.
-</p>
-
-<div class="tech-stack">
-<span class="tech">HTML</span>
-<span class="tech">CSS</span>
-<span class="tech">UI Design</span>
-<span class="tech">Creative Tech</span>
-</div>
-
-<a href="https://bagenda.netlify.app"
-target="_blank"
-class="live-btn">
-Launch Project
-</a>
-
-</div>
-</div>
-
-<!-- PROJECT 4 -->
-
-<div class="project-card">
-
-<img src="https://i.postimg.cc/Rhn1Kk7K/IMG_20260311_WA0007.jpg" alt="Biometric System">
-
-<div class="card-content">
-
-<h2>🤖 NK Upgrade Biometric System</h2>
-
-<p>
-An AI-powered biometric attendance system using face recognition
-technology to identify students and securely store attendance data
-with Firebase integration.
-</p>
-
-<div class="tech-stack">
-<span class="tech">AI</span>
-<span class="tech">Face API</span>
-<span class="tech">Firebase</span>
-<span class="tech">JavaScript</span>
-</div>
-
-<a href="https://bayonaedith.github.io/My-school-project/attendance.html"
-target="_blank"
-class="live-btn">
-Launch Project
-</a>
-
-</div>
-</div>
-
-<!-- PROJECT 5 -->
-
-<div class="project-card">
-
-<img src="https://i.postimg.cc/Rhn1Kk7K/IMG_20260311_WA0007.jpg" alt="GuardianOS">
-
-<div class="card-content">
-
-<h2>🛡️ GuardianOS</h2>
-
-<p>
-GuardianOS is a specialized, lightweight Android security architecture designed to act as a resilient digital vault for your device. 
-Operating seamlessly via remote administration, GuardianOS gives you total, instantaneous control over your terminal from anywhere in the world.</p>
-
-<div class="tech-stack">
-<span class="tech">Cyber Security</span>
-<span class="tech">Firebase</span>
-<span class="tech">Dashboard UI</span>
-<span class="tech">JavaScript</span>
-</div>
-
-<a href="https://bagendanicholas.github.io/guardian-os/dashboard.html"
-target="_blank"
-class="live-btn">
-Launch Project
-</a>
-
-</div>
-</div>
-
-<!-- PROJECT 6 -->
-
-<div class="project-card">
-
-<img src="https://i.postimg.cc/Rhn1Kk7K/IMG_20260311_WA0007.jpg" alt="Naigobya SDA">
-
-<div class="card-content">
-
-<h2>⛪ Naigobya SDA Church</h2>
-
-<p>
-This platform is a modern, full-stack digital ledger engineered to streamline congregation record-keeping, 
-simplify member registration, 
-and maintain data integrity through a secure, real-time administrative review process.</p>
-
-<div class="tech-stack">
-<span class="tech">HTML</span>
-<span class="tech">CSS</span>
-<span class="tech">Firebase</span>
-<span class="tech">Responsive UI</span>
-</div>
-
-<a href="https://sda-naigobya.netlify.app/"
-target="_blank"
-class="live-btn">
-Launch Project
-</a>
-
-</div>
-</div>
-
-</div>
-
-</section>
-
-<!-- FOOTER -->
-
-<footer>
-
-<p>© 2026 Nicholas Bagenda | All Rights Reserved</p>
-
-<a href="privacy-policy.html">Privacy Policy</a>
-<a href="terms-and-conditions.html">Terms</a>
-<a href="disclaimer.html">Disclaimer</a>
-
-</footer>
+    <!-- Living Background Canvas -->
+    <canvas id="network-canvas"></canvas>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo">NB://PROJECTS</div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="project.html" class="active">Projects</a></li>
+            <li><a href="creator.html">Books</a></li>
+            <li><a href="audio&video.html">Media</a></li>
+            <li><a href="inspiration.html">Inspiration</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <h1>SYSTEM ARCHITECTURE</h1>
+        <p>
+            Welcome to my digital universe.  
+            These are some of the systems, websites, AI platforms,
+            and creative technology projects I have built using modern web technologies,
+            Firebase integration, UI design, and intelligent automation.
+        </p>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="projects">
+        <div class="projects-grid">
+
+            <!-- PROJECT 1: St Paul Learning Centre -->
+            <div class="project-card">
+                <div class="card-img-wrapper">
+                    <img src="https://i.postimg.cc/t4yDG3Fq/Mon-21-07-2025-16-26-06.png" alt="St Paul Learning Centre">
+                </div>
+                <div class="card-content">
+                    <h2>🏫 St Paul Learning Centre</h2>
+                    <p>
+                        A modern educational platform supporting digital learning,
+                        online applications, student management,
+                        and interactive school services.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech">HTML</span>
+                        <span class="tech">CSS</span>
+                        <span class="tech">JavaScript</span>
+                        <span class="tech">Firebase</span>
+                    </div>
+                    <a href="https://st-paul-learning-centre.vercel.app" target="_blank" class="live-btn">
+                        Launch Protocol
+                    </a>
+                </div>
+            </div>
+
+            <!-- PROJECT 2: School Project Website -->
+            <div class="project-card">
+                <div class="card-img-wrapper">
+                    <img src="https://i.postimg.cc/g0GkJdxq/IMG_20260219_WA0023.jpg" alt="School Project">
+                </div>
+                <div class="card-content">
+                    <h2>🎓 Academic Portal</h2>
+                    <p>
+                        A responsive academic website designed for educational presentation,
+                        interactive learning, and structured digital content management.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech">HTML</span>
+                        <span class="tech">CSS</span>
+                        <span class="tech">JavaScript</span>
+                    </div>
+                    <a href="https://bayonaedith.github.io/My-school-project" target="_blank" class="live-btn">
+                        Launch Protocol
+                    </a>
+                </div>
+            </div>
+
+            <!-- PROJECT 3: Lillian & NK -->
+            <div class="project-card">
+                <div class="card-img-wrapper">
+                    <img src="https://i.postimg.cc/L68qhtqX/Gemini_Generated_Image_j24si8j24si8j24s.png" alt="Lillian & NK">
+                </div>
+                <div class="card-content">
+                    <h2>🌐 Creative Nexus</h2>
+                    <p>
+                        A creative digital space combining storytelling,
+                        technology, imagination, and futuristic web experiences.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech">HTML</span>
+                        <span class="tech">CSS</span>
+                        <span class="tech">UI Design</span>
+                        <span class="tech">Creative Tech</span>
+                    </div>
+                    <a href="https://bagenda.netlify.app" target="_blank" class="live-btn">
+                        Launch Protocol
+                    </a>
+                </div>
+            </div>
+
+            <!-- PROJECT 4: Biometric System -->
+            <div class="project-card">
+                <div class="card-img-wrapper">
+                    <img src="https://i.postimg.cc/Rhn1Kk7K/IMG_20260311_WA0007.jpg" alt="Biometric System">
+                </div>
+                <div class="card-content">
+                    <h2>🤖 Bio-ID Security</h2>
+                    <p>
+                        An AI-powered biometric attendance system using face recognition
+                        technology to identify students and securely store attendance data
+                        with Firebase integration.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech">AI</span>
+                        <span class="tech">Face API</span>
+                        <span class="tech">Firebase</span>
+                        <span class="tech">JS</span>
+                    </div>
+                    <a href="https://bayonaedith.github.io/My-school-project/attendance.html" target="_blank" class="live-btn">
+                        Launch Protocol
+                    </a>
+                </div>
+            </div>
+
+            <!-- PROJECT 5: GuardianOS -->
+            <div class="project-card">
+                <div class="card-img-wrapper">
+                    <img src="https://i.postimg.cc/Rhn1Kk7K/IMG_20260311_WA0007.jpg" alt="GuardianOS">
+                </div>
+                <div class="card-content">
+                    <h2>🛡️ GuardianOS Core</h2>
+                    <p>
+                        GuardianOS is a specialized, lightweight Android security architecture designed to act as a resilient digital vault for your device. 
+                        Operating seamlessly via remote administration, GuardianOS gives you total, instantaneous control over your terminal from anywhere in the world.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech">Cyber Sec</span>
+                        <span class="tech">Firebase</span>
+                        <span class="tech">Dashboard</span>
+                        <span class="tech">Android</span>
+                    </div>
+                    <a href="https://bagendanicholas.github.io/guardian-os/dashboard.html" target="_blank" class="live-btn">
+                        Access Vault
+                    </a>
+                </div>
+            </div>
+
+            <!-- PROJECT 6: Naigobya SDA -->
+            <div class="project-card">
+                <div class="card-img-wrapper">
+                    <img src="https://i.postimg.cc/Rhn1Kk7K/IMG_20260311_WA0007.jpg" alt="Naigobya SDA">
+                </div>
+                <div class="card-content">
+                    <h2>⛪ Church Ledger</h2>
+                    <p>
+                        This platform is a modern, full-stack digital ledger engineered to streamline congregation record-keeping, 
+                        simplify member registration, 
+                        and maintain data integrity through a secure, real-time administrative review process.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech">Full Stack</span>
+                        <span class="tech">Firebase</span>
+                        <span class="tech">Responsive</span>
+                        <span class="tech">Auth</span>
+                    </div>
+                    <a href="https://sda-naigobya.netlify.app/" target="_blank" class="live-btn">
+                        Enter System
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Nicholas Bagenda | Project Nexus Ecosystem</p>
+        <div>
+            <a href="privacy-policy.html">Privacy Policy</a>
+            <a href="terms-and-conditions.html">Terms</a>
+            <a href="disclaimer.html">Disclaimer</a>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+        // ==========================================
+        // PARTICLE NETWORK ANIMATION
+        // ==========================================
+        const canvas = document.getElementById('network-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray;
+        let w, h;
+
+        function resize() {
+            w = window.innerWidth;
+            h = window.innerHeight;
+            canvas.width = w;
+            canvas.height = h;
+            initParticles();
+        }
+
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x; this.y = y;
+                this.directionX = directionX; this.directionY = directionY;
+                this.size = size; this.color = color;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+            update() {
+                if (this.x > w || this.x < 0) this.directionX = -this.directionX;
+                if (this.y > h || this.y < 0) this.directionY = -this.directionY;
+                this.x += this.directionX;
+                this.y += this.directionY;
+                this.draw();
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            // Moderate density for performance
+            let numberOfParticles = (h * w) / 15000; 
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 2) + 1;
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                let directionX = (Math.random() * 2) - 1;
+                let directionY = (Math.random() * 2) - 1;
+                let color = '#00f3ff'; 
+                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+            connectParticles();
+        }
+
+        function connectParticles() {
+            let opacityValue = 1;
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
+                                 + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                    if (distance < (w/10)*(h/10)) {
+                        opacityValue = 1 - (distance/20000);
+                        ctx.strokeStyle = `rgba(0, 243, 255, ${opacityValue})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        animate();
+    </script>
 
 </body>
 </html>

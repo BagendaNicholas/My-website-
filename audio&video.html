@@ -292,15 +292,11 @@
             }
         ];
 
-        // 2. YouTube API Settings (FIXED SYNTAX ERROR HERE)
-        // We use a standard variable name "YT_API_KEY" and assign your key to it.
+        // 2. YouTube API Settings
         const YT_API_KEY = "AIzaSyBqQ0wS7u0LBo5XxO-ij8hMfmt8-CHAcAk"; 
         
-        // IMPORTANT: TARGET_CHANNEL_ID must be the UC... ID from the URL bar, 
-        // NOT the Spotify ID you used earlier. 
-        // Example: https://www.youtube.com/channel/UCxxxxxxxxxxxxxx
-        // For now, we leave it empty until you provide the real YouTube Channel ID.
-        const TARGET_CHANNEL_ID = ""; 
+        // We are using the PLAYLIST ID now for better curation control
+        const TARGET_PLAYLIST_ID = "PLZ6afNou8CGsKAM7HvLVu0A47C-Birqbr"; 
 
         let currentQueue = [...corePlaylist];
         let currentIndex = 0;
@@ -395,12 +391,11 @@
         }
 
         // ==========================================
-        // YOUTUBE API FETCHER (The "Magic")
+        // YOUTUBE API FETCHER (PLAYLIST MODE)
         // ==========================================
         async function fetchMoreVideos() {
-            // Check if config is ready
-            if (!YT_API_KEY || !TARGET_CHANNEL_ID) {
-                alert("⚠️ Configuration Missing!\n\nPlease ensure:\n1. YT_API_KEY is set.\n2. TARGET_CHANNEL_ID is filled with the correct YouTube Channel ID (starts with UC...).");
+            if (!YT_API_KEY || !TARGET_PLAYLIST_ID) {
+                alert("⚠️ Configuration Missing!\n\nPlease ensure YT_API_KEY and TARGET_PLAYLIST_ID are set.");
                 return;
             }
             if (isLoadingMore) return;
@@ -408,23 +403,29 @@
             document.querySelector('.load-more-btn').innerText = "Loading...";
 
             try {
-                // Fetch latest uploads from the channel
-                const url = `https://www.googleapis.com/youtube/v3/search?key=${YT_API_KEY}&channelId=${TARGET_CHANNEL_ID}&part=snippet,id&order=date&maxResults=10`;
+                // Fetch items FROM THE PLAYLIST (Not general search)
+                // This returns video details directly linked to the playlist order
+                const url = `https://www.googleapis.com/youtube/v3/playlistItems?key=${YT_API_KEY}&playlistId=${TARGET_PLAYLIST_ID}&part=snippet,contentDetails&maxResults=10`;
                 
                 const response = await fetch(url);
                 const data = await response.json();
 
                 if (data.items && data.items.length > 0) {
-                    const newItems = data.items.map(video => ({
-                        id: Date.now() + Math.random(), // Unique temp ID
-                        type: 'video',
-                        // Construct Embed URL from Video ID
-                        src: `https://www.youtube.com/embed/${video.id.videoId}?autoplay=1&mute=0&rel=0&modestbranding=1`,
-                        title: video.snippet.title,
-                        desc: video.snippet.description.substring(0, 50) + "...",
-                        thumbnailUrl: video.snippet.thumbnails.medium.url,
-                        date: new Date(video.snippet.publishedAt).toLocaleDateString()
-                    }));
+                    const newItems = data.items.map(item => {
+                        // Extract Video ID from the playlist item structure
+                        const videoId = item.contentDetails.videoId;
+                        
+                        return {
+                            id: Date.now() + Math.random(), 
+                            type: 'video',
+                            // Construct Embed URL
+                            src: `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&rel=0&modestbranding=1`,
+                            title: item.snippet.title,
+                            desc: item.snippet.description.substring(0, 50) + "...",
+                            thumbnailUrl: item.snippet.thumbnails.medium.url,
+                            date: new Date(item.snippet.publishedAt).toLocaleDateString()
+                        };
+                    });
 
                     // Append to existing queue
                     currentQueue = [...currentQueue, ...newItems];
@@ -435,7 +436,7 @@
                 }
             } catch (error) {
                 console.error("API Error:", error);
-                alert("Failed to load more videos. Check Console.");
+                alert("Failed to load playlist videos. Check Console.");
             } finally {
                 isLoadingMore = false;
                 document.querySelector('.load-more-btn').innerText = "+ Load More";

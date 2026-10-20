@@ -1,433 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Channel | Nicholas Bagenda</title>
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-    
-    <!-- EmailJS SDK -->
-    <script src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
-
-    <style>
-        /* --- GUARDIAN VARIABLES --- */
-        :root {
-            --bg-deep: #050505;
-            --neon-cyan: #00f3ff;
-            --neon-purple: #bc13fe;
-            --glass-bg: rgba(15, 15, 20, 0.8);
-            --border-color: rgba(0, 243, 255, 0.2);
-            --text-main: #ffffff;
-            --text-dim: #a0a0a0;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-deep);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* --- BACKGROUND CANVAS --- */
-        #network-canvas {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            opacity: 0.3;
-            pointer-events: none;
-        }
-
-        /* --- HEADER --- */
-        header {
-            padding: 20px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(5, 5, 5, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            color: var(--neon-cyan);
-            letter-spacing: 1px;
-            text-decoration: none;
-            font-size: 1.2rem;
-            text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
-        }
-
-        nav a {
-            color: var(--text-dim);
-            text-decoration: none;
-            margin-left: 20px;
-            font-size: 0.9rem;
-            transition: 0.3s;
-        }
-        nav a:hover { color: var(--neon-cyan); }
-
-        /* --- MAIN TERMINAL CONTAINER --- */
-        main {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-        }
-
-        .terminal-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 40px;
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 243, 255, 0.05);
-            backdrop-filter: blur(15px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Decorative Top Bar on Card */
-        .terminal-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
-            animation: scanline 3s infinite linear;
-        }
-
-        @keyframes scanline {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .card-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .card-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            color: white;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .card-subtitle {
-            color: var(--text-dim);
-            font-size: 0.9rem;
-        }
-
-        /* --- FORM INPUTS --- */
-        .form-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--neon-cyan);
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 12px 15px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: white;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        input:focus, textarea:focus {
-            border-color: var(--neon-cyan);
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        /* --- SUBMIT BUTTON --- */
-        .submit-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #00f3ff 0%, #0088aa 100%);
-            color: #000;
-            border: none;
-            border-radius: 8px;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.6);
-            background: #fff;
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-
-        /* Loading State */
-        .submit-btn.loading {
-            pointer-events: none;
-            opacity: 0.7;
-        }
-        
-        .submit-btn.loading::after {
-            content: 'TRANSMITTING...';
-            font-size: 0.8rem;
-        }
-
-        /* --- STATUS MESSAGES --- */
-        .status-msg {
-            margin-top: 20px;
-            padding: 12px;
-            border-radius: 6px;
-            text-align: center;
-            font-size: 0.9rem;
-            display: none; /* Hidden by default */
-            animation: fadeIn 0.5s ease;
-        }
-
-        .status-success {
-            background: rgba(0, 255, 100, 0.1);
-            border: 1px solid #00ff64;
-            color: #00ff64;
-            display: block;
-        }
-
-        .status-error {
-            background: rgba(255, 50, 50, 0.1);
-            border: 1px solid #ff3232;
-            color: #ff3232;
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Mobile Adjustments */
-        @media (max-width: 600px) {
-            .terminal-card { padding: 25px; }
-            .card-title { font-size: 1.2rem; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | Bagenda Nicholas</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<script src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
+<style>
+body{margin:0;font-family:'Poppins',sans-serif;background:#f4f6f9;color:#333;}
+.topbar{background:#002147;color:white;padding:15px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1000;}
+.menu-btn{font-size:22px;cursor:pointer;}
+.topbar .logo{font-weight:700;font-size:1.3em;}
+.sidebar{position:fixed;left:-260px;top:0;width:250px;height:100%;background:#001b3d;color:white;transition:0.3s;padding-top:60px;z-index:1000;}
+.sidebar.active{left:0;}
+.sidebar a{display:block;padding:15px 20px;color:white;text-decoration:none;font-weight:500;transition:0.3s;}
+.sidebar a:hover{background:#004aad;}
+.sidebar i{margin-right:10px;}
+.overlay{position:fixed;display:none;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);z-index:900;}
+.overlay.active{display:block;}
+.contact-form-section{max-width:470px;margin:80px auto;padding:25px;background:#fff;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+.contact-form-section h3{text-align:center;color:#002147;margin-bottom:15px;}
+.contact-form-section label{display:block;margin-top:10px;font-weight:500;color:#002147;}
+.contact-form-section input,
+.contact-form-section textarea{width:100%;padding:10px;margin-top:5px;border:1px solid #ccc;border-radius:6px;font-family:inherit;font-size:1em;box-sizing:border-box;}
+.contact-form-section button{margin-top:15px;width:100%;padding:12px;background:#002147;color:white;border:none;border-radius:6px;font-weight:600;cursor:pointer;transition:0.3s;}
+.contact-form-section button:hover{background:#004aad;}
+.form-success{color:green;margin-top:10px;font-weight:bold;}
+.form-error{color:red;margin-top:10px;font-weight:bold;}
+/* Added style for debug info */
+.debug-info { font-size: 0.8rem; color: #666; margin-top: 5px; word-break: break-all; }
+</style>
 </head>
 <body>
 
-    <!-- Living Background -->
-    <canvas id="network-canvas"></canvas>
+<!-- TOPBAR -->
+<div class="topbar">
+  <span class="logo">Bagenda Nicholas</span>
+  <i class="fas fa-bars menu-btn" onclick="toggleSidebar()"></i>
+</div>
 
-    <header>
-        <a href="index.html" class="logo">NB://CONTACT</a>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="audio&video.html">Media</a>
-        </nav>
-    </header>
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <a href="index.html"><i class="fas fa-home"></i> Home</a>
+  <a href="creator.html"><i class="fas fa-book"></i> Documents & Books</a>
+  <a href="audio&video.html"><i class="fas fa-headphones"></i> Audio & Video</a>
+  <a href="project.html"><i class="fas fa-rocket"></i> Projects</a>
+  <a href="message.html"><i class="fas fa-envelope"></i> Contact</a>
+</div>
 
-    <main>
-        <div class="terminal-card">
-            <div class="card-header">
-                <h2 class="card-title">Initiate Connection</h2>
-                <p class="card-subtitle">Send a secure transmission to Nicholas Bagenda.</p>
-            </div>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-            <form id="contact-form">
-                <div class="form-group">
-                    <label for="from_name">Identity (Name)</label>
-                    <input type="text" name="from_name" id="from_name" placeholder="Enter your name..." required>
-                </div>
+<!-- CONTACT FORM -->
+<section class="contact-form-section" id="contact">
+  <h3>Let's Build Together</h3>
+  <form id="contact-form">
+    <label for="from_name">Your Name</label>
+    <input type="text" name="from_name" id="from_name" required>
+    
+    <label for="reply_to">Your Email</label>
+    <input type="email" name="reply_to" id="reply_to" required>
+    
+    <label for="message">Your Message</label>
+    <textarea name="message" id="message" required></textarea>
+    
+    <button type="submit">Send Message</button>
+    <div id="form-status"></div>
+  </form>
+</section>
 
-                <div class="form-group">
-                    <label for="reply_to">Return Address (Email)</label>
-                    <input type="email" name="reply_to" id="reply_to" placeholder="your@email.com" required>
-                </div>
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('active');
+  document.getElementById('overlay').classList.toggle('active');
+}
 
-                <div class="form-group">
-                    <label for="message">Payload (Message)</label>
-                    <textarea name="message" id="message" placeholder="What do you want to build or discuss?" required></textarea>
-                </div>
+// 1. Initialize EmailJS
+emailjs.init('7rDjOLguEcDWzn3X2');
 
-                <button type="submit" class="submit-btn" id="submitBtn">Transmit Signal</button>
-                
-                <div id="form-status" class="status-msg"></div>
-            </form>
-        </div>
-    </main>
+document.getElementById('contact-form').addEventListener('submit', function(event){
+  event.preventDefault();
+  
+  const form = this;
+  const statusDiv = document.getElementById('form-status');
+  statusDiv.textContent='';
+  statusDiv.className='';
 
-    <script>
-        // ==========================================
-        // 1. PARTICLE NETWORK ANIMATION
-        // ==========================================
-        const canvas = document.getElementById('network-canvas');
-        const ctx = canvas.getContext('2d');
-        let particlesArray;
-        let w, h;
+  // 2. Send Form
+  emailjs.sendForm('service_8q8dc7h','template_t76v6a4', form,'7rDjOLguEcDWzn3X2')
+  .then(function(response) {
+      console.log('SUCCESS!', response.status, response.text);
+      statusDiv.textContent='Message sent successfully! ✨️💛';
+      statusDiv.className='form-success';
+      form.reset();
+      
+  }).catch(function(error) {
+      console.error('FAILED...', error);
+      
+      // THIS IS THE FIX: Show the actual error message to diagnose
+      let errorMessage = "Failed to send message.";
+      
+      if (error && error.text) {
+          errorMessage += " Details: " + error.text;
+      } else if (typeof error === 'string') {
+          errorMessage += " Details: " + error;
+      }
 
-        function resize() {
-            w = window.innerWidth;
-            h = window.innerHeight;
-            canvas.width = w;
-            canvas.height = h;
-            initParticles();
-        }
+      statusDiv.innerHTML = `<span class="form-error">${errorMessage}</span><br><small class="debug-info">(Check Console F12 for full details)</small>`;
+      statusDiv.className='form-error';
+  });
+});
+</script>
 
-        class Particle {
-            constructor(x, y, directionX, directionY, size, color) {
-                this.x = x; this.y = y;
-                this.directionX = directionX; this.directionY = directionY;
-                this.size = size; this.color = color;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-            }
-            update() {
-                if (this.x > w || this.x < 0) this.directionX = -this.directionX;
-                if (this.y > h || this.y < 0) this.directionY = -this.directionY;
-                this.x += this.directionX;
-                this.y += this.directionY;
-                this.draw();
-            }
-        }
-
-        function initParticles() {
-            particlesArray = [];
-            let numberOfParticles = (h * w) / 12000; 
-            for (let i = 0; i < numberOfParticles; i++) {
-                let size = (Math.random() * 2) + 1;
-                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
-                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
-                let directionX = (Math.random() * 2) - 1;
-                let directionY = (Math.random() * 2) - 1;
-                let color = '#00f3ff'; 
-                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
-            }
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            ctx.clearRect(0, 0, innerWidth, innerHeight);
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-            }
-            connectParticles();
-        }
-
-        function connectParticles() {
-            let opacityValue = 1;
-            for (let a = 0; a < particlesArray.length; a++) {
-                for (let b = a; b < particlesArray.length; b++) {
-                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
-                                 + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-                    if (distance < (w/10)*(h/10)) {
-                        opacityValue = 1 - (distance/20000);
-                        ctx.strokeStyle = `rgba(0, 243, 255, ${opacityValue})`;
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
-
-        window.addEventListener('resize', resize);
-        resize();
-        animate();
-
-        // ==========================================
-        // 2. EMAILJS LOGIC
-        // ==========================================
-        
-        // Initialize EmailJS with your Public Key
-        emailjs.init('7rDjOLguEcDWzn3X2');
-
-        document.getElementById('contact-form').addEventListener('submit', function(event){
-            event.preventDefault();
-            
-            const form = this;
-            const statusDiv = document.getElementById('form-status');
-            const submitBtn = document.getElementById('submitBtn');
-            
-            // Reset UI
-            statusDiv.textContent = '';
-            statusDiv.className = 'status-msg';
-            submitBtn.classList.add('loading');
-            submitBtn.innerText = ""; // Clear text so ::after shows "TRANSMITTING..."
-
-            // Send Data
-            emailjs.sendForm('service_8q8dc7h', 'template_t76v6a4', form, '7rDjOLguEcDWzn3X2')
-            .then(function(response) {
-                console.log('SUCCESS!', response.status, response.text);
-                submitBtn.classList.remove('loading');
-                submitBtn.innerText = "Signal Received";
-                submitBtn.style.background = "#00ff64"; // Green success state
-                
-                statusDiv.textContent = "✅ Transmission Successful. Nicholas will respond soon.";
-                statusDiv.className = "status-msg status-success";
-                
-                form.reset();
-                
-                // Reset button after 3 seconds
-                setTimeout(() => {
-                    submitBtn.innerText = "Transmit Signal";
-                    submitBtn.style.background = ""; // Revert to gradient
-                }, 3000);
-
-            }, function(error) {
-                console.error('FAILED...', error);
-                submitBtn.classList.remove('loading');
-                submitBtn.innerText = "Retry Transmission";
-                submitBtn.style.background = "#ff3232"; // Red error state
-                
-                statusDiv.textContent = "❌ Transmission Failed. Check connection and try again.";
-                statusDiv.className = "status-msg status-error";
-            });
-        });
-    </script>
 </body>
 </html>

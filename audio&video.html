@@ -10,10 +10,9 @@
 
     <style>
         :root {
-            --bg-deep: #050505;       /* Pure Black for Cinema Mode */
-            --player-bg: #000000;
+            --bg-deep: #050505;       
             --accent-cyan: #00E5FF;   
-            --accent-red: #FF3B30;    /* For LIVE indicator */
+            --accent-red: #FF3B30;    
             --text-main: #FFFFFF;     
             --text-dim: #888888;     
             --glass: rgba(20, 20, 20, 0.8);
@@ -26,7 +25,7 @@
             background-color: var(--bg-deep);
             color: var(--text-main);
             height: 100vh;
-            overflow: hidden; /* Prevent body scroll, handle internally */
+            overflow: hidden; 
             display: flex;
             flex-direction: column;
         }
@@ -66,12 +65,12 @@
         main {
             flex: 1;
             display: grid;
-            grid-template-columns: 1fr 350px; /* Video Area | Queue Area */
+            grid-template-columns: 1fr 350px; 
             gap: 0;
             height: calc(100vh - 60px);
         }
 
-        /* --- LEFT: THE STAGE (VIDEO/AUDIO) --- */
+        /* --- LEFT: THE STAGE --- */
         .stage {
             position: relative;
             background: #000;
@@ -82,7 +81,6 @@
             overflow: hidden;
         }
 
-        /* Container for Iframe/Audio Visualizer */
         #media-container {
             width: 100%;
             height: 100%;
@@ -98,7 +96,6 @@
             border: none;
         }
 
-        /* Overlay Info */
         .overlay-info {
             position: absolute;
             bottom: 30px;
@@ -120,7 +117,6 @@
             max-width: 600px;
         }
 
-        /* Controls Bar */
         .controls-bar {
             position: absolute;
             bottom: 0;
@@ -137,7 +133,7 @@
             transition: width 0.5s linear;
         }
 
-        /* --- RIGHT: THE QUEUE (FEED) --- */
+        /* --- RIGHT: THE QUEUE --- */
         .queue-panel {
             background: #111;
             border-left: 1px solid rgba(255,255,255,0.1);
@@ -154,7 +150,22 @@
             top: 0;
             background: #111;
             z-index: 5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
+
+        .load-more-btn {
+            background: transparent;
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .load-more-btn:hover { background: var(--accent-cyan); color: #000; }
 
         .queue-item {
             padding: 15px 20px;
@@ -185,6 +196,13 @@
             justify-content: center;
             font-size: 0.8rem;
             color: #666;
+            overflow: hidden;
+        }
+        
+        .thumb-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .item-details h4 {
@@ -205,7 +223,7 @@
         @media (max-width: 768px) {
             main {
                 grid-template-columns: 1fr;
-                grid-template-rows: 60vh 1fr; /* Video takes 60%, Queue takes rest */
+                grid-template-rows: 60vh 1fr; 
             }
             .queue-panel {
                 border-left: none;
@@ -228,13 +246,11 @@
     <main>
         <!-- LEFT: THE PLAYER STAGE -->
         <section class="stage">
-            <div id="media-container">
-                <!-- Content injected via JS -->
-            </div>
+            <div id="media-container"></div>
             
             <div class="overlay-info">
                 <h2 class="current-title" id="display-title">Loading...</h2>
-                <p class="current-desc" id="display-desc">Please wait while we connect to the stream.</p>
+                <p class="current-desc" id="display-desc">Connecting to Guardian Stream...</p>
             </div>
 
             <div class="controls-bar">
@@ -244,97 +260,97 @@
 
         <!-- RIGHT: THE CONTENT QUEUE -->
         <aside class="queue-panel">
-            <div class="queue-header">Up Next</div>
-            <div id="queue-list">
-                <!-- Items injected via JS -->
+            <div class="queue-header">
+                Up Next 
+                <button class="load-more-btn" onclick="fetchMoreVideos()">+ Load More</button>
             </div>
+            <div id="queue-list"></div>
         </aside>
     </main>
 
     <script>
-        // 1. DATA SOURCE (Your Real Links)
-        const mediaQueue = [
+        // ==========================================
+        // CONFIGURATION
+        // ==========================================
+        
+        // 1. Your Hardcoded Core Playlist (Always loads first)
+        const corePlaylist = [
             {
-                id: 1,
-                type: 'video',
+                id: 1, type: 'video',
                 src: 'https://www.youtube.com/embed/iD67VqeTdkE?autoplay=1&mute=0&rel=0&modestbranding=1',
-                title: 'SDA Ministry Message 1',
-                desc: 'Powerful teaching on Grace and Salvation.',
-                thumb: '▶️'
+                title: 'SDA Ministry Message 1', desc: 'Powerful teaching on Grace.', thumbIcon: '▶️'
             },
             {
-                id: 2,
-                type: 'video',
+                id: 2, type: 'video',
                 src: 'https://www.youtube.com/embed/_yV7zniQs4g?autoplay=1&mute=0&rel=0&modestbranding=1',
-                title: 'Worship Session Live',
-                desc: 'Experience the presence of God through praise.',
-                thumb: '🎵'
+                title: 'Worship Session Live', desc: 'Presence of God through praise.', thumbIcon: '🎵'
             },
             {
-                id: 3,
-                type: 'audio',
+                id: 3, type: 'audio',
                 src: 'https://open.spotify.com/embed/playlist/5KpUf3Ys4G60aM8toOOh55?utm_source=generator&theme=0',
-                title: 'SDA Worship Collection',
-                desc: 'Curated hymns for spiritual reflection.',
-                thumb: '🎧'
-            },
-            {
-                id: 4,
-                type: 'audio',
-                src: 'https://open.spotify.com/embed/album/35OMn3mHWWKQ31hNn6YBHA?utm_source=generator&theme=0',
-                title: 'Featured Album',
-                desc: 'High fidelity listening experience.',
-                thumb: '💿'
-            },
-             {
-                id: 5,
-                type: 'audio',
-                src: 'https://open.spotify.com/embed/track/1GzBtCQ0udrRePGJ1xYSvB?utm_source=generator&theme=0',
-                title: 'Spotlight Track',
-                desc: 'Special selection of the day.',
-                thumb: '⭐'
+                title: 'SDA Worship Collection', desc: 'Curated hymns.', thumbIcon: '🎧'
             }
         ];
 
+        // 2. YouTube API Settings
+        // REPLACE THIS WITH YOUR ACTUAL API KEY FROM GOOGLE CLOUD CONSOLE
+        // If empty, the "Load More" feature will be disabled gracefully.
+        const AIzaSyBqQ0wS7u0LBo5XxO-ij8hMfmt8-CHAcAk = ""; 
+        
+        // The Channel ID you want to pull from (Find this via URL: youtube.com/channel/UC...)
+        const TARGET_CHANNEL_ID = "0lFr3JiPVd1p9MHbY9m3iV"; 
+
+        let currentQueue = [...corePlaylist];
         let currentIndex = 0;
+        let isLoadingMore = false;
+
         const container = document.getElementById('media-container');
         const titleEl = document.getElementById('display-title');
         const descEl = document.getElementById('display-desc');
         const queueList = document.getElementById('queue-list');
         const progressBar = document.getElementById('progress-bar');
 
-        // 2. RENDER QUEUE LIST
+        // ==========================================
+        // LOGIC
+        // ==========================================
+
+        function init() {
+            renderQueue();
+            loadMedia(0);
+        }
+
         function renderQueue() {
             queueList.innerHTML = '';
-            mediaQueue.forEach((item, index) => {
+            currentQueue.forEach((item, index) => {
                 const div = document.createElement('div');
                 div.className = `queue-item ${index === currentIndex ? 'active' : ''}`;
                 div.onclick = () => loadMedia(index);
                 
+                // Thumbnail Logic: Use Image if available, else Icon
+                const thumbHtml = item.thumbnailUrl 
+                    ? `<img src="${item.thumbnailUrl}" class="thumb-img" alt="thumb">` 
+                    : `<div class="thumb-placeholder">${item.thumbIcon || '📺'}</div>`;
+
                 div.innerHTML = `
-                    <div class="thumb-placeholder">${item.thumb}</div>
+                    ${thumbHtml}
                     <div class="item-details">
                         <h4>${item.title}</h4>
-                        <p>${item.type.toUpperCase()}</p>
+                        <p>${item.type.toUpperCase()} • ${item.date || 'Recent'}</p>
                     </div>
                 `;
                 queueList.appendChild(div);
             });
         }
 
-        // 3. LOAD MEDIA LOGIC
         function loadMedia(index) {
-            if (index >= mediaQueue.length) {
-                index = 0; // Loop back to start for "Infinite" feel
-            }
-            
+            if (index >= currentQueue.length) index = 0;
             currentIndex = index;
-            const item = mediaQueue[index];
+            const item = currentQueue[index];
 
-            // Clear previous
             container.innerHTML = '';
+            progressBar.style.width = '0%';
             
-            // Update Text with Fade Effect
+            // Fade Text
             titleEl.style.opacity = 0;
             setTimeout(() => {
                 titleEl.innerText = item.title;
@@ -343,15 +359,13 @@
                 titleEl.style.opacity = 1;
             }, 200);
 
-            // Inject New Media
+            // Inject Media
             if (item.type === 'video') {
                 const iframe = document.createElement('iframe');
                 iframe.src = item.src;
                 iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
                 iframe.allowFullscreen = true;
                 container.appendChild(iframe);
-                
-                // Simulate Progress Bar for Videos (Visual Only)
                 simulateProgress();
             } else if (item.type === 'audio') {
                 const iframe = document.createElement('iframe');
@@ -359,38 +373,78 @@
                 iframe.width = "100%";
                 iframe.height = "100%";
                 iframe.frameBorder = "0";
-                iframe.allowTransparency = "true";
                 container.appendChild(iframe);
-                
-                // Audio doesn't have easy API access for progress in simple embeds, 
-                // so we hide the bar or keep it static
                 progressBar.style.display = 'none';
             }
 
-            renderQueue(); // Highlight active item
-            
-            // Auto-load next when video ends (Requires YT API, simplified here with timeout for demo)
-            // In a real pro app, we'd use postMessage listener. 
-            // For this MVP, we just let user click or wait.
+            renderQueue();
         }
 
-        // 4. SIMULATE PROGRESS BAR (For Video Feel)
         function simulateProgress() {
             progressBar.style.display = 'block';
             let width = 0;
             const interval = setInterval(() => {
-                if (width >= 100) {
-                    clearInterval(interval);
-                    // Optional: Auto-next logic could go here
-                } else {
-                    width += 0.5; // Speed adjustment
+                if (width >= 100) clearInterval(interval);
+                else {
+                    width += 0.5;
                     progressBar.style.width = width + '%';
                 }
-            }, 100); // Tick every 100ms
+            }, 100);
         }
 
-        // INIT
-        loadMedia(0);
+        // ==========================================
+        // YOUTUBE API FETCHER (The "Magic")
+        // ==========================================
+        async function fetchMoreVideos() {
+            if (!YT_API_KEY || !TARGET_CHANNEL_ID) {
+                alert("Please configure YT_API_KEY and TARGET_CHANNEL_ID in the script to enable dynamic fetching.");
+                return;
+            }
+            if (isLoadingMore) return;
+            isLoadingMore = true;
+            document.querySelector('.load-more-btn').innerText = "Loading...";
+
+            try {
+                // Fetch latest uploads from the channel's "Uploads" playlist
+                // Note: Getting Uploads playlist ID usually requires a separate call, 
+                // but for simplicity, we assume you know the Playlist ID or use Search.
+                // Here we use a generic search approach for the channel's recent videos.
+                
+                const url = `https://www.googleapis.com/youtube/v3/search?key=${YT_API_KEY}&channelId=${TARGET_CHANNEL_ID}&part=snippet,id&order=date&maxResults=10`;
+                
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.items && data.items.length > 0) {
+                    const newItems = data.items.map(video => ({
+                        id: Date.now() + Math.random(), // Unique temp ID
+                        type: 'video',
+                        // Construct Embed URL from Video ID
+                        src: `https://www.youtube.com/embed/${video.id.videoId}?autoplay=1&mute=0&rel=0&modestbranding=1`,
+                        title: video.snippet.title,
+                        desc: video.snippet.description.substring(0, 50) + "...",
+                        thumbnailUrl: video.snippet.thumbnails.medium.url,
+                        date: new Date(video.snippet.publishedAt).toLocaleDateString()
+                    }));
+
+                    // Append to existing queue
+                    currentQueue = [...currentQueue, ...newItems];
+                    renderQueue();
+                    
+                    // Scroll to bottom of queue
+                    queueList.scrollTop = queueList.scrollHeight;
+                }
+            } catch (error) {
+                console.error("API Error:", error);
+                alert("Failed to load more videos. Check Console.");
+            } finally {
+                isLoadingMore = false;
+                document.querySelector('.load-more-btn').innerText = "+ Load More";
+            }
+        }
+
+        // START APP
+        init();
 
     </script>
 </body>

@@ -12,7 +12,6 @@
         :root {
             --bg-deep: #050505;       
             --accent-cyan: #00E5FF;   
-            --accent-purple: #A277FF; /* New Accent for Audio */
             --accent-red: #FF3B30;    
             --text-main: #FFFFFF;     
             --text-dim: #888888;     
@@ -101,52 +100,12 @@
             top: 0;
             left: 0;
             z-index: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
         iframe, audio {
             width: 100%;
             height: 100%;
             border: none;
-        }
-
-        /* Special Styling for Audio Visualizer Placeholder */
-        .audio-visualizer {
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, #1a1a2e 0%, #000 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 2;
-        }
-        
-        .vinyl-record {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: url('https://i.imgur.com/8QzRkLp.jpeg') center/cover; /* Default placeholder */
-            border: 10px solid #333;
-            box-shadow: 0 0 30px rgba(162, 119, 255, 0.3);
-            animation: spin 4s linear infinite;
-            animation-play-state: paused; /* Paused by default */
-        }
-
-        .vinyl-record.playing {
-            animation-play-state: running;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .audio-info-center {
-            margin-top: 20px;
-            text-align: center;
         }
 
         /* Overlay Info */
@@ -185,13 +144,13 @@
         
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            background: linear-gradient(90deg, var(--accent-cyan), #fff);
             width: 0%;
             transition: width 0.1s linear;
             box-shadow: 0 0 10px var(--accent-cyan);
         }
 
-        /* Floating Controls */
+        /* Floating Controls (Optional UI polish) */
         .floating-controls {
             position: absolute;
             bottom: 20px;
@@ -230,45 +189,17 @@
             overflow-y: auto;
         }
 
-        .queue-tabs {
-            display: flex;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .q-tab {
-            flex: 1;
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-dim);
-            transition: 0.3s;
-            border-bottom: 2px solid transparent;
-        }
-
-        .q-tab.active {
-            color: var(--accent-cyan);
-            border-bottom-color: var(--accent-cyan);
-            background: rgba(0, 229, 255, 0.05);
-        }
-        
-        .q-tab.audio-active {
-            color: var(--accent-purple);
-            border-bottom-color: var(--accent-purple);
-            background: rgba(162, 119, 255, 0.05);
-        }
-
         .queue-header {
-            padding: 15px 20px;
+            padding: 20px;
             font-weight: 600;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: sticky;
+            top: 0;
+            background: var(--panel-bg);
+            z-index: 5;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--panel-bg);
-            position: sticky;
-            top: 50px; /* Below tabs */
-            z-index: 5;
         }
 
         .load-more-btn {
@@ -285,11 +216,6 @@
         .load-more-btn:hover { background: var(--accent-cyan); color: #000; }
         .load-more-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        .queue-list {
-            flex: 1;
-            overflow-y: auto;
-        }
-
         .queue-item {
             padding: 15px 20px;
             cursor: pointer;
@@ -305,21 +231,42 @@
             background: rgba(255,255,255,0.05);
         }
 
-        .queue-item.active-video {
+        .queue-item.active {
             background: rgba(0, 229, 255, 0.1);
             border-left: 4px solid var(--accent-cyan);
         }
+
+        /* Playing Indicator Animation */
+        .playing-indicator {
+            display: none;
+            width: 12px;
+            height: 12px;
+            margin-right: 8px;
+        }
         
-        .queue-item.active-audio {
-            background: rgba(162, 119, 255, 0.1);
-            border-left: 4px solid var(--accent-purple);
+        .queue-item.active .playing-indicator {
+            display: block;
+        }
+
+        .bar {
+            width: 3px;
+            height: 100%;
+            background: var(--accent-cyan);
+            animation: equalizer 1s infinite ease-in-out;
+        }
+        .bar:nth-child(2) { animation-delay: 0.2s; }
+        .bar:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes equalizer {
+            0%, 100% { height: 4px; }
+            50% { height: 12px; }
         }
 
         .thumb-placeholder {
             width: 64px;
-            height: 64px; /* Square for albums */
+            height: 44px;
             background: #222;
-            border-radius: 8px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -362,8 +309,7 @@
             }
             .current-title { font-size: 1.4rem; }
             .overlay-info { left: 20px; bottom: 20px; }
-            .floating-controls { display: none; }
-            .vinyl-record { width: 150px; height: 150px; }
+            .floating-controls { display: none; } /* Hide floating controls on mobile to save space */
         }
     </style>
 </head>
@@ -400,16 +346,11 @@
 
         <!-- RIGHT: THE CONTENT QUEUE -->
         <aside class="queue-panel">
-            <div class="queue-tabs">
-                <div class="q-tab active" id="tab-video" onclick="switchTab('video')">📺 Ministry</div>
-                <div class="q-tab" id="tab-audio" onclick="switchTab('audio')">🎵 Worship</div>
-            </div>
-            
             <div class="queue-header">
-                <span id="queue-label">Up Next</span>
-                <button class="load-more-btn" id="loadBtn" onclick="fetchMoreContent()">+ Load More</button>
+                Up Next 
+                <button class="load-more-btn" id="loadBtn" onclick="fetchMoreVideos()">+ Load More</button>
             </div>
-            <div id="queue-list" class="queue-list"></div>
+            <div id="queue-list"></div>
         </aside>
     </main>
 
@@ -418,38 +359,31 @@
         // CONFIGURATION
         // ==========================================
         
-        // 1. Core Hardcoded Items (Always present)
-        const coreItems = [
+        const corePlaylist = [
             {
-                id: 'v1', type: 'video',
-                src: 'https://www.youtube.com/embed/iD67VqeTdkE?rel=0&modestbranding=1',
+                id: 1, type: 'video',
+                src: 'https://www.youtube.com/embed/iD67VqeTdkE?enablejsapi=1&rel=0&modestbranding=1',
                 title: 'SDA Ministry Message 1', desc: 'Powerful teaching on Grace.', thumbIcon: '▶️'
             },
             {
-                id: 'v2', type: 'video',
-                src: 'https://www.youtube.com/embed/_yV7zniQs4g?rel=0&modestbranding=1',
+                id: 2, type: 'video',
+                src: 'https://www.youtube.com/embed/_yV7zniQs4g?enablejsapi=1&rel=0&modestbranding=1',
                 title: 'Worship Session Live', desc: 'Presence of God through praise.', thumbIcon: '🎵'
             },
             {
-                id: 'a1', type: 'audio',
-                // Using a reliable public MP3 for demo purposes initially
-                src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-                title: 'Sacred Hymn Intro', desc: 'Instrumental Reflection', thumbUrl: 'https://via.placeholder.com/150/333/fff?text=♪'
+                id: 3, type: 'audio',
+                src: 'https://open.spotify.com/embed/playlist/5KpUf3Ys4G60aM8toOOh55?utm_source=generator&theme=0',
+                title: 'SDA Worship Collection', desc: 'Curated hymns.', thumbIcon: '🎧'
             }
         ];
 
-        // 2. API Settings
         const YT_API_KEY = "AIzaSyBqQ0wS7u0LBo5XxO-ij8hMfmt8-CHAcAk"; 
         const TARGET_PLAYLIST_ID = "PLZ6afNou8CGsKAM7HvLVu0A47C-Birqbr"; 
-        
-        // Deezer Search Query for SDA Music
-        const DEEZER_QUERY = "Seventh Day Adventist Worship"; 
 
-        let currentQueue = [...coreItems];
+        let currentQueue = [...corePlaylist];
         let currentIndex = 0;
         let isLoadingMore = false;
-        let activeTab = 'video'; // 'video' or 'audio'
-        let audioElement = null; // To store HTML5 Audio object
+        let playerInstance = null; // For YouTube API control
 
         const container = document.getElementById('media-container');
         const titleEl = document.getElementById('display-title');
@@ -457,9 +391,6 @@
         const queueList = document.getElementById('queue-list');
         const progressBar = document.getElementById('progress-bar');
         const loadBtn = document.getElementById('loadBtn');
-        const tabVideo = document.getElementById('tab-video');
-        const tabAudio = document.getElementById('tab-audio');
-        const queueLabel = document.getElementById('queue-label');
 
         // ==========================================
         // LOGIC
@@ -477,61 +408,26 @@
             });
         }
 
-        function switchTab(tab) {
-            activeTab = tab;
-            
-            // Update UI Classes
-            if(tab === 'video') {
-                tabVideo.classList.add('active');
-                tabVideo.classList.remove('audio-active');
-                tabAudio.classList.remove('active');
-                tabAudio.classList.remove('audio-active');
-                queueLabel.innerText = "Ministry Queue";
-                loadBtn.style.borderColor = "var(--accent-cyan)";
-                loadBtn.style.color = "var(--accent-cyan)";
-            } else {
-                tabAudio.classList.add('active');
-                tabAudio.classList.add('audio-active');
-                tabVideo.classList.remove('active');
-                tabVideo.classList.remove('audio-active');
-                queueLabel.innerText = "Worship Playlist";
-                loadBtn.style.borderColor = "var(--accent-purple)";
-                loadBtn.style.color = "var(--accent-purple)";
-            }
-
-            // Filter view (Optional: Could reload specific queues here)
-            // For now, we just change context for loading more
-            renderQueue();
-        }
-
         function renderQueue() {
             queueList.innerHTML = '';
-            
-            // Sort/FILTER based on active tab if desired, 
-            // BUT for this MVP, we show ALL items in one list so user sees variety.
-            // However, highlighting depends on type.
-            
             currentQueue.forEach((item, index) => {
                 const div = document.createElement('div');
-                
-                // Determine Active Class
-                let activeClass = '';
-                if(index === currentIndex) {
-                    activeClass = item.type === 'video' ? 'active-video' : 'active-audio';
-                }
-
-                div.className = `queue-item ${activeClass}`;
+                div.className = `queue-item ${index === currentIndex ? 'active' : ''}`;
                 div.onclick = () => loadMedia(index);
                 
-                const thumbHtml = item.thumbUrl 
-                    ? `<img src="${item.thumbUrl}" class="thumb-img" alt="art">` 
-                    : `<div class="thumb-placeholder">${item.thumbIcon || (item.type==='audio'?'🎵':'📺')}</div>`;
+                const thumbHtml = item.thumbnailUrl 
+                    ? `<img src="${item.thumbnailUrl}" class="thumb-img" alt="thumb">` 
+                    : `<div class="thumb-placeholder">${item.thumbIcon || '📺'}</div>`;
+
+                // Add Equalizer bars only to active item
+                const eqBars = index === currentIndex ? '<div class="playing-indicator"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>' : '';
 
                 div.innerHTML = `
+                    ${eqBars}
                     ${thumbHtml}
                     <div class="item-details">
                         <h4>${item.title}</h4>
-                        <p>${item.desc}</p>
+                        <p>${item.type.toUpperCase()} • ${item.date || 'Recent'}</p>
                     </div>
                 `;
                 queueList.appendChild(div);
@@ -545,17 +441,10 @@
             currentIndex = index;
             const item = currentQueue[index];
 
-            // Stop previous audio if playing
-            if(audioElement) {
-                audioElement.pause();
-                audioElement.src = "";
-                audioElement = null;
-            }
-
             container.innerHTML = '';
             progressBar.style.width = '0%';
             
-            // Update Text
+            // Update Text with Fade
             titleEl.style.opacity = 0;
             setTimeout(() => {
                 titleEl.innerText = item.title;
@@ -566,46 +455,25 @@
 
             // Inject Media
             if (item.type === 'video') {
+                // Use enablejsapi=1 to allow control
+                const iframeSrc = item.src.includes('?') ? `${item.src}&enablejsapi=1` : `${item.src}?enablejsapi=1`;
+                
                 const iframe = document.createElement('iframe');
-                iframe.src = item.src;
+                iframe.id = 'yt-player';
+                iframe.src = iframeSrc;
                 iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
                 iframe.allowFullscreen = true;
                 container.appendChild(iframe);
-                simulateProgress(); // Fake progress for video
-            } 
-            else if (item.type === 'audio') {
-                // Create Custom Audio Visualizer Interface
-                const visualizerDiv = document.createElement('div');
-                visualizerDiv.className = 'audio-visualizer';
                 
-                // Vinyl Record Element
-                const vinyl = document.createElement('div');
-                vinyl.className = 'vinyl-record';
-                if(item.thumbUrl) {
-                    vinyl.style.backgroundImage = `url('${item.thumbUrl}')`;
-                }
-                vinyl.id = 'vinyl-disc';
-                
-                visualizerDiv.appendChild(vinyl);
-                container.appendChild(visualizerDiv);
-
-                // Create HTML5 Audio Object
-                audioElement = new Audio(item.src);
-                audioElement.crossOrigin = "anonymous";
-                
-                // Auto Play Attempt (Browser might block if no interaction yet)
-                audioElement.play().then(() => {
-                    vinyl.classList.add('playing');
-                    startRealProgress();
-                }).catch(e => {
-                    console.log("Autoplay blocked:", e);
-                    // User must click play button manually if blocked
-                });
-
-                // Handle End of Track -> Auto Next
-                audioElement.onended = () => {
-                    nextMedia();
-                };
+                simulateProgress();
+            } else if (item.type === 'audio') {
+                const iframe = document.createElement('iframe');
+                iframe.src = item.src;
+                iframe.width = "100%";
+                iframe.height = "100%";
+                iframe.frameBorder = "0";
+                container.appendChild(iframe);
+                progressBar.style.display = 'none';
             }
 
             renderQueue();
@@ -620,21 +488,11 @@
         }
 
         function togglePause() {
-            const currentItem = currentQueue[currentIndex];
-            if(!currentItem) return;
-
-            if(currentItem.type === 'audio' && audioElement) {
-                if(audioElement.paused) {
-                    audioElement.play();
-                    document.getElementById('vinyl-disc').classList.add('playing');
-                } else {
-                    audioElement.pause();
-                    document.getElementById('vinyl-disc').classList.remove('playing');
-                }
-            } else if (currentItem.type === 'video') {
-                // Simple visual feedback for video pause (complex YT API needed for real pause)
-                alert("Use player controls to pause video.");
-            }
+            // Simple visual feedback since we can't easily pause Spotify/YT without complex API hooks
+            // In a real production app, we'd use postMessage to send commands to the iframe
+            const btn = document.querySelector('.ctrl-btn:nth-child(2)');
+            btn.style.transform = "scale(0.9)";
+            setTimeout(() => btn.style.transform = "scale(1)", 100);
         }
 
         function simulateProgress() {
@@ -643,7 +501,7 @@
             const interval = setInterval(() => {
                 if (width >= 100) {
                     clearInterval(interval);
-                    // Optional: Auto-next for videos too
+                    // AUTO-NEXT FEATURE: Uncomment below to loop automatically
                     // setTimeout(nextMedia, 2000); 
                 } else {
                     width += 0.5;
@@ -651,77 +509,45 @@
                 }
             }, 100);
         }
-        
-        function startRealProgress() {
-             progressBar.style.display = 'block';
-             const duration = audioElement.duration;
-             
-             const interval = setInterval(() => {
-                 if(!audioElement || audioElement.paused) return;
-                 
-                 const percent = (audioElement.currentTime / duration) * 100;
-                 progressBar.style.width = percent + '%';
-                 
-                 if(percent >= 100) {
-                     clearInterval(interval);
-                 }
-             }, 100);
-        }
 
         // ==========================================
-        // DYNAMIC LOADING (HYBRID)
+        // YOUTUBE API FETCHER
         // ==========================================
-        async function fetchMoreContent() {
+        async function fetchMoreVideos() {
+            if (!YT_API_KEY || !TARGET_PLAYLIST_ID) return;
             if (isLoadingMore) return;
+            
             isLoadingMore = true;
             loadBtn.innerText = "Loading...";
             loadBtn.disabled = true;
 
             try {
-                if(activeTab === 'video') {
-                    // FETCH YOUTUBE PLAYLIST
-                    const url = `https://www.googleapis.com/youtube/v3/playlistItems?key=${YT_API_KEY}&playlistId=${TARGET_PLAYLIST_ID}&part=snippet,contentDetails&maxResults=10`;
-                    const res = await fetch(url);
-                    const data = await res.json();
-                    
-                    if(data.items) {
-                        const newVideos = data.items.map(item => ({
-                            id: Date.now() + Math.random(),
-                            type: 'video',
-                            src: `https://www.youtube.com/embed/${item.contentDetails.videoId}?rel=0&modestbranding=1`,
-                            title: item.snippet.title,
-                            desc: item.snippet.description.substring(0, 40) + "...",
-                            thumbUrl: item.snippet.thumbnails.medium.url
-                        }));
-                        currentQueue = [...currentQueue, ...newVideos];
-                    }
-                } 
-                else if (activeTab === 'audio') {
-                    // FETCH DEEZER TRACKS (Free API)
-                    // Note: Deezer search returns tracks. We take the first 10.
-                    const searchUrl = `https://api.deezer.com/search?q=${encodeURIComponent(DEEZER_QUERY)}&limit=10`;
-                    const res = await fetch(searchUrl);
-                    const data = await res.json();
-                    
-                    if(data.data) {
-                        const newTracks = data.data.map(track => ({
-                            id: track.id,
-                            type: 'audio',
-                            // Use preview URL (30s clip) for stability, or replace with full stream if using paid API later
-                            src: track.preview, 
-                            title: track.title,
-                            desc: `${track.artist.name} • ${track.album.title}`,
-                            thumbUrl: track.album.cover_medium
-                        }));
-                        currentQueue = [...currentQueue, ...newTracks];
-                    }
-                }
+                const url = `https://www.googleapis.com/youtube/v3/playlistItems?key=${YT_API_KEY}&playlistId=${TARGET_PLAYLIST_ID}&part=snippet,contentDetails&maxResults=10`;
+                
+                const response = await fetch(url);
+                const data = await response.json();
 
-                renderQueue();
-                queueList.scrollTop = queueList.scrollHeight;
+                if (data.items && data.items.length > 0) {
+                    const newItems = data.items.map(item => {
+                        const videoId = item.contentDetails.videoId;
+                        return {
+                            id: Date.now() + Math.random(), 
+                            type: 'video',
+                            src: `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`,
+                            title: item.snippet.title,
+                            desc: item.snippet.description.substring(0, 50) + "...",
+                            thumbnailUrl: item.snippet.thumbnails.medium.url,
+                            date: new Date(item.snippet.publishedAt).toLocaleDateString()
+                        };
+                    });
+
+                    currentQueue = [...currentQueue, ...newItems];
+                    renderQueue();
+                    queueList.scrollTop = queueList.scrollHeight;
+                }
             } catch (error) {
                 console.error("API Error:", error);
-                alert("Failed to load content. Check connection.");
+                alert("Connection failed. Check internet.");
             } finally {
                 isLoadingMore = false;
                 loadBtn.innerText = "+ Load More";

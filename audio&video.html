@@ -15,7 +15,8 @@
             --accent-red: #FF3B30;    
             --text-main: #FFFFFF;     
             --text-dim: #888888;     
-            --glass: rgba(20, 20, 20, 0.8);
+            --glass: rgba(20, 20, 20, 0.9);
+            --panel-bg: #0a0a0a;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -38,34 +39,45 @@
             justify-content: space-between;
             padding: 0 20px;
             background: var(--glass);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(255,255,255,0.1);
             z-index: 100;
         }
 
-        .logo { font-weight: 700; letter-spacing: 1px; }
+        .logo { font-weight: 700; letter-spacing: 1px; font-size: 1.1rem; }
+        .logo span { color: var(--accent-cyan); }
+
         .live-badge {
             background: var(--accent-red);
             color: white;
-            padding: 2px 8px;
-            border-radius: 4px;
+            padding: 4px 10px;
+            border-radius: 20px;
             font-size: 0.7rem;
             font-weight: bold;
             animation: pulse 2s infinite;
-            margin-left: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         @keyframes pulse {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(1.05); }
-            100% { opacity: 1; transform: scale(1); }
+            0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
         }
+
+        .exit-btn {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .exit-btn:hover { color: var(--accent-cyan); }
 
         /* --- MAIN LAYOUT --- */
         main {
             flex: 1;
             display: grid;
-            grid-template-columns: 1fr 350px; 
+            grid-template-columns: 1fr 380px; 
             gap: 0;
             height: calc(100vh - 60px);
         }
@@ -96,47 +108,82 @@
             border: none;
         }
 
+        /* Overlay Info */
         .overlay-info {
             position: absolute;
-            bottom: 30px;
-            left: 30px;
+            bottom: 40px;
+            left: 40px;
             z-index: 10;
             pointer-events: none;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            max-width: 80%;
         }
 
         .current-title {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 700;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            line-height: 1.2;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.9);
         }
 
         .current-desc {
             font-size: 1rem;
-            color: #ccc;
-            max-width: 600px;
+            color: #ddd;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
         }
 
+        /* Controls Bar */
         .controls-bar {
             position: absolute;
             bottom: 0;
             width: 100%;
-            height: 6px;
-            background: rgba(255,255,255,0.2);
+            height: 4px;
+            background: rgba(255,255,255,0.1);
             z-index: 20;
         }
         
         .progress-fill {
             height: 100%;
-            background: var(--accent-cyan);
+            background: linear-gradient(90deg, var(--accent-cyan), #fff);
             width: 0%;
-            transition: width 0.5s linear;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 10px var(--accent-cyan);
+        }
+
+        /* Floating Controls (Optional UI polish) */
+        .floating-controls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 30;
+            display: flex;
+            gap: 10px;
+        }
+
+        .ctrl-btn {
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+
+        .ctrl-btn:hover {
+            background: var(--accent-cyan);
+            color: #000;
+            transform: scale(1.1);
         }
 
         /* --- RIGHT: THE QUEUE --- */
         .queue-panel {
-            background: #111;
-            border-left: 1px solid rgba(255,255,255,0.1);
+            background: var(--panel-bg);
+            border-left: 1px solid rgba(255,255,255,0.05);
             display: flex;
             flex-direction: column;
             overflow-y: auto;
@@ -148,7 +195,7 @@
             border-bottom: 1px solid rgba(255,255,255,0.05);
             position: sticky;
             top: 0;
-            background: #111;
+            background: var(--panel-bg);
             z-index: 5;
             display: flex;
             justify-content: space-between;
@@ -159,13 +206,15 @@
             background: transparent;
             border: 1px solid var(--accent-cyan);
             color: var(--accent-cyan);
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 0.7rem;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
             cursor: pointer;
             transition: 0.3s;
+            font-weight: 600;
         }
         .load-more-btn:hover { background: var(--accent-cyan); color: #000; }
+        .load-more-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .queue-item {
             padding: 15px 20px;
@@ -175,6 +224,7 @@
             display: flex;
             gap: 15px;
             align-items: center;
+            position: relative;
         }
 
         .queue-item:hover {
@@ -183,20 +233,47 @@
 
         .queue-item.active {
             background: rgba(0, 229, 255, 0.1);
-            border-left: 3px solid var(--accent-cyan);
+            border-left: 4px solid var(--accent-cyan);
+        }
+
+        /* Playing Indicator Animation */
+        .playing-indicator {
+            display: none;
+            width: 12px;
+            height: 12px;
+            margin-right: 8px;
+        }
+        
+        .queue-item.active .playing-indicator {
+            display: block;
+        }
+
+        .bar {
+            width: 3px;
+            height: 100%;
+            background: var(--accent-cyan);
+            animation: equalizer 1s infinite ease-in-out;
+        }
+        .bar:nth-child(2) { animation-delay: 0.2s; }
+        .bar:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes equalizer {
+            0%, 100% { height: 4px; }
+            50% { height: 12px; }
         }
 
         .thumb-placeholder {
-            width: 60px;
-            height: 40px;
-            background: #333;
-            border-radius: 4px;
+            width: 64px;
+            height: 44px;
+            background: #222;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             color: #666;
             overflow: hidden;
+            flex-shrink: 0;
         }
         
         .thumb-img {
@@ -207,11 +284,12 @@
 
         .item-details h4 {
             font-size: 0.95rem;
-            margin-bottom: 3px;
+            margin-bottom: 4px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 200px;
+            max-width: 220px;
+            color: var(--text-main);
         }
 
         .item-details p {
@@ -223,24 +301,26 @@
         @media (max-width: 768px) {
             main {
                 grid-template-columns: 1fr;
-                grid-template-rows: 60vh 1fr; 
+                grid-template-rows: 55vh 1fr; 
             }
             .queue-panel {
                 border-left: none;
                 border-top: 1px solid rgba(255,255,255,0.1);
             }
-            .current-title { font-size: 1.2rem; }
+            .current-title { font-size: 1.4rem; }
+            .overlay-info { left: 20px; bottom: 20px; }
+            .floating-controls { display: none; } /* Hide floating controls on mobile to save space */
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">NICHOLAS<span style="color:var(--accent-cyan)">BAGENDA</span></div>
+        <div class="logo">NICHOLAS<span>BAGENDA</span></div>
         <div class="live-indicator">
-            <span class="live-badge">● LIVE FEED</span>
+            <span class="live-badge">● LIVE STREAM</span>
         </div>
-        <a href="index.html" style="color:white; text-decoration:none; font-size:0.9rem;">Exit</a>
+        <a href="index.html" class="exit-btn">Exit ✕</a>
     </header>
 
     <main>
@@ -249,8 +329,14 @@
             <div id="media-container"></div>
             
             <div class="overlay-info">
-                <h2 class="current-title" id="display-title">Loading...</h2>
-                <p class="current-desc" id="display-desc">Connecting to Guardian Stream...</p>
+                <h2 class="current-title" id="display-title">Initializing...</h2>
+                <p class="current-desc" id="display-desc">Connecting to Guardian Network...</p>
+            </div>
+
+            <div class="floating-controls">
+                <button class="ctrl-btn" onclick="prevMedia()" title="Previous">⏮</button>
+                <button class="ctrl-btn" onclick="togglePause()" title="Pause/Play">⏯</button>
+                <button class="ctrl-btn" onclick="nextMedia()" title="Next">⏭</button>
             </div>
 
             <div class="controls-bar">
@@ -262,7 +348,7 @@
         <aside class="queue-panel">
             <div class="queue-header">
                 Up Next 
-                <button class="load-more-btn" onclick="fetchMoreVideos()">+ Load More</button>
+                <button class="load-more-btn" id="loadBtn" onclick="fetchMoreVideos()">+ Load More</button>
             </div>
             <div id="queue-list"></div>
         </aside>
@@ -273,16 +359,15 @@
         // CONFIGURATION
         // ==========================================
         
-        // 1. Your Hardcoded Core Playlist (Always loads first)
         const corePlaylist = [
             {
                 id: 1, type: 'video',
-                src: 'https://www.youtube.com/embed/iD67VqeTdkE?autoplay=1&mute=0&rel=0&modestbranding=1',
+                src: 'https://www.youtube.com/embed/iD67VqeTdkE?enablejsapi=1&rel=0&modestbranding=1',
                 title: 'SDA Ministry Message 1', desc: 'Powerful teaching on Grace.', thumbIcon: '▶️'
             },
             {
                 id: 2, type: 'video',
-                src: 'https://www.youtube.com/embed/_yV7zniQs4g?autoplay=1&mute=0&rel=0&modestbranding=1',
+                src: 'https://www.youtube.com/embed/_yV7zniQs4g?enablejsapi=1&rel=0&modestbranding=1',
                 title: 'Worship Session Live', desc: 'Presence of God through praise.', thumbIcon: '🎵'
             },
             {
@@ -292,21 +377,20 @@
             }
         ];
 
-        // 2. YouTube API Settings
         const YT_API_KEY = "AIzaSyBqQ0wS7u0LBo5XxO-ij8hMfmt8-CHAcAk"; 
-        
-        // We are using the PLAYLIST ID now for better curation control
         const TARGET_PLAYLIST_ID = "PLZ6afNou8CGsKAM7HvLVu0A47C-Birqbr"; 
 
         let currentQueue = [...corePlaylist];
         let currentIndex = 0;
         let isLoadingMore = false;
+        let playerInstance = null; // For YouTube API control
 
         const container = document.getElementById('media-container');
         const titleEl = document.getElementById('display-title');
         const descEl = document.getElementById('display-desc');
         const queueList = document.getElementById('queue-list');
         const progressBar = document.getElementById('progress-bar');
+        const loadBtn = document.getElementById('loadBtn');
 
         // ==========================================
         // LOGIC
@@ -315,6 +399,13 @@
         function init() {
             renderQueue();
             loadMedia(0);
+            
+            // Keyboard Shortcuts
+            document.addEventListener('keydown', (e) => {
+                if(e.code === 'ArrowRight') nextMedia();
+                if(e.code === 'ArrowLeft') prevMedia();
+                if(e.code === 'Space') togglePause();
+            });
         }
 
         function renderQueue() {
@@ -324,12 +415,15 @@
                 div.className = `queue-item ${index === currentIndex ? 'active' : ''}`;
                 div.onclick = () => loadMedia(index);
                 
-                // Thumbnail Logic: Use Image if available, else Icon
                 const thumbHtml = item.thumbnailUrl 
                     ? `<img src="${item.thumbnailUrl}" class="thumb-img" alt="thumb">` 
                     : `<div class="thumb-placeholder">${item.thumbIcon || '📺'}</div>`;
 
+                // Add Equalizer bars only to active item
+                const eqBars = index === currentIndex ? '<div class="playing-indicator"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>' : '';
+
                 div.innerHTML = `
+                    ${eqBars}
                     ${thumbHtml}
                     <div class="item-details">
                         <h4>${item.title}</h4>
@@ -342,13 +436,15 @@
 
         function loadMedia(index) {
             if (index >= currentQueue.length) index = 0;
+            if (index < 0) index = currentQueue.length - 1;
+            
             currentIndex = index;
             const item = currentQueue[index];
 
             container.innerHTML = '';
             progressBar.style.width = '0%';
             
-            // Fade Text
+            // Update Text with Fade
             titleEl.style.opacity = 0;
             setTimeout(() => {
                 titleEl.innerText = item.title;
@@ -359,11 +455,16 @@
 
             // Inject Media
             if (item.type === 'video') {
+                // Use enablejsapi=1 to allow control
+                const iframeSrc = item.src.includes('?') ? `${item.src}&enablejsapi=1` : `${item.src}?enablejsapi=1`;
+                
                 const iframe = document.createElement('iframe');
-                iframe.src = item.src;
+                iframe.id = 'yt-player';
+                iframe.src = iframeSrc;
                 iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
                 iframe.allowFullscreen = true;
                 container.appendChild(iframe);
+                
                 simulateProgress();
             } else if (item.type === 'audio') {
                 const iframe = document.createElement('iframe');
@@ -378,12 +479,31 @@
             renderQueue();
         }
 
+        function nextMedia() {
+            loadMedia(currentIndex + 1);
+        }
+
+        function prevMedia() {
+            loadMedia(currentIndex - 1);
+        }
+
+        function togglePause() {
+            // Simple visual feedback since we can't easily pause Spotify/YT without complex API hooks
+            // In a real production app, we'd use postMessage to send commands to the iframe
+            const btn = document.querySelector('.ctrl-btn:nth-child(2)');
+            btn.style.transform = "scale(0.9)";
+            setTimeout(() => btn.style.transform = "scale(1)", 100);
+        }
+
         function simulateProgress() {
             progressBar.style.display = 'block';
             let width = 0;
             const interval = setInterval(() => {
-                if (width >= 100) clearInterval(interval);
-                else {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    // AUTO-NEXT FEATURE: Uncomment below to loop automatically
+                    // setTimeout(nextMedia, 2000); 
+                } else {
                     width += 0.5;
                     progressBar.style.width = width + '%';
                 }
@@ -391,20 +511,17 @@
         }
 
         // ==========================================
-        // YOUTUBE API FETCHER (PLAYLIST MODE)
+        // YOUTUBE API FETCHER
         // ==========================================
         async function fetchMoreVideos() {
-            if (!YT_API_KEY || !TARGET_PLAYLIST_ID) {
-                alert("⚠️ Configuration Missing!\n\nPlease ensure YT_API_KEY and TARGET_PLAYLIST_ID are set.");
-                return;
-            }
+            if (!YT_API_KEY || !TARGET_PLAYLIST_ID) return;
             if (isLoadingMore) return;
+            
             isLoadingMore = true;
-            document.querySelector('.load-more-btn').innerText = "Loading...";
+            loadBtn.innerText = "Loading...";
+            loadBtn.disabled = true;
 
             try {
-                // Fetch items FROM THE PLAYLIST (Not general search)
-                // This returns video details directly linked to the playlist order
                 const url = `https://www.googleapis.com/youtube/v3/playlistItems?key=${YT_API_KEY}&playlistId=${TARGET_PLAYLIST_ID}&part=snippet,contentDetails&maxResults=10`;
                 
                 const response = await fetch(url);
@@ -412,14 +529,11 @@
 
                 if (data.items && data.items.length > 0) {
                     const newItems = data.items.map(item => {
-                        // Extract Video ID from the playlist item structure
                         const videoId = item.contentDetails.videoId;
-                        
                         return {
                             id: Date.now() + Math.random(), 
                             type: 'video',
-                            // Construct Embed URL
-                            src: `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&rel=0&modestbranding=1`,
+                            src: `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`,
                             title: item.snippet.title,
                             desc: item.snippet.description.substring(0, 50) + "...",
                             thumbnailUrl: item.snippet.thumbnails.medium.url,
@@ -427,19 +541,17 @@
                         };
                     });
 
-                    // Append to existing queue
                     currentQueue = [...currentQueue, ...newItems];
                     renderQueue();
-                    
-                    // Scroll to bottom of queue
                     queueList.scrollTop = queueList.scrollHeight;
                 }
             } catch (error) {
                 console.error("API Error:", error);
-                alert("Failed to load playlist videos. Check Console.");
+                alert("Connection failed. Check internet.");
             } finally {
                 isLoadingMore = false;
-                document.querySelector('.load-more-btn').innerText = "+ Load More";
+                loadBtn.innerText = "+ Load More";
+                loadBtn.disabled = false;
             }
         }
 

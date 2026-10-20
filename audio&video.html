@@ -292,13 +292,15 @@
             }
         ];
 
-        // 2. YouTube API Settings
-        // REPLACE THIS WITH YOUR ACTUAL API KEY FROM GOOGLE CLOUD CONSOLE
-        // If empty, the "Load More" feature will be disabled gracefully.
-        const AIzaSyBqQ0wS7u0LBo5XxO-ij8hMfmt8-CHAcAk = ""; 
+        // 2. YouTube API Settings (FIXED SYNTAX ERROR HERE)
+        // We use a standard variable name "YT_API_KEY" and assign your key to it.
+        const YT_API_KEY = "AIzaSyBqQ0wS7u0LBo5XxO-ij8hMfmt8-CHAcAk"; 
         
-        // The Channel ID you want to pull from (Find this via URL: youtube.com/channel/UC...)
-        const TARGET_CHANNEL_ID = "0lFr3JiPVd1p9MHbY9m3iV"; 
+        // IMPORTANT: TARGET_CHANNEL_ID must be the UC... ID from the URL bar, 
+        // NOT the Spotify ID you used earlier. 
+        // Example: https://www.youtube.com/channel/UCxxxxxxxxxxxxxx
+        // For now, we leave it empty until you provide the real YouTube Channel ID.
+        const TARGET_CHANNEL_ID = ""; 
 
         let currentQueue = [...corePlaylist];
         let currentIndex = 0;
@@ -396,8 +398,9 @@
         // YOUTUBE API FETCHER (The "Magic")
         // ==========================================
         async function fetchMoreVideos() {
+            // Check if config is ready
             if (!YT_API_KEY || !TARGET_CHANNEL_ID) {
-                alert("Please configure YT_API_KEY and TARGET_CHANNEL_ID in the script to enable dynamic fetching.");
+                alert("⚠️ Configuration Missing!\n\nPlease ensure:\n1. YT_API_KEY is set.\n2. TARGET_CHANNEL_ID is filled with the correct YouTube Channel ID (starts with UC...).");
                 return;
             }
             if (isLoadingMore) return;
@@ -405,11 +408,7 @@
             document.querySelector('.load-more-btn').innerText = "Loading...";
 
             try {
-                // Fetch latest uploads from the channel's "Uploads" playlist
-                // Note: Getting Uploads playlist ID usually requires a separate call, 
-                // but for simplicity, we assume you know the Playlist ID or use Search.
-                // Here we use a generic search approach for the channel's recent videos.
-                
+                // Fetch latest uploads from the channel
                 const url = `https://www.googleapis.com/youtube/v3/search?key=${YT_API_KEY}&channelId=${TARGET_CHANNEL_ID}&part=snippet,id&order=date&maxResults=10`;
                 
                 const response = await fetch(url);

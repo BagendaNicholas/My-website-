@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Guardian OS | Stream Center</title>
+<title>Guardian OS | Media Console</title>
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -74,27 +74,15 @@
         letter-spacing: 1px;
     }
 
-    /* DASHBOARD GRID STRUCTURE */
-    .dashboard-container {
+    /* MAIN GRID LAYOUT */
+    .console-grid {
         max-width: 1400px;
         margin: auto;
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 1fr 1.5fr; /* Music takes less space, Movies take more */
         gap: 25px;
         position: relative;
         z-index: 1;
-    }
-
-    /* TOP ROW: NEWS + MEDIA */
-    .top-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* Split evenly */
-        gap: 25px;
-    }
-
-    /* BOTTOM ROW: MOVIES (FULL WIDTH) */
-    .bottom-row {
-        width: 100%;
     }
 
     /* CARDS */
@@ -109,6 +97,7 @@
         overflow:hidden;
         display:flex;
         flex-direction:column;
+        height: 100%;
     }
 
     .card::before {
@@ -187,143 +176,59 @@
         box-shadow: 0 0 15px var(--neon-cyan);
     }
 
-    /* NEWS SECTION */
-    .news-grid{
+    /* LEFT COLUMN: WORLD MUSIC PLAYER */
+    .music-player-container {
         flex-grow: 1;
-        max-height: 500px;
-        overflow-y:auto;
-        padding-right:5px;
-    }
-    
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
-    ::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 3px; }
-
-    .news-item{
-        background:rgba(255,255,255,0.03);
-        border-radius:10px;
-        margin-bottom:15px;
-        cursor:pointer;
-        transition:0.3s;
-        border-left:3px solid transparent;
-        display:flex;
-        gap:15px;
-        padding:12px;
-        align-items:center;
-    }
-
-    .news-item:hover{
-        background:rgba(0, 243, 255, 0.05);
-        border-left-color: var(--neon-cyan);
-        transform: translateX(5px);
-    }
-
-    .news-item-img{
-        width:80px;
-        height:60px;
-        object-fit:cover;
-        border-radius:6px;
-        flex-shrink:0;
-        filter: grayscale(100%) brightness(0.8);
-        transition: 0.3s;
-    }
-
-    .news-item:hover .news-item-img {
-        filter: grayscale(0%) brightness(1);
-    }
-
-    .news-item-content h4{
-        margin-bottom:5px;
-        color:white;
-        font-size:0.9rem;
-        line-height:1.3;
-        display:-webkit-box;
-        -webkit-line-clamp:2;
-        -webkit-box-orient:vertical;
-        overflow:hidden;
-    }
-
-    .news-item-content p{
-        font-size:0.75rem;
-        color:var(--text-dim);
-        line-height:1.4;
-        display:-webkit-box;
-        -webkit-line-clamp:2;
-        -webkit-box-orient:vertical;
-        overflow:hidden;
-    }
-
-    .source-tag {
-        font-size: 0.65rem;
-        color: var(--neon-cyan);
-        margin-top: 5px;
-        display: block;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    /* MEDIA HUB SECTION (NEW) */
-    .media-hub-container {
         display: flex;
         flex-direction: column;
-        gap: 20px;
-        height: 100%;
+        gap: 15px;
     }
 
-    .media-tabs {
+    .playlist-selector {
         display: flex;
-        gap: 10px;
+        flex-wrap: wrap;
+        gap: 8px;
         margin-bottom: 10px;
     }
 
-    .tab-btn {
-        flex: 1;
-        padding: 10px;
-        background: rgba(0,0,0,0.3);
+    .genre-btn {
+        padding: 6px 12px;
+        font-size: 0.75rem;
+        border-radius: 20px;
+        background: rgba(255,255,255,0.05);
         border: 1px solid rgba(255,255,255,0.1);
         color: var(--text-dim);
-        border-radius: 8px;
         cursor: pointer;
         transition: 0.3s;
-        font-family: 'Orbitron', sans-serif;
-        font-size: 0.8rem;
+        font-family: 'Poppins', sans-serif;
+        text-transform: none;
+        letter-spacing: normal;
     }
 
-    .tab-btn.active {
-        background: var(--neon-cyan);
-        color: black;
-        border-color: var(--neon-cyan);
-        box-shadow: 0 0 10px rgba(0, 243, 255, 0.4);
+    .genre-btn:hover, .genre-btn.active {
+        background: var(--neon-purple);
+        color: white;
+        border-color: var(--neon-purple);
+        box-shadow: 0 0 10px rgba(188, 19, 254, 0.4);
     }
 
-    .media-display-area {
+    .spotify-frame-wrapper {
         flex-grow: 1;
         background: #000;
         border-radius: 12px;
         overflow: hidden;
-        position: relative;
-        min-height: 300px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         border: 1px solid rgba(255,255,255,0.05);
+        min-height: 400px; /* Ensure player has height */
+        position: relative;
     }
 
-    .media-display-area iframe, 
-    .media-display-area audio {
+    .spotify-frame-wrapper iframe {
         width: 100%;
         height: 100%;
         border: none;
     }
-    
-    /* Specific styling for Spotify if needed */
-    .spotify-frame {
-        width: 100%;
-        height: 100%;
-        min-height: 300px;
-    }
 
-    /* MOVIES SECTION */
+    /* RIGHT COLUMN: CINEMA DATABASE */
     .movie-controls {
         display: flex;
         gap: 10px;
@@ -337,13 +242,18 @@
 
     .movie-grid{
         display:grid;
-        grid-template-columns:repeat(auto-fill, minmax(160px, 1fr));
-        gap:20px;
+        grid-template-columns:repeat(auto-fill, minmax(140px, 1fr));
+        gap:15px;
         margin-top:10px;
         max-height:600px;
         overflow-y:auto;
         padding-bottom: 10px;
     }
+
+    /* Custom Scrollbar for Movie Grid */
+    .movie-grid::-webkit-scrollbar { width: 6px; }
+    .movie-grid::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+    .movie-grid::-webkit-scrollbar-thumb { background: var(--neon-purple); border-radius: 3px; }
 
     .movie-item{
         background:rgba(0,0,0,0.3);
@@ -376,7 +286,7 @@
         background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
         padding: 15px 10px 10px;
         color: white;
-        font-size: 0.85rem;
+        font-size: 0.8rem;
         font-weight: 600;
         text-align: center;
         opacity: 0;
@@ -392,7 +302,7 @@
     }
 
     /* MODALS */
-    #videoModal, #newsModal{
+    #videoModal {
         display:none;
         position:fixed;
         top:0; left:0;
@@ -407,7 +317,7 @@
 
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    .modal-inner, .news-modal-inner{
+    .modal-inner{
         width:90%;
         max-width:900px;
         position:relative;
@@ -418,7 +328,7 @@
         box-shadow: 0 0 50px rgba(0, 243, 255, 0.2);
     }
 
-    .close-btn, .close-news-btn{
+    .close-btn{
         position:absolute;
         top:-15px; right:-15px;
         background:var(--danger);
@@ -436,37 +346,9 @@
         z-index: 10;
     }
 
-    .close-btn:hover, .close-news-btn:hover {
+    .close-btn:hover {
         transform: rotate(90deg) scale(1.1);
         background: #ff0000;
-    }
-
-    .news-modal-img{
-        width:100%;
-        border-radius:12px;
-        margin-bottom:20px;
-        max-height:300px;
-        object-fit:cover;
-        border:1px solid rgba(255,255,255,0.1);
-    }
-
-    .read-full-btn {
-        display:inline-block;
-        margin-top:15px;
-        padding:10px 20px;
-        background:var(--neon-cyan);
-        color:black;
-        font-weight:bold;
-        text-decoration:none;
-        border-radius:6px;
-        font-family:'Orbitron', sans-serif;
-        text-transform:uppercase;
-        font-size:0.8rem;
-        transition:0.3s;
-    }
-    .read-full-btn:hover {
-        box-shadow: 0 0 15px var(--neon-cyan);
-        transform: translateY(-2px);
     }
 
     /* LOADING STATES */
@@ -481,11 +363,11 @@
 
     /* Responsive Adjustments */
     @media (max-width: 900px) {
-        .top-row {
-            grid-template-columns: 1fr; /* Stack News and Media on tablet/mobile */
+        .console-grid {
+            grid-template-columns: 1fr; /* Stack vertically on mobile/tablet */
         }
-        .movie-grid {
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        .spotify-frame-wrapper {
+            min-height: 300px;
         }
     }
 </style>
@@ -497,51 +379,41 @@
     <canvas id="network-canvas"></canvas>
 
     <div class="header">
-        <h1><i class="fas fa-satellite-dish"></i> Guardian Stream</h1>
-        <p>// REAL_TIME_NEWS // AUDIO_VISUAL_HUB // CINEMA_DB</p>
+        <h1><i class="fas fa-satellite-dish"></i> Guardian Console</h1>
+        <p>// GLOBAL_AUDIO_STREAM // CINEMA_DATABASE</p>
     </div>
 
-    <div class="dashboard-container">
+    <div class="console-grid">
 
-        <!-- TOP ROW: SPLIT VIEW -->
-        <div class="top-row">
+        <!-- LEFT: WORLD MUSIC PLAYER -->
+        <div class="card">
+            <h2><i class="fas fa-music"></i> World Frequencies</h2>
             
-            <!-- LEFT: LIVE NEWS -->
-            <div class="card">
-                <h2><i class="fas fa-newspaper"></i> Global Feed</h2>
-                
-                <select id="newsCategory" onchange="getNews()">
-                    <option value="general">General Intelligence</option>
-                    <option value="technology">Tech & AI</option>
-                    <option value="business">Market Data</option>
-                    <option value="entertainment">Media Stream</option>
-                </select>
+            <div class="music-player-container">
+                <!-- Genre Selector -->
+                <div class="playlist-selector" id="genreSelector">
+                    <button class="genre-btn active" onclick="loadPlaylist('global_hits')">🌍 Global Hits</button>
+                    <button class="genre-btn" onclick="loadPlaylist('chill_vibes')">🎧 Chill Vibes</button>
+                    <button class="genre-btn" onclick="loadPlaylist('rock_classics')">🎸 Rock Legends</button>
+                    <button class="genre-btn" onclick="loadPlaylist('electronic_pulse')">⚡ Electronic</button>
+                </div>
 
-                <div id="newsContent" class="news-grid">
-                    <div class="loading-spinner">FETCHING_DATA...</div>
+                <!-- The Player Frame -->
+                <div class="spotify-frame-wrapper" id="playerWrapper">
+                    <iframe 
+                        id="spotifyPlayer"
+                        src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator&theme=0" 
+                        frameborder="0" 
+                        allowtransparency="true" 
+                        allow="encrypted-media">
+                    </iframe>
                 </div>
             </div>
-
-            <!-- RIGHT: MEDIA HUB (AUDIO/VIDEO) -->
-            <div class="card">
-                <h2><i class="fas fa-play-circle"></i> Media Hub</h2>
-                
-                <div class="media-tabs">
-                    <button class="tab-btn active" onclick="switchMediaTab('video')">📺 Video</button>
-                    <button class="tab-btn" onclick="switchMediaTab('audio')">🎵 Audio</button>
-                </div>
-
-                <div class="media-display-area" id="mediaDisplayArea">
-                    <!-- Default Content Loaded via JS -->
-                    <div class="loading-spinner">INITIALIZING_PLAYER...</div>
-                </div>
-            </div>
-
         </div>
 
-        <!-- BOTTOM ROW: MOVIES DATABASE -->
-        <div class="bottom-row card">
-            <h2><i class="fas fa-film"></i> Cinema Database</h2>
+        <!-- RIGHT: CINEMA DATABASE -->
+        <div class="card">
+            <h2><i class="fas fa-film"></i> Cinema DB</h2>
             
             <div class="movie-controls">
                 <input type="text"
@@ -570,38 +442,18 @@
         </div>
     </div>
 
-    <!-- NEWS MODAL -->
-    <div id="newsModal">
-        <div class="news-modal-inner">
-            <button class="close-news-btn" onclick="closeNewsModal()">✕</button>
-            <img id="newsModalImg" class="news-modal-img" alt="Article Image">
-            <h2 id="newsModalTitle" style="margin-bottom:15px;color:var(--neon-cyan); font-family:'Orbitron', sans-serif;"></h2>
-            <div id="newsModalContent" style="line-height:1.7;margin-bottom:20px;color:#ddd;">
-            </div>
-            <div style="padding:15px; background:rgba(0,0,0,0.3); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
-                <p id="newsModalSource" style="font-size:0.85rem;color:var(--text-dim);margin-bottom:8px;"></p>
-                <p id="newsModalDate" style="font-size:0.8rem;color:#64748b;"></p>
-            </div>
-        </div>
-    </div>
-
 <script>
     /* =========================
        CONFIGURATION
     ========================= */
     const API_KEY_MOVIE = "2a76ab20531de6848483abb62c0f0c50";
-    let currentNewsData = [];
     
-    // Your Real Media Links (From previous chats)
-    const mediaLibrary = {
-        video: [
-            { title: "SDA Ministry 1", src: "https://www.youtube.com/embed/iD67VqeTdkE?rel=0&modestbranding=1" },
-            { title: "Worship Session", src: "https://www.youtube.com/embed/_yV7zniQs4g?rel=0&modestbranding=1" }
-        ],
-        audio: [
-            { title: "SDA Worship Playlist", src: "https://open.spotify.com/embed/playlist/5KpUf3Ys4G60aM8toOOh55?utm_source=generator&theme=0" },
-            { title: "Classic Hymns", src: "https://open.spotify.com/embed/playlist/37i9dQZF1DXbmINI7suDts?utm_source=generator&theme=0" }
-        ]
+    // Map genres to Spotify Playlist IDs (Public Charts)
+    const spotifyPlaylists = {
+        global_hits: "37i9dQZF1DXcBWIGoYBM5M", // Today's Top Hits
+        chill_vibes: "37i9dQZF1DWWEJlAGA9gs0", // Chill Hits
+        rock_classics: "37i9dQZF1DX0XUsuxWHRQd", // Rock Classics
+        electronic_pulse: "37i9dQZF1DX4dyzvuaRJ0n" // Mint (Electronic)
     };
 
     /* =========================
@@ -689,85 +541,23 @@
 
 
     /* =========================
-       MEDIA HUB LOGIC (NEW)
+       WORLD MUSIC LOGIC
     ========================= */
-    function switchMediaTab(type) {
-        // Update Buttons
-        const buttons = document.querySelectorAll('.tab-btn');
+    function loadPlaylist(genreKey) {
+        // Update Active Button Style
+        const buttons = document.querySelectorAll('.genre-btn');
         buttons.forEach(btn => btn.classList.remove('active'));
         event.target.classList.add('active');
 
-        // Load Content
-        const displayArea = document.getElementById('mediaDisplayArea');
-        displayArea.innerHTML = '<div class="loading-spinner">BUFFERING...</div>';
-
-        setTimeout(() => {
-            if (type === 'video') {
-                // Show first video by default
-                const vid = mediaLibrary.video[0];
-                displayArea.innerHTML = `<iframe src="${vid.src}" allowfullscreen></iframe>`;
-            } else if (type === 'audio') {
-                // Show first playlist by default
-                const aud = mediaLibrary.audio[0];
-                displayArea.innerHTML = `<iframe class="spotify-frame" src="${aud.src}" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
-            }
-        }, 300);
-    }
-
-    /* =========================
-       LIVE NEWS LOGIC
-    ========================= */
-    async function getNews(){
-        const cat = document.getElementById("newsCategory").value;
-        const feeds = {
-            general: "https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/news/rss.xml",
-            technology: "https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/news/technology/rss.xml",
-            business: "https://api.rss2json.com/v1/api.json?rss_url=http://feeds.reuters.com/reuters/businessNews",
-            entertainment: "https://api.rss2json.com/v1/api.json?rss_url=https://feeds.skynews.com/feeds/rss/entertainment.xml"
-        };
-
-        try{
-            const res = await fetch(feeds[cat]);
-            const data = await res.json();
-            currentNewsData = data.items || [];
-
-            if(currentNewsData.length === 0){
-                document.getElementById("newsContent").innerHTML = "<p style='color:var(--danger)'>NO SIGNAL DETECTED.</p>";
-                return;
-            }
-
-            document.getElementById("newsContent").innerHTML = currentNewsData.map((n, idx) => `
-                <div class="news-item" onclick="openNewsModal(${idx})">
-                    <img src="${n.thumbnail || 'https://via.placeholder.com/150/000000/00f3ff?text=NB'}" class="news-item-img" alt="Thumb">
-                    <div class="news-item-content">
-                        <h4>${n.title || 'Untitled'}</h4>
-                        <p>${(n.description || '').replace(/<[^>]*>?/gm, '').substring(0, 100)}...</p>
-                        <span class="source-tag">${n.author || 'BBC'}</span>
-                    </div>
-                </div>
-            `).join("");
-
-        } catch(err){
-            console.error("News fetch error:", err);
-            document.getElementById("newsContent").innerHTML = "<p style='color:var(--danger)'>CONNECTION FAILED.</p>";
-        }
-    }
-
-    function openNewsModal(index){
-        const news = currentNewsData[index];
-        document.getElementById("newsModalImg").src = news.thumbnail || "https://via.placeholder.com/800x400/000000/00f3ff?text=GUARDIAN+NEWS";
-        document.getElementById("newsModalTitle").textContent = news.title;
-        document.getElementById("newsModalContent").innerHTML = `
-            <p style="margin-bottom:20px;">${news.description || 'No description available.'}</p>
-            <a href="${news.link || '#'}" target="_blank" class="read-full-btn">Access Full Archive ↗</a>
-        `;
-        document.getElementById("newsModalSource").textContent = `SOURCE: ${news.author || 'UNKNOWN'}`;
-        document.getElementById("newsModalDate").textContent = `TIMESTAMP: ${news.pubDate || 'N/A'}`;
-        document.getElementById("newsModal").style.display = "flex";
-    }
-
-    function closeNewsModal(){
-        document.getElementById("newsModal").style.display = "none";
+        // Get Playlist ID
+        const playlistId = spotifyPlaylists[genreKey];
+        
+        // Construct Embed URL
+        const embedUrl = `https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0`;
+        
+        // Swap Iframe Source
+        const playerFrame = document.getElementById('spotifyPlayer');
+        playerFrame.src = embedUrl;
     }
 
     /* =========================
@@ -830,9 +620,8 @@
        INITIALIZATION
     ========================= */
     window.onload = () => {
-        getNews();
-        searchMovies();
-        switchMediaTab('video'); // Start with Video tab active
+        searchMovies(); // Load trending movies by default
+        // Music loads via default iframe src in HTML
     };
 </script>
 

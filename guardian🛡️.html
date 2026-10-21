@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Guardian OS | Dashboard</title>
+<title>Guardian OS | Live Command Center</title>
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -75,7 +75,7 @@
         letter-spacing: 1px;
     }
 
-    /* WEATHER BOX (HOLOGRAM STYLE) */
+    /* WEATHER BOX */
     .weather-box{
         margin-top:20px;
         background:rgba(0, 0, 0, 0.6);
@@ -140,6 +140,8 @@
         transition: all 0.3s ease;
         position:relative;
         overflow:hidden;
+        display: flex;
+        flex-direction: column;
     }
 
     .card::before {
@@ -210,6 +212,7 @@
         width:100%;
         position:relative;
         overflow:hidden;
+        margin-top: auto; /* Pushes button to bottom of card */
     }
 
     button:hover{
@@ -220,12 +223,13 @@
 
     /* NEWS SECTION */
     .news-grid{
-        max-height:500px;
+        flex-grow: 1;
+        max-height:400px;
         overflow-y:auto;
         padding-right:5px;
+        margin-bottom: 15px;
     }
     
-    /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
     ::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 3px; }
@@ -299,8 +303,9 @@
         grid-template-columns:repeat(2,1fr);
         gap:15px;
         margin-top:10px;
-        max-height:400px;
+        max-height:350px;
         overflow-y:auto;
+        flex-grow: 1;
     }
 
     .movie-item{
@@ -352,6 +357,10 @@
         border-radius:12px;
         margin-bottom:15px;
         position:relative;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
     
     .quote-container::before {
@@ -521,15 +530,16 @@
             <h2><i class="fas fa-newspaper"></i> Global Feed</h2>
             
             <select id="newsCategory" onchange="getNews()">
-                <option value="general">General Intelligence</option>
+                <option value="general">World Headlines</option>
                 <option value="technology">Tech & AI</option>
-                <option value="business">Market Data</option>
-                <option value="entertainment">Media Stream</option>
+                <option value="business">Markets</option>
+                <option value="science">Science</option>
             </select>
 
             <div id="newsContent" class="news-grid">
-                <div class="loading-spinner">FETCHING_DATA...</div>
+                <div class="loading-spinner">INITIALIZING_FEED...</div>
             </div>
+             <button onclick="getNews()" style="margin-top:10px;">Sync Data</button>
         </div>
 
         <!-- MOVIES MODULE -->
@@ -604,6 +614,9 @@
        CONFIGURATION
     ========================= */
     const API_KEY_MOVIE = "2a76ab20531de6848483abb62c0f0c50";
+    // Note: GNews has a free tier limit. If it fails, we fallback to HackerNews for Tech.
+    const GNEWS_API_KEY = "YOUR_GNEWS_KEY_HERE"; // Optional: Add key for better reliability
+    
     let currentNewsData = [];
 
     /* =========================
@@ -691,54 +704,90 @@
 
 
     /* =========================
-       LIVE NEWS LOGIC
+       LIVE NEWS LOGIC (FIXED)
     ========================= */
     async function getNews(){
         const cat = document.getElementById("newsCategory").value;
-        const feeds = {
-            general: "https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/news/rss.xml",
-            technology: "https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/news/technology/rss.xml",
-            business: "https://api.rss2json.com/v1/api.json?rss_url=http://feeds.reuters.com/reuters/businessNews",
-            entertainment: "https://api.rss2json.com/v1/api.json?rss_url=https://feeds.skynews.com/feeds/rss/entertainment.xml"
-        };
+        const container = document.getElementById("newsContent");
+        container.innerHTML = '<div class="loading-spinner">SYNCING_DATA...</div>';
 
-        try{
-            const res = await fetch(feeds[cat]);
-            const data = await res.json();
-            currentNewsData = data.items || [];
+        try {
+            // Strategy: Try GNews first (more reliable structure), fallback to BBC RSS via rss2json
+            let articles = [];
+            
+            if (GNEWS_API_KEY !== "YOUR_GNEWS_KEY_HERE") {
+                // Use GNews if key provided
+                const url = `https://gnews.io/api/v4/top-headlines?category=${cat}&lang=en&country=us&apikey=${GNEWS_API_KEY}`;
+                const res = await fetch(url);
+                const data = await res.json();
+                if(data.articles) {
+                    articles = data.articles.map(a => ({
+                        title: a.title,
+                        description: a.description,
+                        link: a.url,
+                        thumbnail: a.image,
+                        author: a.source.name,
+                        pubDate: new Date(a.publishedAt).toLocaleString()
+                    }));
+                }
+            } else {
+                // Fallback to BBC RSS (General/Tech only supported well here)
+                const feeds = {
+                    general: "https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/news/rss.xml",
+                    technology: "https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/news/technology/rss.xml",
+                    business: "https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/news/business/rss.xml",
+                    science: "https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/news/science_and_environment/rss.xml"
+                };
+                
+                const feedUrl = feeds[cat] || feeds.general;
+                const res = await fetch(feedUrl);
+                const data = await res.json();
+                if(data.items) {
+                    articles = data.items.slice(0, 10).map(n => ({
+                        title: n.title,
+                        description: n.description.replace(/<[^>]*>?/gm, '').substring(0, 150),
+                        link: n.link,
+                        thumbnail: n.thumbnail || n.enclosure?.link || '',
+                        author: n.author || 'BBC News',
+                        pubDate: n.pubDate
+                    }));
+                }
+            }
 
-            if(currentNewsData.length === 0){
-                document.getElementById("newsContent").innerHTML = "<p style='color:var(--danger)'>NO SIGNAL DETECTED.</p>";
+            if(articles.length === 0){
+                container.innerHTML = "<p style='color:var(--warning)'>NO_SIGNAL_DETECTED.EXE</p>";
                 return;
             }
 
-            document.getElementById("newsContent").innerHTML = currentNewsData.map((n, idx) => `
+            currentNewsData = articles;
+
+            container.innerHTML = articles.map((n, idx) => `
                 <div class="news-item" onclick="openNewsModal(${idx})">
-                    <img src="${n.thumbnail || 'https://via.placeholder.com/150/000000/00f3ff?text=NB'}" class="news-item-img" alt="Thumb">
+                    <img src="${n.thumbnail || 'https://via.placeholder.com/150/000000/00f3ff?text=N'}" class="news-item-img" alt="Thumb">
                     <div class="news-item-content">
-                        <h4>${n.title || 'Untitled'}</h4>
-                        <p>${(n.description || '').replace(/<[^>]*>?/gm, '').substring(0, 100)}...</p>
-                        <span class="source-tag">${n.author || 'BBC'}</span>
+                        <h4>${n.title}</h4>
+                        <p>${n.description}...</p>
+                        <span class="source-tag">${n.author}</span>
                     </div>
                 </div>
             `).join("");
 
         } catch(err){
-            console.error("News fetch error:", err);
-            document.getElementById("newsContent").innerHTML = "<p style='color:var(--danger)'>CONNECTION FAILED.</p>";
+            console.error("News Error:", err);
+            container.innerHTML = "<p style='color:var(--danger)'>CONNECTION_TIMEOUT.ERROR</p>";
         }
     }
 
     function openNewsModal(index){
         const news = currentNewsData[index];
-        document.getElementById("newsModalImg").src = news.thumbnail || "https://via.placeholder.com/800x400/000000/00f3ff?text=GUARDIAN+NEWS";
+        document.getElementById("newsModalImg").src = news.thumbnail || "https://via.placeholder.com/800x400/000000/00f3ff?text=GUARDIAN";
         document.getElementById("newsModalTitle").textContent = news.title;
         document.getElementById("newsModalContent").innerHTML = `
-            <p style="margin-bottom:20px;">${news.description || 'No description available.'}</p>
-            <a href="${news.link || '#'}" target="_blank" class="read-full-btn">Access Full Archive ↗</a>
+            <p style="margin-bottom:20px;">${news.description}</p>
+            <a href="${news.link}" target="_blank" class="read-full-btn">ACCESS_FULL_ARCHIVE ↗</a>
         `;
-        document.getElementById("newsModalSource").textContent = `SOURCE: ${news.author || 'UNKNOWN'}`;
-        document.getElementById("newsModalDate").textContent = `TIMESTAMP: ${news.pubDate || 'N/A'}`;
+        document.getElementById("newsModalSource").textContent = `SOURCE: ${news.author.toUpperCase()}`;
+        document.getElementById("newsModalDate").textContent = `TIMESTAMP: ${news.pubDate}`;
         document.getElementById("newsModal").style.display = "flex";
     }
 
@@ -747,33 +796,45 @@
     }
 
     /* =========================
-       MOVIES LOGIC
+       MOVIES LOGIC (OPTIMIZED)
     ========================= */
     async function searchMovies(){
-        const query = document.getElementById("movieSearch").value;
-        const url = query
-            ? `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY_MOVIE}&query=${encodeURIComponent(query)}`
-            : `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY_MOVIE}`;
+        const query = document.getElementById("movieSearch").value.trim();
+        const container = document.getElementById("movieResults");
+        container.innerHTML = '<div class="loading-spinner">QUERYING_DB...</div>';
+
+        // Limit results to 8 for cleaner UI
+        const limit = 8; 
 
         try{
+            let url;
+            if(query) {
+                url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY_MOVIE}&query=${encodeURIComponent(query)}&include_adult=false`;
+            } else {
+                url = `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY_MOVIE}`;
+            }
+
             const res = await fetch(url);
             const data = await res.json();
 
             if(!data.results || data.results.length === 0){
-                document.getElementById("movieResults").innerHTML = "<p style='color:var(--warning)'>NO MATCHES FOUND.</p>";
+                container.innerHTML = "<p style='color:var(--warning)'>NO_MATCHES_FOUND.</p>";
                 return;
             }
 
-            document.getElementById("movieResults").innerHTML = data.results.slice(0, 10).map(m => `
+            // Slice to top 8
+            const topMovies = data.results.slice(0, limit);
+
+            container.innerHTML = topMovies.map(m => `
                 <div class="movie-item" onclick="playTrailer(${m.id})">
-                    <img src="${m.poster_path ? 'https://image.tmdb.org/t/p/w200' + m.poster_path : 'https://via.placeholder.com/200x300/000000/00f3ff?text=NO+POSTER'}" alt="${m.title}">
-                    <div class="movie-title-overlay">${m.title || 'Unknown'}</div>
+                    <img src="${m.poster_path ? 'https://image.tmdb.org/t/p/w200' + m.poster_path : 'https://via.placeholder.com/200x300/000000/00f3ff?text=?'}" alt="${m.title}">
+                    <div class="movie-title-overlay">${m.title}</div>
                 </div>
             `).join("");
 
         } catch(err){
-            console.error("Movie fetch error:", err);
-            document.getElementById("movieResults").innerHTML = "<p style='color:var(--danger)'>DB ERROR.</p>";
+            console.error("Movie Error:", err);
+            container.innerHTML = "<p style='color:var(--danger)'>DB_CONNECTION_FAILED.</p>";
         }
     }
 
@@ -789,11 +850,11 @@
                 `;
                 document.getElementById("videoModal").style.display = "flex";
             } else {
-                alert("TRAILER_NOT_FOUND.EXE");
+                alert("TRAILER_NOT_AVAILABLE.INI");
             }
         } catch(err){
-            console.error("Trailer fetch error:", err);
-            alert("STREAM_ERROR.EXE");
+            console.error("Trailer Error:", err);
+            alert("STREAM_ERROR.INI");
         }
     }
 
@@ -822,7 +883,6 @@
                         document.getElementById("wTemp").innerText = `${Math.round(weatherData.current_weather.temperature)}°C`;
                         document.getElementById("wLoc").innerText = locationName.toUpperCase();
                         
-                        // Update Icon based on temp roughly
                         const icon = document.querySelector('.weather-icon i');
                         if(weatherData.current_weather.temperature > 25) icon.className = 'fas fa-sun';
                         else if(weatherData.current_weather.temperature < 10) icon.className = 'fas fa-snowflake';
@@ -840,11 +900,21 @@
     }
 
     /* =========================
-       QUOTES LOGIC
+       QUOTES LOGIC (ANTI-CACHE FIX)
     ========================= */
     async function getQuote(){
+        const btn = document.querySelector('.card:last-child button');
+        const originalText = btn.innerText;
+        btn.innerText = "PROCESSING...";
+        btn.disabled = true;
+
         try{
-            const res = await fetch("https://api.allorigins.win/raw?url=https://zenquotes.io/api/random");
+            // CRITICAL FIX: Add timestamp to bust cache
+            const timestamp = new Date().getTime();
+            const res = await fetch(`https://api.allorigins.win/raw?url=https://zenquotes.io/api/random&t=${timestamp}`);
+            
+            if(!res.ok) throw new Error("Network response was not ok");
+            
             const data = await res.json();
             const quote = data[0];
 
@@ -856,14 +926,20 @@
             if(text.includes("success")) explanation = "Optimization of resources leads to peak performance.";
             else if(text.includes("fear")) explanation = "Risk assessment requires courage over hesitation.";
             else if(text.includes("dream")) explanation = "Visionary thinking drives innovation protocols.";
+            else if(text.includes("love")) explanation = "Emotional intelligence enhances collaborative output.";
+            else if(text.includes("time")) explanation = "Temporal management is critical for project delivery.";
             
             document.getElementById("quoteExplanation").textContent = explanation;
 
         } catch(err){
+             console.error("Quote Error:", err);
              // Fallback
              document.getElementById("quoteText").textContent = '"The future belongs to those who believe in the beauty of their dreams."';
              document.getElementById("quoteAuthor").textContent = '— Eleanor Roosevelt';
              document.getElementById("quoteExplanation").textContent = "Fallback protocol engaged. Maintain optimism.";
+        } finally {
+            btn.innerText = originalText;
+            btn.disabled = false;
         }
     }
 

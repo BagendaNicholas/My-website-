@@ -4,766 +4,878 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Guardian Dashboard Pro ����️</title>
+<title>Guardian OS | Dashboard</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
 <style>
+    /* --- GUARDIAN VARIABLES --- */
+    :root {
+        --bg-deep: #050505;
+        --neon-cyan: #00f3ff;
+        --neon-purple: #bc13fe;
+        --glass-bg: rgba(15, 15, 20, 0.7);
+        --border-color: rgba(0, 243, 255, 0.2);
+        --text-main: #ffffff;
+        --text-dim: #a0a0a0;
+        --success: #00ff64;
+        --warning: #ffaa00;
+        --danger: #ff3232;
+    }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        cursor: crosshair;
+    }
 
-body{
-    background:linear-gradient(135deg,#0f172a,#1e293b,#334155);
-    color:#f8fafc;
-    font-family:'Segoe UI',Roboto,sans-serif;
-    min-height:100vh;
-    padding:20px;
-}
+    body{
+        background:#050505;
+        color:#fff;
+        font-family:'Poppins',sans-serif;
+        min-height:100vh;
+        padding:20px;
+        position:relative;
+        overflow-x:hidden;
+    }
 
-/* HEADER */
+    /* BACKGROUND CANVAS LAYER */
+    #network-canvas {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        z-index: -1;
+        opacity: 0.3;
+        pointer-events: none;
+    }
 
-.header{
-    text-align:center;
-    margin-bottom:30px;
-}
+    /* HEADER */
+    .header{
+        text-align:center;
+        margin-bottom:30px;
+        position:relative;
+        z-index: 1;
+    }
 
-.header h1{
-    font-size:2.5rem;
-    margin-bottom:8px;
-}
+    .header h1{
+        font-family:'Orbitron', sans-serif;
+        font-size:2.5rem;
+        margin-bottom:8px;
+        color:var(--neon-cyan);
+        text-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
 
-.weather-box{
-    margin-top:20px;
-    background:rgba(255,255,255,0.08);
-    border-radius:15px;
-    padding:15px;
-    display:inline-block;
-    min-width:260px;
-    backdrop-filter:blur(10px);
-    border:1px solid rgba(255,255,255,0.1);
-}
+    .header p{
+        color:var(--text-dim);
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+    }
 
-/* DASHBOARD */
+    /* WEATHER BOX (HOLOGRAM STYLE) */
+    .weather-box{
+        margin-top:20px;
+        background:rgba(0, 0, 0, 0.6);
+        border:1px solid var(--border-color);
+        border-radius:12px;
+        padding:15px 25px;
+        display:inline-flex;
+        align-items:center;
+        gap:15px;
+        backdrop-filter:blur(10px);
+        box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
+        animation: float 6s ease-in-out infinite;
+    }
 
-.dashboard{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-    gap:25px;
-    max-width:1400px;
-    margin:auto;
-}
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
 
-.card{
-    background:rgba(30,41,59,0.7);
-    border-radius:20px;
-    padding:20px;
-    backdrop-filter:blur(12px);
-    border:1px solid rgba(255,255,255,0.1);
-}
+    .weather-icon {
+        font-size: 2rem;
+        color: var(--neon-cyan);
+        filter: drop-shadow(0 0 5px var(--neon-cyan));
+    }
 
-h2{
-    margin-bottom:15px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
+    .weather-data {
+        text-align: left;
+    }
 
-/* INPUTS */
+    .weather-temp {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 1.5rem;
+        color: white;
+        font-weight: 700;
+    }
 
-input,
-select{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    background:rgba(255,255,255,0.08);
-    color:white;
-    margin-bottom:10px;
-}
+    .weather-loc {
+        font-size: 0.8rem;
+        color: var(--text-dim);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
 
-input::placeholder,
-select option {
-    color:rgba(255,255,255,0.6);
-}
+    /* DASHBOARD GRID */
+    .dashboard{
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+        gap:25px;
+        max-width:1400px;
+        margin:auto;
+        position:relative;
+        z-index: 1;
+    }
 
-button{
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    background:#3b82f6;
-    color:white;
-    cursor:pointer;
-    font-weight:bold;
-    transition:0.3s;
-    width:100%;
-}
+    /* CARDS */
+    .card{
+        background:var(--glass-bg);
+        border-radius:16px;
+        padding:25px;
+        backdrop-filter:blur(12px);
+        border:1px solid var(--border-color);
+        transition: all 0.3s ease;
+        position:relative;
+        overflow:hidden;
+    }
 
-button:hover{
-    background:#2563eb;
-    transform:scale(1.02);
-}
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; height: 2px;
+        background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+        opacity: 0.5;
+    }
 
-/* NEWS */
+    .card:hover {
+        border-color: var(--neon-cyan);
+        box-shadow: 0 0 30px rgba(0, 243, 255, 0.15);
+        transform: translateY(-5px);
+    }
 
-.news-grid{
-    max-height:600px;
-    overflow-y:auto;
-}
+    h2{
+        font-family:'Orbitron', sans-serif;
+        margin-bottom:20px;
+        display:flex;
+        align-items:center;
+        gap:10px;
+        color:white;
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        padding-bottom: 10px;
+    }
 
-.news-item{
-    background:rgba(255,255,255,0.05);
-    border-radius:14px;
-    margin-top:15px;
-    cursor:pointer;
-    transition:0.3s;
-    border-left:4px solid #3b82f6;
-    overflow:hidden;
-    display:flex;
-    gap:12px;
-    padding:10px;
-}
+    h2 i {
+        color: var(--neon-cyan);
+    }
 
-.news-item:hover{
-    background:rgba(59,130,246,0.15);
-    transform:translateX(8px);
-}
+    /* INPUTS & BUTTONS */
+    input, select{
+        width:100%;
+        padding:12px;
+        border:1px solid rgba(255,255,255,0.1);
+        border-radius:8px;
+        background:rgba(0,0,0,0.3);
+        color:white;
+        margin-bottom:15px;
+        font-family: 'Poppins', sans-serif;
+        transition: 0.3s;
+    }
 
-.news-item-img{
-    width:110px;
-    height:90px;
-    object-fit:cover;
-    border-radius:8px;
-    flex-shrink:0;
-}
+    input:focus, select:focus {
+        outline:none;
+        border-color: var(--neon-cyan);
+        box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+        background: rgba(0,0,0,0.5);
+    }
 
-.news-item-content{
-    padding:0;
-    flex:1;
-}
+    button{
+        padding:12px;
+        border:none;
+        border-radius:8px;
+        background:transparent;
+        border:1px solid var(--neon-cyan);
+        color:var(--neon-cyan);
+        cursor:pointer;
+        font-weight:bold;
+        font-family:'Orbitron', sans-serif;
+        text-transform:uppercase;
+        letter-spacing:1px;
+        transition:0.3s;
+        width:100%;
+        position:relative;
+        overflow:hidden;
+    }
 
-.news-item h4{
-    margin-bottom:6px;
-    color:#3b82f6;
-    font-size:0.95rem;
-}
+    button:hover{
+        background:var(--neon-cyan);
+        color:black;
+        box-shadow: 0 0 15px var(--neon-cyan);
+    }
 
-.news-item p{
-    font-size:0.82rem;
-    opacity:0.85;
-    line-height:1.4;
-}
+    /* NEWS SECTION */
+    .news-grid{
+        max-height:500px;
+        overflow-y:auto;
+        padding-right:5px;
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+    ::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 3px; }
 
-.source{
-    font-size:0.75rem;
-    color:#94a3b8;
-    margin-top:5px;
-    display:block;
-}
+    .news-item{
+        background:rgba(255,255,255,0.03);
+        border-radius:10px;
+        margin-bottom:15px;
+        cursor:pointer;
+        transition:0.3s;
+        border-left:3px solid transparent;
+        display:flex;
+        gap:15px;
+        padding:12px;
+        align-items:center;
+    }
 
-/* MOVIES */
+    .news-item:hover{
+        background:rgba(0, 243, 255, 0.05);
+        border-left-color: var(--neon-cyan);
+        transform: translateX(5px);
+    }
 
-.movie-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-    margin-top:10px;
-    max-height:450px;
-    overflow-y:auto;
-}
+    .news-item-img{
+        width:80px;
+        height:60px;
+        object-fit:cover;
+        border-radius:6px;
+        flex-shrink:0;
+        filter: grayscale(100%) brightness(0.8);
+        transition: 0.3s;
+    }
 
-.movie-item{
-    background:rgba(0,0,0,0.2);
-    padding:6px;
-    border-radius:10px;
-    cursor:pointer;
-    text-align:center;
-    transition:0.3s;
-}
+    .news-item:hover .news-item-img {
+        filter: grayscale(0%) brightness(1);
+    }
 
-.movie-item:hover{
-    transform:scale(1.05);
-    background:rgba(59,130,246,0.2);
-}
+    .news-item-content h4{
+        margin-bottom:5px;
+        color:white;
+        font-size:0.9rem;
+        line-height:1.3;
+        display:-webkit-box;
+        -webkit-line-clamp:2;
+        -webkit-box-orient:vertical;
+        overflow:hidden;
+    }
 
-.movie-item img{
-    width:100%;
-    border-radius:8px;
-    margin-bottom:5px;
-    height:auto;
-}
+    .news-item-content p{
+        font-size:0.75rem;
+        color:var(--text-dim);
+        line-height:1.4;
+        display:-webkit-box;
+        -webkit-line-clamp:2;
+        -webkit-box-orient:vertical;
+        overflow:hidden;
+    }
 
-.movie-item p{
-    font-size:0.85rem;
-    word-break:break-word;
-}
+    .source-tag {
+        font-size: 0.65rem;
+        color: var(--neon-cyan);
+        margin-top: 5px;
+        display: block;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
 
-/* QUOTES */
+    /* MOVIES SECTION */
+    .movie-grid{
+        display:grid;
+        grid-template-columns:repeat(2,1fr);
+        gap:15px;
+        margin-top:10px;
+        max-height:400px;
+        overflow-y:auto;
+    }
 
-.quote-container{
-    background:rgba(59,130,246,0.1);
-    border-left:4px solid #3b82f6;
-    padding:15px;
-    border-radius:10px;
-    margin-bottom:15px;
-}
+    .movie-item{
+        background:rgba(0,0,0,0.3);
+        border-radius:8px;
+        overflow:hidden;
+        cursor:pointer;
+        transition:0.3s;
+        border:1px solid transparent;
+        position:relative;
+    }
 
-#quoteText{
-    font-size:1.1rem;
-    line-height:1.5;
-    font-style:italic;
-    margin-bottom:10px;
-}
+    .movie-item:hover{
+        border-color: var(--neon-purple);
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(188, 19, 254, 0.3);
+        z-index: 2;
+    }
 
-#quoteAuthor{
-    color:#3b82f6;
-    margin-bottom:15px;
-    font-weight:bold;
-}
+    .movie-item img{
+        width:100%;
+        aspect-ratio: 2/3;
+        object-fit:cover;
+        display:block;
+    }
 
-.quote-explanation{
-    background:rgba(255,255,255,0.05);
-    padding:12px;
-    border-radius:8px;
-    border-left:3px solid #10b981;
-}
+    .movie-title-overlay {
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+        padding: 10px;
+        color: white;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-align: center;
+        opacity: 0;
+        transition: 0.3s;
+    }
 
-.quote-explanation-title{
-    color:#10b981;
-    margin-bottom:6px;
-    font-weight:bold;
-}
+    .movie-item:hover .movie-title-overlay {
+        opacity: 1;
+    }
 
-.quote-explanation-text{
-    font-size:0.85rem;
-    line-height:1.5;
-}
+    /* QUOTES SECTION */
+    .quote-container{
+        background:rgba(0, 0, 0, 0.4);
+        border:1px solid rgba(255,255,255,0.05);
+        padding:20px;
+        border-radius:12px;
+        margin-bottom:15px;
+        position:relative;
+    }
+    
+    .quote-container::before {
+        content: '"';
+        position: absolute;
+        top: -10px; left: 10px;
+        font-size: 4rem;
+        color: rgba(0, 243, 255, 0.1);
+        font-family: serif;
+    }
 
-/* MODALS */
+    #quoteText{
+        font-size:1.1rem;
+        line-height:1.6;
+        font-style:italic;
+        color:white;
+        margin-bottom:15px;
+        position:relative;
+        z-index:1;
+    }
 
-#videoModal,
-#newsModal{
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.92);
-    z-index:1000;
-    justify-content:center;
-    align-items:center;
-}
+    #quoteAuthor{
+        color:var(--neon-cyan);
+        font-weight:bold;
+        font-family:'Orbitron', sans-serif;
+        font-size:0.9rem;
+        text-align:right;
+        display:block;
+    }
 
-.modal-inner,
-.news-modal-inner{
-    width:90%;
-    max-width:850px;
-    position:relative;
-}
+    .quote-explanation{
+        background:rgba(255,255,255,0.03);
+        padding:12px;
+        border-radius:8px;
+        border-left:2px solid var(--success);
+        margin-top:15px;
+    }
 
-.news-modal-inner{
-    background:#1e293b;
-    padding:25px;
-    border-radius:20px;
-    overflow-y:auto;
-    max-height:90vh;
-}
+    .quote-explanation-title{
+        color:var(--success);
+        margin-bottom:5px;
+        font-weight:bold;
+        font-size:0.8rem;
+        text-transform:uppercase;
+        letter-spacing:1px;
+    }
 
-.close-btn,
-.close-news-btn{
-    position:absolute;
-    top:10px;
-    right:10px;
-    background:#ef4444;
-    padding:10px 15px;
-    border-radius:8px;
-    z-index:1001;
-    border:none;
-    color:white;
-    cursor:pointer;
-    font-weight:bold;
-    width:auto;
-}
+    .quote-explanation-text{
+        font-size:0.85rem;
+        line-height:1.5;
+        color:#ccc;
+    }
 
-.close-btn:hover,
-.close-news-btn:hover {
-    background:#dc2626;
-}
+    /* MODALS */
+    #videoModal, #newsModal{
+        display:none;
+        position:fixed;
+        top:0; left:0;
+        width:100%; height:100%;
+        background:rgba(0,0,0,0.95);
+        backdrop-filter: blur(10px);
+        z-index:2000;
+        justify-content:center;
+        align-items:center;
+        animation: fadeIn 0.3s ease;
+    }
 
-.news-modal-img{
-    width:100%;
-    border-radius:12px;
-    margin-bottom:20px;
-    margin-top:30px;
-    max-height:400px;
-    object-fit:cover;
-}
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-a{
-    color:white;
-    text-decoration:none;
-}
+    .modal-inner, .news-modal-inner{
+        width:90%;
+        max-width:900px;
+        position:relative;
+        background:var(--glass-bg);
+        border:1px solid var(--border-color);
+        border-radius:16px;
+        padding:20px;
+        box-shadow: 0 0 50px rgba(0, 243, 255, 0.2);
+    }
 
-.location-name{
-    color:#10b981;
-    font-weight:bold;
-    font-size:1.1rem;
-}
+    .close-btn, .close-news-btn{
+        position:absolute;
+        top:-15px; right:-15px;
+        background:var(--danger);
+        color:white;
+        width:40px; height:40px;
+        border-radius:50%;
+        border:none;
+        cursor:pointer;
+        font-size:1.2rem;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        box-shadow: 0 0 10px var(--danger);
+        transition: 0.3s;
+        z-index: 10;
+    }
+
+    .close-btn:hover, .close-news-btn:hover {
+        transform: rotate(90deg) scale(1.1);
+        background: #ff0000;
+    }
+
+    .news-modal-img{
+        width:100%;
+        border-radius:12px;
+        margin-bottom:20px;
+        max-height:300px;
+        object-fit:cover;
+        border:1px solid rgba(255,255,255,0.1);
+    }
+
+    .read-full-btn {
+        display:inline-block;
+        margin-top:15px;
+        padding:10px 20px;
+        background:var(--neon-cyan);
+        color:black;
+        font-weight:bold;
+        text-decoration:none;
+        border-radius:6px;
+        font-family:'Orbitron', sans-serif;
+        text-transform:uppercase;
+        font-size:0.8rem;
+        transition:0.3s;
+    }
+    .read-full-btn:hover {
+        box-shadow: 0 0 15px var(--neon-cyan);
+        transform: translateY(-2px);
+    }
+
+    /* LOADING STATES */
+    .loading-spinner {
+        text-align: center;
+        padding: 20px;
+        color: var(--neon-cyan);
+        font-family: 'Orbitron', sans-serif;
+        animation: blink 1s infinite;
+    }
+    @keyframes blink { 50% { opacity: 0.5; } }
 
 </style>
 </head>
 
 <body>
 
-<div class="header">
+    <!-- Living Background Canvas -->
+    <canvas id="network-canvas"></canvas>
 
-    <h1>🛡️ Guardian Dashboard Pro</h1>
-
-    <p>Your Daily Source of Inspiration & Entertainment</p>
-
-    <div id="weatherBox" class="weather-box">
-
-        🌍 Detecting your weather...
-
+    <div class="header">
+        <h1><i class="fas fa-shield-alt"></i> Guardian OS</h1>
+        <p>// SYSTEM_ONLINE // DATA_STREAM_ACTIVE</p>
+        
+        <div id="weatherBox" class="weather-box">
+            <div class="weather-icon"><i class="fas fa-satellite-dish"></i></div>
+            <div class="weather-data">
+                <div class="weather-temp" id="wTemp">--°C</div>
+                <div class="weather-loc" id="wLoc">Scanning...</div>
+            </div>
+        </div>
     </div>
 
-</div>
+    <div class="dashboard">
 
-<div class="dashboard">
+        <!-- NEWS MODULE -->
+        <div class="card">
+            <h2><i class="fas fa-newspaper"></i> Global Feed</h2>
+            
+            <select id="newsCategory" onchange="getNews()">
+                <option value="general">General Intelligence</option>
+                <option value="technology">Tech & AI</option>
+                <option value="business">Market Data</option>
+                <option value="entertainment">Media Stream</option>
+            </select>
 
-    <!-- NEWS -->
+            <div id="newsContent" class="news-grid">
+                <div class="loading-spinner">FETCHING_DATA...</div>
+            </div>
+        </div>
 
-    <div class="card">
+        <!-- MOVIES MODULE -->
+        <div class="card">
+            <h2><i class="fas fa-film"></i> Cinema DB</h2>
+            
+            <input type="text"
+                   id="movieSearch"
+                   placeholder="Query title..."
+                   onkeyup="if(event.key==='Enter') searchMovies()">
 
-        <h2>📰 Live Global News</h2>
+            <button onclick="searchMovies()">
+                Execute Search
+            </button>
 
-        <select id="newsCategory" onchange="getNews()">
+            <div id="movieResults" class="movie-grid">
+                 <div class="loading-spinner">LOADING_TRENDING...</div>
+            </div>
+        </div>
 
-            <option value="general">General</option>
+        <!-- WISDOM MODULE -->
+        <div class="card">
+            <h2><i class="fas fa-brain"></i> Neural Wisdom</h2>
 
-            <option value="technology">Technology</option>
-
-            <option value="business">Business</option>
-
-            <option value="entertainment">Entertainment</option>
-
-        </select>
-
-        <div id="newsContent" class="news-grid"></div>
-
-    </div>
-
-    <!-- MOVIES -->
-
-    <div class="card">
-
-        <h2>🎬 Movie Finder</h2>
-
-        <input type="text"
-               id="movieSearch"
-               placeholder="Search for a movie..."
-               onkeyup="if(event.key==='Enter') searchMovies()">
-
-        <button onclick="searchMovies()">
-            Search
-        </button>
-
-        <div id="movieResults" class="movie-grid"></div>
-
-    </div>
-
-    <!-- QUOTES -->
-
-    <div class="card">
-
-        <h2>💬 Daily Wisdom</h2>
-
-        <div class="quote-container">
-
-            <p id="quoteText"></p>
-
-            <p id="quoteAuthor"></p>
-
-            <div class="quote-explanation">
-
-                <div class="quote-explanation-title">
-                    💡 What This Means:
+            <div class="quote-container">
+                <p id="quoteText">Awaiting transmission...</p>
+                <p id="quoteAuthor">SYSTEM</p>
+                
+                <div class="quote-explanation">
+                    <div class="quote-explanation-title">
+                        Analysis Protocol:
+                    </div>
+                    <p id="quoteExplanation" class="quote-explanation-text">
+                        Processing semantic meaning...
+                    </p>
                 </div>
-
-                <p id="quoteExplanation"
-                   class="quote-explanation-text"></p>
-
             </div>
 
-        </div>
-
-        <button onclick="getQuote()"
-                style="margin-top:0;">
-
-            New Wisdom
-
-        </button>
-
-    </div>
-
-</div>
-
-<!-- VIDEO MODAL -->
-
-<div id="videoModal">
-
-    <div class="modal-inner">
-
-        <button class="close-btn"
-                onclick="closeModal()">
-
-            ✕ Close
-
-        </button>
-
-        <div id="videoPlayer"
-             style="aspect-ratio:16/9;">
+            <button onclick="getQuote()">
+                Refresh Signal
+            </button>
         </div>
 
     </div>
 
-</div>
-
-<!-- NEWS MODAL -->
-
-<div id="newsModal">
-
-    <div class="news-modal-inner">
-
-        <button class="close-news-btn"
-                onclick="closeNewsModal()">
-
-            ✕ Close
-
-        </button>
-
-        <img id="newsModalImg"
-             class="news-modal-img"
-             alt="News image">
-
-        <h2 id="newsModalTitle"
-            style="margin-bottom:15px;color:#3b82f6;">
-        </h2>
-
-        <div id="newsModalContent"
-             style="line-height:1.7;margin-bottom:20px;">
+    <!-- VIDEO MODAL -->
+    <div id="videoModal">
+        <div class="modal-inner">
+            <button class="close-btn" onclick="closeModal()">✕</button>
+            <div id="videoPlayer" style="aspect-ratio:16/9; background:#000; border-radius:8px; overflow:hidden;">
+            </div>
         </div>
-
-        <div style="
-            padding:15px;
-            background:rgba(255,255,255,0.05);
-            border-radius:10px;
-        ">
-
-            <p id="newsModalSource"
-               style="font-size:0.85rem;color:#94a3b8;margin-bottom:8px;">
-            </p>
-
-            <p id="newsModalDate"
-               style="font-size:0.8rem;color:#64748b;">
-            </p>
-
-        </div>
-
     </div>
 
-</div>
+    <!-- NEWS MODAL -->
+    <div id="newsModal">
+        <div class="news-modal-inner">
+            <button class="close-news-btn" onclick="closeNewsModal()">✕</button>
+            <img id="newsModalImg" class="news-modal-img" alt="Article Image">
+            <h2 id="newsModalTitle" style="margin-bottom:15px;color:var(--neon-cyan); font-family:'Orbitron', sans-serif;"></h2>
+            <div id="newsModalContent" style="line-height:1.7;margin-bottom:20px;color:#ddd;">
+            </div>
+            <div style="padding:15px; background:rgba(0,0,0,0.3); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+                <p id="newsModalSource" style="font-size:0.85rem;color:var(--text-dim);margin-bottom:8px;"></p>
+                <p id="newsModalDate" style="font-size:0.8rem;color:#64748b;"></p>
+            </div>
+        </div>
+    </div>
 
 <script>
+    /* =========================
+       CONFIGURATION
+    ========================= */
+    const API_KEY_MOVIE = "2a76ab20531de6848483abb62c0f0c50";
+    let currentNewsData = [];
 
-/* =========================
-   MOVIE API
-========================= */
+    /* =========================
+       PARTICLE NETWORK ANIMATION
+    ========================= */
+    const canvas = document.getElementById('network-canvas');
+    const ctx = canvas.getContext('2d');
+    let particlesArray;
+    let w, h;
 
-const API_KEY_MOVIE = "2a76ab20531de6848483abb62c0f0c50";
-
-let currentNewsData = [];
-
-/* =========================
-   LIVE NEWS
-========================= */
-
-async function getNews(){
-
-    const cat = document.getElementById("newsCategory").value;
-
-    const feeds = {
-        general: "https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/news/rss.xml",
-        technology: "https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/news/technology/rss.xml",
-        business: "https://api.rss2json.com/v1/api.json?rss_url=http://feeds.reuters.com/reuters/businessNews",
-        entertainment: "https://api.rss2json.com/v1/api.json?rss_url=https://feeds.skynews.com/feeds/rss/entertainment.xml"
-    };
-
-    try{
-        const res = await fetch(feeds[cat]);
-        const data = await res.json();
-
-        currentNewsData = data.items || [];
-
-        if(currentNewsData.length === 0){
-            document.getElementById("newsContent").innerHTML = "<p>📭 No news available.</p>";
-            return;
-        }
-
-        document.getElementById("newsContent").innerHTML = currentNewsData.map((n, idx) => `
-            <div class="news-item" onclick="openNewsModal(${idx})">
-                <img src="${n.thumbnail || 'https://via.placeholder.com/300'}" class="news-item-img" alt="News thumbnail">
-                <div class="news-item-content">
-                    <h4>📌 ${n.title || 'No title'}</h4>
-                    <p>${(n.description || '').replace(/<[^>]*>?/gm, '').substring(0, 120)}...</p>
-                    <span class="source">${n.author || 'Live News'}</span>
-                </div>
-            </div>
-        `).join("");
-
-    } catch(err){
-        console.error("News fetch error:", err);
-        document.getElementById("newsContent").innerHTML = "<p>⚠️ Failed to load live news.</p>";
+    function resize() {
+        w = window.innerWidth;
+        h = window.innerHeight;
+        canvas.width = w;
+        canvas.height = h;
+        initParticles();
     }
-}
 
-/* =========================
-   OPEN NEWS
-========================= */
-
-function openNewsModal(index){
-
-    const news = currentNewsData[index];
-
-    document.getElementById("newsModalImg").src = news.thumbnail || "https://via.placeholder.com/800x400";
-
-    document.getElementById("newsModalTitle").textContent = news.title;
-
-    document.getElementById("newsModalContent").innerHTML = `
-        <p style="margin-bottom:20px;">
-            ${news.description || 'No description available.'}
-        </p>
-        <a href="${news.link || '#'}"
-           target="_blank"
-           style="
-           display:inline-block;
-           padding:12px 20px;
-           background:#3b82f6;
-           border-radius:10px;
-           font-weight:bold;
-           ">
-            🔗 Read Full Article
-        </a>
-    `;
-
-    document.getElementById("newsModalSource").textContent = `📰 Source: ${news.author || 'Live News'}`;
-
-    document.getElementById("newsModalDate").textContent = `📅 ${news.pubDate || 'Date unavailable'}`;
-
-    document.getElementById("newsModal").style.display = "flex";
-}
-
-function closeNewsModal(){
-    document.getElementById("newsModal").style.display = "none";
-}
-
-/* =========================
-   MOVIES
-========================= */
-
-async function searchMovies(){
-
-    const query = document.getElementById("movieSearch").value;
-
-    const url = query
-        ? `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY_MOVIE}&query=${encodeURIComponent(query)}`
-        : `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY_MOVIE}`;
-
-    try{
-        const res = await fetch(url);
-        const data = await res.json();
-
-        if(!data.results || data.results.length === 0){
-            document.getElementById("movieResults").innerHTML = "<p>🎬 No movies found.</p>";
-            return;
+    class Particle {
+        constructor(x, y, directionX, directionY, size, color) {
+            this.x = x; this.y = y;
+            this.directionX = directionX; this.directionY = directionY;
+            this.size = size; this.color = color;
         }
-
-        document.getElementById("movieResults").innerHTML = data.results.map(m => `
-            <div class="movie-item" onclick="playTrailer(${m.id})">
-                <img src="${m.poster_path ? 'https://image.tmdb.org/t/p/w200' + m.poster_path : 'https://via.placeholder.com/200x300'}" alt="${m.title}">
-                <p>${m.title || 'Unknown'}</p>
-            </div>
-        `).join("");
-
-    } catch(err){
-        console.error("Movie fetch error:", err);
-        document.getElementById("movieResults").innerHTML = "<p>⚠️ Failed to load movies.</p>";
-    }
-}
-
-async function playTrailer(id){
-
-    try{
-        const res = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY_MOVIE}`);
-        const data = await res.json();
-
-        const trailer = data.results && data.results.find(v => v.type === "Trailer" && v.site === "YouTube");
-
-        if(trailer){
-            document.getElementById("videoPlayer").innerHTML = `
-                <iframe width="100%"
-                        height="100%"
-                        src="https://www.youtube.com/embed/${trailer.key}?autoplay=1"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen>
-                </iframe>
-            `;
-            document.getElementById("videoModal").style.display = "flex";
-        } else {
-            alert("No trailer available.");
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+            ctx.fillStyle = this.color;
+            ctx.fill();
         }
-
-    } catch(err){
-        console.error("Trailer fetch error:", err);
-        alert("Failed to load trailer.");
+        update() {
+            if (this.x > w || this.x < 0) this.directionX = -this.directionX;
+            if (this.y > h || this.y < 0) this.directionY = -this.directionY;
+            this.x += this.directionX;
+            this.y += this.directionY;
+            this.draw();
+        }
     }
-}
 
-function closeModal(){
-    document.getElementById("videoModal").style.display = "none";
-    document.getElementById("videoPlayer").innerHTML = "";
-}
+    function initParticles() {
+        particlesArray = [];
+        let numberOfParticles = (h * w) / 15000; 
+        for (let i = 0; i < numberOfParticles; i++) {
+            let size = (Math.random() * 2) + 1;
+            let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+            let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+            let directionX = (Math.random() * 2) - 1;
+            let directionY = (Math.random() * 2) - 1;
+            let color = '#00f3ff'; 
+            particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+        }
+    }
 
-/* =========================
-   LIVE WEATHER WITH LOCATION
-========================= */
+    function animate() {
+        requestAnimationFrame(animate);
+        ctx.clearRect(0, 0, innerWidth, innerHeight);
+        for (let i = 0; i < particlesArray.length; i++) {
+            particlesArray[i].update();
+        }
+        connectParticles();
+    }
 
-async function getWeather(){
-
-    if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(
-            async position => {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-
-                try{
-                    // Fetch weather data
-                    const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
-                    const weatherData = await weatherRes.json();
-
-                    // Fetch location name using reverse geocoding
-                    const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
-                    const geoData = await geoRes.json();
-
-                    // Extract location name (city > town > village > county)
-                    const locationName = geoData.address.city || geoData.address.town || geoData.address.village || geoData.address.county || "Your Location";
-
-                    document.getElementById("weatherBox").innerHTML = `
-                        <h3>🌤️ Your Weather</h3>
-                        <p style="margin-top:10px;">
-                            📍 <span class="location-name">${locationName}</span>
-                        </p>
-                        <p style="margin-top:8px;">
-                            🌡️ Temperature: ${weatherData.current_weather.temperature}°C
-                        </p>
-                        <p>
-                            💨 Wind Speed: ${weatherData.current_weather.windspeed} km/h
-                        </p>
-                    `;
-
-                } catch(err){
-                    console.error("Weather fetch error:", err);
-                    document.getElementById("weatherBox").innerHTML = "⚠️ Weather unavailable.";
+    function connectParticles() {
+        let opacityValue = 1;
+        for (let a = 0; a < particlesArray.length; a++) {
+            for (let b = a; b < particlesArray.length; b++) {
+                let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
+                             + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                if (distance < (w/10)*(h/10)) {
+                    opacityValue = 1 - (distance/20000);
+                    ctx.strokeStyle = `rgba(0, 243, 255, ${opacityValue})`;
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                    ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                    ctx.stroke();
                 }
-            },
-            () => {
-                document.getElementById("weatherBox").innerHTML = "📍 Please allow location access.";
             }
-        );
+        }
     }
-}
 
-/* =========================
-   LIVE QUOTES
-========================= */
+    window.addEventListener('resize', resize);
+    resize();
+    animate();
 
-async function getQuote(){
 
-    try{
-        const res = await fetch("https://api.allorigins.win/raw?url=https://zenquotes.io/api/random");
+    /* =========================
+       LIVE NEWS LOGIC
+    ========================= */
+    async function getNews(){
+        const cat = document.getElementById("newsCategory").value;
+        const feeds = {
+            general: "https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/news/rss.xml",
+            technology: "https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/news/technology/rss.xml",
+            business: "https://api.rss2json.com/v1/api.json?rss_url=http://feeds.reuters.com/reuters/businessNews",
+            entertainment: "https://api.rss2json.com/v1/api.json?rss_url=https://feeds.skynews.com/feeds/rss/entertainment.xml"
+        };
 
-        if(!res.ok){
-            throw new Error("API response not OK");
+        try{
+            const res = await fetch(feeds[cat]);
+            const data = await res.json();
+            currentNewsData = data.items || [];
+
+            if(currentNewsData.length === 0){
+                document.getElementById("newsContent").innerHTML = "<p style='color:var(--danger)'>NO SIGNAL DETECTED.</p>";
+                return;
+            }
+
+            document.getElementById("newsContent").innerHTML = currentNewsData.map((n, idx) => `
+                <div class="news-item" onclick="openNewsModal(${idx})">
+                    <img src="${n.thumbnail || 'https://via.placeholder.com/150/000000/00f3ff?text=NB'}" class="news-item-img" alt="Thumb">
+                    <div class="news-item-content">
+                        <h4>${n.title || 'Untitled'}</h4>
+                        <p>${(n.description || '').replace(/<[^>]*>?/gm, '').substring(0, 100)}...</p>
+                        <span class="source-tag">${n.author || 'BBC'}</span>
+                    </div>
+                </div>
+            `).join("");
+
+        } catch(err){
+            console.error("News fetch error:", err);
+            document.getElementById("newsContent").innerHTML = "<p style='color:var(--danger)'>CONNECTION FAILED.</p>";
         }
-
-        const data = await res.json();
-
-        if(!data || !data[0]){
-            throw new Error("No quote data");
-        }
-
-        const quote = data[0];
-
-        document.getElementById("quoteText").textContent = `"${quote.q}"`;
-        document.getElementById("quoteAuthor").textContent = `— ${quote.a}`;
-
-        const text = quote.q.toLowerCase();
-        let explanation = "This wisdom encourages reflection, growth, and positive action in life.";
-
-        if(text.includes("success")){
-            explanation = "Success comes through persistence, patience, and effort.";
-        } else if(text.includes("fear")){
-            explanation = "Courage means moving forward despite fear.";
-        } else if(text.includes("dream")){
-            explanation = "Dreams become reality through action and belief.";
-        } else if(text.includes("love")){
-            explanation = "Love creates connection and meaning in life.";
-        } else if(text.includes("time")){
-            explanation = "Time is precious because it never returns.";
-        } else if(text.includes("life")){
-            explanation = "Life teaches growth through experiences.";
-        } else if(text.includes("change")){
-            explanation = "Positive change begins with small actions.";
-        } else if(text.includes("hope")){
-            explanation = "Hope gives strength during difficult moments.";
-        }
-
-        document.getElementById("quoteExplanation").textContent = explanation;
-
-    } catch(err){
-        console.error("Quote fetch error:", err);
-        
-        // Fallback quote when API fails
-        const fallbackQuotes = [
-            { q: "The only way to do great work is to love what you do.", a: "Steve Jobs" },
-            { q: "Innovation distinguishes between a leader and a follower.", a: "Steve Jobs" },
-            { q: "Life is what happens when you're busy making other plans.", a: "John Lennon" },
-            { q: "The future belongs to those who believe in the beauty of their dreams.", a: "Eleanor Roosevelt" },
-            { q: "It is during our darkest moments that we must focus to see the light.", a: "Aristotle" }
-        ];
-
-        const randomQuote = fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
-
-        document.getElementById("quoteText").textContent = `"${randomQuote.q}"`;
-        document.getElementById("quoteAuthor").textContent = `— ${randomQuote.a}`;
-        document.getElementById("quoteExplanation").textContent = "This wisdom encourages reflection, growth, and positive action in life.";
     }
-}
 
-/* =========================
-   START APP
-========================= */
+    function openNewsModal(index){
+        const news = currentNewsData[index];
+        document.getElementById("newsModalImg").src = news.thumbnail || "https://via.placeholder.com/800x400/000000/00f3ff?text=GUARDIAN+NEWS";
+        document.getElementById("newsModalTitle").textContent = news.title;
+        document.getElementById("newsModalContent").innerHTML = `
+            <p style="margin-bottom:20px;">${news.description || 'No description available.'}</p>
+            <a href="${news.link || '#'}" target="_blank" class="read-full-btn">Access Full Archive ↗</a>
+        `;
+        document.getElementById("newsModalSource").textContent = `SOURCE: ${news.author || 'UNKNOWN'}`;
+        document.getElementById("newsModalDate").textContent = `TIMESTAMP: ${news.pubDate || 'N/A'}`;
+        document.getElementById("newsModal").style.display = "flex";
+    }
 
-window.onload = () => {
-    getNews();
-    searchMovies();
-    getQuote();
-    getWeather();
-};
+    function closeNewsModal(){
+        document.getElementById("newsModal").style.display = "none";
+    }
 
+    /* =========================
+       MOVIES LOGIC
+    ========================= */
+    async function searchMovies(){
+        const query = document.getElementById("movieSearch").value;
+        const url = query
+            ? `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY_MOVIE}&query=${encodeURIComponent(query)}`
+            : `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY_MOVIE}`;
+
+        try{
+            const res = await fetch(url);
+            const data = await res.json();
+
+            if(!data.results || data.results.length === 0){
+                document.getElementById("movieResults").innerHTML = "<p style='color:var(--warning)'>NO MATCHES FOUND.</p>";
+                return;
+            }
+
+            document.getElementById("movieResults").innerHTML = data.results.slice(0, 10).map(m => `
+                <div class="movie-item" onclick="playTrailer(${m.id})">
+                    <img src="${m.poster_path ? 'https://image.tmdb.org/t/p/w200' + m.poster_path : 'https://via.placeholder.com/200x300/000000/00f3ff?text=NO+POSTER'}" alt="${m.title}">
+                    <div class="movie-title-overlay">${m.title || 'Unknown'}</div>
+                </div>
+            `).join("");
+
+        } catch(err){
+            console.error("Movie fetch error:", err);
+            document.getElementById("movieResults").innerHTML = "<p style='color:var(--danger)'>DB ERROR.</p>";
+        }
+    }
+
+    async function playTrailer(id){
+        try{
+            const res = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY_MOVIE}`);
+            const data = await res.json();
+            const trailer = data.results && data.results.find(v => v.type === "Trailer" && v.site === "YouTube");
+
+            if(trailer){
+                document.getElementById("videoPlayer").innerHTML = `
+                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/${trailer.key}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                `;
+                document.getElementById("videoModal").style.display = "flex";
+            } else {
+                alert("TRAILER_NOT_FOUND.EXE");
+            }
+        } catch(err){
+            console.error("Trailer fetch error:", err);
+            alert("STREAM_ERROR.EXE");
+        }
+    }
+
+    function closeModal(){
+        document.getElementById("videoModal").style.display = "none";
+        document.getElementById("videoPlayer").innerHTML = "";
+    }
+
+    /* =========================
+       WEATHER LOGIC
+    ========================= */
+    async function getWeather(){
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(
+                async position => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    try{
+                        const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+                        const weatherData = await weatherRes.json();
+                        
+                        const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
+                        const geoData = await geoRes.json();
+                        const locationName = geoData.address.city || geoData.address.town || geoData.address.village || "LOCAL_GRID";
+
+                        document.getElementById("wTemp").innerText = `${Math.round(weatherData.current_weather.temperature)}°C`;
+                        document.getElementById("wLoc").innerText = locationName.toUpperCase();
+                        
+                        // Update Icon based on temp roughly
+                        const icon = document.querySelector('.weather-icon i');
+                        if(weatherData.current_weather.temperature > 25) icon.className = 'fas fa-sun';
+                        else if(weatherData.current_weather.temperature < 10) icon.className = 'fas fa-snowflake';
+                        else icon.className = 'fas fa-cloud-sun';
+
+                    } catch(err){
+                        document.getElementById("wLoc").innerText = "SENSOR_OFFLINE";
+                    }
+                },
+                () => {
+                    document.getElementById("wLoc").innerText = "ACCESS_DENIED";
+                }
+            );
+        }
+    }
+
+    /* =========================
+       QUOTES LOGIC
+    ========================= */
+    async function getQuote(){
+        try{
+            const res = await fetch("https://api.allorigins.win/raw?url=https://zenquotes.io/api/random");
+            const data = await res.json();
+            const quote = data[0];
+
+            document.getElementById("quoteText").textContent = `"${quote.q}"`;
+            document.getElementById("quoteAuthor").textContent = `— ${quote.a}`;
+
+            const text = quote.q.toLowerCase();
+            let explanation = "This signal promotes cognitive alignment and strategic foresight.";
+            if(text.includes("success")) explanation = "Optimization of resources leads to peak performance.";
+            else if(text.includes("fear")) explanation = "Risk assessment requires courage over hesitation.";
+            else if(text.includes("dream")) explanation = "Visionary thinking drives innovation protocols.";
+            
+            document.getElementById("quoteExplanation").textContent = explanation;
+
+        } catch(err){
+             // Fallback
+             document.getElementById("quoteText").textContent = '"The future belongs to those who believe in the beauty of their dreams."';
+             document.getElementById("quoteAuthor").textContent = '— Eleanor Roosevelt';
+             document.getElementById("quoteExplanation").textContent = "Fallback protocol engaged. Maintain optimism.";
+        }
+    }
+
+    /* =========================
+       INITIALIZATION
+    ========================= */
+    window.onload = () => {
+        getNews();
+        searchMovies();
+        getQuote();
+        getWeather();
+    };
 </script>
 
 </body>

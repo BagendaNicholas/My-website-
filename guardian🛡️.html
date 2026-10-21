@@ -229,7 +229,7 @@
         border: none;
     }
 
-    /* RIGHT COLUMN: CINEMA DATABASE (FIXED SCROLLABLE UI) */
+    /* RIGHT COLUMN: CINEMA DATABASE (NEAT 2-COLUMN GRID) */
     .movie-controls {
         display: flex;
         gap: 10px;
@@ -241,32 +241,25 @@
         margin-bottom: 0 !important;
     }
 
-    /* THE CONTAINER THAT SCROLLS */
+    /* SCROLLABLE AREA CONTAINER */
     .movie-scroll-area {
         flex-grow: 1;
-        overflow-y: auto; /* Enables Vertical Scroll */
-        padding-right: 5px; /* Space for scrollbar */
-        max-height: 600px; /* Limit height so page doesn't get too long */
+        overflow-y: auto; 
+        padding-right: 5px; 
+        max-height: 650px; 
         
-        /* Custom Scrollbar Styling */
         scrollbar-width: thin;
         scrollbar-color: var(--neon-purple) rgba(0,0,0,0.2);
     }
 
-    .movie-scroll-area::-webkit-scrollbar {
-        width: 6px;
-    }
-    .movie-scroll-area::-webkit-scrollbar-track {
-        background: rgba(0,0,0,0.2);
-    }
-    .movie-scroll-area::-webkit-scrollbar-thumb {
-        background: var(--neon-purple);
-        border-radius: 3px;
-    }
+    .movie-scroll-area::-webkit-scrollbar { width: 6px; }
+    .movie-scroll-area::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+    .movie-scroll-area::-webkit-scrollbar-thumb { background: var(--neon-purple); border-radius: 3px; }
 
+    /* STRICT 2-COLUMN GRID FOR NEATNESS */
     .movie-grid{
         display:grid;
-        grid-template-columns:repeat(auto-fill, minmax(160px, 1fr));
+        grid-template-columns: repeat(2, 1fr); /* Exactly 2 columns */
         gap:20px;
     }
 
@@ -281,19 +274,19 @@
         position:relative;
         display:flex;
         flex-direction:column;
-        height: 280px; /* Fixed height ensures consistency */
+        height: 320px; /* Fixed height for perfect alignment */
     }
 
     .movie-item:hover{
         border-color: var(--neon-purple);
-        transform: scale(1.03);
+        transform: scale(1.02);
         box-shadow: 0 10px 25px rgba(188, 19, 254, 0.3);
         z-index: 2;
     }
 
     /* TOP PART: POSTER IMAGE */
     .poster-area {
-        height: 200px; /* Takes up most of the card */
+        height: 240px; /* Poster takes most space */
         position: relative;
         overflow: hidden;
         background: #111;
@@ -311,7 +304,7 @@
         transform: scale(1.1);
     }
 
-    /* Rating Badge (Top Right Corner) */
+    /* Rating Badge */
     .rating-badge {
         position: absolute;
         top: 8px;
@@ -375,7 +368,6 @@
         font-weight: 600;
         line-height: 1.2;
         margin-bottom: 4px;
-        /* Truncate long titles with ellipsis */
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -463,8 +455,15 @@
         .spotify-frame-wrapper {
             min-height: 300px;
         }
-        .movie-scroll-area {
-            max-height: 500px; /* Reduce height on mobile */
+        .movie-grid {
+            grid-template-columns: repeat(2, 1fr); /* Keep 2 cols on mobile too for neatness */
+            gap: 10px;
+        }
+        .movie-item {
+            height: 280px; /* Slightly smaller on mobile */
+        }
+        .poster-area {
+            height: 200px;
         }
     }
 </style>
@@ -661,7 +660,7 @@
     }
 
     /* =========================
-       MOVIES LOGIC (UPGRADED UI)
+       MOVIES LOGIC (LIMITED TO 10, 2 COLS)
     ========================= */
     async function searchMovies(){
         const query = document.getElementById("movieSearch").value;
@@ -678,11 +677,11 @@
                 return;
             }
 
-            // Render with new professional structure
-            document.getElementById("movieResults").innerHTML = data.results.slice(0, 20).map(m => {
-                // Format Year safely
+            // SLICE TO EXACTLY 10 ITEMS
+            const limitedMovies = data.results.slice(0, 10);
+
+            document.getElementById("movieResults").innerHTML = limitedMovies.map(m => {
                 const year = m.release_date ? m.release_date.split('-')[0] : 'N/A';
-                // Format Rating safely (TMDB gives average_vote as float)
                 const rating = m.vote_average ? m.vote_average.toFixed(1) : '--';
                 
                 return `
